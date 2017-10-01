@@ -141,12 +141,12 @@ ass_accounting_count_minerals = {
 
 # THIS = ship
 ass_accounting_grabdatcash = {
-	# Makes sure we refund the country AssMissionCost if we abort.
+	# Makes sure we refund the country AssOperationCost if we abort.
 	set_ship_flag = "ass_refund_if_aborted"
 	fleet = {
-		log = "[Prev.GetName]: Grabbing mission cost [this.AssMissionCost]."
+		log = "[Prev.GetName]: Grabbing operation cost [this.AssOperationCost]."
 		# Make a copy we can mangle
-		set_variable = { which = "AssTmp" value = "AssMissionCost" }
+		set_variable = { which = "AssTmp" value = "AssOperationCost" }
 		while = {
 			limit = {
 				check_variable = { which = "AssTmp" value > 1000 }
@@ -185,11 +185,11 @@ ass_accounting_grabdatcash = {
 # THIS = ship
 ass_accounting_refund = {
 	fleet = {
-		log = "[Prev.GetName]: refunding [this.AssMissionCost]."
+		log = "[Prev.GetName]: refunding [this.AssOperationCost]."
 		# Make a copy we can mangle. Could "probably" mangle
-		# the main variable now, since we're probably aborting mission.
+		# the main variable now, since we're probably aborting operation.
 		# No need to take any risks with future behaviors.
-		set_variable = { which = "AssTmp" value = "AssMissionCost" }
+		set_variable = { which = "AssTmp" value = "AssOperationCost" }
 		while = {
 			limit = { check_variable = { which = "AssTmp" value > 1000 } }
 			owner = { add_minerals = 1000 }
@@ -229,46 +229,46 @@ ass_accounting_refund = {
 ass_accounting_deduct_military_cost = {
 	if = { # -20%
 		limit = { owner = { ruler = { has_trait = trait_ruler_fortifier } } }
-		fleet = { multiply_variable = { which = "AssMissionCost" value = 0.8 } }
+		fleet = { multiply_variable = { which = "AssOperationCost" value = 0.8 } }
 	}
 	if = { # -15%
 		limit = { owner = { has_technology = "tech_space_defense_station_improvement" } }
-		fleet = { multiply_variable = { which = "AssMissionCost" value = 0.85 } }
+		fleet = { multiply_variable = { which = "AssOperationCost" value = 0.85 } }
 	}
 }
 
 ass_accounting_set_military_xlarge_cost = {
-	fleet = { set_variable = { which = "AssMissionCost" value = @baseMilitaryXLarge } }
+	fleet = { set_variable = { which = "AssOperationCost" value = @baseMilitaryXLarge } }
 	ass_accounting_deduct_military_cost = yes
 }
 
 ass_accounting_set_military_large_cost = {
-	fleet = { set_variable = { which = "AssMissionCost" value = @baseMilitaryLarge } }
+	fleet = { set_variable = { which = "AssOperationCost" value = @baseMilitaryLarge } }
 	ass_accounting_deduct_military_cost = yes
 }
 
 ass_accounting_set_military_medium_cost = {
-	fleet = { set_variable = { which = "AssMissionCost" value = @baseMilitaryMedium } }
+	fleet = { set_variable = { which = "AssOperationCost" value = @baseMilitaryMedium } }
 	ass_accounting_deduct_military_cost = yes
 }
 
 ass_accounting_set_military_small_cost = {
-	fleet = { set_variable = { which = "AssMissionCost" value = @baseMilitarySmall } }
+	fleet = { set_variable = { which = "AssOperationCost" value = @baseMilitarySmall } }
 	ass_accounting_deduct_military_cost = yes
 }
 
 ass_accounting_set_mining_station_cost = {
-	fleet = { set_variable = { which = "AssMissionCost" value = @baseMining } }
+	fleet = { set_variable = { which = "AssOperationCost" value = @baseMining } }
 	if = { # trait_ruler_space_miner: shipsize_mining_station_build_cost_mult -0.25
 		limit = { owner = { ruler = { has_trait = trait_ruler_space_miner } } }
-		fleet = { multiply_variable = { which = "AssMissionCost" value = 0.75 } }
+		fleet = { multiply_variable = { which = "AssOperationCost" value = 0.75 } }
 	}
 }
 
 ass_accounting_set_research_station_cost = {
-	fleet = { set_variable = { which = "AssMissionCost" value = @baseResearch } }
+	fleet = { set_variable = { which = "AssOperationCost" value = @baseResearch } }
 }
 
 ass_accounting_set_wormhole_station_cost = {
-	fleet = { set_variable = { which = "AssMissionCost" value = @baseWormhole } }
+	fleet = { set_variable = { which = "AssOperationCost" value = @baseWormhole } }
 }

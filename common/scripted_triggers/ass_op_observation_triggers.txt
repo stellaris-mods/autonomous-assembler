@@ -1,0 +1,16 @@
+# Obviously unused for now
+ass_valid_primitive_planet = {
+	NOT = { has_planet_flag = "ass_target" }
+	exists = owner
+	owner = { is_country_type = primitive }
+	is_surveyed = { who = ROOT.owner status = yes }
+	#has_spaceport = no # We can safely build if they're in early space age with spaceport
+	#has_research_station = no # Works
+	has_orbital_station = no # Works
+	has_observation_outpost = no
+}
+
+	# ZZZ These two dont work for primitive colonies for some reason
+	#has_observation_outpost = no # Returns true no matter yes/no
+	#has_mining_station = no # returns true no matter yes/no
+

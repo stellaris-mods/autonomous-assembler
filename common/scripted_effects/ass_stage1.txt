@@ -1,6 +1,6 @@
 
 # This is only invoked by assShip.1, which is only triggered by
-# on_ship_built or by MTTH after checking ass_has_mission and is_fleet_idle,
+# on_ship_built or by MTTH after checking ass_has_operation and is_fleet_idle,
 # and in both cases the ship should be entirely idle.
 ass_init_stage1 = {
 	if = {
@@ -17,7 +17,7 @@ ass_init_stage1 = {
 				ASS_EXPANSION_WORMHOLE_1 = { ass_stage1_wormhole_p1 = yes }
 			}
 			if = {
-				limit = { ass_has_mission = no }
+				limit = { ass_has_operation = no }
 				#log = "Checking 2.2..."
 				switch = {
 					trigger = has_component
@@ -34,9 +34,9 @@ ass_init_stage1 = {
 }
 
 ass_op_complete = {
-	log = "[this.GetName]: Mission complete."
+	log = "[this.GetName]: Operation complete."
 
-	# Mission types
+	# Operation types
 	remove_ship_flag = "ass_go_home"
 	remove_ship_flag = "ass_minerals"
 	remove_ship_flag = "ass_energy"
@@ -61,14 +61,14 @@ ass_op_complete = {
 	fleet = {
 		set_event_locked = no
 		remove_fleet_flag = "autonomous_initial_order"
-		remove_fleet_flag = "autonomous_mission"
+		remove_fleet_flag = "autonomous_operation"
 		clear_fleet_actions = THIS
 	}
 }
 
 # THIS needs to be the ship
 ass_op_abort = {
-	log = "[this.GetName]: Mission forcefully aborted."
+	log = "[this.GetName]: Operation forcefully aborted."
 	if = {
 		limit = { has_ship_flag = "ass_refund_if_aborted" }
 		ass_accounting_refund = yes

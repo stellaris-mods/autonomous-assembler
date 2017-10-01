@@ -54,7 +54,7 @@ ass_military_at_marker = {
 		remove_fleet_flag = "ass_target"
 		set_fleet_flag = "ass_marker_used" # Marker used up
 	}
-	# Clear relation flags and mark mission complete
+	# Clear relation flags and mark operation complete
 	remove_ship_flag = "ass_relation_fleet"
 	ass_op_complete = yes
 }
@@ -149,7 +149,7 @@ ass_stage1_military_p1 = {
 					set_ship_flag = "ass_military"
 					fleet = {
 						set_fleet_flag = "autonomous_initial_order" # Removed instantly
-						set_fleet_flag = "autonomous_mission"
+						set_fleet_flag = "autonomous_operation"
 						queue_actions = {
 							move_to = PREVPREV
 							repeat = {

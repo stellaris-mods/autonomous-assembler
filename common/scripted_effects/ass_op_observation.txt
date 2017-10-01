@@ -113,7 +113,7 @@
 # 				set_ship_flag = "ass_observation"
 # 				fleet = {
 # 					set_fleet_flag = "autonomous_initial_order" # Removed instantly
-# 					set_fleet_flag = "autonomous_mission"
+# 					set_fleet_flag = "autonomous_operation"
 # 					queue_actions = {
 # 						orbit_planet = PREVPREV
 # 					}

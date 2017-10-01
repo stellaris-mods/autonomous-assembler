@@ -1,0 +1,36 @@
+
+ass_check_energy_priority_1 = {
+	OR = {
+		any_planet = {
+			ass_valid_mining_planet = yes
+			ass_has_valuable_energy = yes
+		}
+		AND = {
+			any_planet = {
+				ass_valid_mining_planet = yes
+				ass_has_any_energy = yes
+			}
+			any_planet = {
+				ass_is_owners_planet = yes
+			}
+		}
+	}
+}
+
+ass_has_valuable_energy = {
+	orbital_deposit_tile = {
+		OR = {
+			has_resource = {
+				type = energy
+				amount > 2
+			}
+			ass_has_strategic_mining = yes
+		}
+	}
+}
+
+ass_has_any_energy = {
+	orbital_deposit_tile = {
+		has_resource = energy
+	}
+}

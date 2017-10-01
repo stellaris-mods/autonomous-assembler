@@ -3,11 +3,11 @@
 # This updates AssMinimum before we use the ass_can_afford trigger.
 ass_update_total_cost = {
 	fleet = {
-		set_variable = { which = "AssMinimum" value = "AssMissionCost" }
+		set_variable = { which = "AssMinimum" value = "AssOperationCost" }
 		change_variable = { which = "AssMinimum" value = "AssReserve" }
 		log = "Country bank: [this.AssMinerals]."
 		log = "Country reserve: [this.AssReserve]."
-		log = "Mission cost: [this.AssMissionCost]."
+		log = "Operation cost: [this.AssOperationCost]."
 		log = "Minimum bank: [this.AssMinimum]."
 	}
 }
@@ -33,7 +33,7 @@ ass_build_station = {
 ass_stage2_planet_reached = {
 	log = "[this.GetName]: Probably at destination [this.Orbit.GetName]."
 	if = {
-		limit = { ass_has_mission = yes }
+		limit = { ass_has_operation = yes }
 
 		if = {
 			limit = {
@@ -62,7 +62,7 @@ ass_stage2_planet_reached = {
 		}
 
 		else = {
-			log = "[this.GetName]: ERROR: Reached end of queue_actions without a mission. That's weird."
+			log = "[this.GetName]: ERROR: Reached end of queue_actions without an operation. That's weird."
 			# XXX need to mark this planet so we ignore it at least for a timed_flag
 			ass_op_abort = yes
 		}
@@ -74,7 +74,7 @@ ass_stage2_planet_move = {
 	PREVPREV = {
 		fleet = {
 			set_fleet_flag = "autonomous_initial_order" # Removed instantly
-			set_fleet_flag = "autonomous_mission"
+			set_fleet_flag = "autonomous_operation"
 			queue_actions = {
 				orbit_planet = PREVPREV
 				repeat = {

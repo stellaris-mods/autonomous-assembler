@@ -9,7 +9,7 @@ ship_event = {
 	trigger = {
 		owner = { is_ai = no }
 		is_ship_size = autonomous_assembler
-		# This is set by the go-home mission, a timed flag for 3 months
+		# This is set by the dock operation, a timed flag for 3 months
 		NOT = { has_ship_flag = "ass_halt_operations" }
 	}
 	immediate = {
@@ -41,12 +41,12 @@ event = {
 					is_ai = no
 					NOT = { has_country_flag = "ass_halt_operations" }
 				}
-				ass_has_mission = no
+				ass_has_operation = no
 				fleet = {
 					is_fleet_idle = yes
 				}
 			}
-			# ROOT needs to be the ship, so dont invoke the mission effect directly
+			# ROOT needs to be the ship, so dont invoke the init effect directly
 			ship_event = { id = assShip.9001 }
 		}
 	}
@@ -62,7 +62,7 @@ ship_event = {
 	trigger = {
 		owner = { is_ai = no }
 		is_ship_size = autonomous_assembler
-		# This is set by the go-home mission, a timed flag for 3 months
+		# This is set by the dock operation, a timed flag for 3 months
 		NOT = { has_ship_flag = "ass_halt_operations" }
 	}
 	immediate = {
@@ -82,7 +82,7 @@ ship_event = {
 	trigger = {
 		owner = { is_ai = no }
 		is_ship_size = autonomous_assembler
-		fleet = { has_fleet_flag = "autonomous_mission" }
+		fleet = { has_fleet_flag = "autonomous_operation" }
 	}
 	immediate = {
 		fleet = {
@@ -139,7 +139,7 @@ ship_event = {
 	is_triggered_only = yes
 
 	immediate = {
-		# XXX add mission completion effects instead of this
+		# XXX add operation completion effects instead of this
 
 		# Reset relation_flag
 		fleet = {
@@ -163,7 +163,7 @@ ship_event = {
 			}
 			ass_research = { fleet = { orbit = { create_research_station = { owner = ROOT.owner } } } }
 			ass_military = { ass_military_spawn_single = yes }
-			# GOD DAMMIT I CANT MAKE OBS MISSIONS WORK
+			# GOD DAMMIT I CANT MAKE OBS WORK
 			# 24/7 FROM-scope errors in log
 			# This laptop is just too slow to restart stellaris on 24/7, need to wait until
 			# I get home to my desktop.

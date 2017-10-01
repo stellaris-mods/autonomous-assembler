@@ -1,0 +1,64 @@
+
+# Simply tests if we can mine the planet at all,
+# for either energy, minerals, or mined SRs.
+# This trigger is used by both mineral and energy operations.
+ass_valid_mining_planet = {
+	NOT = { has_planet_flag = "ass_target" }
+	NOT = { exists = owner }
+	has_deposit_for = shipclass_mining_station
+	exists = orbital_deposit_tile
+	is_surveyed = { who = ROOT.owner status = yes }
+	has_mining_station = no
+	has_research_station = no # might not work
+	has_spaceport = no
+	is_colony = no
+	has_observation_outpost = no # might not work
+	has_orbital_station = no
+}
+
+# sr_s that need a mining station
+# This trigger is used by both mineral and energy operations.
+ass_has_strategic_mining = {
+	OR = {
+		has_resource = sr_terraform_gases
+		has_resource = sr_terraform_liquids
+		has_resource = sr_garanthium
+		has_resource = sr_satramene
+	}
+}
+
+ass_check_minerals_priority_1 = {
+	OR = {
+		any_planet = {
+			ass_valid_mining_planet = yes
+			ass_has_valuable_minerals = yes
+		}
+		AND = {
+			any_planet = {
+				ass_valid_mining_planet = yes
+				ass_has_any_minerals = yes
+			}
+			any_planet = {
+				ass_is_owners_planet = yes
+			}
+		}
+	}
+}
+
+ass_has_valuable_minerals = {
+	orbital_deposit_tile = {
+		OR = {
+			has_resource = {
+				type = minerals
+				amount > 2
+			}
+			ass_has_strategic_mining = yes
+		}
+	}
+}
+
+ass_has_any_minerals = {
+	orbital_deposit_tile = {
+		has_resource = minerals
+	}
+}

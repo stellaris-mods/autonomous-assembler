@@ -18,7 +18,7 @@ special_project = {
 			remove_country_flag = "ass_halt_operations"
 			every_owned_ship = {
 				limit = { is_ship_size = autonomous_assembler }
-				# This is only set by the go-home mission when the
+				# This is only set by the dock operation when the
 				# ship has reached the orbit of a planet.
 				remove_ship_flag = "ass_halt_operations"
 			}
@@ -47,7 +47,7 @@ special_project = {
 			every_owned_ship = {
 				limit = {
 					is_ship_size = autonomous_assembler
-					ass_has_mission = yes
+					ass_has_operation = yes
 				}
 				ass_op_abort = yes
 			}
@@ -85,7 +85,7 @@ special_project = {
 			every_owned_ship = {
 				limit = { is_ship_size = autonomous_assembler }
 				if = {
-					limit = { ass_has_mission = yes }
+					limit = { ass_has_operation = yes }
 					ass_op_abort = yes
 				}
 				ass_init_stage1 = yes

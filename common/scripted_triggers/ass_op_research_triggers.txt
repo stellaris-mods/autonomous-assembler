@@ -1,0 +1,74 @@
+ass_check_research_priority_1 = {
+	OR = {
+		# Priority 1 = any sr_
+		any_planet = {
+			ass_valid_research_planet = yes
+			ass_has_strategic_research = yes
+		}
+		# Priority 2 = any high-yield
+		any_planet = {
+			ass_valid_research_planet = yes
+			ass_has_valuable_research = yes
+		}
+		# Priority 3 = any, if colonized system
+		AND = {
+			any_planet = {
+				ass_is_owners_planet = yes
+			}
+			any_planet = {
+				ass_valid_research_planet = yes
+				#ass_has_any_research = yes
+			}
+		}
+	}
+}
+
+ass_has_valuable_research = {
+	orbital_deposit_tile = {
+		OR = {
+			has_resource = {
+				type = engineering_research
+				amount > 2
+			}
+			has_resource = {
+				type = physics_research
+				amount > 2
+			}
+			has_resource = {
+				type = society_research
+				amount > 2
+			}
+			ass_has_strategic_research = yes
+		}
+	}
+}
+
+# sr_s that need a research station
+ass_has_strategic_research = {
+	OR = {
+		has_resource = sr_lythuric
+		has_resource = sr_engos
+		has_resource = sr_teldar
+		has_resource = sr_yuranic
+		has_resource = sr_orillium
+		has_resource = sr_pitharan
+		has_resource = sr_neutronium
+		has_resource = sr_living_metal
+		has_resource = sr_dark_matter
+		has_resource = sr_zro
+	}
+}
+
+ass_valid_research_planet = {
+	NOT = { has_planet_flag = "ass_target" }
+	NOT = { exists = owner }
+	has_deposit_for = shipclass_research_station
+	exists = orbital_deposit_tile
+	is_surveyed = { who = ROOT.owner status = yes }
+	has_research_station = no
+	has_mining_station = no # might not work
+	has_spaceport = no
+	is_colony = no
+	has_observation_outpost = no # might not work
+	has_orbital_station = no
+}

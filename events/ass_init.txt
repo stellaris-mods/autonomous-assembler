@@ -68,7 +68,7 @@ country_event = {
 		}
 		# Delay this, too, so that count_owned_ships picks it up
 		country_event = { id = assCountry.500 days = 1 }
-		# We could try to set the mission immediately, but it always fails
+		# We could try to initiate an operation immediately, but it always fails
 		# because nothing is surveyed etc.
 		# MTTH event triggers after a few days anyway.
 	}
