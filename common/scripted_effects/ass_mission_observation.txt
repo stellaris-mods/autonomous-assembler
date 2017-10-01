@@ -1,6 +1,6 @@
 
 # Spawning an observation with create_fleet doesn't seem to work, because
-# common/observation_station_missions except the FROM scope to exist in
+# common/observation_station_missions expect the FROM scope to exist in
 # valid{}, and I can't get that to happen, regardless of what scope I
 # create_fleet in, or how I chain events.
 
