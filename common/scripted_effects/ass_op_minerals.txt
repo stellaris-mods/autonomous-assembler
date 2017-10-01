@@ -52,3 +52,23 @@ ass_stage1_minerals_p2 = {
 		}
 	}
 }
+
+# Root and this = ship
+# And we are in orbit, or the mission failed.
+ass_stage4_minerals_complete = {
+	# Reset relation_flag
+	fleet = {
+		orbit = {
+			log = "[root.GetName]: Removing relation to [this.GetName]."
+			set_variable = { which = "AssUUID" value = 0 }
+			remove_planet_flag = "ass_target"
+		}
+	}
+	remove_ship_flag = "ass_relation_planet"
+
+	fleet = { orbit = { create_mining_station = { owner = ROOT.owner } } }
+	owner = { ass_update_miner_mandate = yes }
+
+	# Ready for new adventures!
+	ass_op_complete = yes
+}

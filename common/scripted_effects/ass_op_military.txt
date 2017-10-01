@@ -59,27 +59,6 @@ ass_military_at_marker = {
 	ass_op_complete = yes
 }
 
-# Chained from assShip.1000
-ass_military_spawn_single = {
-	fleet = {
-		orbit = {
-			create_fleet = {
-				effect = {
-					set_owner = ROOT.owner
-					set_location = PREV
-				}
-			}
-		}
-	}
-	switch = {
-		trigger = has_ship_flag
-		ass_station_xlarge = { last_created_fleet = { create_ship = { name = random random_existing_design = military_station_xlarge } } }
-		ass_station_large  = { last_created_fleet = { create_ship = { name = random random_existing_design = military_station_large } } }
-		ass_station_medium = { last_created_fleet = { create_ship = { name = random random_existing_design = military_station_medium } } }
-		ass_station_small  = { last_created_fleet = { create_ship = { name = random random_existing_design = military_station_small } } }
-	}
-}
-
 ass_stage2_military_planet = {
 	PREVPREV = {
 		set_ship_flag = "ass_military"
@@ -328,3 +307,39 @@ ass_stage1_military_p2 = {
 		}
 	} } } } } } }
 }
+
+# Root and this = ship
+# And we are in orbit, or the mission failed.
+ass_stage4_military_complete = {
+	# Reset relation_flag
+	fleet = {
+		orbit = {
+			log = "[root.GetName]: Removing relation to [this.GetName]."
+			set_variable = { which = "AssUUID" value = 0 }
+			remove_planet_flag = "ass_target"
+		}
+	}
+	remove_ship_flag = "ass_relation_planet"
+
+	fleet = {
+		orbit = {
+			create_fleet = {
+				effect = {
+					set_owner = ROOT.owner
+					set_location = PREV
+				}
+			}
+		}
+	}
+	switch = {
+		trigger = has_ship_flag
+		ass_station_xlarge = { last_created_fleet = { create_ship = { name = random random_existing_design = military_station_xlarge } } }
+		ass_station_large  = { last_created_fleet = { create_ship = { name = random random_existing_design = military_station_large } } }
+		ass_station_medium = { last_created_fleet = { create_ship = { name = random random_existing_design = military_station_medium } } }
+		ass_station_small  = { last_created_fleet = { create_ship = { name = random random_existing_design = military_station_small } } }
+	}
+
+	# Ready for new adventures!
+	ass_op_complete = yes
+}
+

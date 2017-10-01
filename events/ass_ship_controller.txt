@@ -139,38 +139,13 @@ ship_event = {
 	is_triggered_only = yes
 
 	immediate = {
-		# XXX add operation completion effects instead of this
-
-		# Reset relation_flag
-		fleet = {
-			orbit = {
-				log = "[root.GetName]: Removing relation to [this.GetName]."
-				set_variable = { which = "AssUUID" value = 0 }
-				remove_planet_flag = "ass_target"
-			}
-		}
-		remove_ship_flag = "ass_relation_planet"
-
 		switch = {
 			trigger = has_ship_flag
-			ass_minerals = {
-				fleet = { orbit = { create_mining_station = { owner = ROOT.owner } } }
-				owner = { ass_update_miner_mandate = yes }
-			}
-			ass_energy = {
-				fleet = { orbit = { create_mining_station = { owner = ROOT.owner } } }
-				owner = { ass_update_miner_mandate = yes }
-			}
-			ass_research = { fleet = { orbit = { create_research_station = { owner = ROOT.owner } } } }
-			ass_military = { ass_military_spawn_single = yes }
-			# GOD DAMMIT I CANT MAKE OBS WORK
-			# 24/7 FROM-scope errors in log
-			# This laptop is just too slow to restart stellaris on 24/7, need to wait until
-			# I get home to my desktop.
+			ass_minerals = { ass_stage4_minerals_complete = yes }
+			ass_energy   = { ass_stage4_energy_complete = yes }
+			ass_research = { ass_stage4_research_complete = yes }
+			ass_military = { ass_stage4_military_complete = yes }
 		}
-
-		# Ready for new adventures!
-		ass_op_complete = yes
 	}
 }
 

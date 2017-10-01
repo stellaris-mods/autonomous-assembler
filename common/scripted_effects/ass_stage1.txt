@@ -1,4 +1,10 @@
 
+# Stages
+# 1: Initialization, target selection and relation mapping
+# 2: En route to target
+# 3: At target
+# 4: Operation complete
+
 # This is only invoked by assShip.1, which is only triggered by
 # on_ship_built or by MTTH after checking ass_has_operation and is_fleet_idle,
 # and in both cases the ship should be entirely idle.
