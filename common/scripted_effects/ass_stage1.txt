@@ -49,7 +49,7 @@ ass_op_complete = {
 	ass_3rd_op_complete = yes
 
 	# Operation types
-	remove_ship_flag = "ass_go_home"
+	remove_ship_flag = "ass_dock"
 	remove_ship_flag = "ass_minerals"
 	remove_ship_flag = "ass_energy"
 	remove_ship_flag = "ass_research"

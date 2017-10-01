@@ -13,7 +13,7 @@ ass_stage1_dock_p1 = {
 			log = "[Prev.Prev.GetName]: Moving to [this.GetName] (Going home)"
 			# This operation does not set up a relation flag
 			PREVPREV = {
-				set_ship_flag = "ass_go_home"
+				set_ship_flag = "ass_dock"
 				fleet = {
 					set_fleet_flag = "autonomous_initial_order" # Removed instantly
 					set_fleet_flag = "autonomous_operation"
