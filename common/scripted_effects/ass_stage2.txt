@@ -1,0 +1,34 @@
+# This updates AssMinimum before we use the ass_can_afford trigger.
+ass_update_total_cost = {
+	fleet = {
+		set_variable = { which = "AssMinimum" value = "AssOperationCost" }
+		change_variable = { which = "AssMinimum" value = "AssReserve" }
+		log = "Country bank: [this.AssMinerals]."
+		log = "Country reserve: [this.AssReserve]."
+		log = "Operation cost: [this.AssOperationCost]."
+		log = "Minimum bank: [this.AssMinimum]."
+	}
+}
+
+ass_stage2_done = {
+	ass_update_total_cost = yes
+	if = {
+		limit = { ass_can_afford = yes }
+		ass_accounting_grabdatcash = yes
+		remove_ship_flag = "ass_waiting_for_cash"
+		log = "[this.GetName]: Constructing station..."
+
+		switch = {
+			trigger = has_ship_flag
+			ass_energy   = { ship_event = { id = assShip.1000 days = 100 } }
+			ass_minerals = { ship_event = { id = assShip.1000 days = 100 } }
+			ass_research = { ship_event = { id = assShip.1000 days = 100 } }
+			ass_military = { ship_event = { id = assShip.1000 days = 100 } }
+			ass_wormhole = { ship_event = { id = assShip.1000 days = 100 } }
+		}
+		else = {
+			log = "[this.GetName]: Waiting for resources..."
+			set_ship_flag = "ass_waiting_for_cash"
+		}
+	}
+}

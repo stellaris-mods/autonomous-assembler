@@ -1,17 +1,10 @@
 
-# XXX Needs redesign
-# XXX in this file we need to use move_to the system instead
-# XXX and then check the distance between the ship and the star
-# XXX and build the wormhole station at that distance in some random
-# XXX direction (or simply where we enter)
-
-# create_wormhole_station - Creates a wormhole station at the edge of the scoped system
-# create_wormhole_station = { owner = <target> angle = <random / int>
-# Supported Scopes: galactic_object
-# Supported Targets: none
-# Note the angle parameter.
-
-# ass_accounting_set_wormhole_station_cost
+ass_stage1_set_wormhole = {
+	PREV = {
+		set_ship_flag = "ass_wormhole"
+		ass_accounting_set_wormhole_station_cost = yes
+	}
+}
 
 ass_stage1_wormhole_p1 = {
 	# Find any colonized system missing a wormhole station
@@ -19,9 +12,7 @@ ass_stage1_wormhole_p1 = {
 		limit = {
 			NOT = { has_star_flag = "ass_target" }
 			is_inside_border = ROOT.owner
-			any_planet = {
-				ass_is_owners_planet = yes
-			}
+			any_planet = { ass_is_owners_planet = yes }
 			ass_is_friendly_system = yes
 			NOT = {
 				any_ship_in_system = {
@@ -31,39 +22,9 @@ ass_stage1_wormhole_p1 = {
 				}
 			}
 		}
-		ass_mark_system = yes
-		random_system_planet = {
-			limit = {
-				ass_is_owners_planet = yes
-			}
-			log = "Found planet for wormhole station: [this.GetName]"
-			PREVPREV = {
-				set_ship_flag = "ass_wormhole"
-				fleet = {
-					set_fleet_flag = "autonomous_initial_order" # Removed instantly
-					queue_actions = {
-						orbit_planet = PREVPREV
-						repeat = {
-							while = {
-								id = assShipWormhole1.1
-								exists = PREVPREV
-								OR = {
-									NOT = { exists = orbit }
-									orbit = {
-										NOT = { is_same_value = PREVPREVPREV }
-									}
-								}
-							}
-							wait = 7
-						}
-						effect = {
-							id = assShipWormhole1.2
-							log = "Arrived at planet to build wormhole station post 1!"
-						}
-					}
-				}
-			}
-		}
+		ass_stage1_set_wormhole = yes
+		log = "[Prev.GetName]: Moving to system [this.GetName] (Wormhole P1)"
+		ass_stage2_system_move = yes
 	}
 }
 
@@ -74,6 +35,15 @@ ass_stage1_wormhole_p2 = {
 		limit = {
 			NOT = { has_star_flag = "ass_target" }
 			is_inside_border = ROOT.owner
+			# No wormhole station in this system
+			NOT = {
+				any_ship_in_system = {
+					is_ship_class = shipclass_wormhole_station
+					exists = owner
+					owner = { is_same_value = ROOT.owner }
+				}
+			}
+			# No system close to us with a wormhole station
 			NOT = {
 				any_system = {
 					any_ship_in_system = {
@@ -88,35 +58,32 @@ ass_stage1_wormhole_p2 = {
 				}
 			}
 		}
-		ass_mark_system = yes
-		random_system_planet = {
-			log = "Found planet for wormhole station: [this.GetName]"
-			PREVPREV = {
-				set_ship_flag = "ass_wormhole"
-				fleet = {
-					set_fleet_flag = "autonomous_initial_order" # Removed instantly
-					queue_actions = {
-						orbit_planet = PREVPREV
-						repeat = {
-							while = {
-								id = assShipWormhole2.1
-								exists = PREVPREV
-								OR = {
-									NOT = { exists = orbit }
-									orbit = {
-										NOT = { is_same_value = PREVPREVPREV }
-									}
-								}
-							}
-							wait = 7
-						}
-						effect = {
-							id = assShipWormhole2.2
-							log = "Arrived at planet to build wormhole station post 2!"
-						}
-					}
-				}
+		ass_stage1_set_wormhole = yes
+		log = "[Prev.GetName]: Moving to system [this.GetName] (Wormhole P2)"
+		ass_stage2_system_move = yes
+	}
+}
+
+# Root and this = ship
+# And we are in the target system, or the mission failed.
+ass_stage4_wormhole_complete = {
+	# Reset relation_flag
+	remove_ship_flag = "ass_relation_system"
+	fleet = {
+		solar_system = {
+			log = "[root.GetName]: Removing system relation to [this.GetName]."
+			set_variable = { which = "AssUUID" value = 0 }
+			remove_star_flag = "ass_target"
+
+			# XXX Try simply making a new fleet and a wormhole_station ship.
+			# XXX Because that would allow us to put it near our assembler.
+			create_wormhole_station = {
+				owner = ROOT.owner
+				angle = random
 			}
 		}
 	}
+
+	# Ready for new adventures!
+	ass_op_complete = yes
 }

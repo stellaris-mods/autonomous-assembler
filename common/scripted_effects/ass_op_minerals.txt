@@ -24,7 +24,7 @@ ass_stage1_minerals_p1 = {
 				}
 			}
 			ass_stage1_set_minerals = yes
-			log = "[Prev.Prev.GetName]: Moving to [this.GetName] (Minerals P1)"
+			log = "[Prev.Prev.GetName]: Moving to orbit [this.GetName] (Minerals P1)"
 			ass_stage2_planet_move = yes
 		}
 	}
@@ -47,7 +47,7 @@ ass_stage1_minerals_p2 = {
 				ass_has_any_minerals = yes
 			}
 			ass_stage1_set_minerals = yes
-			log = "[Prev.Prev.GetName]: Moving to [this.GetName] (Minerals P2)"
+			log = "[Prev.Prev.GetName]: Moving to orbit [this.GetName] (Minerals P2)"
 			ass_stage2_planet_move = yes
 		}
 	}
@@ -59,7 +59,7 @@ ass_stage4_minerals_complete = {
 	# Reset relation_flag
 	fleet = {
 		orbit = {
-			log = "[root.GetName]: Removing relation to [this.GetName]."
+			log = "[root.GetName]: Removing planet relation to [this.GetName]."
 			set_variable = { which = "AssUUID" value = 0 }
 			remove_planet_flag = "ass_target"
 		}

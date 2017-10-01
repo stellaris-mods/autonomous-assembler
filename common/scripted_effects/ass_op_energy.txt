@@ -23,7 +23,7 @@ ass_stage1_energy_p1 = {
 				}
 			}
 			ass_stage1_set_energy = yes
-			log = "[Prev.Prev.GetName]: Moving to [this.GetName] (Energy P1)"
+			log = "[Prev.Prev.GetName]: Moving to orbit [this.GetName] (Energy P1)"
 			ass_stage2_planet_move = yes
 		}
 	}
@@ -46,7 +46,7 @@ ass_stage1_energy_p2 = {
 				ass_has_any_energy = yes
 			}
 			ass_stage1_set_energy = yes
-			log = "[Prev.Prev.GetName]: Moving to [this.GetName] (Energy P2)"
+			log = "[Prev.Prev.GetName]: Moving to orbit [this.GetName] (Energy P2)"
 			ass_stage2_planet_move = yes
 		}
 	}

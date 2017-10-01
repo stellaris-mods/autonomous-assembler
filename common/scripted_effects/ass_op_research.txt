@@ -25,7 +25,7 @@ ass_stage1_research_p1 = {
 				}
 			}
 			ass_stage1_set_research = yes
-			log = "[Prev.Prev.GetName]: Moving to [this.GetName] (Research P1)"
+			log = "[Prev.Prev.GetName]: Moving to orbit [this.GetName] (Research P1)"
 			ass_stage2_planet_move = yes
 		}
 	}
@@ -46,7 +46,7 @@ ass_stage1_research_p2 = {
 				ass_valid_research_planet = yes
 			}
 			ass_stage1_set_research = yes
-			log = "[Prev.Prev.GetName]: Moving to [this.GetName] (Research P2)"
+			log = "[Prev.Prev.GetName]: Moving to orbit [this.GetName] (Research P2)"
 			ass_stage2_planet_move = yes
 		}
 	}
@@ -58,7 +58,7 @@ ass_stage4_research_complete = {
 	# Reset relation_flag
 	fleet = {
 		orbit = {
-			log = "[root.GetName]: Removing relation to [this.GetName]."
+			log = "[root.GetName]: Removing planet relation to [this.GetName]."
 			set_variable = { which = "AssUUID" value = 0 }
 			remove_planet_flag = "ass_target"
 		}

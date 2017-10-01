@@ -133,6 +133,8 @@ country_event = {
 	}
 }
 
+# assShip.1000 and assShip.2000 are essentially stage 3 for the operations listed
+
 ship_event = {
 	id = assShip.1000
 	hide_window = yes
@@ -145,6 +147,7 @@ ship_event = {
 			ass_energy   = { ass_stage4_energy_complete = yes }
 			ass_research = { ass_stage4_research_complete = yes }
 			ass_military = { ass_stage4_military_complete = yes }
+			ass_wormhole = { ass_stage4_wormhole_complete = yes }
 		}
 	}
 }
@@ -176,7 +179,7 @@ event = {
 					limit = { has_ship_flag = "ass_check_cash" }
 
 					ass_accounting_update_fleet = yes
-					ass_build_station = yes
+					ass_stage2_done = yes
 
 					remove_ship_flag = "ass_check_cash"
 				}

@@ -1,37 +1,7 @@
 
-
-# This updates AssMinimum before we use the ass_can_afford trigger.
-ass_update_total_cost = {
-	fleet = {
-		set_variable = { which = "AssMinimum" value = "AssOperationCost" }
-		change_variable = { which = "AssMinimum" value = "AssReserve" }
-		log = "Country bank: [this.AssMinerals]."
-		log = "Country reserve: [this.AssReserve]."
-		log = "Operation cost: [this.AssOperationCost]."
-		log = "Minimum bank: [this.AssMinimum]."
-	}
-}
-
-ass_build_station = {
-	ass_update_total_cost = yes
-	if = {
-		limit = { ass_can_afford = yes }
-		ass_accounting_grabdatcash = yes
-
-		remove_ship_flag = "ass_waiting_for_cash"
-		log = "[this.GetName]: Constructing station..."
-		ship_event = { id = assShip.1000 days = 100 }
-
-		else = {
-			log = "[this.GetName]: Waiting for resources..."
-			set_ship_flag = "ass_waiting_for_cash"
-		}
-	}
-}
-
 # THIS must be the ship
 ass_stage2_planet_reached = {
-	log = "[this.GetName]: Probably at destination [this.Orbit.GetName]."
+	log = "[this.GetName]: Probably in orbit of [this.Orbit.GetName]."
 	if = {
 		limit = { ass_has_operation = yes }
 
@@ -52,7 +22,7 @@ ass_stage2_planet_reached = {
 			owner = { ass_accounting_count_minerals = yes }
 
 			ass_accounting_update_fleet = yes
-			ass_build_station = yes
+			ass_stage2_done = yes
 
 			else = {
 				log = "[this.GetName]: ERROR: There's already some sort of station in orbit."
@@ -79,13 +49,13 @@ ass_stage2_planet_move = {
 				orbit_planet = PREVPREV
 				repeat = {
 					while = {
-						id = assResearchMove.1
+						id = assPlanetMove.1
 						NOT = { is_fleet_idle = yes }
 					}
 					wait = 7
 				}
 				effect = {
-					id = assResearchMove.2
+					id = assPlanetMove.2
 					PREV = { ass_stage2_planet_reached = yes }
 				}
 			}
