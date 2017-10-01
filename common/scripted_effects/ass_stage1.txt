@@ -22,6 +22,9 @@ ass_init_stage1 = {
 				#ASS_EXPANSION_OBSERVATION_1 = { ass_stage1_observation_p1 = yes }
 				ASS_EXPANSION_WORMHOLE_1 = { ass_stage1_wormhole_p1 = yes }
 			}
+			# Allow 3rd-parties to override the above
+			ass_init_stage1_3rd_p1 = yes
+
 			if = {
 				limit = { ass_has_operation = no }
 				#log = "Checking 2.2..."
@@ -33,14 +36,17 @@ ass_init_stage1 = {
 					ASS_EXPANSION_RESEARCH_2 = { ass_stage1_research_p2 = yes }
 					ASS_EXPANSION_WORMHOLE_2 = { ass_stage1_wormhole_p2 = yes }
 				}
+				# Allow 3rd-parties to override the above
+				ass_init_stage1_3rd_p2 = yes
 			}
-			# XXX add scripted effect that addons can override for more components
 		}
 	}
 }
 
 ass_op_complete = {
 	log = "[this.GetName]: Operation complete."
+
+	ass_3rd_op_complete = yes
 
 	# Operation types
 	remove_ship_flag = "ass_go_home"
@@ -80,6 +86,8 @@ ass_op_abort = {
 		ass_accounting_refund = yes
 		remove_ship_flag = "ass_refund_if_aborted"
 	}
+
+	ass_3rd_op_abort = yes
 	ass_unmark_target = yes
 	ass_op_complete = yes
 }
