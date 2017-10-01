@@ -231,9 +231,6 @@ ass_stage1_military_p1 = {
 	}
 }
 
-# XXX test create_fleet with no ships, set_location on it, and move
-# XXX to it, and then create the station.
-#
 ass_stage1_military_p2 = {
 	# Find any owned system without a military station
 	# XXX we need to use a system-relation instead of planet for these
