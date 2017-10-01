@@ -1,13 +1,4 @@
 
-# XXX Modify cost according to country modifiers/rulers etc
-# And try to find some cost values that make kind of sense
-# throughout the tech levels. Note that these are slightly
-# lower than the ones used in the ASS_TYPE_* components. For now.
-@costXL = 2250
-@costL = 1400
-@costM = 700
-@costS = 250
-
 # Jeez has_ambient_object_flag can't be used inside any_ambient_object
 # or any_system_ambient_object. What the fuck is that about.
 
@@ -65,7 +56,7 @@ ass_military_at_marker = {
 	}
 	# Clear relation flags and mark mission complete
 	remove_ship_flag = "ass_relation_fleet"
-	ass_mission_done = yes
+	ass_op_complete = yes
 }
 
 # Chained from assShip.1000
@@ -89,29 +80,47 @@ ass_military_spawn_single = {
 	}
 }
 
-# ZZZ Set cost and station type before you run this
-ass_military_move = {
-	ass_mark_planet = yes
+ass_stage2_military_planet = {
 	PREVPREV = {
 		set_ship_flag = "ass_military"
-		fleet = {
-			set_fleet_flag = "autonomous_initial_order" # Removed instantly
-			set_fleet_flag = "autonomous_mission"
-			queue_actions = {
-				orbit_planet = PREVPREV
-				repeat = {
-					while = {
-						id = assMilitaryStation.1
-						NOT = { is_fleet_idle = yes }
-					}
-					wait = 7
-				}
-				effect = {
-					id = assMilitaryStation.2
-					PREV = { ass_station_mission_reached_destination = yes }
-				}
-			}
-		}
+	}
+	ass_stage2_planet_move = yes
+}
+
+ass_stage1_set_military_xl = {
+	PREVPREV = {
+		ass_accounting_set_military_xlarge_cost = yes
+		set_ship_flag = "ass_station_xlarge"
+		remove_ship_flag = "ass_station_large"
+		remove_ship_flag = "ass_station_medium"
+		remove_ship_flag = "ass_station_small"
+	}
+}
+ass_stage1_set_military_l = {
+	PREVPREV = {
+		ass_accounting_set_military_large_cost = yes
+		remove_ship_flag = "ass_station_xlarge"
+		set_ship_flag = "ass_station_large"
+		remove_ship_flag = "ass_station_medium"
+		remove_ship_flag = "ass_station_small"
+	}
+}
+ass_stage1_set_military_m = {
+	PREVPREV = {
+		ass_accounting_set_military_medium_cost = yes
+		remove_ship_flag = "ass_station_xlarge"
+		remove_ship_flag = "ass_station_large"
+		set_ship_flag = "ass_station_medium"
+		remove_ship_flag = "ass_station_small"
+	}
+}
+ass_stage1_set_military_s = {
+	PREVPREV = {
+		ass_accounting_set_military_small_cost = yes
+		remove_ship_flag = "ass_station_xlarge"
+		remove_ship_flag = "ass_station_large"
+		remove_ship_flag = "ass_station_medium"
+		set_ship_flag = "ass_station_small"
 	}
 }
 
@@ -120,7 +129,7 @@ ass_military_move = {
 # ZZZ to later, errors if there is anything in orbit of the target planet
 # ZZZ already. Which is something I'll fix eventually.
 
-ass_military_priority_1 = {
+ass_stage1_military_p1 = {
 	# Priority 1 is:
 	#  1.1: Find any station markers with tech_ass_hexagon
 	#  1.2: Find any colonized system without a station
@@ -186,15 +195,9 @@ ass_military_priority_1 = {
 				}
 				random_system_planet = {
 					limit = { has_orbital_station = no }
-					PREVPREV = {
-						fleet = { set_variable = { which = "AssMissionCost" value = @costXL } }
-						set_ship_flag = "ass_station_xlarge"
-						remove_ship_flag = "ass_station_large"
-						remove_ship_flag = "ass_station_medium"
-						remove_ship_flag = "ass_station_small"
-					}
+					ass_stage1_set_military_xl = yes
 					log = "[Prev.Prev.GetName]: Moving to [this.GetName] (Military XL)"
-					ass_military_move = yes
+					ass_stage2_military_planet = yes
 				}
 			}
 		else = { if = { limit = { owner = { has_technology = "tech_space_defense_station_3" } }
@@ -208,15 +211,9 @@ ass_military_priority_1 = {
 				}
 				random_system_planet = {
 					limit = { has_orbital_station = no }
-					PREVPREV = {
-						fleet = { set_variable = { which = "AssMissionCost" value = @costL } }
-						remove_ship_flag = "ass_station_xlarge"
-						set_ship_flag = "ass_station_large"
-						remove_ship_flag = "ass_station_medium"
-						remove_ship_flag = "ass_station_small"
-					}
+					ass_stage1_set_military_l = yes
 					log = "[Prev.Prev.GetName]: Moving to [this.GetName] (Military L)"
-					ass_military_move = yes
+					ass_stage2_military_planet = yes
 				}
 			}
 		else = { if = { limit = { owner = { has_technology = "tech_space_defense_station_2" } }
@@ -230,15 +227,9 @@ ass_military_priority_1 = {
 				}
 				random_system_planet = {
 					limit = { has_orbital_station = no }
-					PREVPREV = {
-						fleet = { set_variable = { which = "AssMissionCost" value = @costM } }
-						remove_ship_flag = "ass_station_xlarge"
-						remove_ship_flag = "ass_station_large"
-						set_ship_flag = "ass_station_medium"
-						remove_ship_flag = "ass_station_small"
-					}
+					ass_stage1_set_military_m = yes
 					log = "[Prev.Prev.GetName]: Moving to [this.GetName] (Military M)"
-					ass_military_move = yes
+					ass_stage2_military_planet = yes
 				}
 			}
 		else = { if = { limit = { owner = { has_technology = "tech_space_defense_station_1" } }
@@ -252,15 +243,9 @@ ass_military_priority_1 = {
 				}
 				random_system_planet = {
 					limit = { has_orbital_station = no }
-					PREVPREV = {
-						fleet = { set_variable = { which = "AssMissionCost" value = @costS } }
-						remove_ship_flag = "ass_station_xlarge"
-						remove_ship_flag = "ass_station_large"
-						remove_ship_flag = "ass_station_medium"
-						set_ship_flag = "ass_station_small"
-					}
+					ass_stage1_set_military_s = yes
 					log = "[Prev.Prev.GetName]: Moving to [this.GetName] (Military S)"
-					ass_military_move = yes
+					ass_stage2_military_planet = yes
 				}
 			}
 		} } } } } } }
@@ -270,7 +255,7 @@ ass_military_priority_1 = {
 # XXX test create_fleet with no ships, set_location on it, and move
 # XXX to it, and then create the station.
 #
-ass_military_priority_2 = {
+ass_stage1_military_p2 = {
 	# Find any owned system without a military station
 	# XXX we need to use a system-relation instead of planet for these
 
@@ -291,15 +276,9 @@ ass_military_priority_2 = {
 			}
 			random_system_planet = {
 				limit = { has_orbital_station = no }
-				PREVPREV = {
-					fleet = { set_variable = { which = "AssMissionCost" value = @costXL } }
-					set_ship_flag = "ass_station_xlarge"
-					remove_ship_flag = "ass_station_large"
-					remove_ship_flag = "ass_station_medium"
-					remove_ship_flag = "ass_station_small"
-				}
+				ass_stage1_set_military_xl = yes
 				log = "[Prev.Prev.GetName]: Moving to [this.GetName] (Military P2 XL)"
-				ass_military_move = yes
+				ass_stage2_military_planet = yes
 			}
 		}
 	else = { if = { limit = { owner = { has_technology = "tech_space_defense_station_3" } }
@@ -312,15 +291,9 @@ ass_military_priority_2 = {
 			}
 			random_system_planet = {
 				limit = { has_orbital_station = no }
-				PREVPREV = {
-					fleet = { set_variable = { which = "AssMissionCost" value = @costL } }
-					remove_ship_flag = "ass_station_xlarge"
-					set_ship_flag = "ass_station_large"
-					remove_ship_flag = "ass_station_medium"
-					remove_ship_flag = "ass_station_small"
-				}
+				ass_stage1_set_military_l = yes
 				log = "[Prev.Prev.GetName]: Moving to [this.GetName] (Military P2 L)"
-				ass_military_move = yes
+				ass_stage2_military_planet = yes
 			}
 		}
 	else = { if = { limit = { owner = { has_technology = "tech_space_defense_station_2" } }
@@ -333,15 +306,9 @@ ass_military_priority_2 = {
 			}
 			random_system_planet = {
 				limit = { has_orbital_station = no }
-				PREVPREV = {
-					fleet = { set_variable = { which = "AssMissionCost" value = @costM } }
-					remove_ship_flag = "ass_station_xlarge"
-					remove_ship_flag = "ass_station_large"
-					set_ship_flag = "ass_station_medium"
-					remove_ship_flag = "ass_station_small"
-				}
+				ass_stage1_set_military_m = yes
 				log = "[Prev.Prev.GetName]: Moving to [this.GetName] (Military P2 M)"
-				ass_military_move = yes
+				ass_stage2_military_planet = yes
 			}
 		}
 	else = { if = { limit = { owner = { has_technology = "tech_space_defense_station_1" } }
@@ -354,15 +321,9 @@ ass_military_priority_2 = {
 			}
 			random_system_planet = {
 				limit = { has_orbital_station = no }
-				PREVPREV = {
-					fleet = { set_variable = { which = "AssMissionCost" value = @costS } }
-					remove_ship_flag = "ass_station_xlarge"
-					remove_ship_flag = "ass_station_large"
-					remove_ship_flag = "ass_station_medium"
-					set_ship_flag = "ass_station_small"
-				}
+				ass_stage1_set_military_s = yes
 				log = "[Prev.Prev.GetName]: Moving to [this.GetName] (Military P2 S)"
-				ass_military_move = yes
+				ass_stage2_military_planet = yes
 			}
 		}
 	} } } } } } }

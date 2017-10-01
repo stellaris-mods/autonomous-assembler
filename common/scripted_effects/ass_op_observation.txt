@@ -95,7 +95,7 @@
 # }
 
 
-# ass_observation_priority_1 = {
+# ass_stage1_observation_p1 = {
 # 	# Find any primitive
 # 	closest_system = {
 # 		limit = {

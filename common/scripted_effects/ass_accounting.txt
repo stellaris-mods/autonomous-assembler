@@ -213,107 +213,62 @@ ass_accounting_refund = {
 	}
 }
 
+@baseMilitaryXLarge = 2250
+@baseMilitaryLarge = 1400
+@baseMilitaryMedium = 700
+@baseMilitarySmall = 250
+@baseMining = 90
+@baseResearch = 90
+@baseWormhole = 75
 
+# We don't have any operation for making frontier outposts yet.
+# trait_ruler_expansionist: shipsize_outpost_station_build_cost_mult -0.15
 
-# build_cost_mult
+# I can't immediately see any API to check which agenda is set
+# agenda_defensive_focus: shipclass_military_station_build_cost_mult = -0.15
+ass_accounting_deduct_military_cost = {
+	if = { # -20%
+		limit = { owner = { ruler = { has_trait = trait_ruler_fortifier } } }
+		fleet = { multiply_variable = { which = "AssMissionCost" value = 0.8 } }
+	}
+	if = { # -15%
+		limit = { owner = { has_technology = "tech_space_defense_station_improvement" } }
+		fleet = { multiply_variable = { which = "AssMissionCost" value = 0.85 } }
+	}
+}
 
-# trait_ruler_expansionist = {
-# 	cost = 1
-# 	modification = no
-# 	icon = "gfx/interface/icons/traits/leader_traits/trait_ruler_expansionist.dds"
-# 	leader_potential_add = {
-# 		NOT = { from = { has_ethic = "ethic_gestalt_consciousness" } }
-# 	}
-# 	modifier = {
-# 		shipsize_outpost_station_build_cost_mult = -0.15
-# 		country_colony_influence_cost_mult = -0.15
-# 	}
-# 	leader_trait = yes
-# 	leader_class = { ruler }
-# }
+ass_accounting_set_military_xlarge_cost = {
+	fleet = { set_variable = { which = "AssMissionCost" value = @baseMilitaryXLarge } }
+	ass_accounting_deduct_military_cost = yes
+}
 
+ass_accounting_set_military_large_cost = {
+	fleet = { set_variable = { which = "AssMissionCost" value = @baseMilitaryLarge } }
+	ass_accounting_deduct_military_cost = yes
+}
 
-# trait_ruler_fortifier = {
-# 	cost = 1
-# 	modification = no
-# 	icon = "gfx/interface/icons/traits/leader_traits/trait_ruler_fortifier.dds"
-# 	leader_potential_add = {
-# 		NOT = { from = { has_ethic = "ethic_gestalt_consciousness" } }
-# 	}
-# 	modifier = {
-# 		shipsize_military_station_small_build_cost_mult = -0.2
-# 		shipsize_military_station_small_upkeep_mult = -0.2
-# 		shipsize_military_station_medium_build_cost_mult = -0.2
-# 		shipsize_military_station_medium_upkeep_mult = -0.2
-# 		shipsize_military_station_large_build_cost_mult = -0.2
-# 		shipsize_military_station_large_upkeep_mult = -0.2
-# 	}
-# 	leader_trait = yes
-# 	leader_class = { ruler }
-# 	prerequisites = { tech_space_defense_station_1 }
-# }
+ass_accounting_set_military_medium_cost = {
+	fleet = { set_variable = { which = "AssMissionCost" value = @baseMilitaryMedium } }
+	ass_accounting_deduct_military_cost = yes
+}
 
-# trait_ruler_space_miner = {
-# 	cost = 1
-# 	modification = no
-# 	icon = "gfx/interface/icons/traits/leader_traits/trait_ruler_space_miner.dds"
-# 	leader_potential_add = {
-# 		NOT = { from = { has_ethic = "ethic_gestalt_consciousness" } }
-# 	}
-# 	modifier = {
-# 		shipsize_constructor_build_cost_mult = -0.25
-# 		shipsize_mining_station_build_cost_mult = -0.25
-# 	}
-# 	leader_trait = yes
-# 	leader_class = { ruler }
-# }
+ass_accounting_set_military_small_cost = {
+	fleet = { set_variable = { which = "AssMissionCost" value = @baseMilitarySmall } }
+	ass_accounting_deduct_military_cost = yes
+}
 
-# tech_space_defense_station_improvement = {
-# 	cost = @tier2cost3
-# 	area = engineering
-# 	tier = 2
-# 	category = { voidcraft }
-# 	prerequisites = { "tech_space_defense_station_2" }
-# 	is_rare = yes
-# 	weight = @tier2weight3
+ass_accounting_set_mining_station_cost = {
+	fleet = { set_variable = { which = "AssMissionCost" value = @baseMining } }
+	if = { # trait_ruler_space_miner: shipsize_mining_station_build_cost_mult -0.25
+		limit = { owner = { ruler = { has_trait = trait_ruler_space_miner } } }
+		fleet = { multiply_variable = { which = "AssMissionCost" value = 0.75 } }
+	}
+}
 
-# 	# unlocks spaceport-module - reinforced hull layers
-# 	# unlock defense station +25% HP and -10% cost
+ass_accounting_set_research_station_cost = {
+	fleet = { set_variable = { which = "AssMissionCost" value = @baseResearch } }
+}
 
-# 	modifier = {
-# 		shipclass_military_station_build_cost_mult = -0.15
-# 		shipclass_military_station_hit_points_mult = 0.25
-# 	}
-
-# agenda_defensive_focus = {
-# 	weight_modifier = {
-# 		weight = 100
-# 		modifier = {
-# 			factor = 1.5
-# 				from = {
-# 					has_ethic = ethic_militarist
-# 				}
-# 			}
-# 		modifier = {
-# 			factor = 2
-# 				from = {
-# 					has_ethic = ethic_fanatic_militarist
-# 				}
-# 			}
-# 		modifier = {
-# 			factor = 1.5
-# 			leader_class = admiral
-# 		}
-# 		modifier = {
-# 			factor = 2
-# 			leader_class = general
-# 		}
-# 	}
-
-# 	modifier = {
-# 		shipclass_military_station_build_cost_mult = -0.15
-# 		shipclass_military_station_damage_mult = 0.25
-# 		shipclass_military_station_hit_points_mult = 0.25
-# 	}
-# }
-
+ass_accounting_set_wormhole_station_cost = {
+	fleet = { set_variable = { which = "AssMissionCost" value = @baseWormhole } }
+}

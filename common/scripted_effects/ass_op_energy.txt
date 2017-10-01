@@ -1,31 +1,11 @@
-ass_energy_move = {
-	ass_mark_planet = yes
+ass_stage1_set_energy = {
 	PREVPREV = {
 		set_ship_flag = "ass_energy"
-		fleet = {
-			# XXX Modify cost according to country modifiers/rulers etc
-			set_variable = { which = "AssMissionCost" value = 90 }
-			set_fleet_flag = "autonomous_initial_order" # Removed instantly
-			set_fleet_flag = "autonomous_mission"
-			queue_actions = {
-				orbit_planet = PREVPREV
-				repeat = {
-					while = {
-						id = assEnergyMove.1
-						NOT = { is_fleet_idle = yes }
-					}
-					wait = 7
-				}
-				effect = {
-					id = assEnergyMove.2
-					PREV = { ass_station_mission_reached_destination = yes }
-				}
-			}
-		}
+		ass_accounting_set_mining_station_cost = yes
 	}
 }
 
-ass_energy_priority_1 = {
+ass_stage1_energy_p1 = {
 	# Find any shipclass_mining_station energy deposits in colonized systems, or
 	# deposits that are bigger than 2, or is strategic
 	closest_system = {
@@ -42,13 +22,14 @@ ass_energy_priority_1 = {
 					ass_has_any_energy = yes
 				}
 			}
+			ass_stage1_set_energy = yes
 			log = "[Prev.Prev.GetName]: Moving to [this.GetName] (Energy P1)"
-			ass_energy_move = yes
+			ass_stage2_planet_move = yes
 		}
 	}
 }
 
-ass_energy_priority_2 = {
+ass_stage1_energy_p2 = {
 	# Find any energy mining deposit
 	closest_system = {
 		limit = {
@@ -64,8 +45,9 @@ ass_energy_priority_2 = {
 				ass_valid_mining_planet = yes
 				ass_has_any_energy = yes
 			}
+			ass_stage1_set_energy = yes
 			log = "[Prev.Prev.GetName]: Moving to [this.GetName] (Energy P2)"
-			ass_energy_move = yes
+			ass_stage2_planet_move = yes
 		}
 	}
 }

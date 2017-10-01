@@ -1,32 +1,31 @@
 
-
 # This is only invoked by assShip.1, which is only triggered by
 # on_ship_built or by MTTH after checking ass_has_mission and is_fleet_idle,
 # and in both cases the ship should be entirely idle.
-ass_set_mission_type = {
+ass_init_stage1 = {
 	if = {
 		limit = { owner = { has_country_flag = "ass_halt_operations" } }
-			ass_mission_go_home = yes
+			ass_stage1_dock_p1 = yes
 		else = {
 			switch = {
 				trigger = has_component
-				ASS_EXPANSION_MILITARY_1 = { ass_military_priority_1 = yes }
-				ASS_EXPANSION_MINERALS_1 = { ass_minerals_priority_1 = yes }
-				ASS_EXPANSION_ENERGY_1 = { ass_energy_priority_1 = yes }
-				ASS_EXPANSION_RESEARCH_1 = { ass_research_priority_1 = yes }
-				#ASS_EXPANSION_OBSERVATION_1 = { ass_observation_priority_1 = yes }
-				ASS_EXPANSION_WORMHOLE_1 = { ass_wormhole_priority_1 = yes }
+				ASS_EXPANSION_MILITARY_1 = { ass_stage1_military_p1 = yes }
+				ASS_EXPANSION_MINERALS_1 = { ass_stage1_minerals_p1 = yes }
+				ASS_EXPANSION_ENERGY_1 = { ass_stage1_energy_p1 = yes }
+				ASS_EXPANSION_RESEARCH_1 = { ass_stage1_research_p1 = yes }
+				#ASS_EXPANSION_OBSERVATION_1 = { ass_stage1_observation_p1 = yes }
+				ASS_EXPANSION_WORMHOLE_1 = { ass_stage1_wormhole_p1 = yes }
 			}
 			if = {
 				limit = { ass_has_mission = no }
 				#log = "Checking 2.2..."
 				switch = {
 					trigger = has_component
-					ASS_EXPANSION_MILITARY_2 = { ass_military_priority_2 = yes }
-					ASS_EXPANSION_MINERALS_2 = { ass_minerals_priority_2 = yes }
-					ASS_EXPANSION_ENERGY_2 = { ass_energy_priority_2 = yes }
-					ASS_EXPANSION_RESEARCH_2 = { ass_research_priority_2 = yes }
-					ASS_EXPANSION_WORMHOLE_2 = { ass_wormhole_priority_2 = yes }
+					ASS_EXPANSION_MILITARY_2 = { ass_stage1_military_p2 = yes }
+					ASS_EXPANSION_MINERALS_2 = { ass_stage1_minerals_p2 = yes }
+					ASS_EXPANSION_ENERGY_2 = { ass_stage1_energy_p2 = yes }
+					ASS_EXPANSION_RESEARCH_2 = { ass_stage1_research_p2 = yes }
+					ASS_EXPANSION_WORMHOLE_2 = { ass_stage1_wormhole_p2 = yes }
 				}
 			}
 			# XXX add scripted effect that addons can override for more components
@@ -34,7 +33,7 @@ ass_set_mission_type = {
 	}
 }
 
-ass_mission_done = {
+ass_op_complete = {
 	log = "[this.GetName]: Mission complete."
 
 	# Mission types
@@ -68,7 +67,7 @@ ass_mission_done = {
 }
 
 # THIS needs to be the ship
-ass_mission_abort = {
+ass_op_abort = {
 	log = "[this.GetName]: Mission forcefully aborted."
 	if = {
 		limit = { has_ship_flag = "ass_refund_if_aborted" }
@@ -76,5 +75,5 @@ ass_mission_abort = {
 		remove_ship_flag = "ass_refund_if_aborted"
 	}
 	ass_unmark_target = yes
-	ass_mission_done = yes
+	ass_op_complete = yes
 }

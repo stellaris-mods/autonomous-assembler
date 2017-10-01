@@ -49,7 +49,7 @@ special_project = {
 					is_ship_size = autonomous_assembler
 					ass_has_mission = yes
 				}
-				ass_mission_abort = yes
+				ass_op_abort = yes
 			}
 			country_event = { id = assCountry.500 }
 		}
@@ -86,9 +86,9 @@ special_project = {
 				limit = { is_ship_size = autonomous_assembler }
 				if = {
 					limit = { ass_has_mission = yes }
-					ass_mission_abort = yes
+					ass_op_abort = yes
 				}
-				ass_set_mission_type = yes
+				ass_init_stage1 = yes
 			}
 			country_event = { id = assCountry.500 }
 

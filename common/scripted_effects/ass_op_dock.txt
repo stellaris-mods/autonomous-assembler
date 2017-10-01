@@ -1,5 +1,5 @@
 
-ass_mission_go_home = {
+ass_stage1_dock_p1 = {
 	closest_system = {
 		limit = {
 			is_inside_border = ROOT.owner

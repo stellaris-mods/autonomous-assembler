@@ -30,7 +30,7 @@ ass_build_station = {
 }
 
 # THIS must be the ship
-ass_station_mission_reached_destination = {
+ass_stage2_planet_reached = {
 	log = "[this.GetName]: Probably at destination [this.Orbit.GetName]."
 	if = {
 		limit = { ass_has_mission = yes }
@@ -57,14 +57,38 @@ ass_station_mission_reached_destination = {
 			else = {
 				log = "[this.GetName]: ERROR: There's already some sort of station in orbit."
 				# XXX need to mark this planet so we ignore it at least for a timed_flag
-				ass_mission_abort = yes
+				ass_op_abort = yes
 			}
 		}
 
 		else = {
 			log = "[this.GetName]: ERROR: Reached end of queue_actions without a mission. That's weird."
 			# XXX need to mark this planet so we ignore it at least for a timed_flag
-			ass_mission_abort = yes
+			ass_op_abort = yes
+		}
+	}
+}
+
+ass_stage2_planet_move = {
+	ass_mark_planet = yes
+	PREVPREV = {
+		fleet = {
+			set_fleet_flag = "autonomous_initial_order" # Removed instantly
+			set_fleet_flag = "autonomous_mission"
+			queue_actions = {
+				orbit_planet = PREVPREV
+				repeat = {
+					while = {
+						id = assResearchMove.1
+						NOT = { is_fleet_idle = yes }
+					}
+					wait = 7
+				}
+				effect = {
+					id = assResearchMove.2
+					PREV = { ass_stage2_planet_reached = yes }
+				}
+			}
 		}
 	}
 }

@@ -20,7 +20,7 @@ ship_event = {
 				days = 90
 			}
 			else = {
-				ass_set_mission_type = yes
+				ass_init_stage1 = yes
 			}
 		}
 	}
@@ -91,7 +91,7 @@ ship_event = {
 					remove_fleet_flag = "autonomous_initial_order"
 				else = {
 					log = "[Root.GetName]: Player gave ship a manual order, aborting."
-					ROOT = { ass_mission_abort = yes }
+					ROOT = { ass_op_abort = yes }
 				}
 			}
 		}
@@ -170,7 +170,7 @@ ship_event = {
 		}
 
 		# Ready for new adventures!
-		ass_mission_done = yes
+		ass_op_complete = yes
 	}
 }
 

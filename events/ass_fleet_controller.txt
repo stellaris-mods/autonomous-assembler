@@ -1,46 +1,5 @@
 namespace = assFleet
 
-# If only this piece of shit on_action was reliable,
-# everything would be nice and clean.
-# on_fleet_enter_orbit
-#From = Planet scope
-#This = Fleet scope
-# fleet_event = {
-# 	id = assFleet.100
-# 	hide_window = yes
-# 	is_triggered_only = yes
-# 	trigger = {
-# 		is_ship_size = autonomous_assembler
-# 		has_fleet_flag = "autonomous_mission"
-# 	}
-# 	immediate = {
-# 		owner = {
-# 			every_owned_ship = {
-# 				limit = {
-# 					is_ship_size = autonomous_assembler
-# 					fleet = { is_same_value = ROOT }
-# 				}
-# 				# What the hell are we doing in orbit?
-# 				log = "[this.GetName]: Entered orbit of [from.GetName]."
-# 				switch = {
-# 					trigger = has_ship_flag
-# 					ass_go_home = {
-# 						# We are simply going home, and now we are here.
-# 						ass_mission_done = yes
-# 						set_timed_ship_flag = {
-# 							flag = "ass_halt_operations"
-# 							days = 90
-# 						}
-# 					}
-# 					ass_minerals = { ROOT = { ass_build_reached_orbit = yes } }
-# 					ass_energy   = { ROOT = { ass_build_reached_orbit = yes } }
-# 					ass_research = { ROOT = { ass_build_reached_orbit = yes } }
-# 				}
-# 			}
-# 		}
-# 	}
-# }
-
 # on_entering_system_fleet
 # Scope = Fleet
 # From = System

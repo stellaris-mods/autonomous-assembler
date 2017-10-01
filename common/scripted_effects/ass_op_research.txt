@@ -1,49 +1,12 @@
 
-# IF ONLY ON_FLEET_ENTER_ORBIT WAS RELIABLE
-# Here is how the effect would look:
-# ass_research_move = {
-# 	ass_mark_planet = yes
-# 	PREVPREV = {
-# 		set_ship_flag = "ass_research"
-# 		fleet = {
-# 			set_fleet_flag = "autonomous_initial_order" # Removed instantly
-# 			set_fleet_flag = "autonomous_mission"
-# 			queue_actions = {
-# 				orbit_planet = PREVPREV
-# 			}
-# 		}
-# 	}
-# }
-# But nooooooooooo.
-
-ass_research_move = {
-	ass_mark_planet = yes
+ass_stage1_set_research = {
 	PREVPREV = {
 		set_ship_flag = "ass_research"
-		fleet = {
-			# XXX Modify cost according to country modifiers/rulers etc
-			set_variable = { which = "AssMissionCost" value = 90 }
-			set_fleet_flag = "autonomous_initial_order" # Removed instantly
-			set_fleet_flag = "autonomous_mission"
-			queue_actions = {
-				orbit_planet = PREVPREV
-				repeat = {
-					while = {
-						id = assResearchMove.1
-						NOT = { is_fleet_idle = yes }
-					}
-					wait = 7
-				}
-				effect = {
-					id = assResearchMove.2
-					PREV = { ass_station_mission_reached_destination = yes }
-				}
-			}
-		}
+		ass_accounting_set_research_station_cost = yes
 	}
 }
 
-ass_research_priority_1 = {
+ass_stage1_research_p1 = {
 	# Find any research deposits in colonized systems, or
 	# any research deposits bigger than 2
 	closest_system = {
@@ -61,13 +24,14 @@ ass_research_priority_1 = {
 					#ass_has_any_research = yes # covered by valid
 				}
 			}
+			ass_stage1_set_research = yes
 			log = "[Prev.Prev.GetName]: Moving to [this.GetName] (Research P1)"
-			ass_research_move = yes
+			ass_stage2_planet_move = yes
 		}
 	}
 }
 
-ass_research_priority_2 = {
+ass_stage1_research_p2 = {
 	# Find any research deposit
 	closest_system = {
 		limit = {
@@ -81,8 +45,9 @@ ass_research_priority_2 = {
 			limit = {
 				ass_valid_research_planet = yes
 			}
+			ass_stage1_set_research = yes
 			log = "[Prev.Prev.GetName]: Moving to [this.GetName] (Research P2)"
-			ass_research_move = yes
+			ass_stage2_planet_move = yes
 		}
 	}
 }

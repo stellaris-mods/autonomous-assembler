@@ -11,7 +11,9 @@
 # Supported Targets: none
 # Note the angle parameter.
 
-ass_wormhole_priority_1 = {
+# ass_accounting_set_wormhole_station_cost
+
+ass_stage1_wormhole_p1 = {
 	# Find any colonized system missing a wormhole station
 	closest_system = {
 		limit = {
@@ -66,7 +68,7 @@ ass_wormhole_priority_1 = {
 }
 
 # FTL_RANGE_WORMHOLE = 65
-ass_wormhole_priority_2 = {
+ass_stage1_wormhole_p2 = {
 	# Find any system more than 60 distance from a wormhole station
 	closest_system = {
 		limit = {
