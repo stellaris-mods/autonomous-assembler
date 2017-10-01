@@ -32,8 +32,6 @@ ass_build_station = {
 # THIS must be the ship
 ass_station_mission_reached_destination = {
 	log = "[this.GetName]: Probably at destination [this.Orbit.GetName]."
-	# XXX If we are not orbiting a planet now, that means something
-	# XXX happened to us enroute, and we did not abort the mission.
 	if = {
 		limit = { ass_has_mission = yes }
 
