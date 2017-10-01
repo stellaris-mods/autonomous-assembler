@@ -1,0 +1,27 @@
+
+ass_mission_go_home = {
+	closest_system = {
+		limit = {
+			is_inside_border = ROOT.owner
+			ass_is_friendly_system = yes
+			any_planet = {
+				ass_is_owners_planet = yes
+			}
+		}
+		random_system_planet = {
+			limit = { ass_is_owners_planet = yes }
+			log = "[Prev.Prev.GetName]: Moving to [this.GetName] (Going home)"
+			# This mission does not set up a relation flag
+			PREVPREV = {
+				set_ship_flag = "ass_go_home"
+				fleet = {
+					set_fleet_flag = "autonomous_initial_order" # Removed instantly
+					set_fleet_flag = "autonomous_mission"
+					queue_actions = {
+						orbit_planet = PREVPREV
+					}
+				}
+			}
+		}
+	}
+}

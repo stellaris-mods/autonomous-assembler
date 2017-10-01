@@ -1,0 +1,111 @@
+
+@power = -35
+@cost = 15
+
+utility_component_template = {
+	key = "ASS_EXPANSION_EMPTY"
+	size = small
+	icon = "GFX_ship_part_empty_ftl_drive"
+	icon_frame = 1
+	power = 0
+	cost = 0
+	component_set = "ass_expansion_slot_2"
+	ai_weight = {
+		weight = 0
+		modifier = {
+			weight = 1 # Replaces weight
+			NOT = { has_technology = "tech_fusion_power" }
+		}
+	}
+}
+
+utility_component_template = {
+	key = "ASS_EXPANSION_MINERALS_2"
+	component_set = "ass_expansion_slot_2"
+	size = medium
+	icon = "assgfx_exp_mining"
+	icon_frame = 1
+	power = @power
+	cost = @cost
+	ai_weight = { weight = 0 }
+}
+
+utility_component_template = {
+	key = "ASS_EXPANSION_ENERGY_2"
+	component_set = "ass_expansion_slot_2"
+	size = medium
+	icon = "assgfx_exp_energy"
+	icon_frame = 1
+	power = @power
+	cost = @cost
+	ai_weight = { weight = 0 }
+}
+
+utility_component_template = {
+	key = "ASS_EXPANSION_RESEARCH_2"
+	component_set = "ass_expansion_slot_2"
+	size = medium
+	icon = "assgfx_exp_research"
+	icon_frame = 1
+	power = @power
+	cost = @cost
+	ai_weight = {
+		weight = 1
+		modifier = {
+			factor = 0 # Multiplies weight
+			NOT = { has_technology = "tech_fusion_power" }
+		}
+	}
+}
+
+utility_component_template = {
+	key = "ASS_EXPANSION_OBSERVATION_2"
+	component_set = "ass_expansion_slot_2"
+	size = medium
+	icon = "assgfx_exp_observation"
+	icon_frame = 1
+	power = @power
+	cost = @cost
+	ai_weight = { weight = 0 }
+	hidden = yes
+}
+
+utility_component_template = {
+	key = "ASS_EXPANSION_MILITARY_2"
+	component_set = "ass_expansion_slot_2"
+	size = medium
+	icon = "assgfx_exp_military"
+	icon_frame = 1
+	power = @power
+	cost = @cost
+	ai_weight = { weight = 0 }
+}
+
+utility_component_template = {
+	key = "ASS_EXPANSION_WORMHOLE_2"
+	component_set = "ass_expansion_slot_2"
+	size = medium
+	icon = "assgfx_exp_wormhole"
+	icon_frame = 1
+	power = @power
+	cost = @cost
+	ai_weight = { weight = 0 }
+	valid_for_country = {
+		modifier = {
+			factor = 0
+			NOT = { has_technology = "tech_wormhole_generation_1" }
+		}
+		modifier = {
+			factor = 0
+			has_technology = "tech_jump_drive_1"
+		}
+		modifier = {
+			factor = 0
+			has_technology = "tech_warp_drive_1"
+		}
+		modifier = {
+			factor = 0
+			has_technology = "tech_hyper_drive_1"
+		}
+	}
+}

@@ -1,0 +1,86 @@
+
+
+# This is only invoked by assShip.1, which is only triggered by
+# on_ship_built or by MTTH after checking ass_has_mission and is_fleet_idle,
+# and in both cases the ship should be entirely idle.
+ass_set_mission_type = {
+	if = {
+		limit = { owner = { has_country_flag = "ass_halt_operations" } }
+			ass_mission_go_home = yes
+		else = {
+			switch = {
+				trigger = has_component
+				ASS_EXPANSION_MILITARY_1 = { ass_military_priority_1 = yes }
+				ASS_EXPANSION_MINERALS_1 = { ass_minerals_priority_1 = yes }
+				ASS_EXPANSION_ENERGY_1 = { ass_energy_priority_1 = yes }
+				ASS_EXPANSION_RESEARCH_1 = { ass_research_priority_1 = yes }
+				#ASS_EXPANSION_OBSERVATION_1 = { ass_observation_priority_1 = yes }
+				ASS_EXPANSION_WORMHOLE_1 = { ass_wormhole_priority_1 = yes }
+			}
+			if = {
+				limit = { ass_has_mission = no }
+				#log = "Checking 2.2..."
+				switch = {
+					trigger = has_component
+					ASS_EXPANSION_MILITARY_2 = { ass_military_priority_2 = yes }
+					ASS_EXPANSION_MINERALS_2 = { ass_minerals_priority_2 = yes }
+					ASS_EXPANSION_ENERGY_2 = { ass_energy_priority_2 = yes }
+					ASS_EXPANSION_RESEARCH_2 = { ass_research_priority_2 = yes }
+					ASS_EXPANSION_WORMHOLE_2 = { ass_wormhole_priority_2 = yes }
+				}
+			}
+			# XXX add scripted effect that addons can override for more components
+		}
+	}
+
+
+	# if = {
+	# 	limit = { ass_has_mission = no }
+	# 	log = "Checking 1.2..."
+	# 	switch = {
+	# 		trigger = has_component
+	# 		ASS_EXPANSION_MILITARY_1 = { ass_military_priority_2 = yes }
+	# 		ASS_EXPANSION_MINERALS_1 = { ass_minerals_priority_2 = yes }
+	# 		ASS_EXPANSION_ENERGY_1 = { ass_energy_priority_2 = yes }
+	# 		ASS_EXPANSION_RESEARCH_1 = { ass_research_priority_2 = yes }
+	# 		ASS_EXPANSION_WORMHOLE_1 = { ass_wormhole_priority_2 = yes }
+	# 	}
+	# }
+	# if = {
+	# 	limit = { ass_has_mission = no }
+	# 	log = "Checking 2.1..."
+	# 	switch = {
+	# 		trigger = has_component
+	# 		ASS_EXPANSION_MILITARY_2 = { ass_military_priority_1 = yes }
+	# 		ASS_EXPANSION_MINERALS_2 = { ass_minerals_priority_1 = yes }
+	# 		ASS_EXPANSION_ENERGY_2 = { ass_energy_priority_1 = yes }
+	# 		ASS_EXPANSION_RESEARCH_2 = { ass_research_priority_1 = yes }
+	# 		ASS_EXPANSION_OBSERVATION_2 = { ass_observation_priority_1 = yes }
+	# 		ASS_EXPANSION_WORMHOLE_2 = { ass_wormhole_priority_1 = yes }
+	# 	}
+	# }
+}
+
+ass_mission_done = {
+	log = "[this.GetName]: Mission complete."
+	remove_ship_flag = "ass_go_home"
+	remove_ship_flag = "ass_minerals"
+	remove_ship_flag = "ass_energy"
+	remove_ship_flag = "ass_research"
+	remove_ship_flag = "ass_observation"
+	remove_ship_flag = "ass_military"
+	remove_ship_flag = "ass_wormhole"
+	fleet = {
+		set_event_locked = no
+		remove_fleet_flag = "autonomous_initial_order"
+		remove_fleet_flag = "autonomous_mission"
+		clear_fleet_actions = THIS
+	}
+}
+
+# THIS needs to be the ship
+ass_mission_abort = {
+	log = "[this.GetName]: Mission forcefully aborted."
+	ass_unmark_target = yes
+	ass_mission_done = yes
+}

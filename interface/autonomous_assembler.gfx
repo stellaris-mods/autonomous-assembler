@@ -1,0 +1,48 @@
+spriteTypes = {
+
+	spriteType = {
+		name = "assgfx_exp_military"
+		texturefile = "gfx/exp_military.dds"
+	}
+	spriteType = {
+		name = "assgfx_exp_mining"
+		texturefile = "gfx/exp_mining.dds"
+	}
+	spriteType = {
+		name = "assgfx_exp_energy"
+		texturefile = "gfx/exp_mining_energy.dds"
+	}
+	spriteType = {
+		name = "assgfx_exp_observation"
+		texturefile = "gfx/exp_observation.dds"
+	}
+	spriteType = {
+		name = "assgfx_exp_research"
+		texturefile = "gfx/exp_research.dds"
+	}
+	spriteType = {
+		name = "assgfx_exp_wormhole"
+		texturefile = "gfx/exp_wormhole.dds"
+	}
+	spriteType = {
+		name = "assgfx_cpu_1"
+		texturefile = "gfx/cpu_1.dds"
+	}
+	spriteType = {
+		name = "assgfx_cpu_2"
+		texturefile = "gfx/cpu_2.dds"
+	}
+	spriteType = {
+		name = "assgfx_cpu_3"
+		texturefile = "gfx/cpu_3.dds"
+	}
+	spriteType = {
+		name = "assgfx_cpu_4"
+		texturefile = "gfx/cpu_4.dds"
+	}
+	spriteType = {
+		name = "assgfx_cpu_5"
+		texturefile = "gfx/cpu_5.dds"
+	}
+
+}

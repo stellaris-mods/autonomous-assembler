@@ -1,0 +1,76 @@
+# XXX add some kind of modifier or whatever that differentiates from corvette
+
+utility_component_template = {
+	key = "ASS_CPU_1"
+	size = medium
+	icon = "assgfx_cpu_1"
+	icon_frame = 1
+	power = 0
+	cost = 1
+	component_set = "ass_components"
+	ai_weight = { weight = 1 }
+	upgrades_to = "ASS_CPU_2"
+}
+utility_component_template = {
+	key = "ASS_CPU_2"
+	size = medium
+	icon = "assgfx_cpu_2"
+	icon_frame = 1
+	power = -5
+	cost = 2
+	component_set = "ass_components"
+	ai_weight = { weight = 2 }
+	upgrades_to = "ASS_CPU_3"
+	prerequisites = { "tech_combat_computers_1" }
+	modifier = {
+		ship_evasion_add = 3
+		ship_combat_speed_mult = 0.10
+	}
+}
+utility_component_template = {
+	key = "ASS_CPU_3"
+	size = medium
+	icon = "assgfx_cpu_3"
+	icon_frame = 1
+	power = -10
+	cost = 4
+	component_set = "ass_components"
+	ai_weight = { weight = 3 }
+	upgrades_to = "ASS_CPU_4"
+	prerequisites = { "tech_combat_computers_2" }
+	modifier = {
+		ship_evasion_add = 6
+		ship_combat_speed_mult = 0.20
+	}
+}
+utility_component_template = {
+	key = "ASS_CPU_4"
+	size = medium
+	icon = "assgfx_cpu_4"
+	icon_frame = 1
+	power = -15
+	cost = 6
+	component_set = "ass_components"
+	ai_weight = { weight = 4 }
+	upgrades_to = "ASS_CPU_5"
+	prerequisites = { "tech_combat_computers_3" }
+	modifier = {
+		ship_evasion_add = 8
+		ship_combat_speed_mult = 0.20
+	}
+}
+utility_component_template = {
+	key = "ASS_CPU_5"
+	size = medium
+	icon = "assgfx_cpu_5"
+	icon_frame = 1
+	power = -20
+	cost = 8
+	component_set = "ass_components"
+	ai_weight = { weight = 5 }
+	prerequisites = { "tech_precognition_interface" }
+	modifier = {
+		ship_evasion_add = 11
+		ship_combat_speed_mult = 0.20
+	}
+}

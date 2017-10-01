@@ -1,0 +1,26 @@
+ass_military_complex = {
+	max_speed = 0
+	acceleration = 0
+	rotation_speed = 0
+	modifier = {
+		ship_evasion_mult = -1
+		ship_armor_add = 15
+		ship_shield_hp_mult = 1
+		ship_upkeep_mult = -0.5
+	}
+	size_multiplier = 2
+	fleet_slot_size = 1
+	max_hitpoints = 5000
+	section_slots = { "1" = { locator = "part1" } }
+	prerequisites = { "tech_autonomous_assembler" }
+	num_target_locators = 0
+	is_space_station = yes
+	build_block_radius = 0
+	#is_civilian = no
+	enable_default_design = yes
+	class = shipclass_military_station
+	is_designable = yes
+	cost = 300
+	components_add_to_cost = no
+	build_block_radius = 1000
+}

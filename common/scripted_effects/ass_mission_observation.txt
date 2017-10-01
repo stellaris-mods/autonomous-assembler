@@ -1,0 +1,124 @@
+
+# Spawning an observation with create_fleet doesn't seem to work, because
+# common/observation_station_missions except the FROM scope to exist in
+# valid{}, and I can't get that to happen, regardless of what scope I
+# create_fleet in, or how I chain events.
+
+# ass_observation = {
+# 	fleet = {
+# 		orbit = {
+# 			# We can't spawn the obs station in orbit, because we are in the way
+# 			save_event_target_as = spawnhere
+# 			set_planet_flag = "ass_spawn_obs_post"
+# 		}
+# 		set_fleet_flag = "autonomous_initial_order"
+# 		queue_actions = {
+# 			find_closest_planet = {
+# 				trigger = {
+# 					id = weirdAssFuckingObsStationBehavior.1
+# 					NOT = { exists = owner }
+# 					NOT = { is_same_value = event_target:spawnhere }
+# 				}
+# 				found_planet = {
+# 					orbit_planet = THIS
+# 				}
+# 			}
+# 		}
+# 		# set_location = {
+# 		# 	target = event_target:spawnhere
+# 		# 	distance = 10 # 6 is the orbit distance
+# 		# 	angle = random
+# 		# }
+# 		# event_target:spawnhere = {
+# 		# 	create_fleet = {
+# 		# 		effect = {
+# 		# 			set_owner = ROOT.owner
+# 		# 			create_ship = {
+# 		# 				name = random
+# 		# 				random_existing_design = observation_station
+# 		# 			}
+# 		# 			set_location = event_target:spawnhere
+# 		# 			set_mission = passive_observation
+# 		# 		}
+# 		# 	}
+# 		# }
+# 	}
+# }
+
+# planet_event = {
+# 	id = assShip.1999
+# 	hide_window = yes
+# 	trigger = {
+# 		has_planet_flag = "ass_spawn_obs_post"
+# 		solar_system = {
+# 			any_ship_in_system = {
+# 				is_ship_size = autonomous_assembler
+# 				NOT = { exists = orbit }
+# 			}
+# 		}
+
+# 	}
+# 	immediate = {
+# 		remove_planet_flag = "ass_spawn_obs_post"
+# 		solar_system = {
+# 			random_fleet_in_system = {
+# 				limit = {
+# 					is_ship_size = autonomous_assembler
+# 					NOT = { exists = orbit }
+# 				}
+# 				owner = {
+# 					country_event = { id = assShip.1998 }
+# 				}
+# 			}
+# 		}
+# 	}
+# }
+
+# country_event = {
+# 	id = assShip.1998
+# 	is_triggered_only = yes
+# 	hide_window = yes
+# 	immediate = {
+# 		#print_scope_effect = yes
+# 		create_fleet = {
+# 			effect = {
+# 				set_owner = ROOT
+# 				create_ship = {
+# 					name = random
+# 					random_existing_design = observation_station
+# 				}
+# 				set_location = FROM
+# 				set_mission = passive_observation
+# 			}
+# 		}
+# 	}
+# }
+
+
+# ass_observation_priority_1 = {
+# 	# Find any primitive
+# 	closest_system = {
+# 		limit = {
+# 			is_inside_border = ROOT.owner
+# 			any_planet = {
+# 				ass_valid_primitive_planet = yes
+# 			}
+# 			ass_is_friendly_system = yes
+# 		}
+# 		random_system_planet = {
+# 			limit = { ass_valid_primitive_planet = yes }
+# 			log = "Found planet for observation post: [this.GetName]"
+# 			ass_mark_planet = yes
+# 			PREVPREV = {
+# 				set_ship_flag = "ass_observation"
+# 				fleet = {
+# 					set_fleet_flag = "autonomous_initial_order" # Removed instantly
+# 					set_fleet_flag = "autonomous_mission"
+# 					queue_actions = {
+# 						orbit_planet = PREVPREV
+# 					}
+# 				}
+# 			}
+# 		}
+# 	}
+# }

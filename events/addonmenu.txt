@@ -1,0 +1,117 @@
+#
+# Find the most recent version here:
+# https://github.com/stellaris-mods/addon-menu
+#
+# VERSION 1
+# Updated 28th Sept 2017
+#
+# Change notes:
+# Version 1: Support for NSC, That's Not Fair, A Stellaris Remake, and Autonomous Assembler.
+#
+
+namespace = addonMenu
+
+# This event needs to be triggered by on_game_start
+event = {
+	id = addonMenu.10
+	hide_window = yes
+	is_triggered_only = yes
+	immediate = {
+		if = { limit = { exists = event_target:addonMenuCountry }
+			set_global_flag = "addonMenuMultiple" # There is more than one.
+		else = { random_country = { limit = { is_ai = no }
+			save_global_event_target_as = addonMenuCountry
+		} } }
+	}
+}
+
+country_event = {
+	id = addonMenu.20
+	title = "addonMenu.title"
+	desc = "addonMenu.desc"
+	picture = "GFX_evt_galactic_senate"
+	show_sound = event_administrative_work
+	is_triggered_only = yes
+	trigger = {
+		exists = event_target:addonMenuCountry
+		# Make sure we only open the menu for the selected player
+		is_same_value = event_target:addonMenuCountry
+		# Prevent multiple copies of the addonMenu from opening
+		NOT = { has_global_flag = "addonMenuOpen" }
+		# This makes sure we only show the menu if there is more
+		# than one addon installed that uses addonMenu.
+		has_global_flag = "addonMenuMultiple"
+	}
+	immediate = { set_global_flag = "addonMenuOpen" }
+	# addonMenuOpen is removed immediately when the player clicks any button.
+	# `after` runs after this window closes, NOT after the whole "chain" of
+	# events is done.
+	after = { remove_global_flag = "addonMenuOpen" }
+
+	option = {
+		name = "addonMenu.done"
+		default_hide_option = yes
+		hidden_effect = {
+			set_global_flag = "apply_addon_features"
+			#
+			# CHANGEME
+			# Add your setup event here, where you apply
+			# all the effects the player toggled in your menu.
+			# If you need.
+			#
+			# Note that the global flag apply_addon_features is set now.
+			# You can check for that flag, if for any reason you need to
+			# distinguish in the event that it has been invoked from this menu.
+			#
+			if = { limit = { has_global_flag = "has_nsc_active" }
+				country_event = { id = NSC_features.1 }
+			}
+			if = { limit = { has_global_flag = "has_thats_not_fair" }
+				country_event = { id = TNF.1 }
+			}
+			if = { limit = { has_global_flag = "has_auto_assembler" }
+				country_event = { id = assInit.10 }
+			}
+			if = { limit = { has_global_flag = "has_zhow" }
+				country_event = { id = zhowstart.10 }
+			}
+
+			# This should be last.
+			remove_global_flag = "apply_addon_features"
+		}
+	}
+
+	# CHANGEME Add your addon button.
+	option = {
+		name = "nsc_modmenu"
+		trigger = { has_global_flag = "has_nsc_active" }
+		hidden_effect = {
+			set_global_flag = "inAddonMenu"
+			country_event = { id = NSC_features.1 }
+		}
+	}
+	option = {
+		name = "autonomous_assembler_modmenu"
+		trigger = { has_global_flag = "has_auto_assembler" }
+		hidden_effect = {
+			set_global_flag = "inAddonMenu"
+			country_event = { id = assMenu.1 }
+		}
+	}
+	option = {
+		name = "folkunfair_modmenu"
+		trigger = { has_global_flag = "has_thats_not_fair" }
+		hidden_effect = {
+			set_global_flag = "inAddonMenu"
+			country_event = { id = tnfMenu.1 }
+		}
+	}
+	option = {
+		name = "zhow_modmenu"
+		trigger = { has_global_flag = "has_zhow" }
+		hidden_effect = {
+			set_global_flag = "inAddonMenu"
+			country_event = { id = zhowstart.3 }
+		}
+	}
+}

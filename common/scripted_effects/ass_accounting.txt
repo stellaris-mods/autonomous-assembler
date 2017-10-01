@@ -1,0 +1,53 @@
+ass_do_accounting = {
+	# Hard Reset
+	set_variable = { which = "AssMinerals" value = 0 }
+	# First, set AssMinerals to as many minerals as the country has
+	while = {
+		limit = { has_country_resource = { type = minerals amount > 10000 } }
+		add_minerals = -10000
+		change_variable = { which = "AssMinerals" value = 10000 }
+	}
+	while = {
+		limit = { has_country_resource = { type = minerals amount > 1000 } }
+		add_minerals = -1000
+		change_variable = { which = "AssMinerals" value = 1000 }
+	}
+	while = {
+		limit = { has_country_resource = { type = minerals amount > 100 } }
+		add_minerals = -100
+		change_variable = { which = "AssMinerals" value = 100 }
+	}
+	while = {
+		limit = { has_country_resource = { type = minerals amount > 10 } }
+		add_minerals = -10
+		change_variable = { which = "AssMinerals" value = 10 }
+	}
+	while = {
+		limit = { has_country_resource = { type = minerals amount > 0 } }
+		add_minerals = -1
+		change_variable = { which = "AssMinerals" value = 1 }
+	}
+	# Make a copy we can mangle
+	set_variable = { which = "AssTmp" value = "AssMinerals" }
+	# And give the country its minerals back
+	while = {
+		limit = { check_variable = { which = "AssTmp" value > 1000 } }
+		add_minerals = 1000
+		subtract_variable = { which = "AssTmp" value = 1000 }
+	}
+	while = {
+		limit = { check_variable = { which = "AssTmp" value > 100 } }
+		add_minerals = 100
+		subtract_variable = { which = "AssTmp" value = 100 }
+	}
+	while = {
+		limit = { check_variable = { which = "AssTmp" value > 10 } }
+		add_minerals = 10
+		subtract_variable = { which = "AssTmp" value = 10 }
+	}
+	while = {
+		limit = { check_variable = { which = "AssTmp" value > 0 } }
+		add_minerals = 1
+		subtract_variable = { which = "AssTmp" value = 1 }
+	}
+}

@@ -1,0 +1,65 @@
+namespace = assMenu
+
+country_event = {
+	id = assMenu.1
+	title = "Autonomous Assembler"
+	desc = "Lulz plz write proper thangs fur menu"
+	is_triggered_only = yes
+
+	trigger = {
+		is_same_value = event_target:addonMenuCountry
+		OR = {
+			has_global_flag = "inAddonMenu"
+			NOT = { has_global_flag = "addonMenuMultiple" }
+		}
+	}
+
+	option = {
+		name = "addonMenu.back"
+		default_hide_option = yes
+		trigger = {
+			has_global_flag = "inAddonMenu"
+			has_global_flag = "addonMenuMultiple"
+		}
+		hidden_effect = { country_event = { id = addonMenu.20 } }
+	}
+	option = {
+		name = "addonMenu.done"
+		trigger = {
+			NOT = { has_global_flag = "addonMenuMultiple" }
+		}
+		hidden_effect = { country_event = { id = assInit.10 } }
+	}
+	option = {
+		name = "Enable tech at start"
+		trigger = { NOT = { has_country_flag = "ass_tech_players" } }
+		hidden_effect = {
+			set_country_flag = "ass_tech_players"
+			country_event = { id = assMenu.1 }
+		}
+	}
+	option = {
+		name = "Disable tech at start"
+		trigger = { has_country_flag = "ass_tech_players" }
+		hidden_effect = {
+			remove_country_flag = "ass_tech_players"
+			country_event = { id = assMenu.1 }
+		}
+	}
+	option = {
+		name = "Free Autonomous Assembler with tech"
+		trigger = { NOT = { has_global_flag = "ass_free" } }
+		hidden_effect = {
+			set_global_flag = "ass_free"
+			country_event = { id = assMenu.1 }
+		}
+	}
+	option = {
+		name = "No free Autonomous Assembler"
+		trigger = { has_global_flag = "ass_free" }
+		hidden_effect = {
+			remove_global_flag = "ass_free"
+			country_event = { id = assMenu.1 }
+		}
+	}
+}

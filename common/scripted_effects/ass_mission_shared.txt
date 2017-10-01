@@ -1,0 +1,54 @@
+
+# THIS must be the ship
+ass_station_mission_reached_destination = {
+	log = "[this.GetName]: Probably at destination ... [this.Orbit.GetName]."
+	# XXX If we are not orbiting a planet now, that means something
+	# XXX happened to us enroute, and we did not abort the mission.
+	if = {
+		limit = { ass_has_mission = yes }
+
+		if = {
+			limit = {
+				#exists = orbit
+				orbit = {
+					has_mining_station = no
+					has_research_station = no # might not work
+					has_spaceport = no
+					has_observation_outpost = no # might not work
+					has_orbital_station = no
+				}
+			}
+			owner = { ass_do_accounting = yes }
+			fleet = { set_event_locked = yes }
+
+			if = {
+				limit = {
+					owner = { ass_can_afford_civilian_station = yes }
+				}
+				owner = {
+					subtract_variable = { which = "AssMinerals" value = 90 }
+					add_minerals = -90
+				}
+				# XXX Set variable on fleet that says how many minerals we took
+				# XXX And if we get aborted at any point before .1000, refund.
+				log = "[this.GetName]: Constructing station..."
+				ship_event = { id = assShip.1000 days = 100 }
+
+				else = {
+					log = "[this.GetName]: Waiting for resources..."
+					set_ship_flag = "ass_waiting_for_cash"
+				}
+			}
+
+			else = {
+				log = "[this.GetName]: ERROR: There's already some sort of station in orbit."
+				ass_mission_abort = yes
+			}
+		}
+
+		else = {
+			log = "[this.GetName]: ERROR: Reached end of queue_actions without a mission. That's weird."
+			ass_mission_abort = yes
+		}
+	}
+}

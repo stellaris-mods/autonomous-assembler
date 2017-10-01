@@ -1,0 +1,34 @@
+autonomous_assembler = {
+	max_speed = 5.25
+	acceleration = 0.35
+	rotation_speed = 0.2
+	combat_max_speed = 1.75
+	combat_rotation_speed = 0.2
+	collision_radius = 2
+	modifier = {
+		ship_armor_add = 3
+		ship_evasion_add = 60
+	}
+	max_hitpoints = 300
+	size_multiplier = 1
+	fleet_slot_size = 1
+	section_slots = { "mid" = { locator = "part1" } }
+	num_target_locators = 1
+	is_space_station = no
+	icon_frame = 9
+	base_buildtime = 60
+	required_spaceport_level = 1
+
+	can_have_federation_design = no
+	enable_default_design = yes
+	prerequisites = { "tech_autonomous_assembler" }
+	is_civilian = yes
+	is_designable = yes
+	class = shipclass_constructor
+	required_component_set = "ftl_components"
+	required_component_set = "ass_components"
+	required_component_set = "ass_expansion_slot_1"
+	required_component_set = "ass_expansion_slot_2"
+	required_component_set = "thruster_components"
+	required_component_set = "ship_sensor_components"
+}

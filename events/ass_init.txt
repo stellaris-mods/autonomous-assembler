@@ -1,0 +1,75 @@
+namespace = assInit
+
+# on_game_start
+event = {
+	id = assInit.1
+	is_triggered_only = yes
+	hide_window = yes
+	immediate = {
+		set_global_flag = "has_auto_assembler"
+	}
+}
+
+# invoked from mod menu
+country_event = {
+	id = assInit.10
+	is_triggered_only = yes
+	hide_window = yes
+
+	immediate = {
+		if = { limit = { has_country_flag = "ass_tech_players" }
+			every_country = {
+				limit = { is_ai = no }
+				give_technology = {
+					tech = tech_autonomous_assembler
+					message = yes
+				}
+			}
+		}
+		if = { limit = { has_country_flag = "ass_tech_ai " }
+			every_country = {
+				limit = { is_ai = yes }
+				give_technology = {
+					tech = tech_autonomous_assembler
+					message = no
+				}
+			}
+		}
+	}
+}
+
+# on_tech_increased
+country_event = {
+	id = assInit.100
+	is_triggered_only = yes
+	hide_window = yes
+	trigger = {
+		has_global_flag = "ass_free"
+		last_increased_tech = "tech_autonomous_assembler"
+	}
+	# ZZZ Delay by one day to allow the auto-design to appear
+	immediate = { country_event = { id = assInit.101 days = 1 } }
+}
+country_event = {
+	id = assInit.101
+	hide_window = yes
+	is_triggered_only = yes
+	immediate = {
+		create_fleet = {
+			effect = {
+				set_owner = PREV
+				create_ship = {
+					name = random
+					random_existing_design = autonomous_assembler
+				}
+				set_fleet_stance = evasive
+				set_location = PREV.capital_scope
+			}
+		}
+		# Delay this, too, so that count_owned_ships picks it up
+		country_event = { id = assCountry.500 days = 1 }
+		# We could try to set the mission immediately, but it always fails
+		# because nothing is surveyed etc.
+		# MTTH event triggers after a few days anyway.
+	}
+}

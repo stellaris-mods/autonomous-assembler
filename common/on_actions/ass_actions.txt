@@ -1,0 +1,68 @@
+on_game_start = {
+	events = {
+		assInit.1
+		addonMenu.10
+	}
+}
+on_press_begin = {
+	events = {
+		addonMenu.20
+		assMenu.1
+	}
+}
+on_tech_increased = {
+	events = {
+		assInit.100
+		assCountry.100
+		assCountry.101
+	}
+}
+
+# Well that didn't work
+# on_ship_designed = {
+# 	events = {
+# 		assInit.101
+# 	}
+# }
+
+on_monthly_pulse = {
+	events = {
+		# check if any ships are waiting for resources
+		# we have assShip.101 though
+		assShip.102
+		assShip.2000
+	}
+}
+
+# THIS MOTHERFUCKER is not reliable _at all_
+#on_fleet_enter_orbit = { events = { assFleet.100 } }
+
+on_ship_built = { events = { assShip.1 } }
+on_ship_order = { events = { assShip.100 } }
+on_ship_upgraded = { events = { assShip.200 } }
+on_ship_destroyed_victim = { events = { assShip.300 } }
+
+on_entering_system_fleet = { events = { assFleet.200 } }
+on_entering_battle = { events = { assCountry.300 } }
+
+
+# XXX probably need these to unmark the ass_target
+on_fleet_disbanded = {
+	events = {
+	}
+}
+# This = owner of fleet
+# From = destroyed fleet
+on_fleet_destroyed_maintenance = {
+	events = {
+
+	}
+}
+# This = owner of fleet 1 (destroyed)
+# From = owner of fleet 2 (combatant)
+# FromFrom = fleet 1
+# FromFromFrom = fleet 2
+on_fleet_destroyed_victim = {
+	events = {
+	}
+}

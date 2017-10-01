@@ -1,0 +1,116 @@
+
+# XXX This is the big one, create a military complex.
+# XXX I'm thinking a formation like:
+# XXX CENTER = military station with the aura magnet thingy
+# XXX 6 points at X range from CENTER, in a circle: military stations
+# XXX I have not investigated if I can pull this off, but I see
+# XXX no reason why it should be impossible.
+ass_military_priority_1 = {
+	# Find any constructed skeletons and expand around it
+	# if we have more than 7500 minerals
+	owner = {
+		if = {
+			limit = {
+				minerals > 7499.99
+				any_owned_fleet = {
+					ass_is_station_marker = yes
+				}
+			}
+			#add_minerals = -7500
+			log = "Taking 7500 minerals."
+			random_owned_fleet = {
+				limit = {
+					ass_is_station_marker = yes
+				}
+				log = "Starting to move towards military priority 1: [this.GetName]"
+				ass_mark_fleet = yes
+				PREVPREV = {
+					set_ship_flag = "ass_military"
+					fleet = {
+						set_fleet_flag = "autonomous_initial_order" # Removed instantly
+						queue_actions = {
+							move_to = PREVPREV
+							repeat = {
+								while = {
+									id = assShipMilitary1.1
+									exists = PREVPREV
+									distance = {
+										source = PREVPREV
+										max_distance = 10
+									}
+								}
+								wait = 7
+							}
+							effect = {
+								id = assShipMilitary1.2
+								log = "Arrived at military station marker!"
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+}
+
+# XXX we can spawn an ambient object with a random distance and
+# XXX angle to the system planet, and build the station there
+# XXX Or any invisible entity that we can move_to with queue_actions
+#
+# Might want to do this because it just "looks better" than always
+# building stations in orbits around planets.
+# Of course, we can just create_fleet and set_location with a bigger
+# offset and angle, but then the assembler might look like it's too
+# far away from what it produces.
+#
+# XXX test create_fleet with no ships, set_location on it, and move
+# XXX to it, and then create the station.
+#
+ass_military_priority_2 = {
+	# Find any colonized system without a military station
+	closest_system = {
+		limit = {
+			is_inside_border = ROOT.owner
+			NOT = { has_star_flag = "ass_target" }
+			any_planet = { ass_is_owners_planet = yes }
+			ass_is_friendly_system = yes
+			NOT = {
+				any_ship_in_system = {
+					exists = owner
+					owner = { is_same_value = ROOT.owner }
+					is_ship_class = shipclass_military_station
+				}
+			}
+		}
+		ass_mark_system = yes
+		random_system_planet = {
+			log = "Found colonized system without military station, moving to [this.GetName]."
+			PREVPREV = {
+				set_ship_flag = "ass_military"
+				fleet = {
+					set_fleet_flag = "autonomous_initial_order" # Removed instantly
+					queue_actions = {
+						orbit_planet = PREVPREV
+						repeat = {
+							while = {
+								id = assShipMilitary2.1
+								exists = PREVPREV
+								OR = {
+									NOT = { exists = orbit }
+									orbit = {
+										NOT = { is_same_value = PREVPREVPREV }
+									}
+								}
+							}
+							wait = 7
+						}
+						effect = {
+							id = assShipMilitary2.2
+							log = "Arrived at planet to build station around!"
+						}
+					}
+				}
+			}
+		}
+	}
+}

@@ -1,0 +1,300 @@
+
+# The effects in this file are used to map "generic" relation flag
+# between a fleet and an arbitrary scope.
+#
+# We need this because clear_fleet_actions aborts a queue_actions completely
+# and instantly, not allowing us to de-mark targets.
+# And in on_ship_order, we need to clear_fleet_actions instantly to
+# allow the player to order the assemblers at all.
+#
+# Also we need the ass_target flag at all just so we prevent several
+# autonomous assemblers from attempting the same mission at the same time.
+# In case that wasn't obvious.
+#
+# If we simply event locked the assemblers 24/7, or ignored players
+# attempts to order them manually, we would not need this system at all.
+#
+# But I don't think that would feel natural.
+#
+# And we can't use event targets, because any on_action that we may
+# want to "abort" mission on would not be the same event chain as the
+# one that started the mission.
+#
+# Many things in this file break if there are more than 100 total
+# galaxy-wide ass_targets of the same scope type.
+# I don't think there's much I can do about it except run while loops
+# many times in a row. I'll do that if anyone complains.
+#
+
+ass_ensure_ship_identifier = {
+	ROOT = {
+		if = { limit = { NOT = { has_ship_flag = "ass_id" } }
+			owner = {
+				# The UUID counter is stored in the country scope so that it
+				# persists throughout the game (hopefully). It's at least the
+				# most persistent object that has a scopable relation to the
+				# ship. The only real alternative would be capital_scope.
+				#
+				# Increment UUID by +1
+				change_variable = { which = "AssUUID" value = 1 }
+				# Make a copy that we can mangle
+				set_variable = { which = "AssTmp" value = "AssUUID" }
+				# Copy to fleet
+				while = { # ZZZ only loops 100 times, but if you have 100x asses then plz
+					limit = { check_variable = { which = "AssTmp" value > 0 } }
+					subtract_variable = { which = "AssTmp" value = 1 }
+					PREV = {
+						fleet = {
+							change_variable = {
+								which = "AssUUID"
+								value = 1
+							}
+						}
+					}
+				}
+			}
+			log = "[this.GetName]: Got UUID [this.Fleet.AssUUID]."
+			set_ship_flag = "ass_id"
+		}
+	}
+}
+
+ass_set_target_relation = {
+	# Reset the targets variable in case it has been targetted before by anything.
+	set_variable = { which = "AssUUID" value = 0 }
+	ROOT = {
+		fleet = {
+			# Make a copy of the UUID that we can mangle
+			set_variable = { which = "AssTmp" value = "AssUUID" }
+			# Copy the UUID to our target
+			while = {
+				limit = { check_variable = { which = "AssTmp" value > 0} }
+				subtract_variable = { which = "AssTmp" value = 1 }
+				# PREV is ship, PREVPREV is the THIS
+				# scope in ass_mark_*
+				PREVPREV = {
+					change_variable = {
+						which = "AssUUID"
+						value = 1
+					}
+				}
+			}
+		}
+	}
+	log = "[this.GetName] related to ship [this.AssUUID]."
+}
+
+# In all ass_mark effects:
+# ROOT is the ship
+# THIS is the planet/fleet/system
+# ROOT.owner is the ships owner
+#
+# All ass_mark THIS scopes must support variables:
+# planet country fleet system leader
+#
+# Also, these effects "should" never be called on targets that already have
+# the "ass_target" flag set. If they do, we overwrite the UUID relation.
+#
+# Remember, don't invoke these effects until you're 100%
+# sure that the assembler will undertake the mission.
+# There should be no chance that the script execution aborts
+# between ass_mark_* and queue_actions.
+#
+
+ass_mark_planet = {
+	ass_ensure_ship_identifier = yes
+	ass_set_target_relation = yes
+	set_planet_flag = "ass_target"
+	ROOT = { set_ship_flag = "ass_relation_planet" }
+}
+
+# ass_mark_fleet can only be used on owned fleets
+ass_mark_fleet = {
+	ass_ensure_ship_identifier = yes
+	ass_set_target_relation = yes
+	set_fleet_flag = "ass_target"
+	ROOT = { set_ship_flag = "ass_relation_fleet" }
+}
+
+ass_mark_system = {
+	ass_ensure_ship_identifier = yes
+	ass_set_target_relation = yes
+	set_star_flag = "ass_target"
+	ROOT = { set_ship_flag = "ass_relation_system" }
+}
+
+# Invoke this when you need to abort the ships mission, for whatever reason
+# THIS must be the ship
+ass_unmark_target = {
+	switch = {
+		trigger = has_ship_flag
+		ass_relation_system = { ass_unmark_system = yes }
+		ass_relation_fleet = { ass_unmark_fleet = yes }
+		ass_relation_planet = { ass_unmark_planet = yes }
+	}
+}
+
+# Invoke in the scope you want to compare versus.
+# THIS must be an ass_target scope (fleet/system/planet)
+# PREV must be the ship
+# Sets AssCompareUUID on the ship
+ass_set_target_uuid = {
+	# Copy variable to mangle
+	set_variable = { which = "AssTmp" value = "AssUUID" }
+	# Setting it to zero just erases it if it existed before
+	PREV = { fleet = { set_variable = { which = "AssCompareUUID" value = 0 } } }
+	# Copy AssTmp to the ship
+	while = {
+		limit = { check_variable = { which = "AssTmp" value > 0 } }
+		subtract_variable = { which = "AssTmp" value = 1 }
+		PREV = {
+			fleet = { change_variable = { which = "AssCompareUUID" value = 1 } }
+		}
+	}
+}
+
+ass_unmark_system = {
+	while = {
+		limit = {
+			NOT = { has_global_flag = "ass_break" }
+			any_system = {
+				has_star_flag = "ass_target"
+				NOT = { has_star_flag = "ass_checked" }
+			}
+		}
+		random_system = {
+			limit = {
+				has_star_flag = "ass_target"
+				NOT = { has_star_flag = "ass_checked" }
+			}
+			# THIS is the system
+			# PREV is the ship
+			# We need to check if AssUUID is the same in both
+			ass_set_target_uuid = yes
+			# Now, in PREV, there's both AssCompareUUID and AssUUID.
+			# If they are the same, this was our target system.
+			if = {
+				limit = {
+					PREV = { fleet = { check_variable = { which = "AssUUID" value = "AssCompareUUID" } } }
+				}
+				PREV = { remove_ship_flag = "ass_relation_system" }
+				# We found our target system: reset it!
+				set_variable = { which = "AssUUID" value = 0 }
+				remove_star_flag = "ass_target"
+				set_global_flag = "ass_break"
+				log = "[Prev.GetName]: Uncoupled from system [this.GetName]."
+			else = {
+				set_star_flag = "ass_checked"
+			} }
+		}
+	}
+	remove_global_flag = "ass_break"
+	while = {
+		limit = {
+			any_system = { has_star_flag = "ass_checked" }
+		}
+		random_system = {
+			limit = { has_star_flag = "ass_checked" }
+			remove_star_flag = "ass_checked"
+		}
+	}
+}
+
+ass_unmark_fleet = {
+	while = {
+		limit = {
+			NOT = { has_global_flag = "ass_break" }
+			any_owned_fleet = {
+				has_fleet_flag = "ass_target"
+				NOT = { has_fleet_flag = "ass_checked" }
+			}
+		}
+		random_owned_fleet = {
+			limit = {
+				has_fleet_flag = "ass_target"
+				NOT = { has_fleet_flag = "ass_checked" }
+			}
+			# THIS is the fleet
+			# PREV is the ship
+			# We need to check if AssUUID is the same in both
+			ass_set_target_uuid = yes
+			# Now, in PREV, there's both AssCompareUUID and AssUUID.
+			# If they are the same, this was our target fleet.
+			if = {
+				limit = {
+					PREV = { fleet = { check_variable = { which = "AssUUID" value = "AssCompareUUID" } } }
+				}
+				PREV = { remove_ship_flag = "ass_relation_fleet" }
+				# We found our target fleet: reset it!
+				set_variable = { which = "AssUUID" value = 0 }
+				remove_fleet_flag = "ass_target"
+				set_global_flag = "ass_break"
+				log = "[Prev.GetName]: Uncoupled from fleet [this.GetName]."
+			else = {
+				set_fleet_flag = "ass_checked"
+			} }
+		}
+	}
+	remove_global_flag = "ass_break"
+	every_owned_fleet = {
+		limit = { has_fleet_flag = "ass_checked" }
+		remove_fleet_flag = "ass_checked"
+	}
+}
+
+# We could check any_planet_within_border but solar systems
+# might be removed from our borders while the ship is on mission.
+# So we need to check any_system = { any_planet }
+#
+# ZZZ I wonder if has_planet_flag triggers on stars that has
+# ZZZ set_star_flag with the same flag name.
+# ZZZ Probably not, and hopefully not.
+ass_unmark_planet = {
+	while = {
+		limit = {
+			NOT = { has_global_flag = "ass_break" }
+			any_system = {
+				any_planet = {
+					has_planet_flag = "ass_target"
+					NOT = { has_planet_flag = "ass_checked" }
+				}
+			}
+		}
+		random_planet = {
+			limit = {
+				has_planet_flag = "ass_target"
+				NOT = { has_planet_flag = "ass_checked" }
+			}
+			# THIS is the planet
+			# PREV is the ship
+			# We need to check if AssUUID is the same in both
+			ass_set_target_uuid = yes
+			# Now, in PREV, there's both AssCompareUUID and AssUUID.
+			# If they are the same, this was our target fleet.
+			if = {
+				limit = {
+					PREV = { fleet = { check_variable = { which = "AssUUID" value = "AssCompareUUID" } } }
+				}
+				PREV = { remove_ship_flag = "ass_relation_planet" }
+				# We found our target fleet: reset it!
+				set_variable = { which = "AssUUID" value = 0 }
+				remove_planet_flag = "ass_target"
+				set_global_flag = "ass_break"
+				log = "[Prev.GetName]: Uncoupled from planet [this.GetName]."
+			else = {
+				set_planet_flag = "ass_checked"
+			} }
+		}
+	}
+	remove_global_flag = "ass_break"
+	while = {
+		limit = {
+			any_system = { any_planet = { has_planet_flag = "ass_checked" } }
+		}
+		random_planet = {
+			limit = { has_planet_flag = "ass_checked" }
+			remove_planet_flag = "ass_checked"
+		}
+	}
+}
+

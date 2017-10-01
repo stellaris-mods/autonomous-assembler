@@ -1,0 +1,69 @@
+ass_minerals_move = {
+	ass_mark_planet = yes
+	PREVPREV = {
+		set_ship_flag = "ass_minerals"
+		fleet = {
+			set_fleet_flag = "autonomous_initial_order" # Removed instantly
+			set_fleet_flag = "autonomous_mission"
+			queue_actions = {
+				orbit_planet = PREVPREV
+				repeat = {
+					while = {
+						id = assMineralsMove.1
+						NOT = { is_fleet_idle = yes }
+					}
+					wait = 7
+				}
+				effect = {
+					id = assMineralsMove.2
+					PREV = { ass_station_mission_reached_destination = yes }
+				}
+			}
+		}
+	}
+}
+
+ass_minerals_priority_1 = {
+	# Find any shipclass_mining_station deposits in colonized systems, or
+	# deposits that are bigger than 2, or is strategic
+	closest_system = {
+		limit = {
+			is_inside_border = ROOT.owner
+			ass_is_friendly_system = yes
+			ass_check_minerals_priority_1 = yes
+		}
+		random_system_planet = {
+			limit = {
+				ass_valid_mining_planet = yes
+				OR = {
+					ass_has_valuable_minerals = yes
+					ass_has_any_minerals = yes
+				}
+			}
+			log = "[Prev.Prev.GetName]: Moving to [this.GetName] (Minerals P1)"
+			ass_minerals_move = yes
+		}
+	}
+}
+
+ass_minerals_priority_2 = {
+	# Find any mining deposit
+	closest_system = {
+		limit = {
+			is_inside_border = ROOT.owner
+			ass_is_friendly_system = yes
+			any_planet = {
+				ass_valid_mining_planet = yes
+				ass_has_any_minerals = yes
+			}
+		}
+		random_system_planet = {
+			limit = {
+				ass_valid_mining_planet = yes
+				ass_has_any_minerals = yes
+			}
+			log = "[Prev.Prev.GetName]: Moving to [this.GetName] (Minerals P2)"
+			ass_minerals_move = yes
+		}
+	}
+}

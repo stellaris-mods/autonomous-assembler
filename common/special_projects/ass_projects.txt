@@ -1,0 +1,150 @@
+
+special_project = {
+	event_chain = "autonomous_assembler_setup"
+	timelimit = -1
+	cost = 0
+	days_to_research = 7
+	tech_department = engineering_technology
+	event_scope = planet_event
+	on_fail = {}
+	location = no
+	picture = GFX_evt_hangar_bay
+
+	icon = "gfx/interface/icons/situation_log/situation_log_engineering.dds"
+	key = "ass_continue_operations"
+	on_success = {
+		owner = {
+			log = "ASS: Continue operations."
+			remove_country_flag = "ass_halt_operations"
+			every_owned_ship = {
+				limit = { is_ship_size = autonomous_assembler }
+				# This is only set by the go-home mission when the
+				# ship has reached the orbit of a planet.
+				remove_ship_flag = "ass_halt_operations"
+			}
+			country_event = { id = assCountry.500 }
+		}
+	}
+}
+
+special_project = {
+	event_chain = "autonomous_assembler_setup"
+	timelimit = -1
+	cost = 0
+	days_to_research = 7
+	tech_department = engineering_technology
+	event_scope = planet_event
+	on_fail = {}
+	location = no
+	picture = GFX_evt_big_landing_ship
+
+	icon = "gfx/interface/icons/situation_log/situation_log_engineering.dds"
+	key = "ass_halt_operations"
+	on_success = {
+		owner = {
+			log = "ASS: Halt operations until further notice."
+			set_country_flag = "ass_halt_operations"
+			every_owned_ship = {
+				limit = {
+					is_ship_size = autonomous_assembler
+					ass_has_mission = yes
+				}
+				ass_mission_abort = yes
+			}
+			country_event = { id = assCountry.500 }
+		}
+	}
+}
+
+special_project = {
+	event_chain = "autonomous_assembler_setup"
+	timelimit = -1
+	cost = 0
+	days_to_research = 7
+	tech_department = engineering_technology
+	event_scope = planet_event
+	on_fail = {}
+	location = no
+	picture = GFX_evt_space_station
+
+	icon = "gfx/interface/icons/situation_log/situation_log_engineering.dds"
+	key = "ass_go_home"
+	on_success = {
+		owner = {
+			log = "ASS: Go home to planet and dock for 3 months."
+			# Prevents any new operation from being undertaken
+			# We also set a timed flag on each ship when it reaches home
+			set_timed_country_flag = {
+				flag = "ass_halt_operations"
+				days = 90
+			}
+			# Prevents this project for showing up again for the next 90 days
+			set_country_flag = "ass_go_home"
+
+			# Make any owned ship head for home
+			every_owned_ship = {
+				limit = { is_ship_size = autonomous_assembler }
+				if = {
+					limit = { ass_has_mission = yes }
+					ass_mission_abort = yes
+				}
+				ass_set_mission_type = yes
+			}
+			country_event = { id = assCountry.500 }
+
+			# Just remove ass_go_home
+			country_event = { id = assCountry.400 days = 90 }
+		}
+	}
+}
+
+special_project = {
+	event_chain = "autonomous_assembler_setup"
+	timelimit = -1
+	cost = 0
+	days_to_research = 7
+	tech_department = engineering_technology
+	event_scope = planet_event
+	on_fail = {}
+	location = no
+	picture = GFX_evt_galactic_senate
+
+	icon = "gfx/interface/icons/situation_log/situation_log_engineering.dds"
+	key = "ass_increase_reserve"
+	on_success = {
+		owner = {
+			change_variable = {
+				which = "AssReserves"
+				value = 500
+			}
+			log = "ASS: Increased reserves to [this.AssReserves]."
+			country_event = { id = assCountry.500 }
+		}
+	}
+}
+
+special_project = {
+	event_chain = "autonomous_assembler_setup"
+	timelimit = -1
+	cost = 0
+	days_to_research = 7
+	tech_department = engineering_technology
+	event_scope = planet_event
+	on_fail = {}
+	location = no
+	picture = GFX_evt_galactic_senate
+
+	icon = "gfx/interface/icons/situation_log/situation_log_engineering.dds"
+	key = "ass_decrease_reserve"
+	on_success = {
+		owner = {
+			subtract_variable = {
+				which = "AssReserves"
+				value = 500
+			}
+			log = "ASS: Decreased reserves to [this.AssReserves]."
+			country_event = { id = assCountry.500 }
+		}
+	}
+	same_option_group_as = { ass_increase_reserve }
+}

@@ -1,0 +1,120 @@
+
+# XXX Needs redesign
+# XXX in this file we need to use move_to the system instead
+# XXX and then check the distance between the ship and the star
+# XXX and build the wormhole station at that distance in some random
+# XXX direction (or simply where we enter)
+
+# create_wormhole_station - Creates a wormhole station at the edge of the scoped system
+# create_wormhole_station = { owner = <target> angle = <random / int>
+# Supported Scopes: galactic_object
+# Supported Targets: none
+# Note the angle parameter.
+
+ass_wormhole_priority_1 = {
+	# Find any colonized system missing a wormhole station
+	closest_system = {
+		limit = {
+			NOT = { has_star_flag = "ass_target" }
+			is_inside_border = ROOT.owner
+			any_planet = {
+				ass_is_owners_planet = yes
+			}
+			ass_is_friendly_system = yes
+			NOT = {
+				any_ship_in_system = {
+					is_ship_class = shipclass_wormhole_station
+					exists = owner
+					owner = { is_same_value = ROOT.owner }
+				}
+			}
+		}
+		ass_mark_system = yes
+		random_system_planet = {
+			limit = {
+				ass_is_owners_planet = yes
+			}
+			log = "Found planet for wormhole station: [this.GetName]"
+			PREVPREV = {
+				set_ship_flag = "ass_wormhole"
+				fleet = {
+					set_fleet_flag = "autonomous_initial_order" # Removed instantly
+					queue_actions = {
+						orbit_planet = PREVPREV
+						repeat = {
+							while = {
+								id = assShipWormhole1.1
+								exists = PREVPREV
+								OR = {
+									NOT = { exists = orbit }
+									orbit = {
+										NOT = { is_same_value = PREVPREVPREV }
+									}
+								}
+							}
+							wait = 7
+						}
+						effect = {
+							id = assShipWormhole1.2
+							log = "Arrived at planet to build wormhole station post 1!"
+						}
+					}
+				}
+			}
+		}
+	}
+}
+
+# FTL_RANGE_WORMHOLE = 65
+ass_wormhole_priority_2 = {
+	# Find any system more than 60 distance from a wormhole station
+	closest_system = {
+		limit = {
+			NOT = { has_star_flag = "ass_target" }
+			is_inside_border = ROOT.owner
+			NOT = {
+				any_system = {
+					any_ship_in_system = {
+						exists = owner
+						is_ship_class = shipclass_wormhole_station
+						owner = { is_same_value = ROOT.owner }
+					}
+					distance = {
+						source = PREV
+						max_distance = 60
+					}
+				}
+			}
+		}
+		ass_mark_system = yes
+		random_system_planet = {
+			log = "Found planet for wormhole station: [this.GetName]"
+			PREVPREV = {
+				set_ship_flag = "ass_wormhole"
+				fleet = {
+					set_fleet_flag = "autonomous_initial_order" # Removed instantly
+					queue_actions = {
+						orbit_planet = PREVPREV
+						repeat = {
+							while = {
+								id = assShipWormhole2.1
+								exists = PREVPREV
+								OR = {
+									NOT = { exists = orbit }
+									orbit = {
+										NOT = { is_same_value = PREVPREVPREV }
+									}
+								}
+							}
+							wait = 7
+						}
+						effect = {
+							id = assShipWormhole2.2
+							log = "Arrived at planet to build wormhole station post 2!"
+						}
+					}
+				}
+			}
+		}
+	}
+}

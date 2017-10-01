@@ -1,0 +1,91 @@
+﻿l_english:
+
+autonomous_assembler: "Autonomous Assembler"
+autonomous_assembler_plural: "Autonomous Assemblers"
+
+# TODO make up an actual naming scheme for motherboards
+# TODO for ref: https://superuser.com/questions/91435/gigabyte-motherboards-name-deciphering
+DEFAULT_AUTONOMOUS_ASSEMBLER_SECTION: "AA-Tm39h-UDS4"
+
+ass_military_complex: "Station Marker"
+ass_military_complex_plural: "Station Markers"
+ASS_STATION_SECTION: "Station Marker"
+
+tech_autonomous_assembler: "Autonomous Assembler"
+tech_autonomous_assembler_desc: "Construction in space comes with all sorts of dangers, so if we would somehow send off autonomous construction ships instead of our manned ones, that would be much preferred."
+
+tech_autonomous_assembler_unlock_title: "§HUnlocks Ship Type:§! Autonomous Assembler"
+tech_autonomous_assembler_unlock_desc: "§HAutonomous Assembler§!\nAn automated construction ship with Corvette-like maneuverability, agility, speed, and evasion."
+
+tech_autonomous_assembler_station_title: "§HUnlocks Station:§! Station Marker"
+tech_autonomous_assembler_station_desc: "An Autonomous Assembler equipped with a Military Module will construct military stations in orbit around a manually constructed Station Marker."
+
+ASS_CPU_1: "TM3200"
+ASS_CPU_1_DESC: "The TM3200 is certainly notable for its revolutionary morphing software abstraction layer, rendering it capable of translating machine code instruction sets for any architecture into native instructions for its own pipeline."
+ASS_CPU_2: "TM3400"
+ASS_CPU_2_DESC: "Boosting the clock frequency from 50 GHz to 70 GHz allows running the non-native instruction sets at speeds similar to that of other hardware."
+ASS_CPU_3: "TM5200"
+ASS_CPU_3_DESC: "Installing the groundbreaking new power reduction technologies allows us to run the TM5200 at previously unimagined clock speeds, while only draining a smidge more power."
+ASS_CPU_4: "TM5400"
+ASS_CPU_4_DESC: "An iterative improvement on the TM5200, this new model is a natural improvement on its predecessor."
+ASS_CPU_5: "TM7200"
+ASS_CPU_5_DESC: "The apex achievement of our research program. The TM7200 allows for 512-bit VLIW molecule processing at speeds thought impossible from a physics perspective."
+
+ASS_EXPANSION_ENERGY_1: "Energy Module"
+ASS_EXPANSION_WORMHOLE_1: "Wormhole Module"
+ASS_EXPANSION_MILITARY_1: "Military Module"
+ASS_EXPANSION_OBSERVATION_1: "Observation Module"
+ASS_EXPANSION_RESEARCH_1: "Research Module"
+ASS_EXPANSION_MINERALS_1: "Mineral Module"
+ASS_EXPANSION_ENERGY_2: "$ASS_EXPANSION_ENERGY_1$"
+ASS_EXPANSION_WORMHOLE_2: "$ASS_EXPANSION_WORMHOLE_1$"
+ASS_EXPANSION_MILITARY_2: "$ASS_EXPANSION_MILITARY_1$"
+ASS_EXPANSION_OBSERVATION_2: "$ASS_EXPANSION_OBSERVATION_1$"
+ASS_EXPANSION_RESEARCH_2: "$ASS_EXPANSION_RESEARCH_1$"
+ASS_EXPANSION_MINERALS_2: "$ASS_EXPANSION_MINERALS_1$"
+
+ASS_EXPANSION_SLOT_1: "The primary expansion slot in the onboard computers high-speed serial bus must contain the instruction module for the operation you wish to grant higher priority."
+ASS_EXPANSION_SLOT_2: "The secondary expansion slot can contain an instruction module, if you wish the onboard computer to switch tasks after it has completed all tasks detected by the card inserted into the first expansion slot."
+
+ASS_EXPANSION_WORMHOLE_1_DESC: "$ASS_EXPANSION_SLOT_1$\n\nThis module will scan colonized systems for Wormhole stations, and if it does not find one we control, it will direct the ship towards that solar system and construct a Wormhole station."
+ASS_EXPANSION_MILITARY_1_DESC: "$ASS_EXPANSION_SLOT_1$\n\nLocates any §H$ass_military_complex$§! constructed inside our borders, moves there to dismantle it and sets up a network of military stations in its place."
+ASS_EXPANSION_RESEARCH_1_DESC: "$ASS_EXPANSION_SLOT_1$\n\nScans all planetary objects inside our space for §YSpecial Resources§!, and then any colonized system for any orbital research deposits, and finally any high-yielding research deposits inside our borders - and constructs a Research Station at the location, if needed."
+ASS_EXPANSION_MINERALS_1_DESC: "$ASS_EXPANSION_SLOT_1$\n\nFinds any orbital mineral deposit in colonized systems, any high-yielding deposit inside our borders, or any minable special resource, and creates a Mining Station there if needed."
+ASS_EXPANSION_ENERGY_1_DESC: "$ASS_EXPANSION_SLOT_1$\n\nFinds any orbital energy deposit in colonized systems, any high-yielding deposit inside our borders, or any minable special resource, and creates a Mining Station there if needed."
+
+ASS_EXPANSION_WORMHOLE_2_DESC: "$ASS_EXPANSION_SLOT_2$\n\nCalculates distances between solar systems and attempts to find any that are on the edge of our jump range, and moves there to construct Wormhole Stations."
+ASS_EXPANSION_MILITARY_2_DESC: "$ASS_EXPANSION_SLOT_2$\n\nAttempts to construct and maintain a military station in each of our colonized solar systems."
+ASS_EXPANSION_RESEARCH_2_DESC: "$ASS_EXPANSION_SLOT_2$\n\nConstructs a Research Station at any orbital deposit that can benefit us."
+ASS_EXPANSION_MINERALS_2_DESC: "$ASS_EXPANSION_SLOT_2$\n\nConstructs a Mining Station at any orbital mineral deposit that can benefit us."
+ASS_EXPANSION_ENERGY_2_DESC: "$ASS_EXPANSION_SLOT_2$\n\nConstructs a Mining Station at any orbital energy deposit that can benefit us."
+ASS_EXPANSION_EMPTY: "No expansion card in the second slot."
+
+ASS_OBS_DESC: "Places Observation Posts in orbit of any primitive civilization inside our borders."
+ASS_EXPANSION_OBSERVATION_1_DESC: "$ASS_EXPANSION_SLOT_1$\n\n$ASS_OBS_DESC$"
+ASS_EXPANSION_OBSERVATION_2_DESC: "$ASS_EXPANSION_SLOT_2$\n\n$ASS_OBS_DESC$$"
+
+# Mod menu
+autonomous_assembler_modmenu: "§YAutonomous Assembler ...§!"
+addonMenu.title: "Addon Features"
+addonMenu.desc: "Welcome! In this menu you can find lots of features to enable/disable before game start. You are the only player that has access to this menu, so please choose carefully - and most likely you should confer with any other players about which features to enable or disable.\n\n§PIt's important that you take the time to go through the menus. No other player can see this menu.§!"
+addonMenu.done: "§GApply features and close menu§!"
+addonMenu.back: "§Y<<< Back§!"
+
+# Setup projects
+autonomous_assembler_setup_title: "Autonomous Assembler"
+autonomous_assembler_setup_desc: "In this menu, you can configure the software that controls your §HAutonomous Assemblers§!. The ships are configured with a public key prior to launch, which is used to verify the signature of incoming configuration data. Given the huge expanses of our colonized space, there is no way we could do request-response cycles to differentiate between ships, or mathematically verify time signatures without setting an unreasonable timeout, which means that we broadcast the same settings in a wide-spectrum wavelength, and let all ships receive the same configuration. Of course, since they are equipped with different expansion cards, they might act upon the information - once verified - in different ways depending on local configuration.\n\n§PDon't research any of the projects while you are constructing assemblers.§!"
+
+ass_continue_operations: "Continue Operations"
+ass_continue_operations_DESC: "Send an encrypted message through subspace to all our listening §HAutonomous Assemblers§! that they should continue operations as normal."
+
+ass_halt_operations: "Halt Operations"
+ass_halt_operations_DESC: "Send an encrypted message through subspace to all our listening §HAutonomous Assemblers§! that they should halt all operations until further notice."
+
+ass_go_home: "Set course for colony"
+ass_go_home_DESC: "Call out to all §HAutonomous Assemblers§! with an encrypted message instructing them to locate the nearest of our colonies and dock there. The ones that get the message, will do so and be instructed to stay there for §G3 months§!. Any §HAutonomous Assemblers§! we build inside the next 3 months will also stay docked for 3 months after they are built."
+
+ass_increase_reserve: "Increase reserve"
+ass_increase_reserve_DESC: "Send out a new value to all §HAutonomous Assemblers§! that they should halt production of anything unless the empire has at least §G[root.AssReserves] + 500§! £minerals minerals in reserve, plus the cost of any operation they might have pending."
+
+ass_decrease_reserve: "Decrease reserve"
+ass_decrease_reserve_DESC: "Decrease the mandated reserve, and send out an encrypted subspace message to all §HAutonomous Assemblers§! that they may begin an operation provided the empires mineral reserves amount to §G[root.AssReserves] - 500§! £minerals, plus the cost of any operation they have pending."

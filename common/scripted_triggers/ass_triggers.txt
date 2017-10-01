@@ -1,0 +1,238 @@
+
+ass_check_research_priority_1 = {
+	OR = {
+		# Priority 1 = any sr_
+		any_planet = {
+			ass_valid_research_planet = yes
+			ass_has_strategic_research = yes
+		}
+		# Priority 2 = any high-yield
+		any_planet = {
+			ass_valid_research_planet = yes
+			ass_has_valuable_research = yes
+		}
+		# Priority 3 = any, if colonized system
+		AND = {
+			any_planet = {
+				ass_is_owners_planet = yes
+			}
+			any_planet = {
+				ass_valid_research_planet = yes
+				#ass_has_any_research = yes
+			}
+		}
+	}
+}
+
+ass_check_minerals_priority_1 = {
+	OR = {
+		any_planet = {
+			ass_valid_mining_planet = yes
+			ass_has_valuable_minerals = yes
+		}
+		AND = {
+			any_planet = {
+				ass_valid_mining_planet = yes
+				ass_has_any_minerals = yes
+			}
+			any_planet = {
+				ass_is_owners_planet = yes
+			}
+		}
+	}
+}
+
+ass_check_energy_priority_1 = {
+	OR = {
+		any_planet = {
+			ass_valid_mining_planet = yes
+			ass_has_valuable_energy = yes
+		}
+		AND = {
+			any_planet = {
+				ass_valid_mining_planet = yes
+				ass_has_any_energy = yes
+			}
+			any_planet = {
+				ass_is_owners_planet = yes
+			}
+		}
+	}
+}
+
+ass_is_friendly_system = {
+	NOT = {
+		any_ship_in_system = {
+			exists = owner
+			exists = fleet
+			owner = {
+				is_hostile = ROOT.owner
+			}
+		}
+	}
+}
+
+ass_has_mission = {
+	fleet = {
+		has_fleet_flag = "autonomous_mission"
+	}
+}
+
+ass_has_strategic_mining = {
+	OR = {
+		has_resource = sr_terraform_gases
+		has_resource = sr_terraform_liquids
+		has_resource = sr_garanthium
+		has_resource = sr_satramene
+	}
+}
+ass_has_valuable_minerals = {
+	orbital_deposit_tile = {
+		OR = {
+			has_resource = {
+				type = minerals
+				amount > 2
+			}
+			ass_has_strategic_mining = yes
+		}
+	}
+}
+ass_has_valuable_energy = {
+	orbital_deposit_tile = {
+		OR = {
+			has_resource = {
+				type = energy
+				amount > 2
+			}
+			ass_has_strategic_mining = yes
+		}
+	}
+}
+
+ass_has_strategic_research = {
+	OR = {
+		has_resource = sr_lythuric
+		has_resource = sr_engos
+		has_resource = sr_teldar
+		has_resource = sr_yuranic
+		has_resource = sr_orillium
+		has_resource = sr_pitharan
+		has_resource = sr_neutronium
+		has_resource = sr_living_metal
+		has_resource = sr_dark_matter
+		has_resource = sr_zro
+	}
+}
+ass_has_valuable_research = {
+	orbital_deposit_tile = {
+		OR = {
+			has_resource = {
+				type = engineering_research
+				amount > 2
+			}
+			has_resource = {
+				type = physics_research
+				amount > 2
+			}
+			has_resource = {
+				type = society_research
+				amount > 2
+			}
+			ass_has_strategic_research = yes
+		}
+	}
+}
+
+# This isn't used because ass_valid_research_planet
+# essentially tells us this already
+# ass_has_any_research = {
+# 	orbital_deposit_tile = {
+# 		OR = {
+# 			has_resource = engineering_research
+# 			has_resource = physics_research
+# 			has_resource = society_research
+# 			ass_has_strategic_research = yes
+# 		}
+# 	}
+# }
+
+# These two are needed because ass_valid_mining_planet
+# is used for both minerals and energy, and we need to
+# distinguish between the two.
+ass_has_any_minerals = {
+	orbital_deposit_tile = {
+		has_resource = minerals
+	}
+}
+
+ass_has_any_energy = {
+	orbital_deposit_tile = {
+		has_resource = energy
+	}
+}
+
+# Simply tests if we can mine the planet at all,
+# for either energy, minerals, or mined SRs
+ass_valid_mining_planet = {
+	NOT = { has_planet_flag = "ass_target" }
+	NOT = { exists = owner }
+	has_deposit_for = shipclass_mining_station
+	exists = orbital_deposit_tile
+	is_surveyed = { who = ROOT.owner status = yes }
+	has_mining_station = no
+	has_research_station = no # might not work
+	has_spaceport = no
+	is_colony = no
+	has_observation_outpost = no # might not work
+	has_orbital_station = no
+}
+
+ass_valid_research_planet = {
+	NOT = { has_planet_flag = "ass_target" }
+	NOT = { exists = owner }
+	has_deposit_for = shipclass_research_station
+	exists = orbital_deposit_tile
+	is_surveyed = { who = ROOT.owner status = yes }
+	has_research_station = no
+	has_mining_station = no # might not work
+	has_spaceport = no
+	is_colony = no
+	has_observation_outpost = no # might not work
+	has_orbital_station = no
+}
+
+ass_is_owners_planet = {
+	exists = owner
+	exists = controller
+	is_colony = yes
+	is_occupied_flag = no # Try to keep away from trouble
+	has_ground_combat = no
+	controller = { is_same_value = ROOT.owner }
+	owner = { is_same_value = ROOT.owner }
+}
+
+ass_is_station_marker = {
+	NOT = { has_fleet_flag = "ass_target" }
+	is_ship_class = shipclass_military_station
+	is_ship_size = ass_military_complex
+	exists = solar_system
+	solar_system = {
+		ass_is_friendly_system = yes
+	}
+}
+
+ass_valid_primitive_planet = {
+	NOT = { has_planet_flag = "ass_target" }
+	exists = owner
+	owner = { is_country_type = primitive }
+	is_surveyed = { who = ROOT.owner status = yes }
+	#has_spaceport = no # We can safely build if they're in early space age with spaceport
+	#has_research_station = no # Works
+	has_orbital_station = no # Works
+	has_observation_outpost = no
+}
+
+	# ZZZ These two dont work for primitive colonies for some reason
+	#has_observation_outpost = no # Returns true no matter yes/no
+	#has_mining_station = no # returns true no matter yes/no
+

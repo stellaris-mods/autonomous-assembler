@@ -1,0 +1,132 @@
+namespace = assCountry
+
+# on_tech_increased
+country_event = {
+	id = assCountry.100
+	title = "ASS JUMP"
+	desc = "You got the jump drive, but some of your autonomous assemblers are still using the wormhole expansion card. PLZFIXKTHX"
+	is_triggered_only = yes
+
+	trigger = {
+		OR = {
+			last_increased_tech = tech_jump_drive_1
+			last_increased_tech = tech_psi_jump_drive_1
+		}
+		any_owned_ship = {
+			is_ship_size = autonomous_assembler
+			OR = {
+				has_component = ASS_EXPANSION_WORMHOLE_1
+				has_component = ASS_EXPANSION_WORMHOLE_2
+			}
+		}
+	}
+	option = { name = OK }
+	immediate = {
+		log = "we got jump tech and need to fix our ships"
+	}
+}
+country_event = {
+	id = assCountry.101
+	hide_window = yes
+	is_triggered_only = yes
+
+	trigger = {
+		last_increased_tech = tech_autonomous_assembler
+	}
+
+	immediate = {
+		log = "Setting AssReserves for [this.GetName]."
+		set_variable = {
+			which = "AssReserves"
+			value = 100
+		}
+
+		country_event = { id = assCountry.500 }
+	}
+}
+
+# on_entering_battle
+# This = owner of fleet 1
+# From = owner of fleet 2
+# FromFrom = fleet 1
+# FromFromFrom = fleet 2
+country_event = {
+	id = assCountry.300
+	hide_window = yes
+	is_triggered_only = yes
+}
+
+# removes flag 90 days after the special project to go home
+country_event = {
+	id = assCountry.400
+	hide_window = yes
+	is_triggered_only = yes
+
+	immediate = {
+		remove_country_flag = "ass_go_home"
+		country_event = { id = assCountry.500 }
+	}
+}
+
+# Resets the event chain and all projects.
+# The reason we use an event and not simply an effect that we trigger
+# from the projects/etc is so that ROOT is a known scope in the
+# localisation strings for the projects.
+country_event = {
+	id = assCountry.500
+	hide_window = yes
+	is_triggered_only = yes
+
+	immediate = {
+		if = { limit = { has_event_chain = autonomous_assembler_setup }
+			end_event_chain = autonomous_assembler_setup
+		}
+		if = {
+			limit = {
+				is_ai = no
+				count_owned_ships = {
+					limit = { is_ship_size = autonomous_assembler }
+					count > 0
+				}
+			}
+			begin_event_chain = {
+				event_chain = autonomous_assembler_setup
+				target = ROOT
+			}
+			if = { limit = { has_country_flag = "ass_halt_operations" }
+				enable_special_project = {
+					name = ass_continue_operations
+					location = capital_scope
+					owner = THIS
+				}
+			}
+			if = { limit = { NOT = { has_country_flag = "ass_halt_operations" } }
+				enable_special_project = {
+					name = ass_halt_operations
+					location = capital_scope
+					owner = THIS
+				}
+			}
+			if = { limit = { NOT = { has_country_flag = "ass_go_home" } }
+				enable_special_project = {
+					name = ass_go_home
+					location = capital_scope
+					owner = THIS
+				}
+			}
+			enable_special_project = {
+				name = ass_increase_reserve
+				location = capital_scope
+				owner = THIS
+			}
+			if = {
+				limit = { check_variable = { which = "AssReserves" value > 599 } }
+				enable_special_project = {
+					name = ass_decrease_reserve
+					location = capital_scope
+					owner = THIS
+				}
+			}
+		}
+	}
+}

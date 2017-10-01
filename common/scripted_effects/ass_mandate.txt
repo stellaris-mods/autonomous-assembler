@@ -1,0 +1,37 @@
+# XXX Make sure we update mandate
+
+					# add_event_chain_counter = {
+					# 	event_chain = mandate_miner_chain
+					# 	counter = mining_stations_built
+					# 	amount = 1
+					# }
+					# if = {
+					# 	limit = {
+					# 		has_completed_event_chain_counter = {
+					# 			event_chain = mandate_miner_chain
+					# 			counter = mining_stations_built
+					# 		}
+					# 	}
+					# 	country_event = { id = mandate.111 }
+					# }
+
+
+	# if = {
+	# 	limit = {
+	# 		has_event_chain = mandate_miner_chain
+	# 	}
+	# 	add_event_chain_counter = {
+	# 		event_chain = mandate_miner_chain
+	# 		counter = mining_stations_built
+	# 		amount = 1
+	# 	}
+	# 	if = {
+	# 		limit = {
+	# 			has_completed_event_chain_counter = {
+	# 				event_chain = mandate_miner_chain
+	# 				counter = mining_stations_built
+	# 			}
+	# 		}
+	# 		country_event = { id = mandate.111 }
+	# 	}
+	# }

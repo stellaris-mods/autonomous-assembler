@@ -1,0 +1,65 @@
+
+tech_autonomous_assembler = {
+	cost = 360
+	area = engineering
+	tier = 1
+	category = { voidcraft }
+	prerequisites = { tech_space_construction }
+	weight = 100
+	gateway = ship
+
+	prereqfor_desc = {
+		ship = {
+			title = "tech_autonomous_assembler_unlock_title"
+			desc = "tech_autonomous_assembler_unlock_desc"
+		}
+		# ZZZ adding two hides the first one
+		# we might want to use two techs anyway
+		# ship = {
+		# 	title = "tech_autonomous_assembler_station_title"
+		# 	desc = "tech_autonomous_assembler_station_desc"
+		# }
+	}
+
+	weight_modifier = {
+		modifier = {
+			factor = 2
+			any_country = {
+				is_country_type = "default"
+				has_technology = "tech_autonomous_assembler"
+			}
+		}
+		modifier = {
+			factor = 2
+			num_owned_planets > 1
+		}
+		modifier = {
+			factor = 2
+			num_owned_planets > 2
+		}
+		modifier = {
+			factor = 2
+			num_owned_planets > 3
+		}
+		modifier = {
+			factor = 2
+			years_passed > 4
+		}
+		modifier = {
+			factor = 3
+			years_passed > 7
+		}
+		modifier = {
+			factor = 4
+			years_passed > 10
+		}
+		modifier = {
+			factor = 1.25
+			research_leader = {
+				area = engineering
+				has_trait = "leader_trait_expertise_voidcraft"
+			}
+		}
+	}
+	ai_weight = { factor = 0 }
+}

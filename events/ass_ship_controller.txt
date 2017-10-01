@@ -1,0 +1,202 @@
+
+# Hooooly fuckballs, on_ship_built triggers for AIs in 1.8.
+namespace = assShip
+
+ship_event = {
+	id = assShip.9001
+	hide_window = yes
+	is_triggered_only = yes
+	trigger = {
+		owner = { is_ai = no }
+		is_ship_size = autonomous_assembler
+		# This is set by the go-home mission, a timed flag for 3 months
+		NOT = { has_ship_flag = "ass_halt_operations" }
+	}
+	immediate = {
+		if = {
+			limit = { owner = { has_country_flag = "ass_halt_operations" } }
+			set_timed_ship_flag = {
+				flag = "ass_halt_operations"
+				days = 90
+			}
+			else = {
+				ass_set_mission_type = yes
+			}
+		}
+	}
+}
+
+# ZZZ This + on_ship_built are the only two places that invoke assShip.1
+# on_monthly_pulse
+event = {
+	id = assShip.102
+	hide_window = yes
+	is_triggered_only = yes
+
+	immediate = {
+		every_ship = {
+			limit = {
+				is_ship_size = autonomous_assembler
+				owner = {
+					is_ai = no
+					NOT = { has_country_flag = "ass_halt_operations" }
+				}
+				ass_has_mission = no
+				fleet = {
+					is_fleet_idle = yes
+				}
+			}
+			# ROOT needs to be the ship, so dont invoke the mission effect directly
+			ship_event = { id = assShip.9001 }
+		}
+	}
+}
+
+# on_ship_built
+# Root = Ship
+# From = Planet
+ship_event = {
+	id = assShip.1
+	hide_window = yes
+	is_triggered_only = yes
+	trigger = {
+		owner = { is_ai = no }
+		is_ship_size = autonomous_assembler
+		# This is set by the go-home mission, a timed flag for 3 months
+		NOT = { has_ship_flag = "ass_halt_operations" }
+	}
+	immediate = {
+		ship_event = { id = assShip.9001 }
+		# I have no idea when count_owned_ships updates, so delay 1 day.
+		owner = { country_event = { id = assCountry.500 days = 1 } }
+	}
+}
+
+# on_ship_order
+# Root = Ship
+# From = Country
+ship_event = {
+	id = assShip.100
+	hide_window = yes
+	is_triggered_only = yes
+	trigger = {
+		owner = { is_ai = no }
+		is_ship_size = autonomous_assembler
+		fleet = { has_fleet_flag = "autonomous_mission" }
+	}
+	immediate = {
+		fleet = {
+			if = {
+				limit = { has_fleet_flag = "autonomous_initial_order" }
+					remove_fleet_flag = "autonomous_initial_order"
+				else = {
+					log = "[Root.GetName]: Player gave ship a manual order, aborting."
+					ROOT = { ass_mission_abort = yes }
+				}
+			}
+		}
+	}
+}
+
+# on_ship_upgraded
+# root = ship
+ship_event = {
+	id = assShip.200
+	hide_window = yes
+	is_triggered_only = yes
+	trigger = {
+		is_ship_size = autonomous_assembler
+		owner = { is_ai = no }
+	}
+	immediate = {
+		owner = {
+			log = "[this.GetName] upgraded!"
+		}
+	}
+}
+
+# on_ship_destroyed_victim
+# This = owner of ship 1 (destroyed)
+# From = owner of ship 2 (combatant)
+# FromFrom = ship 1
+# FromFromFrom = ship 2
+country_event = {
+	id = assShip.300
+	hide_window = yes
+	is_triggered_only = yes
+	trigger = {
+		is_ai = no
+		FROMFROM = { is_ship_size = autonomous_assembler }
+	}
+	immediate = {
+		country_event = { id = assCountry.500 }
+	}
+}
+
+ship_event = {
+	id = assShip.1000
+	hide_window = yes
+	is_triggered_only = yes
+
+	immediate = {
+		# Reset relation_flag
+		fleet = {
+			orbit = {
+				log = "[root.GetName]: Removing relation to [this.GetName]."
+				set_variable = { which = "AssUUID" value = 0 }
+				remove_planet_flag = "ass_target"
+			}
+		}
+		remove_ship_flag = "ass_relation_planet"
+
+		switch = {
+			trigger = has_ship_flag
+			ass_minerals = { fleet = { orbit = { create_mining_station = { owner = ROOT.owner } } } }
+			ass_energy = { fleet = { orbit = { create_mining_station = { owner = ROOT.owner } } } }
+			ass_research = { fleet = { orbit = { create_research_station = { owner = ROOT.owner } } } }
+			# GOD DAMMIT I CANT MAKE OBS MISSIONS WORK
+			# 24/7 FROM-scope errors in log
+			# This laptop is just too slow to restart stellaris on 24/7, need to wait until
+			# I get home to my desktop.
+		}
+
+		# Ready for new adventures!
+		ass_mission_done = yes
+	}
+}
+
+# on monthly pulse
+event = {
+	id = assShip.2000
+	hide_window = yes
+	is_triggered_only = yes
+	immediate = {
+		every_country = {
+			limit = {
+				is_ai = no
+				any_owned_ship = { has_ship_flag = "ass_waiting_for_cash" }
+			}
+			ass_do_accounting = yes
+			every_owned_ship = {
+				limit = {
+					is_ship_size = autonomous_assembler
+					has_ship_flag = "ass_waiting_for_cash"
+				}
+				if = {
+					limit = {
+						owner = { ass_can_afford_civilian_station = yes }
+					}
+					remove_ship_flag = "ass_waiting_for_cash"
+					owner = {
+						# We only do accounting before every_owned_ship, there
+						# might be more than one ass waiting.
+						subtract_variable = { which = "AssMinerals" value = 90 }
+						add_minerals = -90
+					}
+					fleet = { set_event_locked = yes }
+					ship_event = { id = assShip.1000 days = 100 }
+				}
+			}
+		}
+	}
+}
