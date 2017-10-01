@@ -18,3 +18,10 @@ component_set = {
 	icon = "GFX_ship_part_sensor"
 	icon_frame = 1
 }
+
+component_set = {
+	key = "ass_military_station_type"
+	required_component_set = yes
+	icon = "GFX_ship_part_sensor"
+	icon_frame = 1
+}

@@ -21,6 +21,8 @@ ass_research_move = {
 	PREVPREV = {
 		set_ship_flag = "ass_research"
 		fleet = {
+			# XXX Modify cost according to country modifiers/rulers etc
+			set_variable = { which = "AssMissionCost" value = 90 }
 			set_fleet_flag = "autonomous_initial_order" # Removed instantly
 			set_fleet_flag = "autonomous_mission"
 			queue_actions = {

@@ -45,7 +45,6 @@ on_ship_destroyed_victim = { events = { assShip.300 } }
 on_entering_system_fleet = { events = { assFleet.200 } }
 on_entering_battle = { events = { assCountry.300 } }
 
-
 # XXX probably need these to unmark the ass_target
 on_fleet_disbanded = {
 	events = {

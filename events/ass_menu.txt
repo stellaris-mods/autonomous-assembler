@@ -47,6 +47,22 @@ country_event = {
 		}
 	}
 	option = {
+		name = "Disable hexagon tech"
+		trigger = { NOT = { has_global_flag = "ass_hexagon_disable" } }
+		hidden_effect = {
+			set_global_flag = "ass_hexagon_disable"
+			country_event = { id = assMenu.1 }
+		}
+	}
+	option = {
+		name = "Enable hexagon tech"
+		trigger = { has_global_flag = "ass_hexagon_disable" }
+		hidden_effect = {
+			remove_global_flag = "ass_hexagon_disable"
+			country_event = { id = assMenu.1 }
+		}
+	}
+	option = {
 		name = "Free Autonomous Assembler with tech"
 		trigger = { NOT = { has_global_flag = "ass_free" } }
 		hidden_effect = {

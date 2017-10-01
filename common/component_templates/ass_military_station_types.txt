@@ -1,0 +1,62 @@
+# All costs are at max vanilla tech, so we scale down
+# Small station marker to make it more usable
+# early game.
+
+# Small stations cost 300*6=1800
+utility_component_template = {
+	key = "ASS_TYPE_SMALL"
+	component_set = "ass_military_station_type"
+	size = medium
+	icon = "assgfx_tech_space_defense_station_1"
+	prerequisites = { "tech_space_defense_station_1" }
+	icon_frame = 1
+	power = 0
+	cost = 1500
+	ai_weight = { weight = 1 }
+}
+
+# 800*6=4800~5000
+utility_component_template = {
+	key = "ASS_TYPE_MEDIUM"
+	component_set = "ass_military_station_type"
+	size = medium
+	icon = "assgfx_tech_space_defense_station_2"
+	prerequisites = { "tech_space_defense_station_2" }
+	icon_frame = 1
+	power = 0
+	cost = 5000
+	ai_weight = { weight = 2 }
+}
+
+# 1500
+utility_component_template = {
+	key = "ASS_TYPE_LARGE"
+	component_set = "ass_military_station_type"
+	size = medium
+	icon = "assgfx_tech_space_defense_station_3"
+	prerequisites = { "tech_space_defense_station_3" }
+	icon_frame = 1
+	power = 0
+	cost = 9000
+	ai_weight = { weight = 3 }
+}
+
+# 2500, I should ask someone playing NSC
+utility_component_template = {
+	key = "ASS_TYPE_XLARGE"
+	component_set = "ass_military_station_type"
+	size = medium
+	icon = "assgfx_tech_battle_fortress_1"
+	prerequisites = { "tech_battle_fortress_1" }
+	icon_frame = 1
+	power = 0
+	cost = 15000
+	ai_weight = { weight = 4 }
+	valid_for_country = {
+		modifier = {
+			factor = 0
+			NOT = { has_global_flag = "has_nsc_active" }
+		}
+	}
+}
+

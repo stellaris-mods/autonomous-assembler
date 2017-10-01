@@ -1,29 +1,116 @@
-ass_do_accounting = {
+
+# ass_accounting_update_fleet = yes
+#
+# Copies AssMinerals from country to fleet.
+#
+# The main reason we have ass_accounting_update_fleet and
+# ass_accounting_count_minerals split is because in the monthly pulse
+# event that checks for cash for waiting ships, we only really need
+# to do ass_accounting_count_minerals once, and then
+# ass_accounting_update_fleet once per fleet.
+#
+# When a ship arrives at a target, we do ass_accounting_count_minerals
+# first, and then ass_accounting_update_fleet immediately.
+#
+# THIS = ship
+# owner.AssMinerals must be set and updated
+ass_accounting_update_fleet = {
+	fleet = {
+		set_variable = { which = "AssMinerals" value = 0 }
+		owner = {
+			# Make a copy we can mangle
+			set_variable = { which = "AssTmp" value = "AssMinerals" }
+			# Copy to fleet
+			while = {
+				limit = { check_variable = { which = "AssTmp" value > 1000 } }
+				PREV = { change_variable = { which = "AssMinerals" value = 1000 } }
+				subtract_variable = { which = "AssTmp" value = 1000 }
+			}
+			while = {
+				limit = { check_variable = { which = "AssTmp" value > 100 } }
+				PREV = { change_variable = { which = "AssMinerals" value = 100 } }
+				subtract_variable = { which = "AssTmp" value = 100 }
+			}
+			while = {
+				limit = { check_variable = { which = "AssTmp" value > 10 } }
+				PREV = { change_variable = { which = "AssMinerals" value = 10 } }
+				subtract_variable = { which = "AssTmp" value = 10 }
+			}
+			while = {
+				limit = { check_variable = { which = "AssTmp" value > 0 } }
+				PREV = { change_variable = { which = "AssMinerals" value = 1 } }
+				subtract_variable = { which = "AssTmp" value = 1 }
+			}
+		}
+		# AssMinerals in the fleet scope is updated
+	}
+}
+
+# This copies AssReserve from country to all assembler fleets
+# Automatically invoked every time we update reserves from a special
+# project, or we create a new assembler.
+# THIS = country
+ass_accounting_update_reserves = {
+	every_owned_fleet = {
+		limit = { is_ship_size = autonomous_assembler }
+		set_variable = { which = "AssReserve" value = 0 }
+		owner = {
+			# Make a copy we can mangle
+			set_variable = { which = "AssTmp" value = "AssReserve" }
+			# Copy to ship
+			while = {
+				limit = { check_variable = { which = "AssTmp" value > 1000 } }
+				PREV = { change_variable = { which = "AssReserve" value = 1000 } }
+				subtract_variable = { which = "AssTmp" value = 1000 }
+			}
+			while = {
+				limit = { check_variable = { which = "AssTmp" value > 100 } }
+				PREV = { change_variable = { which = "AssReserve" value = 100 } }
+				subtract_variable = { which = "AssTmp" value = 100 }
+			}
+			while = {
+				limit = { check_variable = { which = "AssTmp" value > 10 } }
+				PREV = { change_variable = { which = "AssReserve" value = 10 } }
+				subtract_variable = { which = "AssTmp" value = 10 }
+			}
+			while = {
+				limit = { check_variable = { which = "AssTmp" value > 0 } }
+				PREV = { change_variable = { which = "AssReserve" value = 1 } }
+				subtract_variable = { which = "AssTmp" value = 1 }
+			}
+		}
+		log = "[this.GetName]: Updated AssReserve to [this.AssReserve]."
+	}
+}
+
+# Counts the available minerals
+# THIS = country
+ass_accounting_count_minerals = {
 	# Hard Reset
 	set_variable = { which = "AssMinerals" value = 0 }
-	# First, set AssMinerals to as many minerals as the country has
+	# First, set AssMinerals2 to as many minerals as the country has
 	while = {
-		limit = { has_country_resource = { type = minerals amount > 10000 } }
+		limit = { minerals > 10000 }
 		add_minerals = -10000
 		change_variable = { which = "AssMinerals" value = 10000 }
 	}
 	while = {
-		limit = { has_country_resource = { type = minerals amount > 1000 } }
+		limit = { minerals > 1000 }
 		add_minerals = -1000
 		change_variable = { which = "AssMinerals" value = 1000 }
 	}
 	while = {
-		limit = { has_country_resource = { type = minerals amount > 100 } }
+		limit = { minerals > 100 }
 		add_minerals = -100
 		change_variable = { which = "AssMinerals" value = 100 }
 	}
 	while = {
-		limit = { has_country_resource = { type = minerals amount > 10 } }
+		limit = { minerals > 10 }
 		add_minerals = -10
 		change_variable = { which = "AssMinerals" value = 10 }
 	}
 	while = {
-		limit = { has_country_resource = { type = minerals amount > 0 } }
+		limit = { minerals > 0 }
 		add_minerals = -1
 		change_variable = { which = "AssMinerals" value = 1 }
 	}
@@ -51,3 +138,182 @@ ass_do_accounting = {
 		subtract_variable = { which = "AssTmp" value = 1 }
 	}
 }
+
+# THIS = ship
+ass_accounting_grabdatcash = {
+	# Makes sure we refund the country AssMissionCost if we abort.
+	set_ship_flag = "ass_refund_if_aborted"
+	fleet = {
+		log = "[Prev.GetName]: Grabbing mission cost [this.AssMissionCost]."
+		# Make a copy we can mangle
+		set_variable = { which = "AssTmp" value = "AssMissionCost" }
+		while = {
+			limit = {
+				check_variable = { which = "AssTmp" value > 1000 }
+				owner = { minerals > 1000 }
+			}
+			owner = { add_minerals = -1000 }
+			change_variable = { which = "AssTmp" value = -1000 }
+		}
+		while = {
+			limit = {
+				check_variable = { which = "AssTmp" value > 100 }
+				owner = { minerals > 100 }
+			}
+			owner = { add_minerals = -100 }
+			change_variable = { which = "AssTmp" value = -100 }
+		}
+		while = {
+			limit = {
+				check_variable = { which = "AssTmp" value > 10 }
+				owner = { minerals > 10 }
+			}
+			owner = { add_minerals = -10 }
+			change_variable = { which = "AssTmp" value = -10 }
+		}
+		while = {
+			limit = {
+				check_variable = { which = "AssTmp" value > 0 }
+				owner = { minerals > 0 }
+			}
+			owner = { add_minerals = -1 }
+			change_variable = { which = "AssTmp" value = -1 }
+		}
+	}
+}
+
+# THIS = ship
+ass_accounting_refund = {
+	fleet = {
+		log = "[Prev.GetName]: refunding [this.AssMissionCost]."
+		# Make a copy we can mangle. Could "probably" mangle
+		# the main variable now, since we're probably aborting mission.
+		# No need to take any risks with future behaviors.
+		set_variable = { which = "AssTmp" value = "AssMissionCost" }
+		while = {
+			limit = { check_variable = { which = "AssTmp" value > 1000 } }
+			owner = { add_minerals = 1000 }
+			change_variable = { which = "AssTmp" value = -1000 }
+		}
+		while = {
+			limit = { check_variable = { which = "AssTmp" value > 100 } }
+			owner = { add_minerals = 100 }
+			change_variable = { which = "AssTmp" value = -100 }
+		}
+		while = {
+			limit = { check_variable = { which = "AssTmp" value > 10 } }
+			owner = { add_minerals = 10 }
+			change_variable = { which = "AssTmp" value = -10 }
+		}
+		while = {
+			limit = { check_variable = { which = "AssTmp" value > 0 } }
+			owner = { add_minerals = 1 }
+			change_variable = { which = "AssTmp" value = -1 }
+		}
+	}
+}
+
+
+
+# build_cost_mult
+
+# trait_ruler_expansionist = {
+# 	cost = 1
+# 	modification = no
+# 	icon = "gfx/interface/icons/traits/leader_traits/trait_ruler_expansionist.dds"
+# 	leader_potential_add = {
+# 		NOT = { from = { has_ethic = "ethic_gestalt_consciousness" } }
+# 	}
+# 	modifier = {
+# 		shipsize_outpost_station_build_cost_mult = -0.15
+# 		country_colony_influence_cost_mult = -0.15
+# 	}
+# 	leader_trait = yes
+# 	leader_class = { ruler }
+# }
+
+
+# trait_ruler_fortifier = {
+# 	cost = 1
+# 	modification = no
+# 	icon = "gfx/interface/icons/traits/leader_traits/trait_ruler_fortifier.dds"
+# 	leader_potential_add = {
+# 		NOT = { from = { has_ethic = "ethic_gestalt_consciousness" } }
+# 	}
+# 	modifier = {
+# 		shipsize_military_station_small_build_cost_mult = -0.2
+# 		shipsize_military_station_small_upkeep_mult = -0.2
+# 		shipsize_military_station_medium_build_cost_mult = -0.2
+# 		shipsize_military_station_medium_upkeep_mult = -0.2
+# 		shipsize_military_station_large_build_cost_mult = -0.2
+# 		shipsize_military_station_large_upkeep_mult = -0.2
+# 	}
+# 	leader_trait = yes
+# 	leader_class = { ruler }
+# 	prerequisites = { tech_space_defense_station_1 }
+# }
+
+# trait_ruler_space_miner = {
+# 	cost = 1
+# 	modification = no
+# 	icon = "gfx/interface/icons/traits/leader_traits/trait_ruler_space_miner.dds"
+# 	leader_potential_add = {
+# 		NOT = { from = { has_ethic = "ethic_gestalt_consciousness" } }
+# 	}
+# 	modifier = {
+# 		shipsize_constructor_build_cost_mult = -0.25
+# 		shipsize_mining_station_build_cost_mult = -0.25
+# 	}
+# 	leader_trait = yes
+# 	leader_class = { ruler }
+# }
+
+# tech_space_defense_station_improvement = {
+# 	cost = @tier2cost3
+# 	area = engineering
+# 	tier = 2
+# 	category = { voidcraft }
+# 	prerequisites = { "tech_space_defense_station_2" }
+# 	is_rare = yes
+# 	weight = @tier2weight3
+
+# 	# unlocks spaceport-module - reinforced hull layers
+# 	# unlock defense station +25% HP and -10% cost
+
+# 	modifier = {
+# 		shipclass_military_station_build_cost_mult = -0.15
+# 		shipclass_military_station_hit_points_mult = 0.25
+# 	}
+
+# agenda_defensive_focus = {
+# 	weight_modifier = {
+# 		weight = 100
+# 		modifier = {
+# 			factor = 1.5
+# 				from = {
+# 					has_ethic = ethic_militarist
+# 				}
+# 			}
+# 		modifier = {
+# 			factor = 2
+# 				from = {
+# 					has_ethic = ethic_fanatic_militarist
+# 				}
+# 			}
+# 		modifier = {
+# 			factor = 1.5
+# 			leader_class = admiral
+# 		}
+# 		modifier = {
+# 			factor = 2
+# 			leader_class = general
+# 		}
+# 	}
+
+# 	modifier = {
+# 		shipclass_military_station_build_cost_mult = -0.15
+# 		shipclass_military_station_damage_mult = 0.25
+# 		shipclass_military_station_hit_points_mult = 0.25
+# 	}
+# }
+

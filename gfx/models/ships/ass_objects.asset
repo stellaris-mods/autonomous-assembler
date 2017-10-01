@@ -1,0 +1,7 @@
+# Ambient Objects used as placeholders for military stations
+
+entity = {
+	name = "ass_test_construction"
+	pdxmesh = "ass_construction_bot_mesh"
+	scale = 1.2
+}

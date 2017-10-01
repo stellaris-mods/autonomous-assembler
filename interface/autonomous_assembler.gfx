@@ -1,4 +1,20 @@
 spriteTypes = {
+	spriteType = {
+		name = "assgfx_tech_space_defense_station_1"
+		texturefile = "gfx/type_small.dds"
+	}
+	spriteType = {
+		name = "assgfx_tech_space_defense_station_2"
+		texturefile = "gfx/type_medium.dds"
+	}
+	spriteType = {
+		name = "assgfx_tech_space_defense_station_3"
+		texturefile = "gfx/type_large.dds"
+	}
+	spriteType = {
+		name = "assgfx_tech_battle_fortress_1"
+		texturefile = "gfx/interface/icons/technologies/tech_battle_fortress_1.dds"
+	}
 
 	spriteType = {
 		name = "assgfx_exp_military"

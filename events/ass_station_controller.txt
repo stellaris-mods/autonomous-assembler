@@ -1,0 +1,5 @@
+
+
+# on monthly pulse
+# find any ass_marker_used that are missing their stations
+# with no ass_target mark and replace missing stations

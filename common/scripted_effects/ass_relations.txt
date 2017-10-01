@@ -204,35 +204,39 @@ ass_unmark_fleet = {
 	while = {
 		limit = {
 			NOT = { has_global_flag = "ass_break" }
-			any_owned_fleet = {
-				has_fleet_flag = "ass_target"
-				NOT = { has_fleet_flag = "ass_checked" }
+			owner = {
+				any_owned_fleet = {
+					has_fleet_flag = "ass_target"
+					NOT = { has_fleet_flag = "ass_checked" }
+				}
 			}
 		}
-		random_owned_fleet = {
-			limit = {
-				has_fleet_flag = "ass_target"
-				NOT = { has_fleet_flag = "ass_checked" }
-			}
-			# THIS is the fleet
-			# PREV is the ship
-			# We need to check if AssUUID is the same in both
-			ass_set_target_uuid = yes
-			# Now, in PREV, there's both AssCompareUUID and AssUUID.
-			# If they are the same, this was our target fleet.
-			if = {
+		owner = {
+			random_owned_fleet = {
 				limit = {
-					PREV = { fleet = { check_variable = { which = "AssUUID" value = "AssCompareUUID" } } }
+					has_fleet_flag = "ass_target"
+					NOT = { has_fleet_flag = "ass_checked" }
 				}
-				PREV = { remove_ship_flag = "ass_relation_fleet" }
-				# We found our target fleet: reset it!
-				set_variable = { which = "AssUUID" value = 0 }
-				remove_fleet_flag = "ass_target"
-				set_global_flag = "ass_break"
-				log = "[Prev.GetName]: Uncoupled from fleet [this.GetName]."
-			else = {
-				set_fleet_flag = "ass_checked"
-			} }
+				# THIS is the fleet
+				# PREV is the ship
+				# We need to check if AssUUID is the same in both
+				ass_set_target_uuid = yes
+				# Now, in PREV, there's both AssCompareUUID and AssUUID.
+				# If they are the same, this was our target fleet.
+				if = {
+					limit = {
+						PREVPREV = { fleet = { check_variable = { which = "AssUUID" value = "AssCompareUUID" } } }
+					}
+					PREVPREV = { remove_ship_flag = "ass_relation_fleet" }
+					# We found our target fleet: reset it!
+					set_variable = { which = "AssUUID" value = 0 }
+					remove_fleet_flag = "ass_target"
+					set_global_flag = "ass_break"
+					log = "[Prev.GetName]: Uncoupled from fleet [this.GetName]."
+				else = {
+					set_fleet_flag = "ass_checked"
+				} }
+			}
 		}
 	}
 	remove_global_flag = "ass_break"

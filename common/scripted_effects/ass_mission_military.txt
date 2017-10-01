@@ -1,116 +1,369 @@
 
-# XXX This is the big one, create a military complex.
-# XXX I'm thinking a formation like:
-# XXX CENTER = military station with the aura magnet thingy
-# XXX 6 points at X range from CENTER, in a circle: military stations
-# XXX I have not investigated if I can pull this off, but I see
-# XXX no reason why it should be impossible.
-ass_military_priority_1 = {
-	# Find any constructed skeletons and expand around it
-	# if we have more than 7500 minerals
-	owner = {
-		if = {
-			limit = {
-				minerals > 7499.99
-				any_owned_fleet = {
-					ass_is_station_marker = yes
+# XXX Modify cost according to country modifiers/rulers etc
+# And try to find some cost values that make kind of sense
+# throughout the tech levels. Note that these are slightly
+# lower than the ones used in the ASS_TYPE_* components. For now.
+@costXL = 2250
+@costL = 1400
+@costM = 700
+@costS = 250
+
+# Jeez has_ambient_object_flag can't be used inside any_ambient_object
+# or any_system_ambient_object. What the fuck is that about.
+
+ass_military_spawn_at_ambient = {
+	solar_system = {
+		every_system_ambient_object = {
+			limit = { has_ambient_object_flag = "ass_spawn_here" }
+			create_fleet = {
+				effect = {
+					set_owner = ROOT.owner
+					set_location = PREV
 				}
 			}
-			#add_minerals = -7500
-			log = "Taking 7500 minerals."
-			random_owned_fleet = {
-				limit = {
-					ass_is_station_marker = yes
+			PREVPREV = {
+				switch = {
+					trigger = has_component
+					ASS_TYPE_XLARGE = { last_created_fleet = { create_ship = { name = random random_existing_design = military_station_xlarge } } }
+					ASS_TYPE_LARGE  = { last_created_fleet = { create_ship = { name = random random_existing_design = military_station_large } } }
+					ASS_TYPE_MEDIUM = { last_created_fleet = { create_ship = { name = random random_existing_design = military_station_medium } } }
+					ASS_TYPE_SMALL  = { last_created_fleet = { create_ship = { name = random random_existing_design = military_station_small } } }
 				}
-				log = "Starting to move towards military priority 1: [this.GetName]"
-				ass_mark_fleet = yes
-				PREVPREV = {
-					set_ship_flag = "ass_military"
-					fleet = {
-						set_fleet_flag = "autonomous_initial_order" # Removed instantly
-						queue_actions = {
-							move_to = PREVPREV
-							repeat = {
-								while = {
-									id = assShipMilitary1.1
-									exists = PREVPREV
-									distance = {
-										source = PREVPREV
-										max_distance = 10
-									}
-								}
-								wait = 7
-							}
-							effect = {
-								id = assShipMilitary1.2
-								log = "Arrived at military station marker!"
-							}
-						}
+			}
+			destroy_ambient_object = THIS
+		}
+	}
+}
+
+# XXX Things spawn instantly right now.
+ass_military_at_marker = {
+	PREVPREVPREV = {
+		random_owned_ship = { # fleet ships
+			log = "[this.GetName] at station marker."
+			switch = {
+				trigger = has_component
+				ASS_TYPE_SMALL = {
+					ass_military_spawn_placeholders_50 = yes
+					ass_military_spawn_at_ambient = yes
+				}
+				ASS_TYPE_MEDIUM = {
+					ass_military_spawn_placeholders_50 = yes
+					ass_military_spawn_at_ambient = yes
+				}
+				ASS_TYPE_LARGE = {
+					ass_military_spawn_placeholders_80 = yes
+					ass_military_spawn_at_ambient = yes
+				}
+				ASS_TYPE_XLARGE = {
+					ass_military_spawn_placeholders_80 = yes
+					ass_military_spawn_at_ambient = yes
+				}
+			}
+		}
+		remove_fleet_flag = "ass_target"
+		set_fleet_flag = "ass_marker_used" # Marker used up
+	}
+	# Clear relation flags and mark mission complete
+	remove_ship_flag = "ass_relation_fleet"
+	ass_mission_done = yes
+}
+
+# Chained from assShip.1000
+ass_military_spawn_single = {
+	fleet = {
+		orbit = {
+			create_fleet = {
+				effect = {
+					set_owner = ROOT.owner
+					set_location = PREV
+				}
+			}
+		}
+	}
+	switch = {
+		trigger = has_ship_flag
+		ass_station_xlarge = { last_created_fleet = { create_ship = { name = random random_existing_design = military_station_xlarge } } }
+		ass_station_large  = { last_created_fleet = { create_ship = { name = random random_existing_design = military_station_large } } }
+		ass_station_medium = { last_created_fleet = { create_ship = { name = random random_existing_design = military_station_medium } } }
+		ass_station_small  = { last_created_fleet = { create_ship = { name = random random_existing_design = military_station_small } } }
+	}
+}
+
+# ZZZ Set cost and station type before you run this
+ass_military_move = {
+	ass_mark_planet = yes
+	PREVPREV = {
+		set_ship_flag = "ass_military"
+		fleet = {
+			set_fleet_flag = "autonomous_initial_order" # Removed instantly
+			set_fleet_flag = "autonomous_mission"
+			queue_actions = {
+				orbit_planet = PREVPREV
+				repeat = {
+					while = {
+						id = assMilitaryStation.1
+						NOT = { is_fleet_idle = yes }
 					}
+					wait = 7
+				}
+				effect = {
+					id = assMilitaryStation.2
+					PREV = { ass_station_mission_reached_destination = yes }
 				}
 			}
 		}
 	}
 }
 
-# XXX we can spawn an ambient object with a random distance and
-# XXX angle to the system planet, and build the station there
-# XXX Or any invisible entity that we can move_to with queue_actions
-#
-# Might want to do this because it just "looks better" than always
-# building stations in orbits around planets.
-# Of course, we can just create_fleet and set_location with a bigger
-# offset and angle, but then the assembler might look like it's too
-# far away from what it produces.
-#
-# XXX test create_fleet with no ships, set_location on it, and move
-# XXX to it, and then create the station.
-#
-ass_military_priority_2 = {
-	# Find any colonized system without a military station
-	closest_system = {
-		limit = {
-			is_inside_border = ROOT.owner
-			NOT = { has_star_flag = "ass_target" }
-			any_planet = { ass_is_owners_planet = yes }
-			ass_is_friendly_system = yes
-			NOT = {
-				any_ship_in_system = {
-					exists = owner
-					owner = { is_same_value = ROOT.owner }
-					is_ship_class = shipclass_military_station
+# ZZZ Note that we check has_orbital_station = no for most of these.
+# ZZZ We don't actually need to care about that, but the effect we chain
+# ZZZ to later, errors if there is anything in orbit of the target planet
+# ZZZ already. Which is something I'll fix eventually.
+
+ass_military_priority_1 = {
+	# Priority 1 is:
+	#  1.1: Find any station markers with tech_ass_hexagon
+	#  1.2: Find any colonized system without a station
+	owner = {
+		if = {
+			limit = {
+				#has_technology = "tech_ass_hexagon" XXX
+				any_owned_fleet = {
+					ass_is_station_marker = yes
 				}
 			}
-		}
-		ass_mark_system = yes
-		random_system_planet = {
-			log = "Found colonized system without military station, moving to [this.GetName]."
-			PREVPREV = {
-				set_ship_flag = "ass_military"
-				fleet = {
-					set_fleet_flag = "autonomous_initial_order" # Removed instantly
-					queue_actions = {
-						orbit_planet = PREVPREV
-						repeat = {
-							while = {
-								id = assShipMilitary2.1
-								exists = PREVPREV
-								OR = {
-									NOT = { exists = orbit }
-									orbit = {
-										NOT = { is_same_value = PREVPREVPREV }
-									}
+			random_owned_fleet = {
+				limit = { ass_is_station_marker = yes }
+				log = "[Prev.Prev.GetName]: Moving to [this.GetName] (Station Marker)"
+				ass_mark_fleet = yes
+				PREVPREV = {
+					set_ship_flag = "ass_military"
+					fleet = {
+						set_fleet_flag = "autonomous_initial_order" # Removed instantly
+						set_fleet_flag = "autonomous_mission"
+						queue_actions = {
+							move_to = PREVPREV
+							repeat = {
+								while = {
+									id = assMilitaryMarker.1
+									NOT = { is_fleet_idle = yes }
 								}
+								wait = 7
 							}
-							wait = 7
-						}
-						effect = {
-							id = assShipMilitary2.2
-							log = "Arrived at planet to build station around!"
+							effect = {
+								id = assMilitaryMarker.2
+								PREV = { ass_military_at_marker = yes }
+							}
 						}
 					}
 				}
 			}
 		}
 	}
+
+	if = {
+		limit = { NOT = { has_ship_flag = "ass_military"} }
+		# We did not find any markers, so locate a system without a station
+		# depending on our tech level.
+
+		# XXX we need to use a system-relation instead of planet for these
+
+		# ZZZ Hopefully
+		# Requires much less processing to have an if-elseif statement here
+		# than to do and OR/AND/OR thing in the closest_system limiter.
+		if = {
+			limit = {
+				has_global_flag = "has_nsc_active"
+				owner = { has_technology = "tech_space_defense_station_3" }
+			}
+			closest_system = {
+				limit = {
+					is_inside_border = ROOT.owner
+					ass_is_friendly_system = yes
+					any_planet = { has_orbital_station = no }
+					any_planet = { ass_is_owners_planet = yes }
+					ass_exists_military_xlarge = no
+				}
+				random_system_planet = {
+					limit = { has_orbital_station = no }
+					PREVPREV = {
+						fleet = { set_variable = { which = "AssMissionCost" value = @costXL } }
+						set_ship_flag = "ass_station_xlarge"
+						remove_ship_flag = "ass_station_large"
+						remove_ship_flag = "ass_station_medium"
+						remove_ship_flag = "ass_station_small"
+					}
+					log = "[Prev.Prev.GetName]: Moving to [this.GetName] (Military XL)"
+					ass_military_move = yes
+				}
+			}
+		else = { if = { limit = { owner = { has_technology = "tech_space_defense_station_3" } }
+			closest_system = {
+				limit = {
+					is_inside_border = ROOT.owner
+					ass_is_friendly_system = yes
+					any_planet = { has_orbital_station = no }
+					any_planet = { ass_is_owners_planet = yes }
+					ass_exists_military_large = no
+				}
+				random_system_planet = {
+					limit = { has_orbital_station = no }
+					PREVPREV = {
+						fleet = { set_variable = { which = "AssMissionCost" value = @costL } }
+						remove_ship_flag = "ass_station_xlarge"
+						set_ship_flag = "ass_station_large"
+						remove_ship_flag = "ass_station_medium"
+						remove_ship_flag = "ass_station_small"
+					}
+					log = "[Prev.Prev.GetName]: Moving to [this.GetName] (Military L)"
+					ass_military_move = yes
+				}
+			}
+		else = { if = { limit = { owner = { has_technology = "tech_space_defense_station_2" } }
+			closest_system = {
+				limit = {
+					is_inside_border = ROOT.owner
+					ass_is_friendly_system = yes
+					any_planet = { has_orbital_station = no }
+					any_planet = { ass_is_owners_planet = yes }
+					ass_exists_military_medium = no
+				}
+				random_system_planet = {
+					limit = { has_orbital_station = no }
+					PREVPREV = {
+						fleet = { set_variable = { which = "AssMissionCost" value = @costM } }
+						remove_ship_flag = "ass_station_xlarge"
+						remove_ship_flag = "ass_station_large"
+						set_ship_flag = "ass_station_medium"
+						remove_ship_flag = "ass_station_small"
+					}
+					log = "[Prev.Prev.GetName]: Moving to [this.GetName] (Military M)"
+					ass_military_move = yes
+				}
+			}
+		else = { if = { limit = { owner = { has_technology = "tech_space_defense_station_1" } }
+			closest_system = {
+				limit = {
+					is_inside_border = ROOT.owner
+					ass_is_friendly_system = yes
+					any_planet = { has_orbital_station = no }
+					any_planet = { ass_is_owners_planet = yes }
+					ass_exists_military_small = no
+				}
+				random_system_planet = {
+					limit = { has_orbital_station = no }
+					PREVPREV = {
+						fleet = { set_variable = { which = "AssMissionCost" value = @costS } }
+						remove_ship_flag = "ass_station_xlarge"
+						remove_ship_flag = "ass_station_large"
+						remove_ship_flag = "ass_station_medium"
+						set_ship_flag = "ass_station_small"
+					}
+					log = "[Prev.Prev.GetName]: Moving to [this.GetName] (Military S)"
+					ass_military_move = yes
+				}
+			}
+		} } } } } } }
+	}
+}
+
+# XXX test create_fleet with no ships, set_location on it, and move
+# XXX to it, and then create the station.
+#
+ass_military_priority_2 = {
+	# Find any owned system without a military station
+	# XXX we need to use a system-relation instead of planet for these
+
+	# ZZZ Hopefully
+	# Requires much less processing to have an if-elseif statement here
+	# than to do and OR/AND/OR thing in the closest_system limiter.
+	if = {
+		limit = {
+			has_global_flag = "has_nsc_active"
+			owner = { has_technology = "tech_space_defense_station_3" }
+		}
+		closest_system = {
+			limit = {
+				is_inside_border = ROOT.owner
+				ass_is_friendly_system = yes
+				any_planet = { has_orbital_station = no }
+				ass_exists_military_xlarge = no
+			}
+			random_system_planet = {
+				limit = { has_orbital_station = no }
+				PREVPREV = {
+					fleet = { set_variable = { which = "AssMissionCost" value = @costXL } }
+					set_ship_flag = "ass_station_xlarge"
+					remove_ship_flag = "ass_station_large"
+					remove_ship_flag = "ass_station_medium"
+					remove_ship_flag = "ass_station_small"
+				}
+				log = "[Prev.Prev.GetName]: Moving to [this.GetName] (Military P2 XL)"
+				ass_military_move = yes
+			}
+		}
+	else = { if = { limit = { owner = { has_technology = "tech_space_defense_station_3" } }
+		closest_system = {
+			limit = {
+				is_inside_border = ROOT.owner
+				ass_is_friendly_system = yes
+				any_planet = { has_orbital_station = no }
+				ass_exists_military_large = no
+			}
+			random_system_planet = {
+				limit = { has_orbital_station = no }
+				PREVPREV = {
+					fleet = { set_variable = { which = "AssMissionCost" value = @costL } }
+					remove_ship_flag = "ass_station_xlarge"
+					set_ship_flag = "ass_station_large"
+					remove_ship_flag = "ass_station_medium"
+					remove_ship_flag = "ass_station_small"
+				}
+				log = "[Prev.Prev.GetName]: Moving to [this.GetName] (Military P2 L)"
+				ass_military_move = yes
+			}
+		}
+	else = { if = { limit = { owner = { has_technology = "tech_space_defense_station_2" } }
+		closest_system = {
+			limit = {
+				is_inside_border = ROOT.owner
+				ass_is_friendly_system = yes
+				any_planet = { has_orbital_station = no }
+				ass_exists_military_medium = no
+			}
+			random_system_planet = {
+				limit = { has_orbital_station = no }
+				PREVPREV = {
+					fleet = { set_variable = { which = "AssMissionCost" value = @costM } }
+					remove_ship_flag = "ass_station_xlarge"
+					remove_ship_flag = "ass_station_large"
+					set_ship_flag = "ass_station_medium"
+					remove_ship_flag = "ass_station_small"
+				}
+				log = "[Prev.Prev.GetName]: Moving to [this.GetName] (Military P2 M)"
+				ass_military_move = yes
+			}
+		}
+	else = { if = { limit = { owner = { has_technology = "tech_space_defense_station_1" } }
+		closest_system = {
+			limit = {
+				is_inside_border = ROOT.owner
+				ass_is_friendly_system = yes
+				any_planet = { has_orbital_station = no }
+				ass_exists_military_small = no
+			}
+			random_system_planet = {
+				limit = { has_orbital_station = no }
+				PREVPREV = {
+					fleet = { set_variable = { which = "AssMissionCost" value = @costS } }
+					remove_ship_flag = "ass_station_xlarge"
+					remove_ship_flag = "ass_station_large"
+					remove_ship_flag = "ass_station_medium"
+					set_ship_flag = "ass_station_small"
+				}
+				log = "[Prev.Prev.GetName]: Moving to [this.GetName] (Military P2 S)"
+				ass_military_move = yes
+			}
+		}
+	} } } } } } }
 }

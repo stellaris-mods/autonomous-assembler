@@ -1,7 +1,37 @@
 
+
+# This updates AssMinimum before we use the ass_can_afford trigger.
+ass_update_total_cost = {
+	fleet = {
+		set_variable = { which = "AssMinimum" value = "AssMissionCost" }
+		change_variable = { which = "AssMinimum" value = "AssReserve" }
+		log = "Country bank: [this.AssMinerals]."
+		log = "Country reserve: [this.AssReserve]."
+		log = "Mission cost: [this.AssMissionCost]."
+		log = "Minimum bank: [this.AssMinimum]."
+	}
+}
+
+ass_build_station = {
+	ass_update_total_cost = yes
+	if = {
+		limit = { ass_can_afford = yes }
+		ass_accounting_grabdatcash = yes
+
+		remove_ship_flag = "ass_waiting_for_cash"
+		log = "[this.GetName]: Constructing station..."
+		ship_event = { id = assShip.1000 days = 100 }
+
+		else = {
+			log = "[this.GetName]: Waiting for resources..."
+			set_ship_flag = "ass_waiting_for_cash"
+		}
+	}
+}
+
 # THIS must be the ship
 ass_station_mission_reached_destination = {
-	log = "[this.GetName]: Probably at destination ... [this.Orbit.GetName]."
+	log = "[this.GetName]: Probably at destination [this.Orbit.GetName]."
 	# XXX If we are not orbiting a planet now, that means something
 	# XXX happened to us enroute, and we did not abort the mission.
 	if = {
@@ -18,36 +48,24 @@ ass_station_mission_reached_destination = {
 					has_orbital_station = no
 				}
 			}
-			owner = { ass_do_accounting = yes }
+			# ZZZ Now we either wait for cash or build, so lock now.
 			fleet = { set_event_locked = yes }
 
-			if = {
-				limit = {
-					owner = { ass_can_afford_civilian_station = yes }
-				}
-				owner = {
-					subtract_variable = { which = "AssMinerals" value = 90 }
-					add_minerals = -90
-				}
-				# XXX Set variable on fleet that says how many minerals we took
-				# XXX And if we get aborted at any point before .1000, refund.
-				log = "[this.GetName]: Constructing station..."
-				ship_event = { id = assShip.1000 days = 100 }
+			owner = { ass_accounting_count_minerals = yes }
 
-				else = {
-					log = "[this.GetName]: Waiting for resources..."
-					set_ship_flag = "ass_waiting_for_cash"
-				}
-			}
+			ass_accounting_update_fleet = yes
+			ass_build_station = yes
 
 			else = {
 				log = "[this.GetName]: ERROR: There's already some sort of station in orbit."
+				# XXX need to mark this planet so we ignore it at least for a timed_flag
 				ass_mission_abort = yes
 			}
 		}
 
 		else = {
 			log = "[this.GetName]: ERROR: Reached end of queue_actions without a mission. That's weird."
+			# XXX need to mark this planet so we ignore it at least for a timed_flag
 			ass_mission_abort = yes
 		}
 	}

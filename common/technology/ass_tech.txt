@@ -63,3 +63,61 @@ tech_autonomous_assembler = {
 	}
 	ai_weight = { factor = 0 }
 }
+
+tech_ass_hexagon = {
+	cost = 1800
+	area = engineering
+	tier = 2
+	category = { voidcraft }
+	prerequisites = { "tech_autonomous_assembler" "tech_space_defense_station_2" }
+	is_rare = yes
+	weight = 65
+
+	prereqfor_desc = {
+		ship = {
+			title = "tech_ass_hexagon_unlock_title"
+			desc = "tech_ass_hexagon_unlock_desc"
+		}
+	}
+
+	weight_modifier = {
+		factor = 0.5
+		modifier = {
+			factor = 0
+			has_global_flag = "ass_hexagon_disable"
+		}
+		modifier = {
+			factor = 4
+			has_global_flag = "has_nsc_active"
+		}
+		modifier = {
+			factor = 0.5
+			NOR = {
+				research_leader = {
+					area = engineering
+					has_trait = "leader_trait_expertise_voidcraft"
+				}
+				research_leader = {
+					area = engineering
+					has_trait = "leader_trait_curator"
+				}
+			}
+		}
+		modifier = {
+			factor = 1.25
+			OR = {
+				has_ethic = ethic_militarist
+				has_ethic = ethic_fanatic_militarist
+			}
+		}
+		modifier = {
+			factor = 6
+			any_country = {
+				is_country_type = "default"
+				has_technology = "tech_ass_hexagon"
+			}
+		}
+	}
+
+	ai_weight = { factor = 0 }
+}

@@ -35,12 +35,11 @@ country_event = {
 	}
 
 	immediate = {
-		log = "Setting AssReserves for [this.GetName]."
+		log = "Setting AssReserve for [this.GetName]."
 		set_variable = {
-			which = "AssReserves"
+			which = "AssReserve"
 			value = 100
 		}
-
 		country_event = { id = assCountry.500 }
 	}
 }
@@ -89,6 +88,9 @@ country_event = {
 					count > 0
 				}
 			}
+			# Set the AssReserve variable on all fleets
+			ass_accounting_update_reserves = yes
+
 			begin_event_chain = {
 				event_chain = autonomous_assembler_setup
 				target = ROOT
@@ -120,7 +122,7 @@ country_event = {
 				owner = THIS
 			}
 			if = {
-				limit = { check_variable = { which = "AssReserves" value > 599 } }
+				limit = { check_variable = { which = "AssReserve" value > 599 } }
 				enable_special_project = {
 					name = ass_decrease_reserve
 					location = capital_scope

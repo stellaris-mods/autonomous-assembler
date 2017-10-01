@@ -678,3 +678,155 @@ entity = {
 	locator = { name = "part9" }
 	locator = { name = "part10" }
 }
+
+# Construction entities
+
+entity = {
+	name = "ai_01_blue_ass_military_complex_construction_entity"
+	pdxmesh = "ai_01_blue_station_small_mesh"
+
+	default_state = "idle"
+	state = { name = "idle" animation = "idle" animation_speed = 0 }
+	scale = 0.75
+}
+
+entity = {
+	name = "ai_01_ass_military_complex_construction_entity"
+	pdxmesh = "ai_01_station_small_mesh"
+
+	default_state = "idle"
+	state = { name = "idle" animation = "idle" animation_speed = 0 }
+	scale = 0.75
+}
+
+entity = {
+	name = "arthropoid_01_ass_military_complex_construction_entity"
+	pdxmesh = "arthropoid_01_terraforming_station_mesh"
+		default_state = "idle"
+		state = { name = "idle" state_time = 5
+			event = { trigger_once = yes sound = { soundeffect = "place_construction" } }
+		}
+
+	scale = 1.8
+}
+
+entity = {
+	name = "avian_01_ass_military_complex_construction_entity"
+	pdxmesh = "avian_01_terraforming_station_mesh"
+		default_state = "idle"
+		state = { name = "idle" animation = "rotate" animation_speed = 0
+			event = { trigger_once = yes sound = { soundeffect = "place_construction" } }
+		}
+	scale = 1.0
+}
+
+entity = {
+	name = "fallen_empire_01_ass_military_complex_construction_entity"
+	pdxmesh = "fallen_empire_01_station_small_mesh"
+		default_state = "idle"
+		state = { name = "idle" state_time = 5
+			event = { trigger_once = yes sound = { soundeffect = "place_construction" } }
+		}
+	scale = 1.5
+}
+
+entity = {
+	name = "fallen_empire_02_ass_military_complex_construction_entity"
+	pdxmesh = "fallen_empire_02_station_small_mesh"
+		default_state = "idle"
+		state = { name = "idle" state_time = 5
+			event = { trigger_once = yes sound = { soundeffect = "place_construction" } }
+		}
+	scale = 1.5
+}
+
+entity = {
+	name = "fallen_empire_03_ass_military_complex_construction_entity"
+	pdxmesh = "fallen_empire_03_station_small_mesh"
+		default_state = "idle"
+		state = { name = "idle" state_time = 5
+			event = { trigger_once = yes sound = { soundeffect = "place_construction" } }
+		}
+	scale = 1.5
+}
+
+entity = {
+	name = "fallen_empire_04_ass_military_complex_construction_entity"
+	pdxmesh = "fallen_empire_04_station_small_mesh"
+		default_state = "idle"
+		state = { name = "idle" state_time = 5
+			event = { trigger_once = yes sound = { soundeffect = "place_construction" } }
+		}
+	scale = 1.5
+}
+
+entity = {
+	name = "fallen_machine_empire_01_ass_military_complex_construction_entity"
+	pdxmesh = "fallen_machine_empire_01_station_small_mesh"
+		default_state = "idle"
+		state = { name = "idle" state_time = 5
+			event = { trigger_once = yes sound = { soundeffect = "place_construction" } }
+		}
+	scale = 1.5
+}
+
+entity = {
+	name = "fungoid_01_ass_military_complex_construction_entity"
+	pdxmesh = "fungoid_01_terraforming_station_mesh"
+		default_state = "idle"
+		state = { name = "idle" animation = "idle" animation_speed = 0
+			event = { trigger_once = yes sound = { soundeffect = "place_construction" } }
+		}
+	scale = 1.0
+}
+
+entity = {
+	name = "mammalian_01_ass_military_complex_construction_entity"
+	pdxmesh = "mammalian_01_terraforming_station_mesh"
+		default_state = "idle"
+		state = { name = "idle" state_time = 5
+			event = { trigger_once = yes sound = { soundeffect = "place_construction" } }
+		}
+	scale = 1.5
+}
+
+entity = {
+	name = "molluscoid_01_ass_military_complex_construction_entity"
+	pdxmesh = "molluscoid_01_terraforming_station_mesh"
+		default_state = "idle"
+		state = { name = "idle" animation = "idle"
+					event = { trigger_once = yes sound = { soundeffect = "place_construction" } }
+		}
+	scale = 0.9
+}
+
+entity = {
+	name = "plantoid_01_ass_military_complex_construction_entity"
+	pdxmesh = "plantoid_01_terraforming_station_mesh"
+		default_state = "idle"
+		state = { name = "idle" state_time = 5
+			event = { trigger_once = yes sound = { soundeffect = "place_construction" } }
+		}
+
+	scale = 1.1
+}
+
+entity = {
+	name = "reptilian_01_ass_military_complex_construction_entity"
+	pdxmesh = "reptilian_01_terraforming_station_mesh"
+		default_state = "idle"
+		state = { name = "idle" state_time = 5
+			event = { trigger_once = yes sound = { soundeffect = "place_construction" } }
+		}
+	scale = 1.0
+}
+
+entity = {
+	name = "swarm_01_ass_military_complex_construction_entity"
+	pdxmesh = "swarm_01_station_small_mesh"
+		default_state = "idle"
+		state = { name = "idle" state_time = 5
+			event = { trigger_once = yes sound = { soundeffect = "place_construction" } }
+		}
+	scale = 1.0
+}

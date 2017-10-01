@@ -1,0 +1,27 @@
+
+ambient_object = {
+	name = "ass_spawn_here"
+	entity = "ass_test_construction"
+	selectable = no
+	show_name = no
+}
+
+# #!/usr/bin/lua
+# local tmpl = [[
+# ambient_object = {
+# 	name = "%s"
+# 	entity = "%s"
+# 	selectable = no
+# 	show_name = no
+# }
+# ]]
+# local gfx = { "ai_01_blue", "ai_01", "arthropoid_01", "avian_01", "fallen_empire_01", "fallen_empire_02", "fallen_empire_03", "fallen_empire_04", "fallen_machine_empire_01", "fungoid_01", "mammalian_01", "molluscoid_01", "plantoid_01", "reptilian_01"}
+# local ent = "%s_military_station_%%s_construction_entity"
+# local obj = "ass_%s_%%s"
+# for _, cult in next, gfx do
+# 	local cent = ent:format(cult)
+# 	local cobj = obj:format(cult)
+# 	print(tmpl:format( (cobj:format("small")), (cent:format("small"))))
+# 	print(tmpl:format( (cobj:format("medium")), (cent:format("medium"))))
+# 	print(tmpl:format( (cobj:format("large")), (cent:format("large"))))
+# end

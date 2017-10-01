@@ -1,0 +1,113 @@
+ass_military_spawn_placeholders_50 = {
+	create_ambient_object = { type = "ass_spawn_here" location = PREV }
+	last_created_ambient_object = {
+		set_ambient_object_flag = "ass_spawn_here"
+		set_location = {
+			target = PREV
+			distance = 50
+			angle = 0
+		}
+	}
+	create_ambient_object = { type = "ass_spawn_here" location = PREV }
+	last_created_ambient_object = {
+		set_ambient_object_flag = "ass_spawn_here"
+		set_location = {
+			target = PREV
+			distance = 50
+			angle = 60
+		}
+	}
+	create_ambient_object = { type = "ass_spawn_here" location = PREV }
+	last_created_ambient_object = {
+		set_ambient_object_flag = "ass_spawn_here"
+		set_location = {
+			target = PREV
+			distance = 50
+			angle = 120
+		}
+	}
+	create_ambient_object = { type = "ass_spawn_here" location = PREV }
+	last_created_ambient_object = {
+		set_ambient_object_flag = "ass_spawn_here"
+		set_location = {
+			target = PREV
+			distance = 50
+			angle = 180
+		}
+	}
+	create_ambient_object = { type = "ass_spawn_here" location = PREV }
+	last_created_ambient_object = {
+		set_ambient_object_flag = "ass_spawn_here"
+		set_location = {
+			target = PREV
+			distance = 50
+			angle = 240
+		}
+	}
+	create_ambient_object = { type = "ass_spawn_here" location = PREV }
+	last_created_ambient_object = {
+		set_ambient_object_flag = "ass_spawn_here"
+		set_location = {
+			target = PREV
+			distance = 50
+			angle = 300
+		}
+	}
+}
+
+ass_military_spawn_placeholders_80 = {
+	create_ambient_object = { type = "ass_spawn_here" location = PREV }
+	last_created_ambient_object = {
+		set_ambient_object_flag = "ass_spawn_here"
+		set_location = {
+			target = PREV
+			distance = 80
+			angle = 0
+		}
+	}
+	create_ambient_object = { type = "ass_spawn_here" location = PREV }
+	last_created_ambient_object = {
+		set_ambient_object_flag = "ass_spawn_here"
+		set_location = {
+			target = PREV
+			distance = 80
+			angle = 60
+		}
+	}
+	create_ambient_object = { type = "ass_spawn_here" location = PREV }
+	last_created_ambient_object = {
+		set_ambient_object_flag = "ass_spawn_here"
+		set_location = {
+			target = PREV
+			distance = 80
+			angle = 120
+		}
+	}
+	create_ambient_object = { type = "ass_spawn_here" location = PREV }
+	last_created_ambient_object = {
+		set_ambient_object_flag = "ass_spawn_here"
+		set_location = {
+			target = PREV
+			distance = 80
+			angle = 180
+		}
+	}
+	create_ambient_object = { type = "ass_spawn_here" location = PREV }
+	last_created_ambient_object = {
+		set_ambient_object_flag = "ass_spawn_here"
+		set_location = {
+			target = PREV
+			distance = 80
+			angle = 240
+		}
+	}
+	create_ambient_object = { type = "ass_spawn_here" location = PREV }
+	last_created_ambient_object = {
+		set_ambient_object_flag = "ass_spawn_here"
+		set_location = {
+			target = PREV
+			distance = 80
+			angle = 300
+		}
+	}
+}

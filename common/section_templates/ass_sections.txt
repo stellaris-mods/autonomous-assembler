@@ -19,5 +19,7 @@ ship_section_template = {
 	entity = "ass_invisible_section_entity"
 	icon = "GFX_ship_part_core_mid"
 
-	#small_utility_slots =
+	medium_utility_slots = 2
+	large_utility_slots = 4
+	aux_utility_slots = 1
 }

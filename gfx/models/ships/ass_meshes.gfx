@@ -1,0 +1,7 @@
+objectTypes = {
+	pdxmesh = {
+		name = "ass_construction_bot_mesh"
+		file = "gfx/models/ships/mammalian_01/mammalian_01_construction_bot.mesh"
+		scale = 1.0
+	}
+}

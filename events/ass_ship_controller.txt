@@ -139,6 +139,8 @@ ship_event = {
 	is_triggered_only = yes
 
 	immediate = {
+		# XXX add mission completion effects instead of this
+
 		# Reset relation_flag
 		fleet = {
 			orbit = {
@@ -151,9 +153,16 @@ ship_event = {
 
 		switch = {
 			trigger = has_ship_flag
-			ass_minerals = { fleet = { orbit = { create_mining_station = { owner = ROOT.owner } } } }
-			ass_energy = { fleet = { orbit = { create_mining_station = { owner = ROOT.owner } } } }
+			ass_minerals = {
+				fleet = { orbit = { create_mining_station = { owner = ROOT.owner } } }
+				owner = { ass_update_miner_mandate = yes }
+			}
+			ass_energy = {
+				fleet = { orbit = { create_mining_station = { owner = ROOT.owner } } }
+				owner = { ass_update_miner_mandate = yes }
+			}
 			ass_research = { fleet = { orbit = { create_research_station = { owner = ROOT.owner } } } }
+			ass_military = { ass_military_spawn_single = yes }
 			# GOD DAMMIT I CANT MAKE OBS MISSIONS WORK
 			# 24/7 FROM-scope errors in log
 			# This laptop is just too slow to restart stellaris on 24/7, need to wait until
@@ -176,25 +185,25 @@ event = {
 				is_ai = no
 				any_owned_ship = { has_ship_flag = "ass_waiting_for_cash" }
 			}
-			ass_do_accounting = yes
+			ass_accounting_count_minerals = yes
+
 			every_owned_ship = {
 				limit = {
 					is_ship_size = autonomous_assembler
 					has_ship_flag = "ass_waiting_for_cash"
 				}
-				if = {
-					limit = {
-						owner = { ass_can_afford_civilian_station = yes }
-					}
-					remove_ship_flag = "ass_waiting_for_cash"
-					owner = {
-						# We only do accounting before every_owned_ship, there
-						# might be more than one ass waiting.
-						subtract_variable = { which = "AssMinerals" value = 90 }
-						add_minerals = -90
-					}
-					fleet = { set_event_locked = yes }
-					ship_event = { id = assShip.1000 days = 100 }
+				set_ship_flag = "ass_check_cash"
+			}
+
+			while = {
+				limit = { any_owned_ship = { has_ship_flag = "ass_check_cash" } }
+				random_owned_ship = {
+					limit = { has_ship_flag = "ass_check_cash" }
+
+					ass_accounting_update_fleet = yes
+					ass_build_station = yes
+
+					remove_ship_flag = "ass_check_cash"
 				}
 			}
 		}

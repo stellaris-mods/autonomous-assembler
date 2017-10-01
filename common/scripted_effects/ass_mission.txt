@@ -32,37 +32,12 @@ ass_set_mission_type = {
 			# XXX add scripted effect that addons can override for more components
 		}
 	}
-
-
-	# if = {
-	# 	limit = { ass_has_mission = no }
-	# 	log = "Checking 1.2..."
-	# 	switch = {
-	# 		trigger = has_component
-	# 		ASS_EXPANSION_MILITARY_1 = { ass_military_priority_2 = yes }
-	# 		ASS_EXPANSION_MINERALS_1 = { ass_minerals_priority_2 = yes }
-	# 		ASS_EXPANSION_ENERGY_1 = { ass_energy_priority_2 = yes }
-	# 		ASS_EXPANSION_RESEARCH_1 = { ass_research_priority_2 = yes }
-	# 		ASS_EXPANSION_WORMHOLE_1 = { ass_wormhole_priority_2 = yes }
-	# 	}
-	# }
-	# if = {
-	# 	limit = { ass_has_mission = no }
-	# 	log = "Checking 2.1..."
-	# 	switch = {
-	# 		trigger = has_component
-	# 		ASS_EXPANSION_MILITARY_2 = { ass_military_priority_1 = yes }
-	# 		ASS_EXPANSION_MINERALS_2 = { ass_minerals_priority_1 = yes }
-	# 		ASS_EXPANSION_ENERGY_2 = { ass_energy_priority_1 = yes }
-	# 		ASS_EXPANSION_RESEARCH_2 = { ass_research_priority_1 = yes }
-	# 		ASS_EXPANSION_OBSERVATION_2 = { ass_observation_priority_1 = yes }
-	# 		ASS_EXPANSION_WORMHOLE_2 = { ass_wormhole_priority_1 = yes }
-	# 	}
-	# }
 }
 
 ass_mission_done = {
 	log = "[this.GetName]: Mission complete."
+
+	# Mission types
 	remove_ship_flag = "ass_go_home"
 	remove_ship_flag = "ass_minerals"
 	remove_ship_flag = "ass_energy"
@@ -70,6 +45,20 @@ ass_mission_done = {
 	remove_ship_flag = "ass_observation"
 	remove_ship_flag = "ass_military"
 	remove_ship_flag = "ass_wormhole"
+
+	# Other flags that _require_ removal
+	# - none for now
+
+	# Other flags we want to remove, simply
+	# because we dont want to clutter up the debugtooltip.
+	# Dont add any here that _require_ removal.
+	remove_ship_flag = "ass_refund_if_aborted"
+	remove_ship_flag = "ass_waiting_for_cash"
+	remove_ship_flag = "ass_station_xlarge"
+	remove_ship_flag = "ass_station_large"
+	remove_ship_flag = "ass_station_medium"
+	remove_ship_flag = "ass_station_small"
+
 	fleet = {
 		set_event_locked = no
 		remove_fleet_flag = "autonomous_initial_order"
@@ -81,6 +70,11 @@ ass_mission_done = {
 # THIS needs to be the ship
 ass_mission_abort = {
 	log = "[this.GetName]: Mission forcefully aborted."
+	if = {
+		limit = { has_ship_flag = "ass_refund_if_aborted" }
+		ass_accounting_refund = yes
+		remove_ship_flag = "ass_refund_if_aborted"
+	}
 	ass_unmark_target = yes
 	ass_mission_done = yes
 }

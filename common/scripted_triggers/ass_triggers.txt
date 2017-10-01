@@ -1,4 +1,33 @@
 
+ass_exists_military_small = {
+	any_ship_in_system = {
+		exists = owner
+		owner = { is_same_value = ROOT.owner }
+		is_ship_size = military_station_small
+	}
+}
+ass_exists_military_medium = {
+	any_ship_in_system = {
+		exists = owner
+		owner = { is_same_value = ROOT.owner }
+		is_ship_size = military_station_medium
+	}
+}
+ass_exists_military_large = {
+	any_ship_in_system = {
+		exists = owner
+		owner = { is_same_value = ROOT.owner }
+		is_ship_size = military_station_large
+	}
+}
+ass_exists_military_xlarge = {
+	any_ship_in_system = {
+		exists = owner
+		owner = { is_same_value = ROOT.owner }
+		is_ship_size = military_station_xlarge
+	}
+}
+
 ass_check_research_priority_1 = {
 	OR = {
 		# Priority 1 = any sr_
@@ -212,6 +241,7 @@ ass_is_owners_planet = {
 }
 
 ass_is_station_marker = {
+	NOT = { has_fleet_flag = "ass_marker_used" }
 	NOT = { has_fleet_flag = "ass_target" }
 	is_ship_class = shipclass_military_station
 	is_ship_size = ass_military_complex

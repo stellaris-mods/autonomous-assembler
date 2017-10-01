@@ -114,10 +114,10 @@ special_project = {
 	on_success = {
 		owner = {
 			change_variable = {
-				which = "AssReserves"
+				which = "AssReserve"
 				value = 500
 			}
-			log = "ASS: Increased reserves to [this.AssReserves]."
+			log = "ASS: Increased reserves to [this.AssReserve]."
 			country_event = { id = assCountry.500 }
 		}
 	}
@@ -139,10 +139,10 @@ special_project = {
 	on_success = {
 		owner = {
 			subtract_variable = {
-				which = "AssReserves"
+				which = "AssReserve"
 				value = 500
 			}
-			log = "ASS: Decreased reserves to [this.AssReserves]."
+			log = "ASS: Decreased reserves to [this.AssReserve]."
 			country_event = { id = assCountry.500 }
 		}
 	}
