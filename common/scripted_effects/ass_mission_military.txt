@@ -127,7 +127,7 @@ ass_military_priority_1 = {
 	owner = {
 		if = {
 			limit = {
-				#has_technology = "tech_ass_hexagon" XXX
+				has_technology = "tech_ass_hexagon"
 				any_owned_fleet = {
 					ass_is_station_marker = yes
 				}
