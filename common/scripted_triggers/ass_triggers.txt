@@ -1,5 +1,6 @@
 
 ass_is_friendly_system = {
+	has_access_fleet = ROOT.owner # XXX testing
 	NOT = {
 		any_ship_in_system = {
 			exists = owner

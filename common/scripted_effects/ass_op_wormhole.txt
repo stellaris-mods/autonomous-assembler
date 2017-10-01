@@ -6,6 +6,16 @@ ass_stage1_set_wormhole = {
 	}
 }
 
+# Wormhole stations do not require survey data.
+# They don't require borders either, but let's not get crazy.
+
+# XXX Wormhole range
+# FTL_RANGE_WORMHOLE = 65
+# tech_wormhole_generation_2: ship_ftl_wormhole_range_mult = 0.5
+# tech_wormhole_generation_3: ship_ftl_wormhole_range_mult = 0.5
+# So at tech 3, it's 65+65 = 130
+# In P2 below, we only check within 65 now, we need to fix that for the tech.
+
 ass_stage1_wormhole_p1 = {
 	# Find any colonized system missing a wormhole station
 	closest_system = {
@@ -28,13 +38,26 @@ ass_stage1_wormhole_p1 = {
 	}
 }
 
-# FTL_RANGE_WORMHOLE = 65
+# This thing probably isn't cheap to run :-P
+# I really should optimize it, but not for now.
 ass_stage1_wormhole_p2 = {
+	# We need to find a solar system that is barely accessible.
 	# Find any system more than 60 distance from a wormhole station
 	closest_system = {
 		limit = {
 			NOT = { has_star_flag = "ass_target" }
-			is_inside_border = ROOT.owner
+			ass_is_friendly_system = yes
+			OR = {
+				NOT = { exists = space_owner }
+				space_owner = { is_same_value = ROOT.owner }
+				space_owner = {
+					# We can actually construct in hostile space
+					# But not in non-hostile space unless we have the treaty
+					NOT = { is_same_value = ROOT.owner }
+					is_hostile = ROOT.owner
+				}
+				# XXX space_owner = { treaty_thing }
+			}
 			# No wormhole station in this system
 			NOT = {
 				any_ship_in_system = {
@@ -43,7 +66,24 @@ ass_stage1_wormhole_p2 = {
 					owner = { is_same_value = ROOT.owner }
 				}
 			}
-			# No system close to us with a wormhole station
+			# There is a system within 55-65 that has a wormhole station
+			any_system = {
+				# And we own it. This "prevents" the P2 wormhole operation from
+				# spreading across the galaxy.
+				exists = space_owner
+				space_owner = { is_same_value = ROOT.owner }
+				any_ship_in_system = {
+					exists = owner
+					is_ship_class = shipclass_wormhole_station
+					owner = { is_same_value = ROOT.owner }
+				}
+				distance = {
+					source = PREV
+					max_distance = 64
+					min_distance = 55
+				}
+			}
+			# But not any closer than that
 			NOT = {
 				any_system = {
 					any_ship_in_system = {
@@ -53,7 +93,7 @@ ass_stage1_wormhole_p2 = {
 					}
 					distance = {
 						source = PREV
-						max_distance = 60
+						max_distance = 54.9
 					}
 				}
 			}
