@@ -181,11 +181,20 @@ ass_stage4_wormhole_complete = {
 			log = "[root.GetName]: Removing system relation to [this.GetName]."
 			set_variable = { which = "AssUUID" value = 0 }
 			remove_star_flag = "ass_target"
+		}
+	}
 
-			# XXX Try simply making a new fleet and a wormhole_station ship.
-			# XXX Because that would allow us to put it near our assembler.
-			create_wormhole_station = {
-				owner = ROOT.owner
+	# ZZZ Easier to position than create_wormhole_station
+	create_fleet = {
+		effect = {
+			set_owner = ROOT.owner
+			create_ship = {
+				name = random
+				random_existing_design = wormhole_station
+			}
+			set_location = {
+				target = PREV
+				distance = 10
 				angle = random
 			}
 		}
