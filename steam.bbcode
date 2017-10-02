@@ -17,29 +17,43 @@ The ship can be equipped with two expansion cards that determine its behavior. T
 The ship has 2x slots for expansion cards. It's [b]very important[/b] that you examine the card descriptions in detail, and understand that they behave differently depending on which slot you insert them into. And make note of wording; some cards may for example say "any system", and that would include any system even outside your borders.
 
 [b]Wormhole Expansion Card[/b]
-Expansion Slot 1: This expansion card will scan colonized systems for Wormhole stations, and if it does not find one we control, it will direct the ship towards that solar system and construct a Wormhole station.
-Expansion Slot 2: Calculates distances between solar systems and attempts to find any that are on the edge of our jump range, and moves there to construct Wormhole Stations.
+[list]
+[*]Expansion Slot 1: This expansion card will scan colonized systems for Wormhole stations, and if it does not find one we control, it will direct the ship towards that solar system and construct a Wormhole station.
+[*]Expansion Slot 2: Calculates distances between solar systems and attempts to find any that are on the edge of our jump range, and moves there to construct Wormhole Stations.
+[/list]
 
 [b]Military Expansion Card[/b]
-Expansion Slot 1: Locates any Station Markers constructed inside our borders, moves there to set up a network of military stations around it. Then, finds the closest colonized system without a military station, and builds one there.
-Expansion Slot 2: Attempts to construct a military station in [i]every star system within our borders[/i].
+[list]
+[*]Expansion Slot 1: Locates any Station Markers constructed inside our borders, moves there to set up a network of military stations around it. Then, finds the closest colonized system without a military station, and builds one there.
+[*]Expansion Slot 2: Attempts to construct a military station in [i]every star system within our borders[/i].
+[/list]
 
 [b]Research Expansion Card[/b]
-Expansion Slot 1: Scans all planetary objects inside our space for Special Resources, and then any colonized system for any orbital research deposits, and finally any high-yielding (2+) research deposits inside our borders - and constructs a Research Station at the location, if needed.
-Expansion Slot 2: Constructs a Research Station at any orbital deposit that can benefit us.
+[list]
+[*]Expansion Slot 1: Scans all planetary objects inside our space for Special Resources, and then any colonized system for any orbital research deposits, and finally any high-yielding (2+) research deposits inside our borders - and constructs a Research Station at the location, if needed.
+[*]Expansion Slot 2: Constructs a Research Station at any orbital deposit that can benefit us.
+[/list]
 
 [b]Mineral Expansion Card[/b]
-Expansion Slot 1: Finds any orbital mineral deposit in colonized systems, any high-yielding deposit inside our borders, or any minable special resource, and creates a Mining Station there if needed.
-Expansion Slot 2: Constructs a Mining Station at any orbital mineral deposit that can benefit us.
+[list]
+[*]Expansion Slot 1: Finds any orbital mineral deposit in colonized systems, any high-yielding deposit inside our borders, or any minable special resource, and creates a Mining Station there if needed.
+[*]Expansion Slot 2: Constructs a Mining Station at any orbital mineral deposit that can benefit us.
+[/list]
 
 [b]Energy Expansion Card[/b]
-Expansion Slot 1: Finds any orbital energy deposit in colonized systems, any high-yielding deposit inside our borders, or any minable special resource, and creates a Mining Station there if needed.
-Expansion Slot 2: Constructs a Mining Station at any orbital energy deposit that can benefit us.
+[list]
+[*]Expansion Slot 1: Finds any orbital energy deposit in colonized systems, any high-yielding deposit inside our borders, or any minable special resource, and creates a Mining Station there if needed.
+[*]Expansion Slot 2: Constructs a Mining Station at any orbital energy deposit that can benefit us.
+[/list]
 
 [h1]Station Marker[/h1]
 The Station Marker is a new kind of military station gated behind a new rare technology that is [b]disabled by default[/b]. Constructing this marker allows your Autonomous Assemblers outfitted with a Military Expansion Card in slot 1 to build a hexagon-shaped defense cluster of military stations, just like in the old days of Stellaris. If you play with NSC, you should enable this option, because NSC has not adjusted the build block radius for vanilla military stations to match vanilla levels.
 
 Currently, once used, a marker will never be used again. I plan on making it such that the Autonomous Assemblers attempt to maintain the 6 stations spawned around the marker (given the budget, of course).
+
+When you design a station marker, you select a special component to equip it with that instructs any Autonomous Assembler on which kind of military station to construct around it. This component also adjusts the price of the marker station to include the cost of any military station type that will be built. The resources are then stored onboard the Station Marker until an Autonomous Assembler begins the construction process.
+
+If a Station Marker is destroyed before an Autonomous Assembler can complete construction of the 6 military stations around it, the resources are lost.
 
 [h1]Ship Combat Statistics[/h1]
 The Autonomous Assembler more closely resembles a Corvette than a Construction Ship in terms of combat statistics. It has exceptional evasion, combat speed, and sublight speed right off the bat, and can be further upgraded with new and improved central processing units.
@@ -58,6 +72,17 @@ I want to make expansion cards for Frontier Outposts and Observation Stations. T
 
 [b]Wormhole Card[/b]
 Support autonomous construction inside the borders of countries we have the Wormhole treaty with.
+
+[b]Random failures[/b]
+I want to add some random failures (rarely, of course) to the onboard computer equipment. The way I'd implement this, if I do, is probably either to disable the ship somewhere and require a science/construction vessel to "repair" it in space, or physically drain a percentage of its hitpoints.
+
+[b]Damaged ship[/b]
+I want to make a new autonomous behavior where it flies back and repairs itself, if necessary and possible.
+
+[h1]Known problems[/h1]
+The ships do not try to escape if a hostile fleet enters a system while they are locked during construction.
+
+Station Marker military stations are currently deployed instantly when an Autonomous Assembler reaches it.
 
 [h1]Compatibility[/h1]
 It is compatible with existing save games, but you need to research the technology to get access to the ships then. The initial menu will not be shown.
