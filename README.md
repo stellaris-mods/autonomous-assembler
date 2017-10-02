@@ -1,5 +1,20 @@
 # Steam description
 
+
+## Future plans
+**Planned Cards**
+I want to make expansion cards for Frontier Outposts and Observation Stations\. The mod does easily support 3rd party addons adding in extra expansion cards, please read the code if you want to do that\. Or talk to me (but not on Steam)\.
+
+**Wormhole Card**
+Support autonomous construction inside the borders of countries we have the Wormhole treaty with\.
+
+**Random failures**
+I want to add some random failures (rarely, of course) to the onboard computer equipment\. The way I'd implement this, if I do, is probably either to disable the ship somewhere and require a science/construction vessel to "repair" it in space, or physically drain a percentage of its hitpoints\.
+
+**Damaged ship**
+I want to make a new autonomous behavior where it flies back and repairs itself, if necessary and possible\.
+
+
 [//]: # (start)
 Steam description transliterated from `steam.bbcode` by [our release script](https://raw.githubusercontent.com/stellaris-mods/scripts/master/stlrel).
 
@@ -80,21 +95,6 @@ In your empires special projects screen, you will find a new section dedicated t
 * Halt/continue operations, which permanently halts or continues all autonomous operations (they can still be used as normal construction ships, manually, while halted)
 * Set course for colony, which immediately (even if they're currently building something) halts all operations and makes all Autonomous Assemblers head for the nearest colonized planet, and once docked, will stay there for 3 months before re\-starting operations
 
-
-
-## Future plans
-**Planned Cards**
-I want to make expansion cards for Frontier Outposts and Observation Stations\. The mod does easily support 3rd party addons adding in extra expansion cards, please read the code if you want to do that\. Or talk to me (but not on Steam)\.
-
-**Wormhole Card**
-Support autonomous construction inside the borders of countries we have the Wormhole treaty with\.
-
-**Random failures**
-I want to add some random failures (rarely, of course) to the onboard computer equipment\. The way I'd implement this, if I do, is probably either to disable the ship somewhere and require a science/construction vessel to "repair" it in space, or physically drain a percentage of its hitpoints\.
-
-**Damaged ship**
-I want to make a new autonomous behavior where it flies back and repairs itself, if necessary and possible\.
-
 ## Known problems
 The ships do not try to escape if a hostile fleet enters a system while they are locked during construction\.
 
@@ -120,15 +120,6 @@ Though Steam provides a way to list changes between uploads, there is no way I c
 So if you want to read it, go find it there\.
 
 ## Communicating with me
-I do not like Steam workshop comments, because the barrier to entry for commenting is too low\. I spent effort on my projects, and I don't care to read feedback from people who make little effort to provide it\. Granted, there are always some people who write informed and thoughtful comments or feedback, but they are few and far between\.
-Of course, there's no rule without exceptions, and if \- at any time \- I do in fact read the comments, it's always nice to see one\-line "thank you for the mod"\-type comments\.
-
-You may file bug reports on Github\. All my Stellaris mods are listed there\. The repository is easy enough to find, if you care to look\.
-
-I am also on the NSC Discord server, which is also easy to find\.
-Other than that, if you can't be bothered to contact me through those means, I don't care what you have to say\.
-
-That said, since this mod is so new, I might actually read comments here for a week or two\.
-
+You may file bug reports on Github\. All my Stellaris mods are listed there\.
 
 [//]: # (stop)
