@@ -1,4 +1,5 @@
 ass_stage1_set_energy = {
+	set_timed_planet_flag = { flag = "autobuild_planet_block" days = 100 }
 	PREVPREV = {
 		set_ship_flag = "ass_op_energy"
 		ass_accounting_set_mining_station_cost = yes

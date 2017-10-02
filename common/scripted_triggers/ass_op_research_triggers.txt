@@ -67,10 +67,12 @@ ass_valid_research_planet = {
 	has_deposit_for = shipclass_research_station
 	exists = orbital_deposit_tile
 	is_surveyed = { who = ROOT.owner status = yes }
-	has_research_station = no
-	has_mining_station = no # might not work
+	has_orbital_station = no
+	has_any_megastructure = no
+	has_mining_station = no
+	has_research_station = no # might not work
 	has_spaceport = no
 	is_colony = no
 	has_observation_outpost = no # might not work
-	has_orbital_station = no
+	has_frontier_station = no
 }
