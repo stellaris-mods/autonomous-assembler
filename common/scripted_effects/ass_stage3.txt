@@ -1,0 +1,83 @@
+
+
+# This updates AssMinimum before we use the ass_can_afford trigger.
+ass_update_total_cost = {
+	fleet = {
+		set_variable = { which = "AssMinimum" value = "AssOperationCost" }
+		change_variable = { which = "AssMinimum" value = "AssReserve" }
+	}
+}
+
+ass_stage3_build = {
+	switch = {
+		trigger = has_ship_flag
+		ass_op_energy   = { ass_stage3_single_station = yes }
+		ass_op_minerals = { ass_stage3_single_station = yes }
+		ass_op_research = { ass_stage3_single_station = yes }
+		ass_op_military = { ass_stage3_single_station = yes }
+		ass_op_wormhole = { ass_stage3_single_station = yes }
+		ass_op_marker   = { ass_stage3_marker = yes }
+	}
+}
+
+ass_stage3_single_station = {
+	ass_update_total_cost = yes
+	if = {
+		limit = { ass_can_afford = yes }
+		ass_accounting_grabdatcash = yes
+		remove_ship_flag = "ass_waiting_for_cash"
+		log = "[this.GetName]: Constructing station..."
+		ship_event = { id = assShip.1000 days = 100 }
+		else = {
+			log = "[this.GetName]: Waiting for resources..."
+			set_ship_flag = "ass_waiting_for_cash"
+		}
+	}
+}
+
+ass_stage3_lock_and_accounts = {
+	# ZZZ Now we either wait for cash or build, so lock now.
+	fleet = { set_event_locked = yes }
+
+	owner = { ass_accounting_count_minerals = yes }
+
+	ass_accounting_update_fleet = yes
+	ass_stage3_build = yes
+}
+
+ass_stage3_verify_orbit = {
+	if = {
+		limit = {
+			event_target:ass_target = {
+				has_mining_station = no
+				has_research_station = no
+				has_spaceport = no
+				has_observation_outpost = no
+				has_orbital_station = no
+				has_frontier_station = no
+			}
+		}
+		ass_stage3_lock_and_accounts = yes
+		else = {
+			log = "[this.GetName]: ERROR: There's already some sort of station around [ass_target.GetName]."
+			# XXX need to mark this planet so we ignore it at least for a timed_flag
+			ass_op_abort = yes
+		}
+	}
+}
+
+# THIS = ship
+# ass_target = fleet/system/planet
+# Already verified that we are in fact close enough to target.
+# Already verified ass_has_operation.
+ass_init_stage3 = {
+	switch = {
+		trigger = has_ship_flag
+		ass_op_minerals = { ass_stage3_verify_orbit = yes }
+		ass_op_energy   = { ass_stage3_verify_orbit = yes }
+		ass_op_research = { ass_stage3_verify_orbit = yes }
+		ass_op_military = { ass_stage3_lock_and_accounts = yes }
+		ass_op_wormhole = { ass_stage4_wormhole_complete = yes } # XXX
+		ass_op_marker   = { ass_stage3_lock_and_accounts = yes }
+	}
+}

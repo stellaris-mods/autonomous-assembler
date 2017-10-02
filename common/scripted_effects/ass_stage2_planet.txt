@@ -1,37 +1,35 @@
 
 # THIS must be the ship
 ass_stage2_planet_reached = {
-	log = "[this.GetName]: Probably in orbit of [this.Orbit.GetName]."
+	# We dont need the event target, it's just much easier than prevprevprevprevprevprevprevprev
+	PREVPREVPREV = { save_event_target_as = ass_target }
 	if = {
 		limit = { ass_has_operation = yes }
-
 		if = {
 			limit = {
-				#exists = orbit
-				orbit = {
-					has_mining_station = no
-					has_research_station = no # might not work
-					has_spaceport = no
-					has_observation_outpost = no # might not work
-					has_orbital_station = no
-					has_frontier_station = no
+				OR = {
+					AND = {
+						exists = orbit
+						orbit = { is_same_value = event_target:ass_target }
+					}
+					solar_system = {
+						is_same_value = event_target:ass_target.solar_system
+						event_target:ass_target = {
+							distance = {
+								source = PREVPREV
+								max_distance = 20
+							}
+						}
+					}
 				}
 			}
-			# ZZZ Now we either wait for cash or build, so lock now.
-			fleet = { set_event_locked = yes }
-
-			owner = { ass_accounting_count_minerals = yes }
-
-			ass_accounting_update_fleet = yes
-			ass_stage2_done = yes
-
+			log = "[this.GetName]: In proximity of planet [ass_target.GetName]."
+			ass_init_stage3 = yes
 			else = {
-				log = "[this.GetName]: ERROR: There's already some sort of station in orbit."
-				# XXX need to mark this planet so we ignore it at least for a timed_flag
+				log = "[this.GetName]: ERROR: Either we are not in the same system, or not in orbit, or simply too far away from [ass_target.GetName]."
 				ass_op_abort = yes
 			}
 		}
-
 		else = {
 			log = "[this.GetName]: ERROR: Reached end of queue_actions without an operation. That's weird."
 			# XXX need to mark this planet so we ignore it at least for a timed_flag
@@ -40,6 +38,7 @@ ass_stage2_planet_reached = {
 	}
 }
 
+# Always invoke from the scope of the planet you want to move to.
 ass_stage2_planet_move = {
 	PREVPREV = {
 		fleet = {
