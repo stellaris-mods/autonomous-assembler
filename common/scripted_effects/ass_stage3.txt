@@ -77,7 +77,7 @@ ass_init_stage3 = {
 		ass_op_energy   = { ass_stage3_verify_orbit = yes }
 		ass_op_research = { ass_stage3_verify_orbit = yes }
 		ass_op_military = { ass_stage3_lock_and_accounts = yes }
-		ass_op_wormhole = { ass_stage4_wormhole_complete = yes } # XXX
+		ass_op_wormhole = { ass_stage3_lock_and_accounts = yes }
 		ass_op_marker   = { ass_stage3_lock_and_accounts = yes }
 	}
 }
