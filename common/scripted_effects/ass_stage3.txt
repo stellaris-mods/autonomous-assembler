@@ -84,5 +84,6 @@ ass_init_stage3 = {
 		ass_op_military = { ass_stage3_lock_and_accounts = yes }
 		ass_op_wormhole = { ass_stage3_lock_and_accounts = yes }
 		ass_op_marker   = { ass_stage3_lock_and_accounts = yes }
+		ass_op_dock     = { ass_stage3_reached_dock = yes }
 	}
 }
