@@ -19,7 +19,7 @@ spriteTypes = {
 	}
 	spriteType = {
 		name = "assgfx_tech_battle_fortress_1"
-		texturefile = "gfx/interface/icons/technologies/tech_battle_fortress_1.dds"
+		texturefile = "gfx/type_xlarge.dds"
 	}
 
 	spriteType = {
