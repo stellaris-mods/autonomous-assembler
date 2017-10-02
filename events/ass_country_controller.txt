@@ -3,11 +3,13 @@ namespace = assCountry
 # on_tech_increased
 country_event = {
 	id = assCountry.100
-	title = "ASS JUMP"
-	desc = "You got the jump drive, but some of your autonomous assemblers are still using the wormhole expansion card. PLZFIXKTHX"
+	title = "ass_wormhole_warn.title"
+	desc = "ass_wormhole_warn.desc"
+	picture = GFX_evt_autonomous_assembler
 	is_triggered_only = yes
 
 	trigger = {
+		NOT = { has_country_flag = "ass_wormhole_warned" }
 		OR = {
 			last_increased_tech = tech_jump_drive_1
 			last_increased_tech = tech_psi_jump_drive_1
@@ -22,7 +24,7 @@ country_event = {
 	}
 	option = { name = OK }
 	immediate = {
-		log = "we got jump tech and need to fix our ships"
+		set_country_flag = "ass_wormhole_warned"
 	}
 }
 country_event = {

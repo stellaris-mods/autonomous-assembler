@@ -1,5 +1,11 @@
 spriteTypes = {
 	spriteType = {
+		name = "GFX_evt_autonomous_assembler"
+		texturefile = "gfx/ass_event.dds"
+		masking_texture = "gfx/interface/situation_log/event_mask.dds"
+		alwaystransparent = yes
+	}
+	spriteType = {
 		name = "assgfx_tech_space_defense_station_1"
 		texturefile = "gfx/type_small.dds"
 	}

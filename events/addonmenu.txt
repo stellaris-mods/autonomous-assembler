@@ -6,7 +6,7 @@
 # Updated 28th Sept 2017
 #
 # Change notes:
-# Version 1: Support for NSC, That's Not Fair, A Stellaris Remake, and Autonomous Assembler.
+# Version 1: Support for That's Not Fair, A Stellaris Remake, and Autonomous Assembler.
 #
 
 namespace = addonMenu
@@ -30,7 +30,6 @@ country_event = {
 	title = "addonMenu.title"
 	desc = "addonMenu.desc"
 	picture = "GFX_evt_galactic_senate"
-	show_sound = event_administrative_work
 	is_triggered_only = yes
 	trigger = {
 		exists = event_target:addonMenuCountry
@@ -63,9 +62,9 @@ country_event = {
 			# You can check for that flag, if for any reason you need to
 			# distinguish in the event that it has been invoked from this menu.
 			#
-			if = { limit = { has_global_flag = "has_nsc_active" }
-				country_event = { id = NSC_features.1 }
-			}
+			#if = { limit = { has_global_flag = "has_nsc_active" }
+			#	country_event = { id = NSC_features.1 }
+			#}
 			if = { limit = { has_global_flag = "has_thats_not_fair" }
 				country_event = { id = TNF.1 }
 			}
@@ -82,14 +81,14 @@ country_event = {
 	}
 
 	# CHANGEME Add your addon button.
-	option = {
-		name = "nsc_modmenu"
-		trigger = { has_global_flag = "has_nsc_active" }
-		hidden_effect = {
-			set_global_flag = "inAddonMenu"
-			country_event = { id = NSC_features.1 }
-		}
-	}
+	# option = {
+	# 	name = "nsc_modmenu"
+	# 	trigger = { has_global_flag = "has_nsc_active" }
+	# 	hidden_effect = {
+	# 		set_global_flag = "inAddonMenu"
+	# 		country_event = { id = NSC_features.1 }
+	# 	}
+	# }
 	option = {
 		name = "autonomous_assembler_modmenu"
 		trigger = { has_global_flag = "has_auto_assembler" }

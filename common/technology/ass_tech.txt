@@ -13,12 +13,6 @@ tech_autonomous_assembler = {
 			title = "tech_autonomous_assembler_unlock_title"
 			desc = "tech_autonomous_assembler_unlock_desc"
 		}
-		# ZZZ adding two hides the first one
-		# we might want to use two techs anyway
-		# ship = {
-		# 	title = "tech_autonomous_assembler_station_title"
-		# 	desc = "tech_autonomous_assembler_station_desc"
-		# }
 	}
 
 	weight_modifier = {
@@ -84,7 +78,7 @@ tech_ass_hexagon = {
 		factor = 0.5
 		modifier = {
 			factor = 0
-			has_global_flag = "ass_hexagon_disable"
+			NOT = { has_global_flag = "ass_hexagon_enabled" }
 		}
 		modifier = {
 			factor = 4

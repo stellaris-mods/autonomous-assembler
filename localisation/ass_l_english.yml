@@ -2,6 +2,7 @@
 
 autonomous_assembler: "Autonomous Assembler"
 autonomous_assembler_plural: "Autonomous Assemblers"
+ass_plural_colored: "§H$autonomous_assembler_plural$§!"
 
 # TODO make up an actual naming scheme for motherboards
 # TODO for ref: https://superuser.com/questions/91435/gigabyte-motherboards-name-deciphering
@@ -68,18 +69,22 @@ ASS_EXPANSION_OBSERVATION_1_DESC: "$ASS_OBS_DESC$$ASS_EXPANSION_SLOT_1$"
 ASS_EXPANSION_OBSERVATION_2_DESC: "$ASS_OBS_DESC$$ASS_EXPANSION_SLOT_2$"
 
 ASS_TYPE_SMALL: "$military_station_small$"
-ASS_TYPE_SMALL_DESC: "Instructs the §HAutonomous Assemblers§! to construct $military_station_small_plural$ at this marker."
+ASS_TYPE_SMALL_DESC: "Instructs the $ass_plural_colored$ to construct $military_station_small_plural$ at this marker."
 ASS_TYPE_MEDIUM: "$military_station_medium$"
-ASS_TYPE_MEDIUM_DESC: "Instructs the §HAutonomous Assemblers§! to construct $military_station_medium_plural$ at this marker."
+ASS_TYPE_MEDIUM_DESC: "Instructs the $ass_plural_colored$ to construct $military_station_medium_plural$ at this marker."
 ASS_TYPE_LARGE: "$military_station_large$"
-ASS_TYPE_LARGE_DESC: "Instructs the §HAutonomous Assemblers§! to construct $military_station_large_plural$ at this marker."
+ASS_TYPE_LARGE_DESC: "Instructs the $ass_plural_colored$ to construct $military_station_large_plural$ at this marker."
 ASS_TYPE_XLARGE: "$military_station_xlarge$"
-ASS_TYPE_XLARGE_DESC: "Instructs the §HAutonomous Assemblers§! to construct $military_station_xlarge_plural$ at this marker."
+ASS_TYPE_XLARGE_DESC: "Instructs the $ass_plural_colored$ to construct $military_station_xlarge_plural$ at this marker."
 
 tech_ass_hexagon: "Military Station Complex"
-tech_ass_hexagon_desc: "Allows properly outfitted §HAutonomous Assemblers§! to construct vast military defense installations."
+tech_ass_hexagon_desc: "Allows properly outfitted $ass_plural_colored$ to construct vast military defense installations."
 tech_ass_hexagon_unlock_title: "§HUnlocks Station:§! Station Marker"
-tech_ass_hexagon_unlock_desc: "Constructing a §HStation Marker§! allows §HAutonomous Assemblers§! equipped with a $ASS_EXPANSION_MILITARY_1$ in its §Pprimary expansion slot§! to autonomously build a large military station complex in much denser formation than would usually be possible."
+tech_ass_hexagon_unlock_desc: "Constructing a §HStation Marker§! allows $ass_plural_colored$ equipped with a $ASS_EXPANSION_MILITARY_1$ in its §Pprimary expansion slot§! to autonomously build a large military station complex in much denser formation than would usually be possible."
+
+ass_wormhole_warn.title: "Old technology equipped"
+ass_wormhole_warn.desc: "Our technicians inform us that you have $ass_plural_colored$ deployed that are outfitted with $ASS_EXPANSION_WORMHOLE_1$ or $ASS_EXPANSION_WORMHOLE_2$, and we are beyond that point in our technology at the moment. Unless you do a manual recall and retrofit the ships with new expansion cards, they will continue to construct $wormhole_station_plural$."
+
 
 # Mod menu
 autonomous_assembler_modmenu: "§YAutonomous Assembler ...§!"
@@ -88,21 +93,32 @@ addonMenu.desc: "Welcome! In this menu you can find lots of features to enable/d
 addonMenu.done: "§GApply features and close menu§!"
 addonMenu.back: "§Y<<< Back§!"
 
+ass_menu_desc: "Select the features to enable or disable for Autonomous Assembler. Note that AI empires do not really use the ship, because their construction ships are already autonomous anyway. The only thing that Autonomous Assemblers can do that would be considered an unfair advantage is gated behind the $tech_ass_hexagon$ technology, which is disabled by default. Also, obviously getting a free ship could be considered unfair, but that's life."
+
+ass_menu_tech_enable: "§GFree $tech_autonomous_assembler$ technology§!"
+ass_menu_tech_disable: "§PNo free $tech_autonomous_assembler$ technology§!"
+
+ass_menu_hexagon_enable: "§GEnable $tech_ass_hexagon$ technology§!"
+ass_menu_hexagon_disable: "§PDisable $tech_ass_hexagon$ technology§!"
+
+ass_menu_free_enable: "§GFree $autonomous_assembler$ when researched§!"
+ass_menu_free_disable: "§PNo free $autonomous_assembler$ when researched§!"
+
 # Setup projects
 autonomous_assembler_setup_title: "Autonomous Assembler"
-autonomous_assembler_setup_desc: "In this menu, you can configure the software that controls your §HAutonomous Assemblers§!. The ships are configured with a public key prior to launch, which is used to verify the signature of incoming configuration data. Given the huge expanses of our colonized space, there is no way we could do request-response cycles to differentiate between ships, or mathematically verify time signatures without setting an unreasonable timeout, which means that we broadcast the same settings in a wide-spectrum wavelength, and let all ships receive the same configuration. Of course, since they are equipped with different expansion cards, they might act upon the information - once verified - in different ways depending on local configuration.\n\n§PDon't research any of the projects while you are constructing assemblers.§!"
+autonomous_assembler_setup_desc: "In this menu, you can configure the software that controls your $ass_plural_colored$. The ships are configured with a public key prior to launch, which is used to verify the signature of incoming configuration data. Given the huge expanses of our colonized space, there is no way we could do request-response cycles to differentiate between ships, or mathematically verify time signatures without setting an unreasonable timeout, which means that we broadcast the same settings in a wide-spectrum wavelength, and let all ships receive the same configuration. Of course, since they are equipped with different expansion cards, they might act upon the information - once verified - in different ways depending on local configuration."
 
 ass_continue_operations: "Continue Operations"
-ass_continue_operations_DESC: "Send an encrypted message through subspace to all our listening §HAutonomous Assemblers§! that they should continue operations as normal."
+ass_continue_operations_DESC: "Send an encrypted message through subspace to all our listening $ass_plural_colored$ that they should continue operations as normal."
 
 ass_halt_operations: "Halt Operations"
-ass_halt_operations_DESC: "Send an encrypted message through subspace to all our listening §HAutonomous Assemblers§! that they should halt all operations until further notice."
+ass_halt_operations_DESC: "Send an encrypted message through subspace to all our listening $ass_plural_colored$ that they should halt all operations until further notice."
 
 ass_go_home: "Set course for colony"
-ass_go_home_DESC: "Call out to all §HAutonomous Assemblers§! with an encrypted message instructing them to locate the nearest of our colonies and dock there. The ones that get the message, will do so and be instructed to stay there for §G3 months§!. Any §HAutonomous Assemblers§! we build inside the next 3 months will also stay docked for 3 months after they are built."
+ass_go_home_DESC: "Call out to all $ass_plural_colored$ with an encrypted message instructing them to locate the nearest of our colonies and dock there. The ones that get the message, will do so and be instructed to stay there for §G3 months§!. Any $ass_plural_colored$ we build inside the next 3 months will also stay docked for 3 months after they are built."
 
 ass_increase_reserve: "Increase reserve"
-ass_increase_reserve_DESC: "Send out a new value to all §HAutonomous Assemblers§! that they should halt production of anything unless the empire has at least §G[root.AssReserve] + 500§! £minerals minerals in reserve, plus the cost of any operation they might have pending."
+ass_increase_reserve_DESC: "Send out a new value to all $ass_plural_colored$ that they should halt production of anything unless the empire has at least §G[root.AssReserve] + 500§! £minerals minerals in reserve, plus the cost of any operation they might have pending."
 
 ass_decrease_reserve: "Decrease reserve"
-ass_decrease_reserve_DESC: "Decrease the mandated reserve, and send out an encrypted subspace message to all §HAutonomous Assemblers§! that they may begin an operation provided the empires mineral reserves amount to §G[root.AssReserve] - 500§! £minerals, plus the cost of any operation they have pending."
+ass_decrease_reserve_DESC: "Decrease the mandated reserve, and send out an encrypted subspace message to all $ass_plural_colored$ that they may begin an operation provided the empires mineral reserves amount to §G[root.AssReserve] - 500§! £minerals, plus the cost of any operation they have pending."

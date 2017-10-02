@@ -1,4 +1,4 @@
 autonomous_assembler_setup = {
 	icon = "gfx/interface/icons/situation_log/situation_log_decision.dds"
-	picture = GFX_evt_black_hole
+	picture = GFX_evt_autonomous_assembler
 }

@@ -2,8 +2,9 @@ namespace = assMenu
 
 country_event = {
 	id = assMenu.1
-	title = "Autonomous Assembler"
-	desc = "Lulz plz write proper thangs fur menu"
+	title = "autonomous_assembler"
+	desc = "ass_menu_desc"
+	picture = GFX_evt_autonomous_assembler
 	is_triggered_only = yes
 
 	trigger = {
@@ -31,7 +32,7 @@ country_event = {
 		hidden_effect = { country_event = { id = assInit.10 } }
 	}
 	option = {
-		name = "Enable tech at start"
+		name = "ass_menu_tech_enable"
 		trigger = { NOT = { has_country_flag = "ass_tech_players" } }
 		hidden_effect = {
 			set_country_flag = "ass_tech_players"
@@ -39,7 +40,7 @@ country_event = {
 		}
 	}
 	option = {
-		name = "Disable tech at start"
+		name = "ass_menu_tech_disable"
 		trigger = { has_country_flag = "ass_tech_players" }
 		hidden_effect = {
 			remove_country_flag = "ass_tech_players"
@@ -47,23 +48,23 @@ country_event = {
 		}
 	}
 	option = {
-		name = "Disable hexagon tech"
-		trigger = { NOT = { has_global_flag = "ass_hexagon_disable" } }
+		name = "ass_menu_hexagon_enable"
+		trigger = { NOT = { has_global_flag = "ass_hexagon_enabled" } }
 		hidden_effect = {
-			set_global_flag = "ass_hexagon_disable"
+			set_global_flag = "ass_hexagon_enabled"
 			country_event = { id = assMenu.1 }
 		}
 	}
 	option = {
-		name = "Enable hexagon tech"
-		trigger = { has_global_flag = "ass_hexagon_disable" }
+		name = "ass_menu_hexagon_disable"
+		trigger = { has_global_flag = "ass_hexagon_enabled" }
 		hidden_effect = {
-			remove_global_flag = "ass_hexagon_disable"
+			remove_global_flag = "ass_hexagon_enabled"
 			country_event = { id = assMenu.1 }
 		}
 	}
 	option = {
-		name = "Free Autonomous Assembler with tech"
+		name = "ass_menu_free_enable"
 		trigger = { NOT = { has_global_flag = "ass_free" } }
 		hidden_effect = {
 			set_global_flag = "ass_free"
@@ -71,7 +72,7 @@ country_event = {
 		}
 	}
 	option = {
-		name = "No free Autonomous Assembler"
+		name = "ass_menu_free_disable"
 		trigger = { has_global_flag = "ass_free" }
 		hidden_effect = {
 			remove_global_flag = "ass_free"
