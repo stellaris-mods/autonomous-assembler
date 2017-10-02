@@ -30,6 +30,7 @@ DEFAULT_AUTONOMOUS_ASSEMBLER_SECTION: "AA-Tm39h-UDS4"
 
 ass_military_complex: "Station Marker"
 ass_military_complex_plural: "Station Markers"
+ass_marker_colored: "§H$ass_military_complex$§!"
 ASS_STATION_SECTION: "Station Marker"
 
 tech_autonomous_assembler: "Autonomous Assembler"
@@ -37,9 +38,6 @@ tech_autonomous_assembler_desc: "Construction in space comes with all sorts of d
 
 tech_autonomous_assembler_unlock_title: "§HUnlocks Ship Type:§! Autonomous Assembler"
 tech_autonomous_assembler_unlock_desc: "§HAutonomous Assembler§!\nAn automated construction ship with Corvette-like maneuverability, agility, speed, and evasion."
-
-tech_autonomous_assembler_station_title: "§HUnlocks Station:§! Station Marker"
-tech_autonomous_assembler_station_desc: "An Autonomous Assembler equipped with a Military Module will construct military stations in orbit around a manually constructed Station Marker."
 
 ASS_CPU_1: "TM3200"
 ASS_CPU_1_DESC: "The TM3200 is certainly notable for its revolutionary morphing software abstraction layer, rendering it capable of translating machine code instruction sets for any architecture into native instructions for its own pipeline."
@@ -99,12 +97,14 @@ ASS_TYPE_XLARGE_DESC: "Instructs the $ass_plural_colored$ to construct $military
 
 tech_ass_hexagon: "Military Station Complex"
 tech_ass_hexagon_desc: "Allows properly outfitted $ass_plural_colored$ to construct vast military defense installations."
-tech_ass_hexagon_unlock_title: "§HUnlocks Station:§! Station Marker"
-tech_ass_hexagon_unlock_desc: "Constructing a §HStation Marker§! allows $ass_plural_colored$ equipped with a $ASS_EXPANSION_MILITARY_1$ in its §Pprimary expansion slot§! to autonomously build a large military station complex in much denser formation than would usually be possible."
+tech_ass_hexagon_unlock_title: "§HUnlocks Station:§! $ass_military_complex$"
+tech_ass_hexagon_unlock_desc: "Constructing a $ass_marker_colored$ allows $ass_plural_colored$ equipped with a $ASS_EXPANSION_MILITARY_1$ in its §Pprimary expansion slot§! to autonomously build a large military station complex in much denser formation than would usually be possible."
 
 ass_wormhole_warn.title: "Old technology equipped"
 ass_wormhole_warn.desc: "Our technicians inform us that you have $ass_plural_colored$ deployed that are outfitted with $ASS_EXPANSION_WORMHOLE_1$ or $ASS_EXPANSION_WORMHOLE_2$, and we are beyond that point in our technology at the moment. Unless you do a manual recall and retrofit the ships with new expansion cards, they will continue to construct $wormhole_station_plural$."
 
+assmarker_morethanone.title: "Station Marker Limit"
+assmarker_morethanone.desc: "We've detected that you built a new $ass_marker_colored$ in [root.solar_system.GetName], but there seems to be one there already. This could potentially send the $ass_plural_colored$ onboard computer into an endless loop, thus overheating the mainframe and - in the worst case scenario - melt a hole through the ships hull.\n\nWe want to avoid this, so we've already dispatched a local engineer corps to dismantle the new $ass_marker_colored$. You will of course get a partial refund from what we manage to salvage."
 
 # Mod menu
 autonomous_assembler_modmenu: "§YAutonomous Assembler ...§!"
@@ -122,7 +122,6 @@ ass_menu_tech_tooltip: "Gives all players and all regular AI Empires the §M$tec
 ass_menu_hexagon_enable: "§GEnable $tech_ass_hexagon$ technology§!"
 ass_menu_hexagon_disable: "§PDisable $tech_ass_hexagon$ technology§!"
 ass_menu_hexagon_tooltip: "Enables or disables access to the rare §M$tech_ass_hexagon$§! technology for everyone in the game, forever.\n\n§PThis does not give you the technology, it only makes it so that the technology can even show up at all.§!\n\nAI empires will never use it, even if enabled, because it would require that the addon overwrite vanilla game files. So this could be considered as giving players an unfair advantage over regular AI Empires."
-
 
 ass_menu_free_enable: "§GFree $autonomous_assembler$ when researched§!"
 ass_menu_free_disable: "§PNo free $autonomous_assembler$ when researched§!"

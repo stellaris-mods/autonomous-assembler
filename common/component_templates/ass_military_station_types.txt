@@ -17,9 +17,15 @@
 # Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301  USA
 ###
 
+
+#
 # All costs are at max vanilla tech, so we scale down
 # Small station marker to make it more usable
 # early game.
+#
+# Remember you might want to adjust the refund values in
+# events/ass_controller_marker.txt if you adjust the costs here.
+#
 
 # Small stations cost 300*6=1800
 utility_component_template = {

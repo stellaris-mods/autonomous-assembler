@@ -37,7 +37,7 @@ ass_military_complex = {
 	enable_default_design = yes
 	class = shipclass_military_station
 	is_designable = yes
-	build_block_radius = 1000
+	build_block_radius = 10
 
 	required_component_set = "station_sensor_components"
 	required_component_set = "station_large_aura_components"

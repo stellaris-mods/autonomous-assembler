@@ -58,6 +58,11 @@ event = {
 	immediate = {
 		every_ship = {
 			limit = {
+				# Maybe prevent "Checking trigger against an unsupported
+				# scope!" when scope type=none for some reason.
+				exists = owner
+				exists = fleet
+				# And maybe not. I've only seen the error once.
 				is_ship_size = autonomous_assembler
 				owner = {
 					is_ai = no

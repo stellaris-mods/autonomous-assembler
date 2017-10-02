@@ -60,7 +60,7 @@ ship_event = {
 			remove_ship_flag = "ass_found_relation_target"
 			# Yes, we did, it's set in event_target:ass_target now.
 			# And it's a fleet, because ships dont support variables.
-			log = "[this.GetName]: Spawning military station around [ass_target.GetName] after 85 days."
+			log = "[this.GetName]: Spawning military station at marker [ass_target.GetName] after 85 days."
 
 			solar_system = {
 				random_system_ambient_object = {
@@ -70,6 +70,7 @@ ship_event = {
 						effect = {
 							set_owner = ROOT.owner
 							set_location = PREV
+							set_fleet_flag = "ass_spawned_from_marker"
 						}
 					}
 					destroy_ambient_object = THIS
@@ -113,6 +114,88 @@ ship_event = {
 	}
 }
 
-# on monthly pulse
+# on_built_station_marker
+# Wait one day, then check the system if there is more than one.
+# If there is, refund the player roughly what one of them costs,
+# based on has_component.
+# This = construction ship
+ship_event = {
+	id = assMarker.200
+	hide_window = yes
+	is_triggered_only = yes
+	immediate = {
+		fleet = { fleet_event = { id = assMarker.201 days = 2 } }
+	}
+}
+
+fleet_event = {
+	id = assMarker.201
+	title = "assmarker_morethanone.title"
+	desc = "assmarker_morethanone.desc"
+	picture = GFX_evt_autonomous_assembler
+	is_triggered_only = yes
+
+	trigger = {
+		owner = {
+			count_owned_ships = {
+				count > 1
+				limit = {
+					is_ship_size = ass_military_complex
+					exists = solar_system
+					solar_system = { is_same_value = ROOT.solar_system }
+				}
+			}
+		}
+	}
+
+	immediate = {
+		owner = {
+			random_owned_ship = {
+				limit = {
+					is_ship_size = ass_military_complex
+					fleet = {
+						exists = solar_system
+						solar_system = { is_same_value = ROOT.solar_system }
+					}
+				}
+				save_event_target_as = ass_delete
+			}
+		}
+	}
+
+	# Remember the values here should be same as in
+	# common/component_templates/ass_military_station_types.txt
+	option = {
+		name = UNFORTUNATE
+		trigger = { event_target:ass_delete = { has_component = ASS_TYPE_SMALL } }
+		owner = { add_minerals = 1500 }
+		event_target:ass_delete = { fleet = { destroy_fleet = THIS } }
+	}
+	option = {
+		name = UNFORTUNATE
+		trigger = { event_target:ass_delete = { has_component = ASS_TYPE_MEDIUM } }
+		owner = { add_minerals = 5000 }
+		event_target:ass_delete = { fleet = { destroy_fleet = THIS } }
+	}
+	option = {
+		name = UNFORTUNATE
+		trigger = { event_target:ass_delete = { has_component = ASS_TYPE_LARGE } }
+		owner = { add_minerals = 9000 }
+		event_target:ass_delete = { fleet = { destroy_fleet = THIS } }
+	}
+	option = {
+		name = UNFORTUNATE
+		trigger = { event_target:ass_delete = { has_component = ASS_TYPE_XLARGE } }
+		owner = { add_minerals = 15000 }
+		event_target:ass_delete = { fleet = { destroy_fleet = THIS } }
+	}
+}
+
+
+# on yearly pulse
 # find any ass_marker_used that are missing their stations
 # with no ass_target mark and replace missing stations
+# I'm not sure I can do this in a way that keeps the hexagon formation.
+# According to trigger_docs, distance does not support ambient objects.
+# Of course, the trigger_docs have been wrong many times before.
+# I just don't want to check.
