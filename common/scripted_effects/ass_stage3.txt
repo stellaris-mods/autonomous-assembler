@@ -9,6 +9,7 @@ ass_update_total_cost = {
 }
 
 ass_stage3_build = {
+	ass_accounting_update_fleet = yes
 	switch = {
 		trigger = has_ship_flag
 		ass_op_energy   = { ass_stage3_single_station = yes }
@@ -41,7 +42,6 @@ ass_stage3_lock_and_accounts = {
 
 	owner = { ass_accounting_count_minerals = yes }
 
-	ass_accounting_update_fleet = yes
 	ass_stage3_build = yes
 }
 

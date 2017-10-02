@@ -178,8 +178,7 @@ event = {
 				random_owned_ship = {
 					limit = { has_ship_flag = "ass_check_cash" }
 
-					ass_accounting_update_fleet = yes
-					ass_stage2_done = yes
+					ass_stage3_build = yes
 
 					remove_ship_flag = "ass_check_cash"
 				}
