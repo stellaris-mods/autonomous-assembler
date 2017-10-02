@@ -7,6 +7,8 @@ Steam description transliterated from `steam.bbcode` by [our release script](htt
 It never made much sense to me that you could build robots, but not autonomous construction ships\.
 With this mod, you can\.
 
+Compatible with all addons I can think of, and also explicitly cross\-compatible with Autobuild, by had\.
+
 Autonomous Assemblers is a new ship type that unlocks after a tier 1 Engineering technology\. When the game starts, a random player will be asked if he wants all players to start with the technology automatically\. The player gets 3 questions, all disabled by default:
 
 1. "Free Autonomous Assembler technology", automatically grants everyone (including AIs) the technology required to build the ship at game start
@@ -15,7 +17,9 @@ Autonomous Assemblers is a new ship type that unlocks after a tier 1 Engineering
 
 
 
-The Autonomous Assemblers can be used and commanded as regular construction ships any time you want, except during the actual construction of a station\. If you want to take control of one during construction (they will have the red "lock" icon in the Outliner), you need to go to Special Projects and either send them to a colony, or halt operations\.
+The Autonomous Assemblers can be used and commanded as regular construction ships any time you want, including while enroute during an autonomous operation \- except during the actual construction of a station, while locked\. If you want to take control during construction (they will have the red "lock" icon in the Outliner), you need to go to Special Projects and either send them to a colony, or halt operations\.
+
+It might be worth noting that you can build as many of them as you want, and outfit them all with different expansion cards\.
 
 ## Autonomous Assembler Expansion Cards
 The ship can be equipped with two expansion cards that determine its behavior\. There is no artificial intelligence on the ship, as such \- it's more like an automated lawn mower than\. Each expansion card must be outfitted on the ship before it's launched, but they can be recalled and updated to a new layout later\.
@@ -94,19 +98,32 @@ I want to make a new autonomous behavior where it flies back and repairs itself,
 ## Known problems
 The ships do not try to escape if a hostile fleet enters a system while they are locked during construction\.
 
-Station Marker military stations are currently deployed instantly when an Autonomous Assembler reaches it\.
+Research of any of the Special Projects will be instantly interrupted if you construct any Autonomous Assemblers during the research\. Or if any owned assemblers are destroyed\. Also, 91 days after the "Set course for colony" project completes, the Special Projects reset\.
+
+Also, whenever you finish any Special Project in the Autonomous Assemblers category, they all reset\.
+
+This is because I have no way of knowing whether or not you are actively researching a project, so I can't prevent it, and I need to update the text, and toggle which projects to show/hide based on many conditions\.
+
+That said, the projects are free anyway\.
 
 ## Compatibility
-It is compatible with existing save games, but you need to research the technology to get access to the ships then\. The initial menu will not be shown\.
+Compatible with existing save games, but you need to research the technology to get access to the ships\. The menu only shows in new games\.
 
-This mod is, as far as I know, compatible with every other addon that exists\.
+This mod is, as far as I know, compatible with all other addons\.
 
 ## Replaced files
 This mod does not replace any vanilla files\.
 
+## Changelog
+Though Steam provides a way to list changes between uploads, there is no way I can automate this, so I've stopped doing it for all my workshop mods\. All releases of all my mods on the workshop are also released at their Github page, and the changelog there is automatically generated for me, which means that (a) it requires no effort, and (b) it always exists\.
+
+So if you want to read it, go find it there\.
+
 ## Communicating with me
-I do not like Steam, because the barrier to entry for commenting on a workshop page is too low\. I spent effort on my projects, and I don't care to read feedback from people who make little effort to provide it\. Of course, there's no rule without exceptions, and if \- at any time \- I do in fact read the comments, it's always nice to see one\-line "thank you for the mod"\-type comments\.
-You may file bug reports on github; all my Stellaris mods are listed there\. The repository is easy enough to find, if you care to look\.
+I do not like Steam workshop comments, because the barrier to entry for commenting is too low\. I spent effort on my projects, and I don't care to read feedback from people who make little effort to provide it\. Granted, there are always some people who write informed and thoughtful comments or feedback, but they are few and far between\.
+Of course, there's no rule without exceptions, and if \- at any time \- I do in fact read the comments, it's always nice to see one\-line "thank you for the mod"\-type comments\.
+
+You may file bug reports on Github\. All my Stellaris mods are listed there\. The repository is easy enough to find, if you care to look\.
 
 I am also on the NSC Discord server, which is also easy to find\.
 Other than that, if you can't be bothered to contact me through those means, I don't care what you have to say\.
