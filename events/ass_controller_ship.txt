@@ -2,6 +2,9 @@
 # Hooooly fuckballs, on_ship_built triggers for AIs in 1.8.
 namespace = assShip
 
+# Chained from:
+# 1. MTTH assShip.102
+# 2. on_ship_built assShip.1
 ship_event = {
 	id = assShip.9001
 	hide_window = yes

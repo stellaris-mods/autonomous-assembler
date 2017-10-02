@@ -17,21 +17,19 @@ country_event = {
 	hide_window = yes
 
 	immediate = {
-		if = { limit = { has_country_flag = "ass_tech_players" }
+		if = { limit = { has_country_flag = "ass_free_tech" }
 			every_country = {
-				limit = { is_ai = no }
+				limit = {
+					OR = {
+						is_ai = no
+						is_country_type = "default"
+					}
+					# Only players or default AI empires get the tech.
+					# Prevents primitives and such from getting it.
+				}
 				give_technology = {
 					tech = tech_autonomous_assembler
 					message = yes
-				}
-			}
-		}
-		if = { limit = { has_country_flag = "ass_tech_ai " }
-			every_country = {
-				limit = { is_ai = yes }
-				give_technology = {
-					tech = tech_autonomous_assembler
-					message = no
 				}
 			}
 		}
@@ -44,7 +42,7 @@ country_event = {
 	is_triggered_only = yes
 	hide_window = yes
 	trigger = {
-		has_global_flag = "ass_free"
+		has_global_flag = "ass_free_ship"
 		last_increased_tech = "tech_autonomous_assembler"
 	}
 	# ZZZ Delay by one day to allow the auto-design to appear

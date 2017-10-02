@@ -93,16 +93,20 @@ addonMenu.desc: "Welcome! In this menu you can find lots of features to enable/d
 addonMenu.done: "§GApply features and close menu§!"
 addonMenu.back: "§Y<<< Back§!"
 
-ass_menu_desc: "Select the features to enable or disable for Autonomous Assembler. Note that AI empires do not really use the ship, because their construction ships are already autonomous anyway. The only thing that Autonomous Assemblers can do that would be considered an unfair advantage is gated behind the $tech_ass_hexagon$ technology, which is disabled by default. Also, obviously getting a free ship could be considered unfair, but that's life."
+ass_menu_desc: "Select the features to enable or disable for $ass_plural_colored$. Note that AI empires do not really need this ship, because their construction ships are obviously autonomous already.\n\nThe only thing that $ass_plural_colored$ can do that would be considered an unfair advantage over AI empires, is gated behind the §M$tech_ass_hexagon$§! technology, which is disabled by default.\n\nThe options below affect all players and all standard AI empires."
 
 ass_menu_tech_enable: "§GFree $tech_autonomous_assembler$ technology§!"
 ass_menu_tech_disable: "§PNo free $tech_autonomous_assembler$ technology§!"
+ass_menu_tech_tooltip: "Gives all players and all standard AI empires the §M$tech_autonomous_assembler$§! technology at game start."
 
 ass_menu_hexagon_enable: "§GEnable $tech_ass_hexagon$ technology§!"
 ass_menu_hexagon_disable: "§PDisable $tech_ass_hexagon$ technology§!"
+ass_menu_hexagon_tooltip: "Enables or disables §M$tech_ass_hexagon$§! for everyone in the game. AI empires will never use it, even if enabled, because it would require that the addon overwrite vanilla game files. So this would give players an unfair advantage over standard AI empires."
+
 
 ass_menu_free_enable: "§GFree $autonomous_assembler$ when researched§!"
 ass_menu_free_disable: "§PNo free $autonomous_assembler$ when researched§!"
+ass_menu_free_tooltip: "Any empire that researches §M$tech_autonomous_assembler$§! immediately gets a free $ass_plural_colored$ when done. If you enable getting the technology at game start, you also get a ship at game start."
 
 # Setup projects
 autonomous_assembler_setup_title: "Autonomous Assembler"

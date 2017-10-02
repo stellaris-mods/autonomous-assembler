@@ -33,22 +33,25 @@ country_event = {
 	}
 	option = {
 		name = "ass_menu_tech_enable"
-		trigger = { NOT = { has_country_flag = "ass_tech_players" } }
+		custom_tooltip = "ass_menu_tech_tooltip"
+		trigger = { NOT = { has_country_flag = "ass_free_tech" } }
 		hidden_effect = {
-			set_country_flag = "ass_tech_players"
+			set_country_flag = "ass_free_tech"
 			country_event = { id = assMenu.1 }
 		}
 	}
 	option = {
 		name = "ass_menu_tech_disable"
-		trigger = { has_country_flag = "ass_tech_players" }
+		custom_tooltip = "ass_menu_tech_tooltip"
+		trigger = { has_country_flag = "ass_free_tech" }
 		hidden_effect = {
-			remove_country_flag = "ass_tech_players"
+			remove_country_flag = "ass_free_tech"
 			country_event = { id = assMenu.1 }
 		}
 	}
 	option = {
 		name = "ass_menu_hexagon_enable"
+		custom_tooltip = "ass_menu_hexagon_tooltip"
 		trigger = { NOT = { has_global_flag = "ass_hexagon_enabled" } }
 		hidden_effect = {
 			set_global_flag = "ass_hexagon_enabled"
@@ -57,6 +60,7 @@ country_event = {
 	}
 	option = {
 		name = "ass_menu_hexagon_disable"
+		custom_tooltip = "ass_menu_hexagon_tooltip"
 		trigger = { has_global_flag = "ass_hexagon_enabled" }
 		hidden_effect = {
 			remove_global_flag = "ass_hexagon_enabled"
@@ -65,17 +69,19 @@ country_event = {
 	}
 	option = {
 		name = "ass_menu_free_enable"
-		trigger = { NOT = { has_global_flag = "ass_free" } }
+		custom_tooltip = "ass_menu_free_tooltip"
+		trigger = { NOT = { has_global_flag = "ass_free_ship" } }
 		hidden_effect = {
-			set_global_flag = "ass_free"
+			set_global_flag = "ass_free_ship"
 			country_event = { id = assMenu.1 }
 		}
 	}
 	option = {
 		name = "ass_menu_free_disable"
-		trigger = { has_global_flag = "ass_free" }
+		custom_tooltip = "ass_menu_free_tooltip"
+		trigger = { has_global_flag = "ass_free_ship" }
 		hidden_effect = {
-			remove_global_flag = "ass_free"
+			remove_global_flag = "ass_free_ship"
 			country_event = { id = assMenu.1 }
 		}
 	}

@@ -78,8 +78,7 @@ special_project = {
 				flag = "ass_halt_operations"
 				days = 90
 			}
-			# Prevents this project for showing up again for the next 90 days
-			set_country_flag = "ass_go_home"
+			country_event = { id = assCountry.500 days = 91 }
 
 			# Make any owned ship head for home
 			every_owned_ship = {
@@ -91,9 +90,6 @@ special_project = {
 				ass_init_stage1 = yes
 			}
 			country_event = { id = assCountry.500 }
-
-			# Just remove ass_go_home
-			country_event = { id = assCountry.400 days = 90 }
 		}
 	}
 }

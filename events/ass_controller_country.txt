@@ -57,18 +57,6 @@ country_event = {
 	is_triggered_only = yes
 }
 
-# removes flag 90 days after the special project to go home
-country_event = {
-	id = assCountry.400
-	hide_window = yes
-	is_triggered_only = yes
-
-	immediate = {
-		remove_country_flag = "ass_go_home"
-		country_event = { id = assCountry.500 }
-	}
-}
-
 # Resets the event chain and all projects.
 # The reason we use an event and not simply an effect that we trigger
 # from the projects/etc is so that ROOT is a known scope in the
@@ -111,12 +99,10 @@ country_event = {
 					owner = THIS
 				}
 			}
-			if = { limit = { NOT = { has_country_flag = "ass_go_home" } }
-				enable_special_project = {
-					name = ass_go_home
-					location = capital_scope
-					owner = THIS
-				}
+			enable_special_project = {
+				name = ass_go_home
+				location = capital_scope
+				owner = THIS
 			}
 			enable_special_project = {
 				name = ass_increase_reserve
