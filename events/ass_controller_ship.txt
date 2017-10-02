@@ -88,6 +88,9 @@ ship_event = {
 		NOT = { has_ship_flag = "ass_halt_operations" }
 	}
 	immediate = {
+		# Used so other mods (autobuild) can ignore this ship
+		fleet = { set_fleet_flag = "autonomous_assembler" }
+
 		ship_event = { id = assShip.9001 }
 		# I have no idea when count_owned_ships updates, so delay 1 day.
 		owner = { country_event = { id = assCountry.500 days = 1 } }

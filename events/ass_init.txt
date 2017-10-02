@@ -75,6 +75,8 @@ country_event = {
 		create_fleet = {
 			effect = {
 				set_owner = PREV
+				# Used so other mods (autobuild) can ignore this ship
+				set_fleet_flag = "autonomous_assembler"
 				create_ship = {
 					name = random
 					random_existing_design = autonomous_assembler
