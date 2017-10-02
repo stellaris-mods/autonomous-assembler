@@ -62,6 +62,7 @@ ass_has_strategic_research = {
 
 ass_valid_research_planet = {
 	ass_planet_valid = yes
+	NOT = { has_planet_flag = "autobuild_planet_block" }
 	NOT = { has_planet_flag = "ass_target" }
 	NOT = { exists = owner }
 	has_deposit_for = shipclass_research_station
