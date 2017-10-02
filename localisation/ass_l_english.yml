@@ -25,7 +25,6 @@
 # Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301  USA
 ###
 
-
 autonomous_assembler: "Autonomous Assembler"
 autonomous_assembler_plural: "Autonomous Assemblers"
 ass_plural_colored: "§H$autonomous_assembler_plural$§!"
@@ -38,6 +37,11 @@ ass_military_complex: "Station Marker"
 ass_military_complex_plural: "Station Markers"
 ass_marker_colored: "§H$ass_military_complex$§!"
 ASS_STATION_SECTION: "Station Marker"
+
+ass_components: "Autonomous CPUs"
+ass_components_DESC: "Central processing units for our Autonomous Assemblers."
+ass_military_station_type: "Station Type"
+ass_military_station_type_DESC: "Unlocks new station type for $ass_plural_colored$ to construct around a $ass_marker_colored$."
 
 tech_autonomous_assembler: "Autonomous Assembler"
 tech_autonomous_assembler_desc: "Construction in space comes with all sorts of dangers, so if we would somehow send off autonomous construction ships instead of our manned ones, that would be much preferred."
