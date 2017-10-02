@@ -20,6 +20,7 @@ ass_stage1_wormhole_p1 = {
 	# Find any colonized system missing a wormhole station
 	closest_system = {
 		limit = {
+			ass_system_valid = yes
 			NOT = { has_star_flag = "ass_target" }
 			is_inside_border = ROOT.owner
 			any_planet = { ass_is_owners_planet = yes }
@@ -46,6 +47,7 @@ ass_stage1_wormhole_p2 = {
 	# Find any system more than 60 distance from a wormhole station
 	closest_system = {
 		limit = {
+			ass_system_valid = yes
 			NOT = { has_star_flag = "ass_target" }
 			ass_is_friendly_system = yes
 			OR = {

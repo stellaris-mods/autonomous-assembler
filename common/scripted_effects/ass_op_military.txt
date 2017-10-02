@@ -72,6 +72,8 @@ ass_stage1_military_p1 = {
 			}
 			closest_system = {
 				limit = {
+					NOT = { has_star_flag = "ass_target" }
+					ass_system_valid = yes
 					is_inside_border = ROOT.owner
 					ass_is_friendly_system = yes
 					any_planet = { has_orbital_station = no }
@@ -88,6 +90,8 @@ ass_stage1_military_p1 = {
 		else = { if = { limit = { owner = { has_technology = "tech_space_defense_station_3" } }
 			closest_system = {
 				limit = {
+					NOT = { has_star_flag = "ass_target" }
+					ass_system_valid = yes
 					is_inside_border = ROOT.owner
 					ass_is_friendly_system = yes
 					any_planet = { has_orbital_station = no }
@@ -104,6 +108,8 @@ ass_stage1_military_p1 = {
 		else = { if = { limit = { owner = { has_technology = "tech_space_defense_station_2" } }
 			closest_system = {
 				limit = {
+					NOT = { has_star_flag = "ass_target" }
+					ass_system_valid = yes
 					is_inside_border = ROOT.owner
 					ass_is_friendly_system = yes
 					any_planet = { has_orbital_station = no }
@@ -120,6 +126,8 @@ ass_stage1_military_p1 = {
 		else = { if = { limit = { owner = { has_technology = "tech_space_defense_station_1" } }
 			closest_system = {
 				limit = {
+					NOT = { has_star_flag = "ass_target" }
+					ass_system_valid = yes
 					is_inside_border = ROOT.owner
 					ass_is_friendly_system = yes
 					any_planet = { has_orbital_station = no }
@@ -150,6 +158,8 @@ ass_stage1_military_p2 = {
 		}
 		closest_system = {
 			limit = {
+				NOT = { has_star_flag = "ass_target" }
+				ass_system_valid = yes
 				is_inside_border = ROOT.owner
 				ass_is_friendly_system = yes
 				any_planet = { has_orbital_station = no }
@@ -165,6 +175,8 @@ ass_stage1_military_p2 = {
 	else = { if = { limit = { owner = { has_technology = "tech_space_defense_station_3" } }
 		closest_system = {
 			limit = {
+				NOT = { has_star_flag = "ass_target" }
+				ass_system_valid = yes
 				is_inside_border = ROOT.owner
 				ass_is_friendly_system = yes
 				any_planet = { has_orbital_station = no }
@@ -180,6 +192,8 @@ ass_stage1_military_p2 = {
 	else = { if = { limit = { owner = { has_technology = "tech_space_defense_station_2" } }
 		closest_system = {
 			limit = {
+				NOT = { has_star_flag = "ass_target" }
+				ass_system_valid = yes
 				is_inside_border = ROOT.owner
 				ass_is_friendly_system = yes
 				any_planet = { has_orbital_station = no }
@@ -195,6 +209,8 @@ ass_stage1_military_p2 = {
 	else = { if = { limit = { owner = { has_technology = "tech_space_defense_station_1" } }
 		closest_system = {
 			limit = {
+				NOT = { has_star_flag = "ass_target" }
+				ass_system_valid = yes
 				is_inside_border = ROOT.owner
 				ass_is_friendly_system = yes
 				any_planet = { has_orbital_station = no }

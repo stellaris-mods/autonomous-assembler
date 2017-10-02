@@ -60,7 +60,12 @@ ass_stage3_verify_orbit = {
 		ass_stage3_lock_and_accounts = yes
 		else = {
 			log = "[this.GetName]: ERROR: There's already some sort of station around [ass_target.GetName]."
-			# XXX need to mark this planet so we ignore it at least for a timed_flag
+			event_target:ass_target = {
+				set_timed_planet_flag = {
+					flag = "ass_error"
+					days = 180
+				}
+			}
 			ass_op_abort = yes
 		}
 	}

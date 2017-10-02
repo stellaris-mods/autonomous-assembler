@@ -2,9 +2,11 @@
 ass_stage1_dock_p1 = {
 	closest_system = {
 		limit = {
+			ass_system_valid = yes
 			is_inside_border = ROOT.owner
 			ass_is_friendly_system = yes
 			any_planet = {
+				ass_planet_valid = yes
 				ass_is_owners_planet = yes
 			}
 		}

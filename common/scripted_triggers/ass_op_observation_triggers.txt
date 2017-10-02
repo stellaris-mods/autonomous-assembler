@@ -1,5 +1,6 @@
 # Obviously unused for now
 ass_valid_primitive_planet = {
+	ass_planet_valid = yes
 	NOT = { has_planet_flag = "ass_target" }
 	exists = owner
 	owner = { is_country_type = primitive }

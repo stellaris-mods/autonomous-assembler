@@ -13,6 +13,7 @@ ass_check_research_priority_1 = {
 		# Priority 3 = any, if colonized system
 		AND = {
 			any_planet = {
+				ass_planet_valid = yes
 				ass_is_owners_planet = yes
 			}
 			any_planet = {
@@ -60,6 +61,7 @@ ass_has_strategic_research = {
 }
 
 ass_valid_research_planet = {
+	ass_planet_valid = yes
 	NOT = { has_planet_flag = "ass_target" }
 	NOT = { exists = owner }
 	has_deposit_for = shipclass_research_station

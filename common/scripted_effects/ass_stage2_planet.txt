@@ -27,12 +27,23 @@ ass_stage2_planet_reached = {
 			ass_init_stage3 = yes
 			else = {
 				log = "[this.GetName]: ERROR: Either we are not in the same system, or not in orbit, or simply too far away from [ass_target.GetName]."
+				event_target:ass_target = {
+					set_timed_planet_flag = {
+						flag = "ass_error"
+						days = 180
+					}
+				}
 				ass_op_abort = yes
 			}
 		}
 		else = {
 			log = "[this.GetName]: ERROR: Reached end of queue_actions without an operation. That's weird."
-			# XXX need to mark this planet so we ignore it at least for a timed_flag
+			event_target:ass_target = {
+				set_timed_planet_flag = {
+					flag = "ass_error"
+					days = 180
+				}
+			}
 			ass_op_abort = yes
 		}
 	}

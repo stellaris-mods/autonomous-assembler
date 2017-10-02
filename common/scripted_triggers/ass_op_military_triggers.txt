@@ -29,6 +29,7 @@ ass_exists_military_xlarge = {
 }
 
 ass_is_station_marker = {
+	ass_fleet_valid = yes
 	NOT = { has_fleet_flag = "ass_marker_used" }
 	NOT = { has_fleet_flag = "ass_target" }
 	is_ship_class = shipclass_military_station

@@ -1,4 +1,14 @@
 
+ass_system_valid = {
+	NOT = { has_star_flag = "ass_error" }
+}
+ass_planet_valid = {
+	NOT = { has_planet_flag = "ass_error" }
+}
+ass_fleet_valid = {
+	NOT = { has_fleet_flag = "ass_error" }
+}
+
 ass_is_friendly_system = {
 	has_access_fleet = ROOT.owner # XXX testing
 	NOT = {

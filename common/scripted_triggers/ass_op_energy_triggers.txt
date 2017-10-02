@@ -11,6 +11,7 @@ ass_check_energy_priority_1 = {
 				ass_has_any_energy = yes
 			}
 			any_planet = {
+				ass_planet_valid = yes
 				ass_is_owners_planet = yes
 			}
 		}

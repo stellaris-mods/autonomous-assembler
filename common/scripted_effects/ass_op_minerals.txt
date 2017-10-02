@@ -11,6 +11,7 @@ ass_stage1_minerals_p1 = {
 	# deposits that are bigger than 2, or is strategic
 	closest_system = {
 		limit = {
+			ass_system_valid = yes
 			is_inside_border = ROOT.owner
 			ass_is_friendly_system = yes
 			ass_check_minerals_priority_1 = yes
@@ -35,6 +36,7 @@ ass_stage1_minerals_p2 = {
 	# Find any mining deposit
 	closest_system = {
 		limit = {
+			ass_system_valid = yes
 			is_inside_border = ROOT.owner
 			ass_is_friendly_system = yes
 			any_planet = {
