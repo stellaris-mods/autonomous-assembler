@@ -1,0 +1,98 @@
+# Jeez has_ambient_object_flag can't be used inside any_ambient_object
+# or any_system_ambient_object. What the fuck is that about.
+
+ass_military_spawn_at_ambient = {
+	solar_system = {
+		every_system_ambient_object = {
+			limit = { has_ambient_object_flag = "ass_spawn_here" }
+			create_fleet = {
+				effect = {
+					set_owner = ROOT.owner
+					set_location = PREV
+				}
+			}
+			PREVPREV = {
+				switch = {
+					trigger = has_component
+					ASS_TYPE_XLARGE = { last_created_fleet = { create_ship = { name = random random_existing_design = military_station_xlarge } } }
+					ASS_TYPE_LARGE  = { last_created_fleet = { create_ship = { name = random random_existing_design = military_station_large } } }
+					ASS_TYPE_MEDIUM = { last_created_fleet = { create_ship = { name = random random_existing_design = military_station_medium } } }
+					ASS_TYPE_SMALL  = { last_created_fleet = { create_ship = { name = random random_existing_design = military_station_small } } }
+				}
+			}
+			destroy_ambient_object = THIS
+		}
+	}
+}
+
+# XXX Things spawn instantly right now.
+ass_military_at_marker = {
+	PREVPREVPREV = {
+		random_owned_ship = { # fleet ships
+			log = "[this.GetName] at station marker."
+			switch = {
+				trigger = has_component
+				ASS_TYPE_SMALL = {
+					ass_military_spawn_placeholders_50 = yes
+					ass_military_spawn_at_ambient = yes
+				}
+				ASS_TYPE_MEDIUM = {
+					ass_military_spawn_placeholders_50 = yes
+					ass_military_spawn_at_ambient = yes
+				}
+				ASS_TYPE_LARGE = {
+					ass_military_spawn_placeholders_80 = yes
+					ass_military_spawn_at_ambient = yes
+				}
+				ASS_TYPE_XLARGE = {
+					ass_military_spawn_placeholders_80 = yes
+					ass_military_spawn_at_ambient = yes
+				}
+			}
+		}
+		remove_fleet_flag = "ass_target"
+		set_fleet_flag = "ass_marker_used" # Marker used up
+	}
+	# Clear relation flags and mark operation complete
+	remove_ship_flag = "ass_relation_fleet"
+	ass_op_complete = yes
+}
+
+ass_stage1_military_marker_p1 = {
+	owner = {
+		if = {
+			limit = {
+				has_technology = "tech_ass_hexagon"
+				any_owned_fleet = {
+					ass_is_station_marker = yes
+				}
+			}
+			random_owned_fleet = {
+				limit = { ass_is_station_marker = yes }
+				log = "[Prev.Prev.GetName]: Moving to [this.GetName] (Station Marker)"
+				ass_mark_fleet = yes
+				PREVPREV = {
+					set_ship_flag = "ass_military"
+					fleet = {
+						set_fleet_flag = "autonomous_initial_order" # Removed instantly
+						set_fleet_flag = "autonomous_operation"
+						queue_actions = {
+							move_to = PREVPREV
+							repeat = {
+								while = {
+									id = assMilitaryMarker.1
+									NOT = { is_fleet_idle = yes }
+								}
+								wait = 7
+							}
+							effect = {
+								id = assMilitaryMarker.2
+								PREV = { ass_military_at_marker = yes }
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+}

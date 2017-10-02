@@ -49,13 +49,13 @@ ass_op_complete = {
 	ass_3rd_op_complete = yes
 
 	# Operation types
-	remove_ship_flag = "ass_dock"
-	remove_ship_flag = "ass_minerals"
-	remove_ship_flag = "ass_energy"
-	remove_ship_flag = "ass_research"
-	remove_ship_flag = "ass_observation"
-	remove_ship_flag = "ass_military"
-	remove_ship_flag = "ass_wormhole"
+	remove_ship_flag = "ass_op_dock"
+	remove_ship_flag = "ass_op_minerals"
+	remove_ship_flag = "ass_op_energy"
+	remove_ship_flag = "ass_op_research"
+	remove_ship_flag = "ass_op_observation"
+	remove_ship_flag = "ass_op_military"
+	remove_ship_flag = "ass_op_wormhole"
 
 	# Other flags that _require_ removal
 	# - none for now

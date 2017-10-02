@@ -8,6 +8,7 @@ ass_valid_primitive_planet = {
 	#has_research_station = no # Works
 	has_orbital_station = no # Works
 	has_observation_outpost = no
+	has_frontier_station = no
 }
 
 	# ZZZ These two dont work for primitive colonies for some reason

@@ -1,6 +1,6 @@
 ass_stage1_set_energy = {
 	PREVPREV = {
-		set_ship_flag = "ass_energy"
+		set_ship_flag = "ass_op_energy"
 		ass_accounting_set_mining_station_cost = yes
 	}
 }

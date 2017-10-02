@@ -1,0 +1,21 @@
+
+# EXPANSION_COST_BASE 				= 100.0		# the influence base cost of colonzation and frontier outposts by this value.
+# EXPANSION_COST_DISTANCE_FREE 		= 30.0		# a certain amount of distance that is reduced from actual distance in effect making a "free" distance
+# EXPANSION_COST_DISTANCE_FAR 		= 100.0	# special modifiers will be applied from this range
+# EXPANSION_COST_DISTANCE_COST		= 2.0		# each 1 range equals X of this define as an influence cost to colonize or build a frontier outpost
+# EXPANSION_COST_DISTANCE_SCALE 		= 1.10		# scaled cost for exponentially increased costs depending on range
+
+# OUTPOST_STATION_RESOURCES_BUILD = 9			# AI should build outpost station if system has more than this many resources
+# OUTPOST_STATION_RESOURCES_NEIGHBORS_BUILD = 20 # AI should build oupost station if neighboring systems have these many resources
+# OUTPOST_STATION_DISTANCE_MAX = 2500		# AI consideres station in neighboring system if square distance is higher than this value from a colony
+# OUTPOST_STATION_RANGE = 400				# AI consider outpost station to be able to extrude border about this far
+
+# MAX_COLONIZATION_COST = 300				# Range from borders AI will colonize planet (influence cost)
+
+
+# EXPANSION_MIN_PLANETS = 3					# AI will normally not place frontier outposts until it has this many planets
+# # has_frontier_station
+
+ass_stage1_frontier_p1 = {
+
+}

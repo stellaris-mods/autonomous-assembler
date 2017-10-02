@@ -1,7 +1,7 @@
 
 ass_stage1_set_minerals = {
 	PREVPREV = {
-		set_ship_flag = "ass_minerals"
+		set_ship_flag = "ass_op_minerals"
 		ass_accounting_set_mining_station_cost = yes
 	}
 }

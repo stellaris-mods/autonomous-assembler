@@ -1,7 +1,7 @@
 
 ass_stage1_set_research = {
 	PREVPREV = {
-		set_ship_flag = "ass_research"
+		set_ship_flag = "ass_op_research"
 		ass_accounting_set_research_station_cost = yes
 	}
 }

@@ -143,11 +143,11 @@ ship_event = {
 	immediate = {
 		switch = {
 			trigger = has_ship_flag
-			ass_minerals = { ass_stage4_minerals_complete = yes }
-			ass_energy   = { ass_stage4_energy_complete = yes }
-			ass_research = { ass_stage4_research_complete = yes }
-			ass_military = { ass_stage4_military_complete = yes }
-			ass_wormhole = { ass_stage4_wormhole_complete = yes }
+			ass_op_minerals = { ass_stage4_minerals_complete = yes }
+			ass_op_energy   = { ass_stage4_energy_complete = yes }
+			ass_op_research = { ass_stage4_research_complete = yes }
+			ass_op_military = { ass_stage4_military_complete = yes }
+			ass_op_wormhole = { ass_stage4_wormhole_complete = yes }
 		}
 	}
 }

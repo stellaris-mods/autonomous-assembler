@@ -14,6 +14,7 @@ ass_stage2_planet_reached = {
 					has_spaceport = no
 					has_observation_outpost = no # might not work
 					has_orbital_station = no
+					has_frontier_station = no
 				}
 			}
 			# ZZZ Now we either wait for cash or build, so lock now.

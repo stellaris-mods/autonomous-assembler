@@ -1,7 +1,7 @@
 
 ass_stage1_set_wormhole = {
 	PREV = {
-		set_ship_flag = "ass_wormhole"
+		set_ship_flag = "ass_op_wormhole"
 		ass_accounting_set_wormhole_station_cost = yes
 	}
 }

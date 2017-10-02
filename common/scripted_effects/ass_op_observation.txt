@@ -4,7 +4,7 @@
 # valid{}, and I can't get that to happen, regardless of what scope I
 # create_fleet in, or how I chain events.
 
-# ass_observation = {
+# ass_op_observation = {
 # 	fleet = {
 # 		orbit = {
 # 			# We can't spawn the obs station in orbit, because we are in the way
@@ -110,7 +110,7 @@
 # 			log = "Found planet for observation post: [this.GetName]"
 # 			ass_mark_planet = yes
 # 			PREVPREV = {
-# 				set_ship_flag = "ass_observation"
+# 				set_ship_flag = "ass_op_observation"
 # 				fleet = {
 # 					set_fleet_flag = "autonomous_initial_order" # Removed instantly
 # 					set_fleet_flag = "autonomous_operation"
