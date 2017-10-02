@@ -55,6 +55,7 @@ ass_op_complete = {
 	remove_ship_flag = "ass_op_research"
 	remove_ship_flag = "ass_op_observation"
 	remove_ship_flag = "ass_op_military"
+	remove_ship_flag = "ass_op_marker"
 	remove_ship_flag = "ass_op_wormhole"
 
 	# Other flags that _require_ removal

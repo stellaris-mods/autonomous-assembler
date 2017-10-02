@@ -5,6 +5,7 @@ ass_stage2_military_planet = {
 	PREVPREV = {
 		set_ship_flag = "ass_op_military"
 	}
+	ass_mark_planet = yes
 	ass_stage2_planet_move = yes
 }
 
@@ -54,10 +55,10 @@ ass_stage1_military_p1 = {
 	# Priority 1 is:
 	#  1.1: Find any station markers with tech_ass_hexagon
 	#  1.2: Find any colonized system without a station
-	ass_stage1_military_marker_p1 = yes
+	ass_stage1_marker_p1 = yes
 
 	if = {
-		limit = { NOT = { has_ship_flag = "ass_op_military"} }
+		limit = { ass_has_operation = no }
 		# We did not find any markers, so locate a system without a station
 		# depending on our tech level.
 

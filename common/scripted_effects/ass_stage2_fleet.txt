@@ -1,12 +1,11 @@
-
-ass_stage2_system_reached = {
-	log = "[this.GetName]: Probably in system [this.solar_system.GetName]."
+ass_stage2_fleet_reached = {
+	log = "[this.GetName]: Probably close to fleet [Prev.Prev.Prev.GetName]."
+	# XXX check distance and that we are in the same system
 	if = {
 		limit = { ass_has_operation = yes }
-
-		# XXX Check that we are in our target system
 		# ZZZ Now we either wait for cash or build, so lock now.
 		fleet = { set_event_locked = yes }
+
 		owner = { ass_accounting_count_minerals = yes }
 
 		ass_accounting_update_fleet = yes
@@ -14,14 +13,14 @@ ass_stage2_system_reached = {
 
 		else = {
 			log = "[this.GetName]: ERROR: Reached end of queue_actions without an operation. That's weird."
-			# XXX need to mark this system so we ignore it at least for a timed_flag
+			# XXX need to mark this planet so we ignore it at least for a timed_flag
 			ass_op_abort = yes
 		}
 	}
 }
 
-ass_stage2_system_move = {
-	PREV = {
+ass_stage2_fleet_move = {
+	PREVPREV = {
 		fleet = {
 			set_fleet_flag = "autonomous_initial_order" # Removed instantly
 			set_fleet_flag = "autonomous_operation"
@@ -29,14 +28,14 @@ ass_stage2_system_move = {
 				move_to = PREVPREV
 				repeat = {
 					while = {
-						id = assSystemMove.1
+						id = assFleetMove.1
 						NOT = { is_fleet_idle = yes }
 					}
 					wait = 7
 				}
 				effect = {
-					id = assSystemMove.2
-					PREV = { ass_stage2_system_reached = yes }
+					id = assFleetMove.2
+					PREV = { ass_stage2_fleet_reached = yes }
 				}
 			}
 		}

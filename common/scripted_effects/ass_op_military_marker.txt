@@ -25,8 +25,30 @@ ass_military_spawn_at_ambient = {
 	}
 }
 
-# XXX Things spawn instantly right now.
-ass_military_at_marker = {
+ass_stage1_marker_p1 = {
+	owner = {
+		if = {
+			limit = {
+				has_technology = "tech_ass_hexagon"
+				any_owned_fleet = {
+					ass_is_station_marker = yes
+				}
+			}
+			random_owned_fleet = {
+				limit = { ass_is_station_marker = yes }
+				PREVPREV = {
+					set_ship_flag = "ass_op_marker"
+					# the cost of this operation is in the marker
+				}
+				log = "[Prev.Prev.GetName]: Moving to [this.GetName] (Station Marker)"
+				ass_mark_fleet = yes
+				ass_stage2_fleet_move = yes
+			}
+		}
+	}
+}
+
+ass_stage3_marker = {
 	PREVPREVPREV = {
 		random_owned_ship = { # fleet ships
 			log = "[this.GetName] at station marker."
@@ -56,43 +78,4 @@ ass_military_at_marker = {
 	# Clear relation flags and mark operation complete
 	remove_ship_flag = "ass_relation_fleet"
 	ass_op_complete = yes
-}
-
-ass_stage1_military_marker_p1 = {
-	owner = {
-		if = {
-			limit = {
-				has_technology = "tech_ass_hexagon"
-				any_owned_fleet = {
-					ass_is_station_marker = yes
-				}
-			}
-			random_owned_fleet = {
-				limit = { ass_is_station_marker = yes }
-				log = "[Prev.Prev.GetName]: Moving to [this.GetName] (Station Marker)"
-				ass_mark_fleet = yes
-				PREVPREV = {
-					set_ship_flag = "ass_military"
-					fleet = {
-						set_fleet_flag = "autonomous_initial_order" # Removed instantly
-						set_fleet_flag = "autonomous_operation"
-						queue_actions = {
-							move_to = PREVPREV
-							repeat = {
-								while = {
-									id = assMilitaryMarker.1
-									NOT = { is_fleet_idle = yes }
-								}
-								wait = 7
-							}
-							effect = {
-								id = assMilitaryMarker.2
-								PREV = { ass_military_at_marker = yes }
-							}
-						}
-					}
-				}
-			}
-		}
-	}
 }

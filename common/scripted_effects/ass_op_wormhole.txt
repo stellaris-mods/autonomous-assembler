@@ -34,6 +34,7 @@ ass_stage1_wormhole_p1 = {
 		}
 		ass_stage1_set_wormhole = yes
 		log = "[Prev.GetName]: Moving to system [this.GetName] (Wormhole P1)"
+		ass_mark_system = yes
 		ass_stage2_system_move = yes
 	}
 }
@@ -100,6 +101,7 @@ ass_stage1_wormhole_p2 = {
 		}
 		ass_stage1_set_wormhole = yes
 		log = "[Prev.GetName]: Moving to system [this.GetName] (Wormhole P2)"
+		ass_mark_system = yes
 		ass_stage2_system_move = yes
 	}
 }

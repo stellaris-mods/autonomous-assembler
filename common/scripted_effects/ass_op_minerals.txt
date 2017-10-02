@@ -25,6 +25,7 @@ ass_stage1_minerals_p1 = {
 			}
 			ass_stage1_set_minerals = yes
 			log = "[Prev.Prev.GetName]: Moving to orbit [this.GetName] (Minerals P1)"
+			ass_mark_planet = yes
 			ass_stage2_planet_move = yes
 		}
 	}
@@ -48,6 +49,7 @@ ass_stage1_minerals_p2 = {
 			}
 			ass_stage1_set_minerals = yes
 			log = "[Prev.Prev.GetName]: Moving to orbit [this.GetName] (Minerals P2)"
+			ass_mark_planet = yes
 			ass_stage2_planet_move = yes
 		}
 	}

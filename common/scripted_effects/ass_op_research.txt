@@ -26,6 +26,7 @@ ass_stage1_research_p1 = {
 			}
 			ass_stage1_set_research = yes
 			log = "[Prev.Prev.GetName]: Moving to orbit [this.GetName] (Research P1)"
+			ass_mark_planet = yes
 			ass_stage2_planet_move = yes
 		}
 	}
@@ -47,6 +48,7 @@ ass_stage1_research_p2 = {
 			}
 			ass_stage1_set_research = yes
 			log = "[Prev.Prev.GetName]: Moving to orbit [this.GetName] (Research P2)"
+			ass_mark_planet = yes
 			ass_stage2_planet_move = yes
 		}
 	}

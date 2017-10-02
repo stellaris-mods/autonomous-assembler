@@ -21,6 +21,7 @@ ass_stage2_done = {
 			ass_op_research = { ship_event = { id = assShip.1000 days = 100 } }
 			ass_op_military = { ship_event = { id = assShip.1000 days = 100 } }
 			ass_op_wormhole = { ship_event = { id = assShip.1000 days = 100 } }
+			ass_op_marker   = { ass_stage3_marker = yes }
 		}
 		else = {
 			log = "[this.GetName]: Waiting for resources..."

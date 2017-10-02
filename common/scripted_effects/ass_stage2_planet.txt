@@ -41,7 +41,6 @@ ass_stage2_planet_reached = {
 }
 
 ass_stage2_planet_move = {
-	ass_mark_planet = yes
 	PREVPREV = {
 		fleet = {
 			set_fleet_flag = "autonomous_initial_order" # Removed instantly
