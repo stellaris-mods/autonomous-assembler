@@ -1,0 +1,22 @@
+
+ass_has_wormhole_in_system = {
+	any_ship_in_system = {
+		is_ship_class = shipclass_wormhole_station
+		exists = owner
+		owner = { is_same_value = ROOT.owner }
+	}
+}
+
+ass_can_build_wormhole = {
+	OR = {
+		NOT = { exists = space_owner }
+		space_owner = { is_same_value = ROOT.owner }
+		space_owner = {
+			# We can actually construct in hostile space
+			# But not in non-hostile space unless we have the treaty
+			NOT = { is_same_value = ROOT.owner }
+			is_hostile = ROOT.owner
+		}
+		# XXX space_owner = { treaty_thing }
+	}
+}
