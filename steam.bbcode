@@ -1,0 +1,77 @@
+[h1][b]Fully autonomous construction ship for players[/b][/h1]
+It never made much sense to me that you could build robots, but not autonomous construction ships.
+With this mod, you can.
+
+Autonomous Assemblers is a new ship type that unlocks after a tier 1 Engineering technology. When the game starts, a random player will be asked if he wants all players to start with the technology automatically. The player gets 3 questions, all disabled by default:
+[olist]
+[*]"Free Autonomous Assembler technology", automatically grants everyone (including AIs) the technology required to build the ship at game start
+[*]"Enable Military Station Complex technology", enables this specific extra rare engineering technology for this game
+[*]"Free Autonomous Assembler when researched", when anyone researches the technology, they get a free ship along with it. This also gives you a free ship at the start, if you enable option 1 above.
+[/olist]
+
+The Autonomous Assemblers can be used and commanded as regular construction ships any time you want, except during the actual construction of a station. If you want to take control of one during construction (they will have the red "lock" icon in the Outliner), you need to go to Special Projects and either send them to a colony, or halt operations.
+
+[h1]Autonomous Assembler Expansion Cards[/h1]
+The ship can be equipped with two expansion cards that determine its behavior. There is no artificial intelligence on the ship, as such - it's more like an automated lawn mower than. Each expansion card must be outfitted on the ship before it's launched, but they can be recalled and updated to a new layout later.
+
+The ship has 2x slots for expansion cards. It's [b]very important[/b] that you examine the card descriptions in detail, and understand that they behave differently depending on which slot you insert them into. And make note of wording; some cards may for example say "any system", and that would include any system even outside your borders.
+
+[b]Wormhole Expansion Card[/b]
+Expansion Slot 1: This expansion card will scan colonized systems for Wormhole stations, and if it does not find one we control, it will direct the ship towards that solar system and construct a Wormhole station.
+Expansion Slot 2: Calculates distances between solar systems and attempts to find any that are on the edge of our jump range, and moves there to construct Wormhole Stations.
+
+[b]Military Expansion Card[/b]
+Expansion Slot 1: Locates any Station Markers constructed inside our borders, moves there to set up a network of military stations around it. Then, finds the closest colonized system without a military station, and builds one there.
+Expansion Slot 2: Attempts to construct a military station in [i]every star system within our borders[/i].
+
+[b]Research Expansion Card[/b]
+Expansion Slot 1: Scans all planetary objects inside our space for Special Resources, and then any colonized system for any orbital research deposits, and finally any high-yielding (2+) research deposits inside our borders - and constructs a Research Station at the location, if needed.
+Expansion Slot 2: Constructs a Research Station at any orbital deposit that can benefit us.
+
+[b]Mineral Expansion Card[/b]
+Expansion Slot 1: Finds any orbital mineral deposit in colonized systems, any high-yielding deposit inside our borders, or any minable special resource, and creates a Mining Station there if needed.
+Expansion Slot 2: Constructs a Mining Station at any orbital mineral deposit that can benefit us.
+
+[b]Energy Expansion Card[/b]
+Expansion Slot 1: Finds any orbital energy deposit in colonized systems, any high-yielding deposit inside our borders, or any minable special resource, and creates a Mining Station there if needed.
+Expansion Slot 2: Constructs a Mining Station at any orbital energy deposit that can benefit us.
+
+[h1]Station Marker[/h1]
+The Station Marker is a new kind of military station gated behind a new rare technology that is [b]disabled by default[/b]. Constructing this marker allows your Autonomous Assemblers outfitted with a Military Expansion Card in slot 1 to build a hexagon-shaped defense cluster of military stations, just like in the old days of Stellaris. If you play with NSC, you should enable this option, because NSC has not adjusted the build block radius for vanilla military stations to match vanilla levels.
+
+Currently, once used, a marker will never be used again. I plan on making it such that the Autonomous Assemblers attempt to maintain the 6 stations spawned around the marker (given the budget, of course).
+
+[h1]Ship Combat Statistics[/h1]
+The Autonomous Assembler more closely resembles a Corvette than a Construction Ship in terms of combat statistics. It has exceptional evasion, combat speed, and sublight speed right off the bat, and can be further upgraded with new and improved central processing units.
+
+[h1]Special Projects[/h1]
+In your empires special projects screen, you will find a new section dedicated to controlling your Autonomous Assemblers, where you can:
+[list]
+[*]Increase/decrease the reserved resources, which limits how low the assemblers can drain your empires mineral reserves (default: 100, increments of +/- 500)
+[*]Halt/continue operations, which permanently halts or continues all autonomous operations (they can still be used as normal construction ships, manually, while halted)
+[*]Set course for colony, which immediately (even if they're currently building something) halts all operations and makes all Autonomous Assemblers head for the nearest colonized planet, and once docked, will stay there for 3 months before re-starting operations
+[/list]
+
+[h1]Future plans[/h1]
+[b]Planned Cards[/b]
+I want to make expansion cards for Frontier Outposts and Observation Stations. The mod does easily support 3rd party addons adding in extra expansion cards, please read the code if you want to do that. Or talk to me (but not on Steam).
+
+[b]Wormhole Card[/b]
+Support autonomous construction inside the borders of countries we have the Wormhole treaty with.
+
+[h1]Compatibility[/h1]
+It is compatible with existing save games, but you need to research the technology to get access to the ships then. The initial menu will not be shown.
+
+This mod is, as far as I know, compatible with every other addon that exists.
+
+[h1]Replaced files[/h1]
+This mod does not replace any vanilla files.
+
+[h1]Communicating with me[/h1]
+I do not like Steam, because the barrier to entry for commenting on a workshop page is too low. I spent effort on my projects, and I don't care to read feedback from people who make little effort to provide it. Of course, there's no rule without exceptions, and if - at any time - I do in fact read the comments, it's always nice to see one-line "thank you for the mod"-type comments.
+You may file bug reports on github; all my Stellaris mods are listed there. The repository is easy enough to find, if you care to look.
+
+I am also on the NSC Discord server, which is also easy to find.
+Other than that, if you can't be bothered to contact me through those means, I don't care what you have to say.
+
+That said, since this mod is so new, I might actually read comments here for a week or two.
