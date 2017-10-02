@@ -17,33 +17,6 @@
 # Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301  USA
 ###
 
-# Jeez has_ambient_object_flag can't be used inside any_ambient_object
-# or any_system_ambient_object. What the fuck is that about.
-
-ass_military_spawn_at_ambient = {
-	solar_system = {
-		every_system_ambient_object = {
-			limit = { has_ambient_object_flag = "ass_spawn_here" }
-			create_fleet = {
-				effect = {
-					set_owner = ROOT.owner
-					set_location = PREV
-				}
-			}
-			PREVPREV = {
-				switch = {
-					trigger = has_component
-					ASS_TYPE_XLARGE = { last_created_fleet = { create_ship = { name = random random_existing_design = military_station_xlarge } } }
-					ASS_TYPE_LARGE  = { last_created_fleet = { create_ship = { name = random random_existing_design = military_station_large } } }
-					ASS_TYPE_MEDIUM = { last_created_fleet = { create_ship = { name = random random_existing_design = military_station_medium } } }
-					ASS_TYPE_SMALL  = { last_created_fleet = { create_ship = { name = random random_existing_design = military_station_small } } }
-				}
-			}
-			destroy_ambient_object = THIS
-		}
-	}
-}
-
 ass_stage1_marker_p1 = {
 	owner = {
 		if = {
@@ -67,7 +40,20 @@ ass_stage1_marker_p1 = {
 	}
 }
 
-ass_stage3_marker = {
+# This chains from assMarker.100, which uses ass_relation_get_related_fleet,
+# which means that ass_target will be a fleet, and not a ship.
+ass_stage4_marker_complete = {
+	event_target:ass_target = {
+		remove_fleet_flag = "ass_target"
+	}
+	# Clear relation flags and mark operation complete
+	remove_ship_flag = "ass_relation_fleet"
+	ass_op_complete = yes
+}
+
+# In this effect, we set ass_target to a ship inside the fleet, so we can easily
+# switch on has_component.
+ass_stage3_marker_arrived = {
 	log = "[this.GetName] at station marker."
 	PREVPREVPREV = {
 		set_fleet_flag = "ass_marker_used" # Marker used up
@@ -80,26 +66,19 @@ ass_stage3_marker = {
 			trigger = has_component
 			ASS_TYPE_SMALL = {
 				ass_military_spawn_placeholders_50 = yes
-				ass_military_spawn_at_ambient = yes
 			}
 			ASS_TYPE_MEDIUM = {
 				ass_military_spawn_placeholders_50 = yes
-				ass_military_spawn_at_ambient = yes
 			}
 			ASS_TYPE_LARGE = {
 				ass_military_spawn_placeholders_80 = yes
-				ass_military_spawn_at_ambient = yes
 			}
 			ASS_TYPE_XLARGE = {
 				ass_military_spawn_placeholders_80 = yes
-				ass_military_spawn_at_ambient = yes
 			}
 		}
-		fleet = {
-			remove_fleet_flag = "ass_target"
-		}
 	}
-	# Clear relation flags and mark operation complete
-	remove_ship_flag = "ass_relation_fleet"
-	ass_op_complete = yes
+
+	# Build first station
+	ship_event = { id = assMarker.100 days = 85 }
 }

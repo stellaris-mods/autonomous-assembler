@@ -36,7 +36,6 @@ ass_stage3_build = {
 		ass_op_research = { ass_stage3_single_station = yes }
 		ass_op_military = { ass_stage3_single_station = yes }
 		ass_op_wormhole = { ass_stage3_single_station = yes }
-		ass_op_marker   = { ass_stage3_marker = yes }
 	}
 }
 
@@ -68,11 +67,12 @@ ass_stage3_verify_orbit = {
 	if = {
 		limit = {
 			event_target:ass_target = {
+				has_orbital_station = no
+				has_any_megastructure = no
 				has_mining_station = no
 				has_research_station = no
 				has_spaceport = no
 				has_observation_outpost = no
-				has_orbital_station = no
 				has_frontier_station = no
 			}
 		}
@@ -102,7 +102,10 @@ ass_init_stage3 = {
 		ass_op_research = { ass_stage3_verify_orbit = yes }
 		ass_op_military = { ass_stage3_lock_and_accounts = yes }
 		ass_op_wormhole = { ass_stage3_lock_and_accounts = yes }
-		ass_op_marker   = { ass_stage3_lock_and_accounts = yes }
+		ass_op_marker   = {
+			fleet = { set_event_locked = yes }
+			ass_stage3_marker_arrived = yes
+		}
 		ass_op_dock     = { ass_stage3_reached_dock = yes }
 	}
 }

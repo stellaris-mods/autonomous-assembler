@@ -1,4 +1,117 @@
+###
+# This file is part of a project hosted at https://github.com/stellaris-mods
+# Copyright (c) 2017 folk@folk.wtf
+#
+# This program is free software; you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation; either version 3 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software Foundation,
+# Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301  USA
+###
 
+
+# ZZZ
+# The following log lines demonstrate why we can't rely on event targets
+# in delayed event chains. So that's why we use the relation flag to
+# locate the military marker again in immediate.
+
+# log = "[ass_target.GetName]: Spawning military station after 85 days."
+# 34. Big Bazoom: Spawning military station after 85 days.
+# 34. Big Bazoom: Spawning military station after 85 days.
+# 34. Big Bazoom: Spawning military station after 85 days.
+# 34. Big Bazoom: Spawning military station after 85 days.
+# 34. Big Bazoom: Spawning military station after 85 days.
+# 34. Big Bazoom: Spawning military station after 85 days.
+# 34. : Spawning military station after 85 days.
+#
+# Name is missing on the last one there, because the event target has
+# been reset for some weird reason. They're just not reliable over
+# chained days=X events.
+#
+
+
+# Controller events for the military Station Marker operation.
+
+namespace = assMarker
+
+ship_event = {
+	id = assMarker.100
+	hide_window = yes
+	is_triggered_only = yes
+
+	# Jeez has_ambient_object_flag can't be used inside any_ambient_object
+	# or any_system_ambient_object. What the fuck is that about.
+
+	immediate = {
+		# Find our station marker using the relation flag.
+		ass_relation_get_related_fleet = yes
+
+		# Check if we found the relation target
+		if = {
+			limit = { has_ship_flag = "ass_found_relation_target" }
+			remove_ship_flag = "ass_found_relation_target"
+			# Yes, we did, it's set in event_target:ass_target now.
+			# And it's a fleet, because ships dont support variables.
+			log = "[this.GetName]: Spawning military station around [ass_target.GetName] after 85 days."
+
+			solar_system = {
+				random_system_ambient_object = {
+					limit = { has_ambient_object_flag = "ass_spawn_here" }
+					ROOT = { set_ship_flag = "ass_spawned_marker_station" }
+					create_fleet = {
+						effect = {
+							set_owner = ROOT.owner
+							set_location = PREV
+						}
+					}
+					destroy_ambient_object = THIS
+				}
+			}
+
+			# We need this ship flag because the any_*ambient_object triggers dont work,
+			# and I want to support any random number of ass_spawn_here objects.
+			if = {
+				limit = { has_ship_flag = "ass_spawned_marker_station" }
+				remove_ship_flag = "ass_spawned_marker_station"
+
+				event_target:ass_target = {
+					random_owned_ship = {
+						switch = {
+							trigger = has_component
+							ASS_TYPE_XLARGE = { last_created_fleet = { create_ship = { name = random random_existing_design = military_station_xlarge } } }
+							ASS_TYPE_LARGE  = { last_created_fleet = { create_ship = { name = random random_existing_design = military_station_large } } }
+							ASS_TYPE_MEDIUM = { last_created_fleet = { create_ship = { name = random random_existing_design = military_station_medium } } }
+							ASS_TYPE_SMALL  = { last_created_fleet = { create_ship = { name = random random_existing_design = military_station_small } } }
+						}
+					}
+				}
+
+				# Yes, we chain it even if there are none left to build.
+				# That's why it's 85 days and not 100.
+				ship_event = { id = assMarker.100 days = 85 }
+
+				else = {
+					# We are done.
+					ass_stage4_marker_complete = yes
+				}
+			}
+
+			else = {
+				# Relation target NOT found, so abort mission
+				log = "[this.GetName]: ERROR: Could not any Station Marker with the same UUID as us, aborting mission."
+				ass_op_abort = yes
+			}
+		}
+	}
+}
 
 # on monthly pulse
 # find any ass_marker_used that are missing their stations

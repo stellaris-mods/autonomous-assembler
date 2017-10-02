@@ -293,13 +293,13 @@ ass_unmark_planet = {
 			# We need to check if AssUUID is the same in both
 			ass_set_target_uuid = yes
 			# Now, in PREV, there's both AssCompareUUID and AssUUID.
-			# If they are the same, this was our target fleet.
+			# If they are the same, this was our target planet.
 			if = {
 				limit = {
 					PREV = { fleet = { check_variable = { which = "AssUUID" value = "AssCompareUUID" } } }
 				}
 				PREV = { remove_ship_flag = "ass_relation_planet" }
-				# We found our target fleet: reset it!
+				# We found our target planet: reset it!
 				set_variable = { which = "AssUUID" value = 0 }
 				remove_planet_flag = "ass_target"
 				set_global_flag = "ass_break"
@@ -321,3 +321,57 @@ ass_unmark_planet = {
 	}
 }
 
+# THIS must be the ship
+ass_relation_get_related_fleet = {
+	remove_ship_flag = "ass_found_relation_target"
+	owner = {
+		every_owned_fleet = {
+			limit = {
+				# Hopefully there wont be more than 100 :-P
+				has_fleet_flag = "ass_target"
+				# Worth noting that we reset AssUUID to 0 when we unmark
+				check_variable = { which = "AssUUID" value > 0 }
+			}
+			set_fleet_flag = "ass_checked"
+		}
+		remove_global_flag = "ass_break"
+		while = {
+			limit = {
+				NOT = { has_global_flag = "ass_break" }
+				any_owned_fleet = {
+					has_fleet_flag = "ass_checked"
+				}
+			}
+			random_owned_fleet = {
+				limit = { has_fleet_flag = "ass_checked" }
+				# Reset compare variable
+				PREVPREV = { fleet = { set_variable = { which = "AssCompareUUID" value = 0 } } }
+				# Make a copy of the UUID that we can mangle
+				set_variable = { which = "AssTmp" value = "AssUUID" }
+				while = {
+					limit = { check_variable = { which = "AssTmp" value > 0 } }
+					subtract_variable = { which = "AssTmp" value = 1 }
+					PREVPREV = { fleet = { change_variable = { which = "AssCompareUUID" value = 1 } } }
+				}
+				if = {
+					limit = {
+						PREVPREV = { fleet = { check_variable = { which = "AssCompareUUID" value = "AssUUID" } } }
+					}
+					# This is our related fleet
+					set_global_flag = "ass_break"
+					PREVPREV = { set_ship_flag = "ass_found_relation_target" }
+					save_event_target_as = ass_target
+				}
+			}
+		}
+		# Clean up
+		remove_global_flag = "ass_break"
+		while = {
+			limit = { any_owned_fleet = { has_fleet_flag = "ass_checked" } }
+			random_owned_fleet = {
+				limit = { has_fleet_flag = "ass_checked" }
+				remove_fleet_flag = "ass_checked"
+			}
+		}
+	}
+}
