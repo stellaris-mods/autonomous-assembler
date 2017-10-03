@@ -1,5 +1,4 @@
-# Steam description
-
+# Autonomous Assembler
 
 ## Future plans
 **Planned Cards**
@@ -14,6 +13,7 @@ I want to add some random failures (rarely, of course) to the onboard computer e
 **Damaged ship**
 I want to make a new autonomous behavior where it flies back and repairs itself, if necessary and possible\.
 
+## Steam description
 
 [//]: # (start)
 Steam description transliterated from `steam.bbcode` by [our release script](https://raw.githubusercontent.com/stellaris-mods/scripts/master/stlrel).
