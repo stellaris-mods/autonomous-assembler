@@ -48,7 +48,7 @@ ass_stage2_fleet_reached = {
 			}
 		}
 		else = {
-			log = "[this.GetName]: ERROR: Reached end of queue_actions without an operation. That's weird."
+			log = "[this.GetName]: ERROR: Reached end of stage2_fleet_move without an operation. That's weird."
 			event_target:ass_target = {
 				set_timed_fleet_flag = {
 					flag = "ass_error"

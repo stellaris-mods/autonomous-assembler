@@ -29,10 +29,9 @@ ship_event = {
 	hide_window = yes
 	is_triggered_only = yes
 	trigger = {
-		owner = { is_ai = no }
-		is_ship_size = autonomous_assembler
 		# This is set by the dock operation, a timed flag for 3 months
 		NOT = { has_ship_flag = "ass_halt_operations" }
+		is_ship_size = autonomous_assembler
 	}
 	immediate = {
 		if = {
@@ -65,7 +64,6 @@ event = {
 				# And maybe not. I've only seen the error once.
 				is_ship_size = autonomous_assembler
 				owner = {
-					is_ai = no
 					NOT = { has_country_flag = "ass_halt_operations" }
 				}
 				ass_has_operation = no
@@ -87,12 +85,21 @@ ship_event = {
 	hide_window = yes
 	is_triggered_only = yes
 	trigger = {
-		owner = { is_ai = no }
 		is_ship_size = autonomous_assembler
 		# This is set by the dock operation, a timed flag for 3 months
 		NOT = { has_ship_flag = "ass_halt_operations" }
 	}
 	immediate = {
+		log = "[this.Owner.GetName] built an assembler."
+
+		if = {
+			limit = { owner = { is_ai = yes } }
+			# Event lock the fleet immediately and forever, so
+			# that the AI doesn't interfere with the ass ops.
+			# I have not tested whether this works.
+			fleet = { set_event_locked = yes }
+		}
+
 		# Used so other mods (autobuild) can ignore this ship
 		fleet = { set_fleet_flag = "autonomous_assembler" }
 
@@ -110,7 +117,6 @@ ship_event = {
 	hide_window = yes
 	is_triggered_only = yes
 	trigger = {
-		owner = { is_ai = no }
 		is_ship_size = autonomous_assembler
 		fleet = { has_fleet_flag = "autonomous_operation" }
 	}
@@ -120,27 +126,10 @@ ship_event = {
 				limit = { has_fleet_flag = "autonomous_initial_order" }
 					remove_fleet_flag = "autonomous_initial_order"
 				else = {
-					log = "[Root.GetName]: Player gave ship a manual order, aborting."
+					log = "[Root.GetName]: [Root.Owner.GetName] gave ship a manual order, aborting."
 					ROOT = { ass_op_abort = yes }
 				}
 			}
-		}
-	}
-}
-
-# on_ship_upgraded
-# root = ship
-ship_event = {
-	id = assShip.200
-	hide_window = yes
-	is_triggered_only = yes
-	trigger = {
-		is_ship_size = autonomous_assembler
-		owner = { is_ai = no }
-	}
-	immediate = {
-		owner = {
-			log = "[this.GetName] upgraded!"
 		}
 	}
 }
@@ -155,7 +144,6 @@ country_event = {
 	hide_window = yes
 	is_triggered_only = yes
 	trigger = {
-		is_ai = no
 		FROMFROM = { is_ship_size = autonomous_assembler }
 	}
 	immediate = {
@@ -188,9 +176,12 @@ event = {
 	hide_window = yes
 	is_triggered_only = yes
 	immediate = {
+		# I don't trust every_country (or any every_ effect), so try to
+		# limit{} as much as possible.
 		every_country = {
 			limit = {
-				is_ai = no
+				has_technology = tech_autonomous_assembler
+				check_variable = { which = "AssReserve" value > 0 }
 				any_owned_ship = { has_ship_flag = "ass_waiting_for_cash" }
 			}
 			ass_accounting_count_minerals = yes

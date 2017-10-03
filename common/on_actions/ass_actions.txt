@@ -48,7 +48,6 @@ on_monthly_pulse = {
 
 on_ship_built = { events = { assShip.1 } }
 on_ship_order = { events = { assShip.100 } }
-on_ship_upgraded = { events = { assShip.200 } }
 on_ship_destroyed_victim = { events = { assShip.300 } }
 
 on_entering_system_fleet = { events = { assFleet.200 } }

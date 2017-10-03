@@ -61,12 +61,58 @@ country_event = {
 	is_triggered_only = yes
 	hide_window = yes
 	trigger = {
+		# look below, the AI simply deletes the ship immediately.
+		is_ai = no
 		has_global_flag = "ass_free_ship"
 		last_increased_tech = "tech_autonomous_assembler"
 	}
 	# ZZZ Delay by one day to allow the auto-design to appear
 	immediate = { country_event = { id = assInit.101 days = 1 } }
 }
+
+#
+# None of the below, as far as I can tell, allowed preventing the AI
+# from dismantling the ship immediately.
+# Also, adding a static_modifier that made the ship entirely free of
+# upkeep also did not prevent the AI from dismantling the ship instantly.
+#
+# set_event_locked = yes
+#
+# create_ship properties:
+# upgradable = no
+# ftl = country
+#
+# create_fleet properties:
+# set_take_point = yes
+#
+# create_fleet settings:
+# settings = {
+# spawn_debris = no
+# can_upgrade = no
+# can_change_composition = no
+# can_auto_repair
+# can_recharge_shield
+# can_change_leader = no
+# garrison = yes
+# ai_ignore_strength = yes
+# is_boss = yes
+#
+# I have not tested tweaking any of these defines.
+# I think the best bet that wont interfere with the AI too much in other ways
+# is to simply give the AI a add_monthly_resource_mult at start so that its
+# income is above DISBAND_THRESHOLD.
+# However, like I said above, when I made the fleet entirely void of upkeep,
+# the AI still disbanded it.
+#
+# MAX_SHIPS_DISBAND_PER_WEEK = 5
+# If budget does not cover at least this fraction of the navy maintenance disband ships & stations
+# DISBAND_THRESHOLD = 0.8
+# Number of constructor ships of AI is the number of planets times this value
+# CONSTRUCTOR_SHIPS_MUL = 0.04
+# AI will disband ships if wanted + this value < owned
+# THRESHOLD_DISBAND_SHIPS = 3
+#
+
 country_event = {
 	id = assInit.101
 	hide_window = yes

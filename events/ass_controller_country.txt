@@ -46,21 +46,20 @@ country_event = {
 		set_country_flag = "ass_wormhole_warned"
 	}
 }
+# on_tech_increased
 country_event = {
 	id = assCountry.101
 	hide_window = yes
 	is_triggered_only = yes
 
-	trigger = {
-		last_increased_tech = tech_autonomous_assembler
-	}
+	trigger = { last_increased_tech = tech_autonomous_assembler }
 
 	immediate = {
-		log = "Setting AssReserve for [this.GetName]."
-		set_variable = {
-			which = "AssReserve"
-			value = 100
-		}
+		if = { limit = { is_ai = yes }
+			set_variable = { which = "AssReserve" value = 600 }
+		else = {
+			set_variable = { which = "AssReserve" value = 100 }
+		} }
 		country_event = { id = assCountry.500 }
 	}
 }
@@ -91,7 +90,6 @@ country_event = {
 		}
 		if = {
 			limit = {
-				is_ai = no
 				count_owned_ships = {
 					limit = { is_ship_size = autonomous_assembler }
 					count > 0
@@ -100,40 +98,45 @@ country_event = {
 			# Set the AssReserve variable on all fleets
 			ass_accounting_update_reserves = yes
 
-			begin_event_chain = {
-				event_chain = autonomous_assembler_setup
-				target = ROOT
-			}
-			if = { limit = { has_country_flag = "ass_halt_operations" }
-				enable_special_project = {
-					name = ass_continue_operations
-					location = capital_scope
-					owner = THIS
-				}
-			}
-			if = { limit = { NOT = { has_country_flag = "ass_halt_operations" } }
-				enable_special_project = {
-					name = ass_halt_operations
-					location = capital_scope
-					owner = THIS
-				}
-			}
-			enable_special_project = {
-				name = ass_go_home
-				location = capital_scope
-				owner = THIS
-			}
-			enable_special_project = {
-				name = ass_increase_reserve
-				location = capital_scope
-				owner = THIS
-			}
+			# The AI simply researches all projects all the time,
+			# so lets not create them for the AI.
 			if = {
-				limit = { check_variable = { which = "AssReserve" value > 599 } }
+				limit = { is_ai = no }
+				begin_event_chain = {
+					event_chain = autonomous_assembler_setup
+					target = ROOT
+				}
+				if = { limit = { has_country_flag = "ass_halt_operations" }
+					enable_special_project = {
+						name = ass_continue_operations
+						location = capital_scope
+						owner = THIS
+					}
+				}
+				if = { limit = { NOT = { has_country_flag = "ass_halt_operations" } }
+					enable_special_project = {
+						name = ass_halt_operations
+						location = capital_scope
+						owner = THIS
+					}
+				}
 				enable_special_project = {
-					name = ass_decrease_reserve
+					name = ass_go_home
 					location = capital_scope
 					owner = THIS
+				}
+				enable_special_project = {
+					name = ass_increase_reserve
+					location = capital_scope
+					owner = THIS
+				}
+				if = {
+					limit = { check_variable = { which = "AssReserve" value > 599 } }
+					enable_special_project = {
+						name = ass_decrease_reserve
+						location = capital_scope
+						owner = THIS
+					}
 				}
 			}
 		}

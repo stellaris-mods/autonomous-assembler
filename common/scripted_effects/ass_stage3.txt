@@ -54,9 +54,18 @@ ass_stage3_single_station = {
 	}
 }
 
+# AI Assemblers are event locked when they are built, and
+# must remain event locked forever to prevent the AI ordering
+# the ship around (hopefully - I have not tested this).
+ass_stage3_lock_ship = {
+	if = { limit = { owner = { is_ai = no } }
+		fleet = { set_event_locked = yes }
+	}
+}
+
 ass_stage3_lock_and_accounts = {
 	# ZZZ Now we either wait for cash or build, so lock now.
-	fleet = { set_event_locked = yes }
+	ass_stage3_lock_ship = yes
 
 	owner = { ass_accounting_count_minerals = yes }
 
@@ -103,7 +112,7 @@ ass_init_stage3 = {
 		ass_op_military = { ass_stage3_lock_and_accounts = yes }
 		ass_op_wormhole = { ass_stage3_lock_and_accounts = yes }
 		ass_op_marker   = {
-			fleet = { set_event_locked = yes }
+			ass_stage3_lock_ship = yes
 			ass_stage3_marker_arrived = yes
 		}
 		ass_op_dock     = { ass_stage3_reached_dock = yes }
