@@ -24,7 +24,7 @@ With this mod, you can\.
 
 Compatible with all addons I can think of, and also explicitly cross\-compatible with Autobuild, by had\.
 
-Autonomous Assemblers is a new ship type that unlocks after a tier 1 Engineering technology\. When the game starts, a random player will be asked if he wants all players to start with the technology automatically\. The player gets 3 questions, all disabled by default:
+Autonomous Assemblers is a new ship type that unlocks after a tier 1 technology\. When the game starts, a random player will be asked if he wants all players to start with the technology automatically\. The player gets 3 questions, all disabled by default:
 
 1. "Free Autonomous Assembler technology", automatically grants everyone (including AIs) the technology required to build the ship at game start
 1. "Enable Military Station Complex technology", enables this specific extra rare engineering technology for this game
@@ -33,8 +33,7 @@ Autonomous Assemblers is a new ship type that unlocks after a tier 1 Engineering
 
 
 The Autonomous Assemblers can be used and commanded as regular construction ships any time you want, including while enroute during an autonomous operation \- except during the actual construction of a station, while locked\. If you want to take control during construction (they will have the red "lock" icon in the Outliner), you need to go to Special Projects and either send them to a colony, or halt operations\.
-
-It might be worth noting that you can build as many of them as you want, and outfit them all with different expansion cards\.
+You can build as many as you want, and outfit them with different expansion cards\.
 
 ## Autonomous Assembler Expansion Cards
 The ship can be equipped with two expansion cards that determine its behavior\. There is no artificial intelligence on the ship, as such \- it's more like an automated lawn mower than\. Each expansion card must be outfitted on the ship before it's launched, but they can be recalled and updated to a new layout later\.
@@ -95,16 +94,11 @@ In your empires special projects screen, you will find a new section dedicated t
 * Halt/continue operations, which permanently halts or continues all autonomous operations (they can still be used as normal construction ships, manually, while halted)
 * Set course for colony, which immediately (even if they're currently building something) halts all operations and makes all Autonomous Assemblers head for the nearest colonized planet, and once docked, will stay there for 3 months before re\-starting operations
 
+
+All the projects are free, they just take time\. Also, they all reset every time you build or lose an assembler, and any time you complete a project\. Nothing I can do about this, unfortunately\.
+
 ## Known problems
 The ships do not try to escape if a hostile fleet enters a system while they are locked during construction\.
-
-Research of any of the Special Projects will be instantly interrupted if you construct any Autonomous Assemblers during the research\. Or if any owned assemblers are destroyed\. Also, 91 days after the "Set course for colony" project completes, the Special Projects reset\.
-
-Also, whenever you finish any Special Project in the Autonomous Assemblers category, they all reset\.
-
-This is because I have no way of knowing whether or not you are actively researching a project, so I can't prevent it, and I need to update the text, and toggle which projects to show/hide based on many conditions\.
-
-That said, the projects are free anyway\.
 
 ## Compatibility
 Compatible with existing save games, but you need to research the technology to get access to the ships\. The menu only shows in new games\.
@@ -115,11 +109,10 @@ This mod is, as far as I know, compatible with all other addons\.
 This mod does not replace any vanilla files\.
 
 ## Changelog
-Though Steam provides a way to list changes between uploads, there is no way I can automate this, so I've stopped doing it for all my workshop mods\. All releases of all my mods on the workshop are also released at their Github page, and the changelog there is automatically generated for me, which means that (a) it requires no effort, and (b) it always exists\.
-
-So if you want to read it, go find it there\.
+Though Steam provides a way to list changes between uploads, there is no way I can automate this, so now you need to find the release notes on Github\.
 
 ## Communicating with me
 You may file bug reports on Github\. All my Stellaris mods are listed there\.
+
 
 [//]: # (stop)
