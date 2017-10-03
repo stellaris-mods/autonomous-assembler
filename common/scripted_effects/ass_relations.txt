@@ -132,6 +132,15 @@ ass_relation_invalidate = {
 						flag = "ass_error"
 						days = 180
 					}
+					if = {
+						# Fleets in transit between star systems dont
+						# actually have a solar_system scope.
+						limit = { exists = solar_system }
+						set_timed_star_flag = {
+							flag = "ass_error"
+							days = 180
+						}
+					}
 				}
 			}
 			ass_relation_planet = {
@@ -139,6 +148,12 @@ ass_relation_invalidate = {
 					set_timed_planet_flag = {
 						flag = "ass_error"
 						days = 180
+					}
+					solar_system = {
+						set_timed_star_flag = {
+							flag = "ass_error"
+							days = 180
+						}
 					}
 				}
 			}
