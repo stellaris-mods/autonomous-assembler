@@ -29,6 +29,7 @@ ass_valid_mining_planet = {
 	has_deposit_for = shipclass_mining_station
 	exists = orbital_deposit_tile
 	is_surveyed = { who = ROOT.owner status = yes }
+	has_anomaly = no
 	has_orbital_station = no
 	has_any_megastructure = no
 	has_mining_station = no
