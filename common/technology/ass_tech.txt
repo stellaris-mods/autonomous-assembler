@@ -25,7 +25,6 @@ tech_autonomous_assembler = {
 	category = { voidcraft }
 	prerequisites = { tech_space_construction }
 	weight = 100
-	gateway = ship
 
 	prereqfor_desc = {
 		ship = {
@@ -74,7 +73,12 @@ tech_autonomous_assembler = {
 			}
 		}
 	}
-	ai_weight = { factor = 0 }
+	ai_weight = {
+		modifier = {
+			factor = 0
+			years_passed < 10
+		}
+	}
 }
 
 tech_ass_hexagon = {
@@ -132,5 +136,5 @@ tech_ass_hexagon = {
 		}
 	}
 
-	ai_weight = { factor = 0 }
+	ai_weight = { factor = 0.5 }
 }
