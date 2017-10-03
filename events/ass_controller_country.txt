@@ -64,17 +64,6 @@ country_event = {
 	}
 }
 
-# on_entering_battle
-# This = owner of fleet 1
-# From = owner of fleet 2
-# FromFrom = fleet 1
-# FromFromFrom = fleet 2
-country_event = {
-	id = assCountry.300
-	hide_window = yes
-	is_triggered_only = yes
-}
-
 # Resets the event chain and all projects.
 # The reason we use an event and not simply an effect that we trigger
 # from the projects/etc is so that ROOT is a known scope in the

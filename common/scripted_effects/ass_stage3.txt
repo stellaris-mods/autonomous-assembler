@@ -46,9 +46,13 @@ ass_stage3_single_station = {
 		ass_accounting_grabdatcash = yes
 		remove_ship_flag = "ass_waiting_for_cash"
 		log = "[this.GetName]: Constructing station..."
-		ship_event = { id = assShip.1000 days = 100 }
+		if = { limit = { has_global_flag = "debug" }
+			ship_event = { id = assShip.1000 days = 10 }
 		else = {
-			log = "[this.GetName]: Waiting for resources..."
+			ship_event = { id = assShip.1000 days = 100 }
+		} }
+		else = {
+			assdbg_resource_wait = yes
 			set_ship_flag = "ass_waiting_for_cash"
 		}
 	}
@@ -88,13 +92,7 @@ ass_stage3_verify_orbit = {
 		ass_stage3_lock_and_accounts = yes
 		else = {
 			log = "[this.GetName]: ERROR: There's already some sort of station around [ass_target.GetName]."
-			event_target:ass_target = {
-				set_timed_planet_flag = {
-					flag = "ass_error"
-					days = 180
-				}
-			}
-			ass_op_abort = yes
+			ass_stage4_abort_operation = yes
 		}
 	}
 }

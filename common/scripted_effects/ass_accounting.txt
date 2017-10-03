@@ -98,7 +98,7 @@ ass_accounting_update_reserves = {
 				subtract_variable = { which = "AssTmp" value = 1 }
 			}
 		}
-		log = "[this.GetName]: Updated AssReserve to [this.AssReserve]."
+		assdbg_reserves_updated = yes
 	}
 }
 
@@ -163,7 +163,7 @@ ass_accounting_grabdatcash = {
 	# Makes sure we refund the country AssOperationCost if we abort.
 	set_ship_flag = "ass_refund_if_aborted"
 	fleet = {
-		log = "[Prev.GetName]: Grabbing operation cost [this.AssOperationCost]."
+		assdbg_grabbing_cost = yes
 		# Make a copy we can mangle
 		set_variable = { which = "AssTmp" value = "AssOperationCost" }
 		while = {
@@ -204,7 +204,7 @@ ass_accounting_grabdatcash = {
 # THIS = ship
 ass_accounting_refund = {
 	fleet = {
-		log = "[Prev.GetName]: refunding [this.AssOperationCost]."
+		assdbg_refunding_cost = yes
 		# Make a copy we can mangle. Could "probably" mangle
 		# the main variable now, since we're probably aborting operation.
 		# No need to take any risks with future behaviors.

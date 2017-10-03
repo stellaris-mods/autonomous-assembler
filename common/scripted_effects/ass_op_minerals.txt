@@ -20,7 +20,7 @@
 
 ass_stage1_set_minerals = {
 	set_timed_planet_flag = { flag = "autobuild_planet_block" days = 100 }
-	PREVPREV = {
+	ROOT = {
 		set_ship_flag = "ass_op_minerals"
 		ass_accounting_set_mining_station_cost = yes
 	}
@@ -45,8 +45,8 @@ ass_stage1_minerals_p1 = {
 				}
 			}
 			ass_stage1_set_minerals = yes
-			log = "[Prev.Prev.GetName]: Moving to orbit [this.GetName] (Minerals P1)"
-			ass_mark_planet = yes
+			log = "[Root.GetName]: Moving to orbit [this.GetName] (Minerals P1)"
+			ass_relation_flag_planet = yes
 			ass_stage2_planet_move = yes
 		}
 	}
@@ -70,8 +70,8 @@ ass_stage1_minerals_p2 = {
 				ass_has_any_minerals = yes
 			}
 			ass_stage1_set_minerals = yes
-			log = "[Prev.Prev.GetName]: Moving to orbit [this.GetName] (Minerals P2)"
-			ass_mark_planet = yes
+			log = "[Root.GetName]: Moving to orbit [this.GetName] (Minerals P2)"
+			ass_relation_flag_planet = yes
 			ass_stage2_planet_move = yes
 		}
 	}
@@ -83,7 +83,7 @@ ass_stage4_minerals_complete = {
 	# Reset relation_flag
 	fleet = {
 		orbit = {
-			log = "[root.GetName]: Removing planet relation to [this.GetName]."
+			assdbg_relation_removed = yes
 			set_variable = { which = "AssUUID" value = 0 }
 			remove_planet_flag = "ass_target"
 		}
@@ -94,5 +94,5 @@ ass_stage4_minerals_complete = {
 	owner = { ass_update_miner_mandate = yes }
 
 	# Ready for new adventures!
-	ass_op_complete = yes
+	ass_stage4_operation_complete = yes
 }

@@ -19,7 +19,7 @@
 
 ass_stage1_set_energy = {
 	set_timed_planet_flag = { flag = "autobuild_planet_block" days = 100 }
-	PREVPREV = {
+	ROOT = {
 		set_ship_flag = "ass_op_energy"
 		ass_accounting_set_mining_station_cost = yes
 	}
@@ -44,8 +44,8 @@ ass_stage1_energy_p1 = {
 				}
 			}
 			ass_stage1_set_energy = yes
-			log = "[Prev.Prev.GetName]: Moving to orbit [this.GetName] (Energy P1)"
-			ass_mark_planet = yes
+			log = "[Root.GetName]: Moving to orbit [this.GetName] (Energy P1)"
+			ass_relation_flag_planet = yes
 			ass_stage2_planet_move = yes
 		}
 	}
@@ -69,8 +69,8 @@ ass_stage1_energy_p2 = {
 				ass_has_any_energy = yes
 			}
 			ass_stage1_set_energy = yes
-			log = "[Prev.Prev.GetName]: Moving to orbit [this.GetName] (Energy P2)"
-			ass_mark_planet = yes
+			log = "[Root.GetName]: Moving to orbit [this.GetName] (Energy P2)"
+			ass_relation_flag_planet = yes
 			ass_stage2_planet_move = yes
 		}
 	}

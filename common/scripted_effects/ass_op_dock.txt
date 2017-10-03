@@ -23,7 +23,7 @@ ass_stage3_reached_dock = {
 		flag = "ass_halt_operations"
 		days = 90
 	}
-	ass_op_complete = yes
+	ass_stage4_operation_complete = yes
 }
 
 ass_stage1_dock_p1 = {
@@ -39,7 +39,7 @@ ass_stage1_dock_p1 = {
 		}
 		random_system_planet = {
 			limit = { ass_is_owners_planet = yes }
-			log = "[Prev.Prev.GetName]: Moving to [this.GetName] (Docking)"
+			log = "[Root.GetName]: Moving to [this.GetName] (Docking)"
 			# This operation does not set up a relation flag
 			PREVPREV = {
 				set_ship_flag = "ass_op_dock"

@@ -1,0 +1,93 @@
+###
+# This file is part of a project hosted at https://github.com/stellaris-mods
+# Copyright (c) 2017 folk@folk.wtf
+#
+# This program is free software; you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation; either version 3 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software Foundation,
+# Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301  USA
+###
+
+
+# The debug flag is set by an event in my personal addon.
+
+assdbg_relation_set = {
+	if = { limit = { has_global_flag = "debug" }
+		log = "[this.GetName] related to ship [this.AssUUID]."
+	}
+}
+
+assdbg_relation_manual_remove = {
+	if = { limit = { has_global_flag = "debug" }
+	log = "[Prev.GetName]: Uncoupled from system [this.GetName]."
+}}
+
+assdbg_relation_removed = {
+	if = { limit = { has_global_flag = "debug" }
+	log = "[root.GetName]: Removing relation to [this.GetName]."
+}}
+
+assdbg_reserves_updated = {
+	if = { limit = { has_global_flag = "debug" }
+	log = "[this.GetName]: Updated AssReserve to [this.AssReserve]."
+}}
+
+assdbg_grabbing_cost = {
+	if = { limit = { has_global_flag = "debug" }
+	log = "[Prev.GetName]: Grabbing operation cost [this.AssOperationCost]."
+}}
+
+assdbg_refunding_cost = {
+	if = { limit = { has_global_flag = "debug" }
+	log = "[Prev.GetName]: Refunding [this.AssOperationCost]."
+}}
+
+assdbg_marker_arrived = {
+	if = { limit = { has_global_flag = "debug" }
+	log = "[this.GetName] at station marker."
+}}
+
+assdbg_got_uuid = {
+	if = { limit = { has_global_flag = "debug" }
+	log = "[this.GetName]: Got UUID [this.Fleet.AssUUID]."
+}}
+
+assdbg_fleet_arrived = {
+	if = { limit = { has_global_flag = "debug" }
+	log = "[this.GetName]: At fleet [ass_target.GetName]."
+}}
+
+assdbg_planet_arrived = {
+	if = { limit = { has_global_flag = "debug" }
+	log = "[this.GetName]: In proximity of planet [ass_target.GetName]."
+}}
+
+assdbg_system_arrived = {
+	if = { limit = { has_global_flag = "debug" }
+	log = "[this.GetName]: In system [ass_target.GetName]."
+}}
+
+assdbg_resource_wait = {
+	if = { limit = { has_global_flag = "debug" }
+	log = "[this.GetName]: Waiting for resources..."
+}}
+
+assdbg_manual_order = {
+	if = { limit = { has_global_flag = "debug" }
+	log = "[Root.GetName]: [Root.Owner.GetName] gave ship a manual order, aborting."
+}}
+
+assdbg_entered_unsure_wormhole_system = {
+	if = { limit = { has_global_flag = "debug" }
+		log = "[this.GetName] entered [from.GetName], where we cant actually build."
+	}
+}

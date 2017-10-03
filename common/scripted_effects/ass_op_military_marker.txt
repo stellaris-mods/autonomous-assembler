@@ -28,19 +28,19 @@ ass_stage1_marker_p1 = {
 			}
 			random_owned_fleet = {
 				limit = { ass_is_station_marker = yes }
-				PREVPREV = {
+				ROOT = {
 					set_ship_flag = "ass_op_marker"
 					# the cost of this operation is in the marker
 				}
-				log = "[Prev.Prev.GetName]: Moving to [this.GetName] (Station Marker)"
-				ass_mark_fleet = yes
+				log = "[Root.GetName]: Moving to [this.GetName] (Station Marker)"
+				ass_relation_flag_fleet = yes
 				ass_stage2_fleet_move = yes
 			}
 		}
 	}
 }
 
-# This chains from assMarker.100, which uses ass_relation_get_related_fleet,
+# This chains from assMarker.100, which uses ass_relation_get_any,
 # which means that ass_target will be a fleet, and not a ship.
 ass_stage4_marker_complete = {
 	event_target:ass_target = {
@@ -48,13 +48,13 @@ ass_stage4_marker_complete = {
 	}
 	# Clear relation flags and mark operation complete
 	remove_ship_flag = "ass_relation_fleet"
-	ass_op_complete = yes
+	ass_stage4_operation_complete = yes
 }
 
 # In this effect, we set ass_target to a ship inside the fleet, so we can easily
 # switch on has_component.
 ass_stage3_marker_arrived = {
-	log = "[this.GetName] at station marker."
+	assdbg_marker_arrived = yes
 	PREVPREVPREV = {
 		set_fleet_flag = "ass_marker_used" # Marker used up
 		random_owned_ship = { # fleet ships

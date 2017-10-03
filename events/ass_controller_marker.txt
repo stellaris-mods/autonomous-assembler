@@ -52,7 +52,7 @@ ship_event = {
 
 	immediate = {
 		# Find our station marker using the relation flag.
-		ass_relation_get_related_fleet = yes
+		ass_relation_get_any = yes
 
 		# Check if we found the relation target
 		if = {
@@ -108,7 +108,7 @@ ship_event = {
 			else = {
 				# Relation target NOT found, so abort mission
 				log = "[this.GetName]: ERROR: Could not any Station Marker with the same UUID as us, aborting mission."
-				ass_op_abort = yes
+				ass_stage4_abort_operation = yes
 			}
 		}
 	}

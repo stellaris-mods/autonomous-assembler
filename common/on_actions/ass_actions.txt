@@ -48,9 +48,27 @@ on_monthly_pulse = {
 
 on_ship_built = { events = { assShip.1 } }
 on_ship_order = { events = { assShip.100 } }
-on_ship_destroyed_victim = { events = { assShip.300 } }
-
-on_entering_system_fleet = { events = { assFleet.200 } }
-on_entering_battle = { events = { assCountry.300 } }
 
 on_building_ass_military_complex = { events = { assMarker.200 } }
+
+# There's a few cases where we need to mark the system we're in/from
+# as a dangerous place.
+#
+# 1. We were destroyed.
+on_ship_destroyed_victim = { events = { assHostile.100 } }
+# 2. We enter battle in the system.
+on_entering_battle = { events = { assHostile.200 } }
+# 3. We survived emergency FTL.
+on_emergency_ftl = { events = { assHostile.300 } }
+# 4. We enter a system with hostiles in it, and our mission is in the system.
+on_entering_system_fleet = { events = { assHostile.400 } }
+
+# Triggered when an Empire has fleets within another Empire's borders.
+# This = receiver
+# From = sender
+# FromFrom = fleet
+# FromFromFrom = system
+on_enforce_borders = {
+	events = {
+	}
+}

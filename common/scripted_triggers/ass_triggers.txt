@@ -28,6 +28,7 @@ ass_fleet_valid = {
 	NOT = { has_fleet_flag = "ass_error" }
 }
 
+# ZZZ If you change this trigger, then please check ass_check_wormhole_p2
 ass_is_friendly_system = {
 	has_access_fleet = ROOT.owner # XXX testing
 	NOT = {

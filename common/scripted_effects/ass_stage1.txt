@@ -20,13 +20,20 @@
 
 # Stages
 # 1: Initialization, target selection and relation mapping
+#    - In all stage 1 effects, ROOT must be the ship.
+#
 # 2: En route to target
 # 3: At target
 # 4: Operation complete
 
+
+
 # This is only invoked by assShip.1, which is only triggered by
 # on_ship_built or by MTTH after checking ass_has_operation and is_fleet_idle,
 # and in both cases the ship should be entirely idle.
+# It's also invoked by the special project to dock at a colony.
+#
+# The main thing to note is that ROOT in this effect must be the ship.
 ass_init_stage1 = {
 	if = {
 		limit = { owner = { has_country_flag = "ass_halt_operations" } }

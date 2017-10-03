@@ -138,3 +138,5 @@ tech_ass_hexagon = {
 
 	ai_weight = { factor = 0.5 }
 }
+
+# XXX add tech that unlocks better section template

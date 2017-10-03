@@ -127,7 +127,7 @@
 # 		random_system_planet = {
 # 			limit = { ass_valid_primitive_planet = yes }
 # 			log = "Found planet for observation post: [this.GetName]"
-# 			ass_mark_planet = yes
+# 			ass_relation_flag_planet = yes
 # 			PREVPREV = {
 # 				set_ship_flag = "ass_op_observation"
 # 				fleet = {

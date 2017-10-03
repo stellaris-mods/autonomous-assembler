@@ -21,6 +21,8 @@
 # If you add your own components for the ass ship, you need
 # to overwrite these to hook into the operation.
 
+# In all stage1 effects, ROOT must be the ship.
+
 ass_init_stage1_3rd_p1 = {}
 ass_init_stage1_3rd_p2 = {}
 

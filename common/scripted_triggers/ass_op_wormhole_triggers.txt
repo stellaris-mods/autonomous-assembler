@@ -40,3 +40,51 @@ ass_can_build_wormhole = {
 		# XXX space_owner = { treaty_thing }
 	}
 }
+
+# If we dont have survey data for the system, we don't really "know" if we can
+# build there or not, so until we "know", we move there, if either:
+# 1. We are the spaceowner
+# 2. There is no spaceowner
+# 3. There is a spaceowner, but we are not in communication with them
+# So, if we do have communications with the space owner, presumably
+# we would "know" that we can't build there.
+ass_unsure_can_build_wormhole = {
+	is_surveyed = { who = ROOT.owner status = no }
+	OR = {
+		NOT = { exists = space_owner }
+		space_owner = { is_same_value = ROOT.owner }
+		space_owner = {
+			NOT = { has_communications = ROOT.owner }
+		}
+	}
+}
+
+ass_check_wormhole_p2 = {
+	ass_system_valid = yes
+	NOT = { has_star_flag = "ass_target" }
+	OR = {
+		# If we have surveyed the system, we check for hostiles and access.
+		# As far as I know, there's no trigger for checking sensor data.
+		AND = {
+			is_surveyed = { who = ROOT.owner status = yes }
+			ass_is_friendly_system = yes
+			ass_can_build_wormhole = yes
+		}
+		# If we haven't surveyed, just gamble that there are no hostiles, and
+		# that we have access at all.
+		ass_unsure_can_build_wormhole = yes
+	}
+	# No wormhole station in this system
+	ass_has_wormhole_in_system = no
+	# There are no wormholes that we own in any system
+	# that is closer than 50 units away from this one.
+	NOT = {
+		any_system = {
+			ass_has_wormhole_in_system = yes
+			distance = {
+				source = PREV
+				max_distance = 50
+			}
+		}
+	}
+}

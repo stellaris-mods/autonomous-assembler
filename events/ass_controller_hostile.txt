@@ -1,0 +1,201 @@
+###
+# This file is part of a project hosted at https://github.com/stellaris-mods
+# Copyright (c) 2017 folk@folk.wtf
+#
+# This program is free software; you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation; either version 3 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software Foundation,
+# Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301  USA
+###
+
+
+#
+# Most of the events in this file are for the benefit of other autonomous
+# assemblers we might have running, so that they can potentially avoid
+# dangerous situations.
+#
+
+namespace = assHostile
+
+# on_ship_destroyed_victim
+# This = owner of ship 1 (destroyed)
+# From = owner of ship 2 (combatant)
+# FromFrom = ship 1
+# FromFromFrom = ship 2
+country_event = {
+	id = assHostile.100
+	hide_window = yes
+	is_triggered_only = yes
+	trigger = {
+		FROMFROM = { is_ship_size = autonomous_assembler }
+	}
+	immediate = {
+		# We already marked the system in assHostile.200 (presumably)
+		# So here we only need to abort the mission
+		FROMFROM = {
+			if = { limit = { ass_has_operation = yes }
+				ass_stage4_abort_operation = yes
+			}
+		}
+		country_event = { id = assCountry.500 }
+	}
+}
+
+# on_entering_battle
+# This = owner of fleet 1
+# From = owner of fleet 2
+# FromFrom = fleet 1
+# FromFromFrom = fleet 2
+country_event = {
+	id = assHostile.200
+	hide_window = yes
+	is_triggered_only = yes
+	trigger = {
+		FROMFROM = {
+			is_ship_size = autonomous_assembler
+			has_fleet_flag = "autonomous_operation"
+		}
+	}
+	immediate = {
+		FROMFROM = {
+			solar_system = {
+				set_timed_star_flag = {
+					flag = "ass_error"
+					days = 180
+				}
+			}
+		}
+	}
+}
+
+# on_emergency_ftl
+# This = escaping fleet
+# From = system escaped from
+# FromFrom = system escaping to
+fleet_event = {
+	id = assHostile.300
+	hide_window = yes
+	is_triggered_only = yes
+	trigger = {
+		is_ship_size = autonomous_assembler
+		has_fleet_flag = "autonomous_operation"
+	}
+	immediate = {
+		# Mark system as dangerous
+		FROM = {
+			set_timed_star_flag = {
+				flag = "ass_error"
+				days = 180
+			}
+		}
+		# Scopes to ships in fleet
+		random_owned_ship = {
+			ass_stage4_abort_operation = yes
+		}
+	}
+}
+
+# on_entering_system_fleet
+# A fleet has entered a system.
+#
+# We use this event as opposed to on_entering_system, because I presume
+# the main difference is that this one triggers less often. I might be
+# wrong, of course, and it could be that on_entering_system triggers
+# on single-ship fleets only, or something.
+#
+# Scope = Fleet
+# From = System
+fleet_event = {
+	id = assHostile.400
+	hide_window = yes
+	is_triggered_only = yes
+	trigger = {
+		is_ship_size = autonomous_assembler
+		has_fleet_flag = "autonomous_operation"
+	}
+	immediate = {
+		random_owned_ship = {
+			# Special case if we are constructing wormholes and enter
+			# a system without survey data, we need to check if we can
+			# actually build anything here. Because the ship doesn't
+			# "know" that without moving into the system first.
+			if = {
+				limit = {
+					FROM = { is_surveyed = { who = ROOT.owner status = no } }
+					has_ship_flag = "ass_op_wormhole"
+					ass_can_build_wormhole = no
+				}
+				assdbg_entered_unsure_wormhole_system = yes
+				# Two tests, first date is we entered an unknown empires
+				# borders, and second date is when they contacted us.
+				# 2203.3.24  to 2204.06.02 = 436
+				# 2202.12.24 to 2204.02.02 = 405
+				# So we set 450 to be safe.
+				#
+				# According to alphaash this is based on science output,
+				# which means that the earlier in the game it is, the
+				# longer it takes them (they probably do the project).
+				#
+				# I agree that makes sense, but I can't be bothered to
+				# calculate society output to days-to-contact on this
+				# piece of crap computer.
+
+				# We entered a system where we actually cant build.
+				FROM = {
+					set_timed_star_flag = {
+						flag = "ass_error"
+						days = 450
+					}
+				}
+				ass_stage4_abort_operation = yes
+				# No need to check for hostiles below.
+				break = yes
+			}
+		}
+
+		# We entered a system with hostiles in it.
+		if = {
+			limit = {
+				FROM = {
+					# Unfortunately, there's no way to check fleet stances
+					any_ship_in_system = {
+						exists = owner
+						owner = { is_hostile = ROOT.owner }
+						# We want to react to "civilian" stations because they
+						# are weaponized. But these ship types are usually not.
+						NOR = {
+							is_ship_class = shipclass_constructor
+							is_ship_class = shipclass_colonizer
+							is_ship_class = shipclass_science_ship
+							is_ship_class = shipclass_transport
+						}
+					}
+				}
+			}
+			# Find our relation target, if there is one.
+			random_owned_ship = { # Fleet scope, random ship in fleet
+				ass_relation_get_any = yes
+				if = {
+					limit = { has_ship_flag = "ass_found_relation_target" }
+					remove_ship_flag = "ass_found_relation_target"
+
+				}
+			}
+			FROM = {
+				set_timed_star_flag = {
+					flag = "ass_error"
+					days = 180
+				}
+			}
+		}
+	}
+}

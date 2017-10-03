@@ -26,7 +26,7 @@ ass_stage4_unlock_ship = {
 	}
 }
 
-ass_op_complete = {
+ass_stage4_operation_complete = {
 	log = "[this.GetName]: Operation complete."
 
 	ass_3rd_op_complete = yes
@@ -64,8 +64,10 @@ ass_op_complete = {
 }
 
 # THIS needs to be the ship
-ass_op_abort = {
-	log = "[this.GetName]: Operation forcefully aborted."
+ass_stage4_abort_operation = {
+	log = "[this.GetName]: ERROR: Operation forcefully aborted."
+	ass_relation_invalidate = yes
+
 	if = {
 		limit = { has_ship_flag = "ass_refund_if_aborted" }
 		ass_accounting_refund = yes
@@ -73,6 +75,6 @@ ass_op_abort = {
 	}
 
 	ass_3rd_op_abort = yes
-	ass_unmark_target = yes
-	ass_op_complete = yes
+	ass_relation_remove_any = yes
+	ass_stage4_operation_complete = yes
 }

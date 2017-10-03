@@ -34,34 +34,22 @@ ass_stage2_fleet_reached = {
 					max_distance = 20
 				}
 			}
-			log = "[this.GetName]: At fleet [ass_target.GetName]."
+			assdbg_fleet_arrived = yes
 			ass_init_stage3 = yes
 			else = {
 				log = "[this.GetName]: ERROR: We are not close to fleet [ass_target.GetName]."
-				event_target:ass_target = {
-					set_timed_fleet_flag = {
-						flag = "ass_error"
-						days = 180
-					}
-				}
-				ass_op_abort = yes
+				ass_stage4_abort_operation = yes
 			}
 		}
 		else = {
 			log = "[this.GetName]: ERROR: Reached end of stage2_fleet_move without an operation. That's weird."
-			event_target:ass_target = {
-				set_timed_fleet_flag = {
-					flag = "ass_error"
-					days = 180
-				}
-			}
-			ass_op_abort = yes
+			ass_stage4_abort_operation = yes
 		}
 	}
 }
 
 ass_stage2_fleet_move = {
-	PREVPREV = {
+	ROOT = {
 		fleet = {
 			set_fleet_flag = "autonomous_initial_order" # Removed instantly
 			set_fleet_flag = "autonomous_operation"
