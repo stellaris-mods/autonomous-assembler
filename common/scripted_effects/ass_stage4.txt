@@ -18,8 +18,8 @@
 ###
 
 
-# We cant unlock AI ships, because they will simply
-# dismantle the ship instantly.
+# Hopefully, keeping AI assemblers locked prevents the AI from
+# ordering the ship around. I don't know if it does, but I hope so.
 ass_stage4_unlock_ship = {
 	if = { limit = { owner = { is_ai = no } }
 		fleet = { set_event_locked = no }

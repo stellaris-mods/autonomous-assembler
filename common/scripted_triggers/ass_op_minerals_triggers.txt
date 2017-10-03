@@ -74,7 +74,7 @@ ass_has_valuable_minerals = {
 		OR = {
 			has_resource = {
 				type = minerals
-				amount > 2
+				amount > 1
 			}
 			ass_has_strategic_mining = yes
 		}

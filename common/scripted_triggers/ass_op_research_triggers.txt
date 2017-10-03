@@ -48,15 +48,15 @@ ass_has_valuable_research = {
 		OR = {
 			has_resource = {
 				type = engineering_research
-				amount > 2
+				amount > 1
 			}
 			has_resource = {
 				type = physics_research
-				amount > 2
+				amount > 1
 			}
 			has_resource = {
 				type = society_research
-				amount > 2
+				amount > 1
 			}
 			ass_has_strategic_research = yes
 		}

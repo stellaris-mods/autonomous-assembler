@@ -42,7 +42,7 @@ ass_has_valuable_energy = {
 		OR = {
 			has_resource = {
 				type = energy
-				amount > 2
+				amount > 1
 			}
 			ass_has_strategic_mining = yes
 		}
