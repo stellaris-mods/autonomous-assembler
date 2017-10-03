@@ -41,15 +41,15 @@ ass_can_build_wormhole = {
 	}
 }
 
-# If we dont have survey data for the system, we don't really "know" if we can
-# build there or not, so until we "know", we move there, if either:
+# If we dont have high intel data for the system, we don't really "know" if
+# we can build there or not, so until we "know", we move there, if either:
 # 1. We are the spaceowner
 # 2. There is no spaceowner
 # 3. There is a spaceowner, but we are not in communication with them
 # So, if we do have communications with the space owner, presumably
 # we would "know" that we can't build there.
 ass_unsure_can_build_wormhole = {
-	is_surveyed = { who = ROOT.owner status = no }
+	ROOT.owner = { intel_level = { level < high system = PREV } }
 	OR = {
 		NOT = { exists = space_owner }
 		space_owner = { is_same_value = ROOT.owner }
@@ -57,16 +57,44 @@ ass_unsure_can_build_wormhole = {
 			NOT = { has_communications = ROOT.owner }
 		}
 	}
+	OR = {
+		# If we have more than low intel level, we "know"
+		# whether or not the system has hostiles
+		AND = {
+			ROOT.owner = {
+				intel_level = {
+					level > low
+					system = PREV
+				}
+			}
+			ass_is_friendly_system = yes
+		}
+		# We have no idea, so just go and see.
+		ROOT.owner = { intel_level = { level < medium system = PREV } }
+	}
 }
+
+# This is what a quick web search found about intel level:
+# High: In range of your sensors/surveyed
+# high= sensor range, you can see ships
+# High is any planet currently in sensor range, simple as that.
+# medium = you have been there and know the planet types etc
+# Medium: You've been there before, but currently have no sensors on it
+# Medium is a system that you've either been in or had in sensor range, meaning that the planets are revealed (rather than just showing as textureless spheres).
+# Low: Everything else
+# low = know whether a system is inside borders of empires with comms
+# low= you know the planet positions
+# Low level intel just means that you haven't had that system in sensor range, whether it's named or not.
+# unknown = you only know there is a star
+# surveyed or not doesnt matter for this, surveyed is white system name and not surveyed is grey name
 
 ass_check_wormhole_p2 = {
 	ass_system_valid = yes
 	NOT = { has_star_flag = "ass_target" }
 	OR = {
-		# If we have surveyed the system, we check for hostiles and access.
-		# As far as I know, there's no trigger for checking sensor data.
+		# If we have high intel data on the system, we know everything.
 		AND = {
-			is_surveyed = { who = ROOT.owner status = yes }
+			ROOT.owner = { intel_level = { level = high system = PREV } }
 			ass_is_friendly_system = yes
 			ass_can_build_wormhole = yes
 		}
