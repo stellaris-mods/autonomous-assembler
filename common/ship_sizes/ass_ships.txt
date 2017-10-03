@@ -54,5 +54,4 @@ autonomous_assembler = {
 	required_component_set = "ship_sensor_components"
 	required_component_set = "sc_friendly_aura"
 	required_component_set = "sc_defense_aura"
-	required_component_set = "powerstation_components"
 }
