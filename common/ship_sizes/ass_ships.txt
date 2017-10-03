@@ -44,10 +44,15 @@ autonomous_assembler = {
 	is_civilian = yes
 	is_designable = yes
 	class = shipclass_constructor
+
+	# 9x sets lol, I think the most a NSC ship has is 10.
 	required_component_set = "ftl_components"
 	required_component_set = "ass_components"
 	required_component_set = "ass_expansion_slot_1"
 	required_component_set = "ass_expansion_slot_2"
 	required_component_set = "thruster_components"
 	required_component_set = "ship_sensor_components"
+	required_component_set = "sc_friendly_aura"
+	required_component_set = "sc_defense_aura"
+	required_component_set = "powerstation_components"
 }
