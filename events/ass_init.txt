@@ -61,8 +61,6 @@ country_event = {
 	is_triggered_only = yes
 	hide_window = yes
 	trigger = {
-		# look below, the AI simply deletes the ship immediately.
-		is_ai = no
 		has_global_flag = "ass_free_ship"
 		last_increased_tech = "tech_autonomous_assembler"
 	}
@@ -117,6 +115,19 @@ country_event = {
 	id = assInit.101
 	hide_window = yes
 	is_triggered_only = yes
+
+	trigger = {
+		# look above, the AI simply deletes the ship immediately.
+		# I don't know why, but it might be because of budget.
+		OR = {
+			AND = {
+				is_ai = yes
+				years_passed > 5
+			}
+			is_ai = no
+		}
+	}
+
 	immediate = {
 		create_fleet = {
 			effect = {

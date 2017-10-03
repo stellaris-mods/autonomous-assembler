@@ -87,7 +87,7 @@ ass_set_target_relation = {
 			set_variable = { which = "AssTmp" value = "AssUUID" }
 			# Copy the UUID to our target
 			while = {
-				limit = { check_variable = { which = "AssTmp" value > 0} }
+				limit = { check_variable = { which = "AssTmp" value > 0 } }
 				subtract_variable = { which = "AssTmp" value = 1 }
 				# PREV is ship, PREVPREV is the THIS
 				# scope in ass_mark_*
