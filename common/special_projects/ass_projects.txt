@@ -91,6 +91,15 @@ special_project = {
 	on_success = {
 		owner = {
 			log = "ASS: Move to colony and dock for 3 months."
+			# Prevents any new operation from being undertaken
+			# We also set a timed flag on each ship when it reaches home
+			# This country flag also makes ass_init_stage1 set the operation
+			# to ass_op_dock.
+			set_timed_country_flag = {
+				flag = "ass_halt_operations"
+				days = 90
+			}
+			country_event = { id = assCountry.500 days = 91 }
 
 			# Make any owned ship head for home
 			every_owned_ship = {
@@ -99,16 +108,9 @@ special_project = {
 					limit = { ass_has_operation = yes }
 					ass_stage4_abort_operation = yes
 				}
-				ship_event = { id = assShip.9001 }
+				ship_event = { id = assShip.9002 }
 			}
 
-			# Prevents any new operation from being undertaken
-			# We also set a timed flag on each ship when it reaches home
-			set_timed_country_flag = {
-				flag = "ass_halt_operations"
-				days = 90
-			}
-			country_event = { id = assCountry.500 days = 91 }
 			country_event = { id = assCountry.500 }
 		}
 	}

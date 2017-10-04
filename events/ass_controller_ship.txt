@@ -24,7 +24,6 @@ namespace = assShip
 # Chained from:
 # 1. MTTH assShip.102
 # 2. on_ship_built assShip.1
-# 3. ass_go_home project
 ship_event = {
 	id = assShip.9001
 	hide_window = yes
@@ -46,6 +45,13 @@ ship_event = {
 			}
 		}
 	}
+}
+# Triggered exclusively by the ass_go_home project
+ship_event = {
+	id = assShip.9002
+	hide_window = yes
+	is_triggered_only = yes
+	immediate = { ass_init_stage1 = yes }
 }
 
 # ZZZ This + on_ship_built are the only two places that invoke assShip.1
