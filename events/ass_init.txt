@@ -126,12 +126,13 @@ country_event = {
 			}
 			is_ai = no
 		}
+		exists = capital_scope
 	}
 
 	immediate = {
 		create_fleet = {
 			effect = {
-				set_owner = PREV
+				set_owner = ROOT
 				# Used so other mods (autobuild) can ignore this ship
 				set_fleet_flag = "autonomous_assembler"
 				create_ship = {
@@ -139,7 +140,7 @@ country_event = {
 					random_existing_design = autonomous_assembler
 				}
 				set_fleet_stance = evasive
-				set_location = PREV.capital_scope
+				set_location = ROOT.capital_scope
 			}
 		}
 		# Delay this, too, so that count_owned_ships picks it up
