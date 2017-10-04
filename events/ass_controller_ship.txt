@@ -147,6 +147,7 @@ ship_event = {
 	is_triggered_only = yes
 
 	immediate = {
+		remove_ship_flag = "ass_constructing_station"
 		switch = {
 			trigger = has_ship_flag
 			ass_op_minerals = { ass_stage4_minerals_complete = yes }
@@ -186,10 +187,8 @@ event = {
 				limit = { any_owned_ship = { has_ship_flag = "ass_check_cash" } }
 				random_owned_ship = {
 					limit = { has_ship_flag = "ass_check_cash" }
-
-					ass_stage3_build = yes
-
 					remove_ship_flag = "ass_check_cash"
+					ass_stage3_build = yes
 				}
 			}
 		}

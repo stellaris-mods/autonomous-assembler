@@ -1,0 +1,42 @@
+###
+# This file is part of a project hosted at https://github.com/stellaris-mods
+# Copyright (c) 2017 folk@folk.wtf
+#
+# This program is free software; you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation; either version 3 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software Foundation,
+# Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301  USA
+###
+
+
+# THIS = ship
+ass_set_fleet_name = {
+	# Dont use names longer than 8 characters, looks best in Tiny Outliner
+	switch = {
+		trigger = has_ship_flag
+		ass_waiting_for_cash = { fleet = { set_name = "Waiting" } }
+		ass_constructing_station = { fleet = { set_name = "Building" } }
+		ass_op_dock = { fleet = { set_name = "Docking" } }
+		ass_op_energy = { fleet = { set_name = "Energy" } }
+		ass_op_marker = { fleet = { set_name = "Marker" } }
+		ass_op_military = { fleet = { set_name = "Military" } }
+		ass_op_minerals = { fleet = { set_name = "Minerals" } }
+		ass_op_observation = { fleet = { set_name = "ObsPost" } }
+		ass_op_research = { fleet = { set_name = "Research" } }
+		ass_op_wormhole = { fleet = { set_name = "Wormhole" } }
+		ass_halt_operations = { fleet = { set_name = "Halted" } }
+		ass_id = { fleet = { set_name = "Idle" } } # They all have this flag.
+	}
+	# XXX add special project to disable this effect per country
+
+	ass_set_fleet_name_3rd = yes
+}

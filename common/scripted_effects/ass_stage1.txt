@@ -34,6 +34,7 @@
 # It's also invoked by the special project to dock at a colony.
 #
 # The main thing to note is that ROOT in this effect must be the ship.
+# And THIS, obviously.
 ass_init_stage1 = {
 	if = {
 		limit = { owner = { has_country_flag = "ass_halt_operations" } }
@@ -67,4 +68,5 @@ ass_init_stage1 = {
 			}
 		}
 	}
+	ass_set_fleet_name = yes
 }

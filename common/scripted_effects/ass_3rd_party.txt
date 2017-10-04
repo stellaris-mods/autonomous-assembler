@@ -31,3 +31,5 @@ ass_init_stage1_3rd_p2 = {}
 
 ass_3rd_op_complete = {}
 ass_3rd_op_abort = {}
+
+ass_set_fleet_name_3rd = {}

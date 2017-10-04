@@ -45,6 +45,9 @@ ass_stage3_single_station = {
 		limit = { ass_can_afford = yes }
 		ass_accounting_grabdatcash = yes
 		remove_ship_flag = "ass_waiting_for_cash"
+		set_ship_flag = "ass_constructing_station"
+		ass_set_fleet_name = yes
+
 		log = "[this.GetName]: Constructing station..."
 		if = { limit = { has_global_flag = "debug" }
 			ship_event = { id = assShip.1000 days = 10 }
@@ -54,6 +57,7 @@ ass_stage3_single_station = {
 		else = {
 			assdbg_resource_wait = yes
 			set_ship_flag = "ass_waiting_for_cash"
+			ass_set_fleet_name = yes
 		}
 	}
 }

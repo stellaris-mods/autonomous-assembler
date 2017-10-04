@@ -61,6 +61,8 @@ ass_stage4_operation_complete = {
 		remove_fleet_flag = "autonomous_operation"
 		clear_fleet_actions = THIS
 	}
+
+	ass_set_fleet_name = yes
 }
 
 # THIS needs to be the ship
