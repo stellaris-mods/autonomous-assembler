@@ -88,6 +88,7 @@ ass_unsure_can_build_wormhole = {
 # unknown = you only know there is a star
 # surveyed or not doesnt matter for this, surveyed is white system name and not surveyed is grey name
 
+# XXX Check any neighbor system if they are currently an ass_target and skip
 ass_check_wormhole_p2 = {
 	ass_system_valid = yes
 	NOT = { has_star_flag = "ass_target" }
