@@ -260,7 +260,7 @@ ass_relation_internal_remove_planet = {
 		event_target:ass_target = {
 			# We found our target planet: reset it!
 			set_variable = { which = "AssUUID" value = 0 }
-			remove_fleet_flag = "ass_target"
+			remove_planet_flag = "ass_target"
 			assdbg_relation_manual_remove = yes
 		}
 	}
