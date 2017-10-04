@@ -92,17 +92,5 @@ utility_component_template = {
 			factor = 0
 			NOT = { has_technology = "tech_wormhole_generation_1" }
 		}
-		modifier = {
-			factor = 0
-			has_technology = "tech_jump_drive_1"
-		}
-		modifier = {
-			factor = 0
-			has_technology = "tech_warp_drive_1"
-		}
-		modifier = {
-			factor = 0
-			has_technology = "tech_hyper_drive_1"
-		}
 	}
 }
