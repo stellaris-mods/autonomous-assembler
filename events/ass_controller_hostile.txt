@@ -124,13 +124,63 @@ fleet_event = {
 	}
 	immediate = {
 		random_owned_ship = {
+			if = {
+				limit = {
+					FROM = {
+						# Unfortunately, there's no way to check fleet stances
+						any_ship_in_system = {
+							exists = owner
+							owner = { is_hostile = ROOT.owner }
+							# We want to react to "civilian" stations because they
+							# are weaponized. But these ship types are usually not.
+							NOR = {
+								is_ship_class = shipclass_constructor
+								is_ship_class = shipclass_colonizer
+								is_ship_class = shipclass_science_ship
+								is_ship_class = shipclass_transport
+							}
+						}
+					}
+				}
+				# We entered a system with hostiles in it.
+				# Find our relation target, if there is one.
+				ass_relation_get_any = yes
+				if = {
+					limit = { has_ship_flag = "ass_found_relation_target" }
+					# ZZZ we remove the flag at the bottom of immediate
+
+					# Check if either this was our target, or our target
+					# is in this system.
+					switch = {
+						trigger = has_ship_flag
+						ass_relation_system = { FROM = { save_event_target_as = test } }
+						ass_relation_fleet  = { event_target:ass_target = { solar_system = { save_event_target_as = test } } }
+						ass_relation_planet = { event_target:ass_target = { solar_system = { save_event_target_as = test } } }
+					}
+					if = { limit = { event_target:test = { is_same_value = FROM } }
+						# This system was our target system.
+						#
+						# Abort mission, whether player has us in evasive
+						# stance or not.
+						ass_stage4_abort_operation = yes
+						# This also marks the system+fleet/planet invalid.
+
+						# If this was not our target system, we simply either:
+						# 1. Soldier on, if in non-evasive stance
+						# 2. Take evasive action and thereby triggering on_ship_order,
+						#    thus aborting the operation through it.
+					}
+				}
+			}
+
 			# Special case if we are constructing wormholes and enter
-			# a system without survey data, we need to check if we can
+			# a system with lower than high intel, we need to check if we can
 			# actually build anything here. Because the ship doesn't
 			# "know" that without moving into the system first.
 			if = {
 				limit = {
-					FROM = { is_surveyed = { who = ROOT.owner status = no } }
+					# We can't check intel level here, we are in it :-P
+					# ROOT.owner = { intel_level = { level < high system = FROM } }
 					has_ship_flag = "ass_op_wormhole"
 					ass_can_build_wormhole = no
 				}
@@ -149,53 +199,31 @@ fleet_event = {
 				# calculate society output to days-to-contact on this
 				# piece of crap computer.
 
-				# We entered a system where we actually cant build.
-				FROM = {
-					set_timed_star_flag = {
-						flag = "ass_error"
-						days = 450
-					}
+				# Get our relation target
+				if = { limit = { NOT = { has_ship_flag = "ass_found_relation_target" } }
+					ass_relation_get_any = yes
 				}
-				ass_stage4_abort_operation = yes
-				# No need to check for hostiles below.
-				break = yes
-			}
-		}
-
-		# We entered a system with hostiles in it.
-		if = {
-			limit = {
-				FROM = {
-					# Unfortunately, there's no way to check fleet stances
-					any_ship_in_system = {
-						exists = owner
-						owner = { is_hostile = ROOT.owner }
-						# We want to react to "civilian" stations because they
-						# are weaponized. But these ship types are usually not.
-						NOR = {
-							is_ship_class = shipclass_constructor
-							is_ship_class = shipclass_colonizer
-							is_ship_class = shipclass_science_ship
-							is_ship_class = shipclass_transport
+				if = {
+					limit = { has_ship_flag = "ass_found_relation_target" }
+					# ZZZ we remove the flag at the bottom of immediate
+					if = {
+						limit = { event_target:ass_target = { is_same_value = FROM } }
+						ass_stage4_abort_operation = yes
+						# We entered a system where we actually cant build.
+						# abort_operation actually sets a 180 day flag, which
+						# is not enough for early game.
+						FROM = {
+							set_timed_star_flag = {
+								flag = "ass_error"
+								days = 450
+							}
 						}
 					}
 				}
 			}
-			# Find our relation target, if there is one.
-			random_owned_ship = { # Fleet scope, random ship in fleet
-				ass_relation_get_any = yes
-				if = {
-					limit = { has_ship_flag = "ass_found_relation_target" }
-					remove_ship_flag = "ass_found_relation_target"
 
-				}
-			}
-			FROM = {
-				set_timed_star_flag = {
-					flag = "ass_error"
-					days = 180
-				}
-			}
+			# Still in random_owned_ship.
+			remove_ship_flag = "ass_found_relation_target"
 		}
 	}
 }
