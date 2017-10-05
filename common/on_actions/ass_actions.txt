@@ -71,3 +71,9 @@ on_entering_system_fleet = { events = { assHostile.400 } }
 
 # Abort mission if we are disbanded, so that our ass_target is released
 on_fleet_disbanded = { events = { assCountry.200 } }
+
+# XXX Dont yet know why on_fleet_destroyed_maintenance triggers, or when.
+# I know it doesn't trigger when an AI empire dismantles their assembler
+# at game start.
+# But we probably need to abort the mission then as well.
+on_fleet_destroyed_maintenance = { events = { assCountry.300 } }

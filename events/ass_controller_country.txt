@@ -65,6 +65,7 @@ country_event = {
 }
 
 # on_fleet_disbanded
+# ZZZ on_ship_destroyed_victim does not trigger when a player does this.
 # This = owner of fleet
 # From = disbanded fleet
 country_event = {
@@ -73,16 +74,40 @@ country_event = {
 	is_triggered_only = yes
 	trigger = {
 		exists = FROM
-		FROM = {
-			is_ship_size = autonomous_assembler
-			has_fleet_flag = "autonomous_operation"
-		}
+		FROM = { is_ship_size = autonomous_assembler }
 	}
 	immediate = {
-		log = "Autonomous Assembler dismantled, aborting mission."
+		log = "[root.GetName]: on_fleet_disbanded on assembler."
 		FROM = {
-			random_owned_ship = { # Fleet ships
-				ass_stage4_abort_operation = yes
+			if = { limit = { has_fleet_flag = "autonomous_operation" }
+				random_owned_ship = { # Fleet ships
+					ass_stage4_abort_operation = yes
+				}
+			}
+		}
+	}
+}
+
+# on_fleet_destroyed_maintenance
+# XXX I have never seen this even trigger, and I don't know what causes it.
+# If anything does.
+# This = owner of fleet
+# From = destroyed fleet
+country_event = {
+	id = assCountry.300
+	hide_window = yes
+	is_triggered_only = yes
+	trigger = {
+		exists = FROM
+		FROM = { is_ship_size = autonomous_assembler }
+	}
+	immediate = {
+		log = "[root.GetName]: INVESTIGATE: on_fleet_destroyed_maintenance on assembler."
+		FROM = {
+			if = { limit = { has_fleet_flag = "autonomous_operation" }
+				random_owned_ship = { # Fleet ships
+					ass_stage4_abort_operation = yes
+				}
 			}
 		}
 	}
