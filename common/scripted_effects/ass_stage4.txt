@@ -41,14 +41,14 @@ ass_stage4_operation_complete = {
 	remove_ship_flag = "ass_op_marker"
 	remove_ship_flag = "ass_op_wormhole"
 
-	# Other flags that _require_ removal
-	# - none for now
+	# Other flags that _require_ removal, and why
+	remove_ship_flag = "ass_constructing_station" # Fleet name
+	remove_ship_flag = "ass_waiting_for_cash"     # Fleet name
 
 	# Other flags we want to remove, simply
 	# because we dont want to clutter up the debugtooltip.
 	# Dont add any here that _require_ removal.
 	remove_ship_flag = "ass_refund_if_aborted"
-	remove_ship_flag = "ass_waiting_for_cash"
 	remove_ship_flag = "ass_station_xlarge"
 	remove_ship_flag = "ass_station_large"
 	remove_ship_flag = "ass_station_medium"

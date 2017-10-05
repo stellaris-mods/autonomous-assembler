@@ -281,18 +281,20 @@ fleet_event = {
 		}
 	}
 	immediate = {
-		random_fleet_in_system = {
-			limit = {
-				is_ship_size = autonomous_assembler
-				exists = owner
-				owner = { is_hostile = ROOT.owner }
-			}
-			random_owned_ship = {
-				log = "[this.GetName]: A hostile fleet has entered the system we are in."
-				# Assembler ship scope
-				if = {
-					limit = { ass_has_operation = yes }
-					ass_stage4_abort_operation = yes
+		FROM = {
+			random_fleet_in_system = {
+				limit = {
+					is_ship_size = autonomous_assembler
+					exists = owner
+					owner = { is_hostile = ROOT.owner }
+				}
+				random_owned_ship = {
+					log = "[this.GetName]: A hostile fleet has entered the system we are in."
+					# Assembler ship scope
+					if = {
+						limit = { ass_has_operation = yes }
+						ass_stage4_abort_operation = yes
+					}
 				}
 			}
 		}
