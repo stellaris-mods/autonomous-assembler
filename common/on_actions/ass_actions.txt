@@ -62,6 +62,10 @@ on_entering_battle = { events = { assHostile.200 } }
 on_emergency_ftl = { events = { assHostile.300 } }
 # 4. We enter a system with hostiles in it, and our mission is in the system.
 on_entering_system_fleet = { events = { assHostile.400 } }
+# 5. We're being forced outside the borders of an empire we could build in
+on_enforce_borders = { events = { assHostile.500 } }
+
+
 
 # XXX need to check when a hostile fleet enters a system we are building in
 # XXX that means we need to GTFO, or at least unlock fleet, so that we can

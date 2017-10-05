@@ -232,3 +232,27 @@ fleet_event = {
 		}
 	}
 }
+
+# on_enforce_borders
+# This = receiver
+# From = sender
+# FromFrom = fleet
+# FromFromFrom = system
+country_event = {
+	id = assHostile.500
+	hide_window = yes
+	is_triggered_only = yes
+	trigger = {
+		exists = FROMFROM
+		FROMFROM = { is_ship_size = autonomous_assembler }
+	}
+	immediate = {
+		log = "[root.GetName]: Our assembler was forced out of [from.GetName]s borders."
+		# ass_stage4_abort_operation sets ass_error flag on our target
+		FROMFROM = {
+			if = { limit = { ass_has_operation = yes }
+				ass_stage4_abort_operation = yes
+			}
+		}
+	}
+}
