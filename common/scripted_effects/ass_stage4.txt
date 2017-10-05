@@ -78,5 +78,12 @@ ass_stage4_abort_operation = {
 
 	ass_3rd_op_abort = yes
 	ass_relation_remove_any = yes
+
+	# For ass_set_fleet_name.
+	set_timed_ship_flag = {
+		flag = "ass_aborted"
+		days = 5
+	}
+
 	ass_stage4_operation_complete = yes
 }

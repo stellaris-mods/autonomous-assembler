@@ -89,7 +89,7 @@ country_event = {
 }
 
 # on_fleet_destroyed_maintenance
-# XXX I have never seen this even trigger, and I don't know what causes it.
+# ZZZ I have never seen this even trigger, and I don't know what causes it.
 # If anything does.
 # This = owner of fleet
 # From = destroyed fleet

@@ -34,7 +34,17 @@ ass_set_fleet_name = {
 		ass_op_research = { fleet = { set_name = "Research" } }
 		ass_op_wormhole = { fleet = { set_name = "Wormhole" } }
 		ass_halt_operations = { fleet = { set_name = "Halted" } }
-		ass_id = { fleet = { set_name = "Idle" } } # They all have this flag.
+		ass_aborted = { fleet = { set_name = "Abort!" } }
+		ass_id = { # They all have this flag.
+			fleet = {
+				if = { limit = { has_fleet_order = evade_hostiles_order }
+					# ZZZ ass_aborted handles this in all cases I found so far
+					set_name = "Evading"
+				else = {
+					set_name = "Idle"
+				} }
+			}
+		}
 	}
 	# XXX add special project to disable this effect per country
 

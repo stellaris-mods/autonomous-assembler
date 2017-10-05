@@ -123,16 +123,20 @@ ship_event = {
 	is_triggered_only = yes
 	trigger = {
 		is_ship_size = autonomous_assembler
-		fleet = { has_fleet_flag = "autonomous_operation" }
 	}
 	immediate = {
+		# XXX We probably set the name more times than we need to right now.
+		ass_set_fleet_name = yes
 		fleet = {
 			if = {
-				limit = { has_fleet_flag = "autonomous_initial_order" }
-					remove_fleet_flag = "autonomous_initial_order"
-				else = {
-					assdbg_manual_order = yes
-					ROOT = { ass_stage4_abort_operation = yes }
+				limit = { has_fleet_flag = "autonomous_operation" }
+				if = {
+					limit = { has_fleet_flag = "autonomous_initial_order" }
+						remove_fleet_flag = "autonomous_initial_order"
+					else = {
+						assdbg_manual_order = yes
+						ROOT = { ass_stage4_abort_operation = yes }
+					}
 				}
 			}
 		}

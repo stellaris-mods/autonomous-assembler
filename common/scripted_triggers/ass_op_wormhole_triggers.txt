@@ -37,7 +37,7 @@ ass_can_build_wormhole = {
 			is_hostile = ROOT.owner
 		}
 		# XXX I can't find a way to check whether or not we have an active treaty.
-		# XXX space_owner = { treaty_thing }
+		# space_owner = { treaty_thing }
 	}
 }
 
@@ -88,10 +88,12 @@ ass_unsure_can_build_wormhole = {
 # unknown = you only know there is a star
 # surveyed or not doesnt matter for this, surveyed is white system name and not surveyed is grey name
 
-# XXX Check any neighbor system if they are currently an ass_target and skip
 ass_check_wormhole_p2 = {
 	ass_system_valid = yes
 	NOT = { has_star_flag = "ass_target" }
+	# Prevent constructing wormholes in systems close to existing targets,
+	# in case the player has more than one assembler doing this.
+	NOT = { any_neighbor_system = { has_star_flag = "ass_target" } }
 	OR = {
 		# If we have high intel data on the system, we know everything.
 		AND = {
