@@ -207,16 +207,6 @@ fleet_event = {
 				if = { limit = { NOT = { has_ship_flag = "ass_found_relation_target" } }
 					ass_relation_get_any = yes
 				}
-				# XXX This isn't working:
-				# [2210.2.4]  JDS Karbadeem-Sa entered Ar'Doqd, where we cant actually build.
-				# [2210.2.12] JDS Karbadeem-Sa: In system Ar'Doqd.
-				# [2210.2.12] JDS Karbadeem-Sa: Grabbing operation cost 75.
-				# [2210.2.12]  JDS Karbadeem-Sa: Constructing station...
-				# [2210.2.21] JDS Karbadeem-Sa: Removing relation to Ar'Doqd.
-				# [2210.2.21]  JDS Karbadeem-Sa: Operation complete.
-				#
-				# Which means that the operation just restarts, and the system did
-				# not get the ass_error flag below.
 
 				if = {
 					limit = { has_ship_flag = "ass_found_relation_target" }

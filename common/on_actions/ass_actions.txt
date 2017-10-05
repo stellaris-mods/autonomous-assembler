@@ -69,6 +69,8 @@ on_entering_system_fleet = { events = { assHostile.400 } }
 
 # XXX can we add custom notifications now?
 
+# XXX detect fleet disbanded
+
 # Triggered when an Empire has fleets within another Empire's borders.
 # This = receiver
 # From = sender

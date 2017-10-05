@@ -288,7 +288,6 @@ ass_relation_internal_compare_uuid = {
 	if = { # Now, check if they are the same.
 		limit = { check_variable = { which = "AssCompareUUID" value = "AssUUID" } }
 		# Yes, they are, this is our target.
-		set_global_flag = "ass_break"
 		PREV = { set_ship_flag = "ass_found_relation_target" }
 		PREVPREV = { save_event_target_as = ass_target }
 		# Reset variable again, so we dont clutter up the debugtooltip
@@ -309,21 +308,19 @@ ass_relation_internal_get_fleet = {
 			}
 			set_fleet_flag = "ass_checked"
 		}
-		remove_global_flag = "ass_break"
 		while = {
 			limit = {
-				NOT = { has_global_flag = "ass_break" }
+				NOT = { has_ship_flag = "ass_found_relation_target" }
 				any_owned_fleet = {
 					has_fleet_flag = "ass_checked"
 				}
 			}
 			random_owned_fleet = {
 				limit = { has_fleet_flag = "ass_checked" }
+				remove_fleet_flag = "ass_checked"
 				PREVPREV = { fleet = { ass_relation_internal_compare_uuid = yes } }
 			}
 		}
-		# Clean up
-		remove_global_flag = "ass_break"
 		while = {
 			limit = { any_owned_fleet = { has_fleet_flag = "ass_checked" } }
 			random_owned_fleet = {
@@ -336,10 +333,9 @@ ass_relation_internal_get_fleet = {
 
 ass_relation_internal_get_system = {
 	remove_ship_flag = "ass_found_relation_target"
-	remove_global_flag = "ass_break"
 	while = {
 		limit = {
-			NOT = { has_global_flag = "ass_break" }
+			NOT = { has_ship_flag = "ass_found_relation_target" }
 			any_system = {
 				has_star_flag = "ass_target"
 				check_variable = { which = "AssUUID" value > 0 }
@@ -352,11 +348,11 @@ ass_relation_internal_get_system = {
 				check_variable = { which = "AssUUID" value > 0 }
 				NOT = { has_star_flag = "ass_checked" }
 			}
+			set_star_flag = "ass_checked"
 			PREV = { fleet = { ass_relation_internal_compare_uuid = yes } }
 		}
 	}
 	# Clean up
-	remove_global_flag = "ass_break"
 	while = {
 		limit = { any_system = { has_star_flag = "ass_checked" } }
 		random_system = {
@@ -371,10 +367,9 @@ ass_relation_internal_get_system = {
 # So we need to check any_system = { any_planet }
 ass_relation_internal_get_planet = {
 	remove_ship_flag = "ass_found_relation_target"
-	remove_global_flag = "ass_break"
 	while = {
 		limit = {
-			NOT = { has_global_flag = "ass_break" }
+			NOT = { has_ship_flag = "ass_found_relation_target" }
 			any_system = {
 				any_planet = {
 					has_planet_flag = "ass_target"
@@ -389,11 +384,11 @@ ass_relation_internal_get_planet = {
 				check_variable = { which = "AssUUID" value > 0 }
 				NOT = { has_planet_flag = "ass_checked" }
 			}
+			set_planet_flag = "ass_checked"
 			PREV = { fleet = { ass_relation_internal_compare_uuid = yes } }
 		}
 	}
 	# Clean up
-	remove_global_flag = "ass_break"
 	while = {
 		limit = { any_system = { any_planet = { has_planet_flag = "ass_checked" } } }
 		random_planet = {
