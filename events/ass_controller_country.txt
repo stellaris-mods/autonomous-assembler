@@ -64,6 +64,30 @@ country_event = {
 	}
 }
 
+# on_fleet_disbanded
+# This = owner of fleet
+# From = disbanded fleet
+country_event = {
+	id = assCountry.200
+	hide_window = yes
+	is_triggered_only = yes
+	trigger = {
+		exists = FROM
+		FROM = {
+			is_ship_size = autonomous_assembler
+			has_fleet_flag = "autonomous_operation"
+		}
+	}
+	immediate = {
+		log = "Autonomous Assembler dismantled, aborting mission."
+		FROM = {
+			random_owned_ship = { # Fleet ships
+				ass_stage4_abort_operation = yes
+			}
+		}
+	}
+}
+
 # Resets the event chain and all projects.
 # The reason we use an event and not simply an effect that we trigger
 # from the projects/etc is so that ROOT is a known scope in the
