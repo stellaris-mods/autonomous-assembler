@@ -64,12 +64,8 @@ on_emergency_ftl = { events = { assHostile.300 } }
 on_entering_system_fleet = { events = { assHostile.400 } }
 # 5. We're being forced outside the borders of an empire we could build in
 on_enforce_borders = { events = { assHostile.500 } }
-
-
-
-# XXX need to check when a hostile fleet enters a system we are building in
-# XXX that means we need to GTFO, or at least unlock fleet, so that we can
-# XXX be attacked at all
+# 6. A hostile fleet has entered a system we are in
+on_entering_system_fleet = { events = { assHostile.600 } }
 
 # XXX can we add custom notifications now?
 

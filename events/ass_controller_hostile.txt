@@ -105,7 +105,7 @@ fleet_event = {
 }
 
 # on_entering_system_fleet
-# A fleet has entered a system.
+# An assembler has entered a system.
 #
 # We use this event as opposed to on_entering_system, because I presume
 # the main difference is that this one triggers less often. I might be
@@ -250,8 +250,50 @@ country_event = {
 		log = "[root.GetName]: Our assembler was forced out of [from.GetName]s borders."
 		# ass_stage4_abort_operation sets ass_error flag on our target
 		FROMFROM = {
-			if = { limit = { ass_has_operation = yes }
-				ass_stage4_abort_operation = yes
+			random_owned_ship = {
+				if = { limit = { ass_has_operation = yes }
+					ass_stage4_abort_operation = yes
+				}
+			}
+		}
+	}
+}
+
+# on_entering_system_fleet
+# A hostile fleet has entered a system an assembler is in.
+#
+# Scope = Fleet
+# From = System
+fleet_event = {
+	id = assHostile.600
+	hide_window = yes
+	is_triggered_only = yes
+	trigger = {
+		exists = owner
+		exists = FROM
+		is_ship_class = shipclass_military
+		FROM = {
+			any_ship_in_system = {
+				is_ship_size = autonomous_assembler
+				exists = owner
+				owner = { is_hostile = ROOT.owner }
+			}
+		}
+	}
+	immediate = {
+		random_fleet_in_system = {
+			limit = {
+				is_ship_size = autonomous_assembler
+				exists = owner
+				owner = { is_hostile = ROOT.owner }
+			}
+			random_owned_ship = {
+				log = "[this.GetName]: A hostile fleet has entered the system we are in."
+				# Assembler ship scope
+				if = {
+					limit = { ass_has_operation = yes }
+					ass_stage4_abort_operation = yes
+				}
 			}
 		}
 	}
