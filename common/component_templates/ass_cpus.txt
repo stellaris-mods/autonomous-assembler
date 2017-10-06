@@ -17,8 +17,6 @@
 # Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301  USA
 ###
 
-# XXX add some kind of modifier or whatever that differentiates from corvette
-
 utility_component_template = {
 	key = "ASS_CPU_1"
 	size = medium
@@ -29,6 +27,9 @@ utility_component_template = {
 	component_set = "ass_components"
 	ai_weight = { weight = 1 }
 	upgrades_to = "ASS_CPU_2"
+	modifier = {
+		ship_speed_mult = 0.05
+	}
 }
 utility_component_template = {
 	key = "ASS_CPU_2"
@@ -42,6 +43,7 @@ utility_component_template = {
 	upgrades_to = "ASS_CPU_3"
 	prerequisites = { "tech_combat_computers_1" }
 	modifier = {
+		ship_speed_mult = 0.075
 		ship_evasion_add = 3
 		ship_combat_speed_mult = 0.10
 	}
@@ -58,6 +60,7 @@ utility_component_template = {
 	upgrades_to = "ASS_CPU_4"
 	prerequisites = { "tech_combat_computers_2" }
 	modifier = {
+		ship_speed_mult = 0.1
 		ship_evasion_add = 6
 		ship_combat_speed_mult = 0.20
 	}
@@ -74,6 +77,7 @@ utility_component_template = {
 	upgrades_to = "ASS_CPU_5"
 	prerequisites = { "tech_combat_computers_3" }
 	modifier = {
+		ship_speed_mult = 0.125
 		ship_evasion_add = 8
 		ship_combat_speed_mult = 0.20
 	}
@@ -89,6 +93,7 @@ utility_component_template = {
 	ai_weight = { weight = 5 }
 	prerequisites = { "tech_precognition_interface" }
 	modifier = {
+		ship_speed_mult = 0.15
 		ship_evasion_add = 11
 		ship_combat_speed_mult = 0.20
 	}
