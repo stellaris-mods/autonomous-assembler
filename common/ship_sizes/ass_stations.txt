@@ -42,4 +42,5 @@ ass_military_complex = {
 	required_component_set = "station_sensor_components"
 	required_component_set = "station_large_aura_components"
 	required_component_set = "ass_military_station_type"
+	required_component_set = "station_architecture_components"
 }
