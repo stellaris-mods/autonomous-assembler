@@ -151,14 +151,23 @@ ship_event = {
 	is_triggered_only = yes
 
 	immediate = {
-		remove_ship_flag = "ass_constructing_station"
-		switch = {
-			trigger = has_ship_flag
-			ass_op_minerals = { ass_stage4_minerals_complete = yes }
-			ass_op_energy   = { ass_stage4_energy_complete = yes }
-			ass_op_research = { ass_stage4_research_complete = yes }
-			ass_op_military = { ass_stage4_military_complete = yes }
-			ass_op_wormhole = { ass_stage4_wormhole_complete = yes }
+		if = {
+			limit = {
+				exists = fleet
+				fleet = { exists = solar_system }
+			}
+			remove_ship_flag = "ass_constructing_station"
+			switch = {
+				trigger = has_ship_flag
+				ass_op_minerals = { ass_stage4_complete_minerals = yes }
+				ass_op_energy   = { ass_stage4_complete_energy = yes }
+				ass_op_research = { ass_stage4_complete_research = yes }
+				ass_op_military = { ass_stage4_complete_military = yes }
+				ass_op_wormhole = { ass_stage4_complete_wormhole = yes }
+			}
+			else = {
+				ass_stage4_abort_operation = yes
+			}
 		}
 	}
 }

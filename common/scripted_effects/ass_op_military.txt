@@ -247,7 +247,10 @@ ass_stage1_military_p2 = {
 
 # Root and this = ship
 # And we are in orbit, or the mission failed.
-ass_stage4_military_complete = {
+ass_stage4_complete_military = {
+	# assShip.1000 checks both fleet and solar system
+	# XXX but it does not verify that we are still in the same system
+
 	# Reset relation_flag
 	fleet = {
 		solar_system = {

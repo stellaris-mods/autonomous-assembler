@@ -78,20 +78,28 @@ ass_stage1_research_p2 = {
 
 # Root and this = ship
 # And we are in orbit, or the mission failed.
-ass_stage4_research_complete = {
-	# Reset relation_flag
-	fleet = {
-		orbit = {
-			assdbg_relation_removed = yes
-			set_variable = { which = "AssUUID" value = 0 }
-			remove_planet_flag = "ass_target"
+ass_stage4_complete_research = {
+	# assShip.1000 checks for fleet and solar_system, but not orbit.
+	if = {
+		limit = { fleet = { exists = orbit } }
+		# Reset relation_flag
+		fleet = {
+			orbit = {
+				assdbg_relation_removed = yes
+				set_variable = { which = "AssUUID" value = 0 }
+				remove_planet_flag = "ass_target"
+			}
+		}
+		remove_ship_flag = "ass_relation_planet"
+
+		fleet = { orbit = { create_research_station = { owner = ROOT.owner } } }
+
+		# Ready for new adventures!
+		ass_stage4_operation_complete = yes
+		else = {
+			log = "[this.GetName]: Wanted to spawn research station, but we are not in orbit of anything."
+			ass_stage4_abort_operation = yes
 		}
 	}
-	remove_ship_flag = "ass_relation_planet"
-
-	fleet = { orbit = { create_research_station = { owner = ROOT.owner } } }
-
-	# Ready for new adventures!
-	ass_stage4_operation_complete = yes
 }
 

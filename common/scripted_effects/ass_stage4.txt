@@ -67,23 +67,32 @@ ass_stage4_operation_complete = {
 
 # THIS needs to be the ship
 ass_stage4_abort_operation = {
-	log = "[this.GetName]: ERROR: Operation forcefully aborted."
-	ass_relation_invalidate = yes
-
 	if = {
-		limit = { has_ship_flag = "ass_refund_if_aborted" }
-		ass_accounting_refund = yes
-		remove_ship_flag = "ass_refund_if_aborted"
+		limit = { ass_has_operation = yes }
+		log = "[this.GetName]: ERROR: Operation forcefully aborted."
+		ass_relation_invalidate = yes
+
+		if = {
+			limit = { has_ship_flag = "ass_refund_if_aborted" }
+			ass_accounting_refund = yes
+			remove_ship_flag = "ass_refund_if_aborted"
+		}
+
+		ass_3rd_op_abort = yes
+		ass_relation_remove_any = yes
+
+		# For ass_set_fleet_name.
+		set_timed_ship_flag = {
+			flag = "ass_aborted"
+			days = 5
+		}
+
+		ass_stage4_operation_complete = yes
+		else = {
+			# This can happen if there's any reason an assembler would cancel an operation in progress
+			# after we've triggered a days=X event. When that event occurs, hopefully we check if all
+			# required scopes and such exist, and if not, we invoke ass_stage4_abort_operation again.
+			log = "[this.GetName]: Wanted to forcefully abort an operation, but we are not doing anything."
+		}
 	}
-
-	ass_3rd_op_abort = yes
-	ass_relation_remove_any = yes
-
-	# For ass_set_fleet_name.
-	set_timed_ship_flag = {
-		flag = "ass_aborted"
-		days = 5
-	}
-
-	ass_stage4_operation_complete = yes
 }

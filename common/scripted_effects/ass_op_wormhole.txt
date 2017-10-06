@@ -144,7 +144,10 @@ ass_stage1_wormhole_p2 = {
 
 # Root and this = ship
 # And we are in the target system, or the mission failed.
-ass_stage4_wormhole_complete = {
+ass_stage4_complete_wormhole = {
+	# assShip.1000 checks both fleet and solar system
+	# XXX but it does not verify that we are still in the same system
+
 	# Reset relation_flag
 	remove_ship_flag = "ass_relation_system"
 	fleet = {

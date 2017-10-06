@@ -51,63 +51,79 @@ ship_event = {
 	# or any_system_ambient_object. What the fuck is that about.
 
 	immediate = {
-		# Find our station marker using the relation flag.
-		ass_relation_get_any = yes
-
-		# Check if we found the relation target
+		# ZZZ Remember this event might trigger after we've aborted operation,
+		# ZZZ been destroyed, or any other horrible thing has happened. So make
+		# ZZZ sure we don't build unless we're still "valid".
 		if = {
-			limit = { has_ship_flag = "ass_found_relation_target" }
-			remove_ship_flag = "ass_found_relation_target"
-			# Yes, we did, it's set in event_target:ass_target now.
-			# And it's a fleet, because ships dont support variables.
-			log = "[this.GetName]: Spawning military station at marker [ass_target.GetName] after 85 days."
-
-			solar_system = {
-				random_system_ambient_object = {
-					limit = { has_ambient_object_flag = "ass_spawn_here" }
-					ROOT = { set_ship_flag = "ass_spawned_marker_station" }
-					create_fleet = {
-						effect = {
-							set_owner = ROOT.owner
-							set_location = PREV
-							set_fleet_flag = "ass_spawned_from_marker"
-						}
-					}
-					destroy_ambient_object = THIS
-				}
+			limit = {
+				exists = fleet
+				fleet = { exists = solar_system }
 			}
+			# Find our station marker using the relation flag.
+			ass_relation_get_any = yes
 
-			# We need this ship flag because the any_*ambient_object triggers dont work,
-			# and I want to support any random number of ass_spawn_here objects.
+			# Check if we found the relation target
 			if = {
-				limit = { has_ship_flag = "ass_spawned_marker_station" }
-				remove_ship_flag = "ass_spawned_marker_station"
+				limit = { has_ship_flag = "ass_found_relation_target" }
+				remove_ship_flag = "ass_found_relation_target"
+				# Yes, we did, it's set in event_target:ass_target now.
+				# And it's a fleet, because ships dont support variables.
+				log = "[this.GetName]: Spawning military station at marker [ass_target.GetName] after 85 days."
 
-				event_target:ass_target = {
-					random_owned_ship = {
-						switch = {
-							trigger = has_component
-							ASS_TYPE_XLARGE = { last_created_fleet = { create_ship = { name = random random_existing_design = military_station_xlarge } } }
-							ASS_TYPE_LARGE  = { last_created_fleet = { create_ship = { name = random random_existing_design = military_station_large } } }
-							ASS_TYPE_MEDIUM = { last_created_fleet = { create_ship = { name = random random_existing_design = military_station_medium } } }
-							ASS_TYPE_SMALL  = { last_created_fleet = { create_ship = { name = random random_existing_design = military_station_small } } }
+				# XXX we should check that the relation target is still in the
+				# XXX same solar system and such as we are, I guess.
+				solar_system = {
+					random_system_ambient_object = {
+						limit = { has_ambient_object_flag = "ass_spawn_here" }
+						ROOT = { set_ship_flag = "ass_spawned_marker_station" }
+						create_fleet = {
+							effect = {
+								set_owner = ROOT.owner
+								set_location = PREV
+								set_fleet_flag = "ass_spawned_from_marker"
+							}
 						}
+						destroy_ambient_object = THIS
 					}
 				}
 
-				# Yes, we chain it even if there are none left to build.
-				# That's why it's 85 days and not 100.
-				ship_event = { id = assMarker.100 days = 85 }
+				# We need this ship flag because the any_*ambient_object triggers dont work,
+				# and I want to support any random number of ass_spawn_here objects.
+				if = {
+					limit = { has_ship_flag = "ass_spawned_marker_station" }
+					remove_ship_flag = "ass_spawned_marker_station"
+
+					event_target:ass_target = {
+						random_owned_ship = {
+							switch = {
+								trigger = has_component
+								ASS_TYPE_XLARGE = { last_created_fleet = { create_ship = { name = random random_existing_design = military_station_xlarge } } }
+								ASS_TYPE_LARGE  = { last_created_fleet = { create_ship = { name = random random_existing_design = military_station_large } } }
+								ASS_TYPE_MEDIUM = { last_created_fleet = { create_ship = { name = random random_existing_design = military_station_medium } } }
+								ASS_TYPE_SMALL  = { last_created_fleet = { create_ship = { name = random random_existing_design = military_station_small } } }
+							}
+						}
+					}
+
+					# Yes, we chain it even if there are none left to build.
+					# That's why it's 85 days and not 100.
+					ship_event = { id = assMarker.100 days = 85 }
+
+					else = {
+						# We are done.
+						ass_stage4_complete_marker = yes
+					}
+				}
 
 				else = {
-					# We are done.
-					ass_stage4_marker_complete = yes
+					# Relation target NOT found, so abort mission
+					log = "[this.GetName]: ERROR: Could not any Station Marker with the same UUID as us, aborting mission."
+					ass_stage4_abort_operation = yes
 				}
 			}
-
 			else = {
 				# Relation target NOT found, so abort mission
-				log = "[this.GetName]: ERROR: Could not any Station Marker with the same UUID as us, aborting mission."
+				log = "[this.GetName]: ERROR: Suddenly without a solar system."
 				ass_stage4_abort_operation = yes
 			}
 		}

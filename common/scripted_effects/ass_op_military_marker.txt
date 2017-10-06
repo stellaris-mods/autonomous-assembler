@@ -42,7 +42,7 @@ ass_stage1_marker_p1 = {
 
 # This chains from assMarker.100, which uses ass_relation_get_any,
 # which means that ass_target will be a fleet, and not a ship.
-ass_stage4_marker_complete = {
+ass_stage4_complete_marker = {
 	event_target:ass_target = {
 		remove_fleet_flag = "ass_target"
 	}

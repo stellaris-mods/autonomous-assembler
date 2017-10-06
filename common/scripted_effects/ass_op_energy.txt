@@ -78,7 +78,7 @@ ass_stage1_energy_p2 = {
 
 # Root and this = ship
 # And we are in orbit, or the mission failed.
-ass_stage4_energy_complete = {
-	ass_stage4_minerals_complete = yes
+ass_stage4_complete_energy = {
+	ass_stage4_complete_minerals = yes
 }
 
