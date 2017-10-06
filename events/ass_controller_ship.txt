@@ -122,6 +122,9 @@ ship_event = {
 	hide_window = yes
 	is_triggered_only = yes
 	trigger = {
+		# Hopefully checking a ship-scope exclusive trigger first prevents
+		# the "Firing ship event assShip.100 in the wrong scope!" error.
+		has_ship_flag = "ass_id"
 		is_ship_size = autonomous_assembler
 	}
 	immediate = {
