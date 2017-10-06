@@ -34,10 +34,10 @@ ass_stage1_research_p1 = {
 			ass_system_valid = yes
 			is_inside_border = ROOT.owner
 			ass_is_friendly_system = yes
-			ass_check_research_priority_1 = yes
+			ass_has_research_p1_planet = yes
 		}
 		random_system_planet = {
-			limit = { ass_check_research_p1_planet = yes }
+			limit = { ass_is_research_p1_planet = yes }
 			ass_stage1_set_research = yes
 			log = "[Root.GetName]: Moving to orbit [this.GetName] (Research P1)"
 			ass_relation_flag_planet = yes

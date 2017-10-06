@@ -51,7 +51,7 @@ ass_has_strategic_mining = {
 	}
 }
 
-ass_check_minerals_p1_planet = {
+ass_is_minerals_p1_planet = {
 	ass_valid_mining_planet = yes
 	OR = {
 		ass_has_strategic_mining = yes
@@ -59,7 +59,7 @@ ass_check_minerals_p1_planet = {
 	}
 }
 
-ass_check_minerals_priority_1 = {
+ass_has_minerals_p1_planet = {
 	OR = {
 		# Priority 1 = any sr_
 		any_planet = {

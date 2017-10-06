@@ -17,7 +17,7 @@
 # Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301  USA
 ###
 
-ass_check_energy_p1_planet = {
+ass_is_energy_p1_planet = {
 	ass_valid_mining_planet = yes
 	OR = {
 		ass_has_strategic_mining = yes
@@ -25,7 +25,7 @@ ass_check_energy_p1_planet = {
 	}
 }
 
-ass_check_energy_priority_1 = {
+ass_has_energy_p1_planet = {
 	OR = {
 		# Priority 1 = any sr_
 		any_planet = {
