@@ -2,7 +2,7 @@
 
 ## Known error.log entries
 
-The mod unfortunately produces a few known error.log lines that I can't avoid easily. If you see any errors besides these, please do file a bug report! Or if you know how I can retain the same functionality and not produce the error.log output (I don't think that's possible), please let me know.
+The mod unfortunately produces a few known error.log lines that I can't avoid easily. If you see any errors besides these, please do file a bug report! Or if you know how I can retain the same functionality and not produce the error.log output (I don't think that's possible, except by moving some of the functionality into a 3rd party "compatibility" mod), please let me know.
 ```
 [14:40:42][component.cpp:497]: Component "ASS_TYPE_XLARGE" has invalid technology "tech_battle_fortress_1".
 [14:40:43][effect_impl.cpp:3380]: Could not find ship size specified for create_ship effect!
