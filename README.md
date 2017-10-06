@@ -1,5 +1,16 @@
 # Autonomous Assembler
 
+## Found a problem?
+
+If you find a problem, you might want to:
+1. Load up a save 2-3 months (or more) before the problem happens
+1. Open the Stellaris ingame console
+1. Run the command `effect set_global_flag = debug`
+1. Let the game run until the problem occurs
+1. Give me a copy of the log files `error.log` and `game.log`, either on [hastebin](https://hastebin.com) or tar/zip them and upload them for me somewhere
+
+After you load a savegame, you need to enter `effect set_global_flag = debug` every time, unless you saved the game after you did that - then it will persist. To remove it again, enter `effect remove_global_flag = debug`.
+
 ## Known error.log entries
 
 The mod unfortunately produces a few known error.log lines that I can't avoid easily. If you see any errors besides these, please do file a bug report! Or if you know how I can retain the same functionality and not produce the error.log output (I don't think that's possible, except by moving some of the functionality into a 3rd party "compatibility" mod), please let me know.
@@ -22,6 +33,10 @@ File: common/scripted_effects/ass_op_military.txt
 ```
 
 Most of them are to remain compatible with New Ship Classes & More, and the rest are for That's Not Fair, A Stellaris Remake, and some other mod that I forgot the name of.
+
+## 3rd Party Ship Sets
+
+If you're the author of a 3rd party graphical culture/shipset, the `autonomous_assembler` and `ass_military_complex` entities are straight up copies of the vanilla `construction` and `terraforming_station` entities. Unfortunately, I can't reuse the existing entity data.
 
 ## Future plans
 **Planned Cards**
