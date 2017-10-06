@@ -1,5 +1,28 @@
 # Autonomous Assembler
 
+## Known error.log entries
+
+The mod unfortunately produces a few known error.log lines that I can't avoid easily. If you see any errors besides these, please do file a bug report! Or if you know how I can retain the same functionality and not produce the error.log output (I don't think that's possible), please let me know.
+```
+[14:40:42][component.cpp:497]: Component "ASS_TYPE_XLARGE" has invalid technology "tech_battle_fortress_1".
+[14:40:43][effect_impl.cpp:3380]: Could not find ship size specified for create_ship effect!
+File: events/ass_controller_marker.txt
+Line: 100
+[14:40:44][effect_impl.cpp:3380]: Could not find ship size specified for create_ship effect!
+File: common/scripted_effects/ass_op_military.txt
+[14:40:44][ship_size.cpp:414]: invalid component set "sc_friendly_aura" in ship size autonomous_assembler
+[14:40:44][ship_size.cpp:414]: invalid component set "sc_defense_aura" in ship size autonomous_assembler
+[14:40:44][ship_size.cpp:414]: invalid component set "station_architecture_components" in ship size ass_military_complex
+[14:40:45][trigger_impl.cpp:3155]: is_ship_size trigger at file: common/scripted_triggers/ass_op_military_triggers.txt line: 46 has an invalid ship size.
+[14:40:45][effect_impl.cpp:1128]: Error in fire event effect at file: events/addonmenu.txt line: 88, could not find event: TNF.1
+[14:40:45][effect_impl.cpp:1128]: Error in fire event effect at file: events/addonmenu.txt line: 94, could not find event: zhowstart.10
+[14:40:45][effect_impl.cpp:1128]: Error in fire event effect at file: events/addonmenu.txt line: 124, could not find event: tnfMenu.1
+[14:40:45][effect_impl.cpp:1128]: Error in fire event effect at file: events/addonmenu.txt line: 132, could not find event: zhowstart.3
+[14:40:45][trigger_impl.cpp:3155]: is_ship_size trigger at file: common/scripted_triggers/ass_op_military_triggers.txt line: 46 has an invalid ship size.
+```
+
+Most of them are to remain compatible with New Ship Classes & More, and the rest are for That's Not Fair, A Stellaris Remake, and some other mod that I forgot the name of.
+
 ## Future plans
 **Planned Cards**
 I want to make expansion cards for Frontier Outposts and Observation Stations\. The mod does easily support 3rd party addons adding in extra expansion cards, please read the code if you want to do that\. Or talk to me (but not on Steam)\.
