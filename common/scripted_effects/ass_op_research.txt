@@ -40,9 +40,8 @@ ass_stage1_research_p1 = {
 			limit = {
 				ass_valid_research_planet = yes
 				OR = {
-					ass_has_strategic_research = yes
 					ass_has_valuable_research = yes
-					#ass_has_any_research = yes # covered by valid
+					ass_has_any_research = yes
 				}
 			}
 			ass_stage1_set_research = yes
