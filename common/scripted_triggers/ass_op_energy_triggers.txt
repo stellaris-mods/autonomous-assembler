@@ -17,34 +17,34 @@
 # Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301  USA
 ###
 
+ass_check_energy_p1_planet = {
+	ass_valid_mining_planet = yes
+	OR = {
+		ass_has_strategic_mining = yes
+		ass_has_valuable_energy = yes
+	}
+}
 
 ass_check_energy_priority_1 = {
 	OR = {
+		# Priority 1 = any sr_
+		any_planet = {
+			ass_valid_mining_planet = yes
+			ass_has_strategic_mining = yes
+		}
+		# Priority 2 = any high-yield
 		any_planet = {
 			ass_valid_mining_planet = yes
 			ass_has_valuable_energy = yes
-		}
-		AND = {
-			any_planet = {
-				ass_valid_mining_planet = yes
-				ass_has_any_energy = yes
-			}
-			any_planet = {
-				ass_planet_valid = yes
-				ass_is_owners_planet = yes
-			}
 		}
 	}
 }
 
 ass_has_valuable_energy = {
 	orbital_deposit_tile = {
-		OR = {
-			has_resource = {
-				type = energy
-				amount > 1
-			}
-			ass_has_strategic_mining = yes
+		has_resource = {
+			type = energy
+			amount > 1
 		}
 	}
 }

@@ -36,13 +36,7 @@ ass_stage1_energy_p1 = {
 			ass_check_energy_priority_1 = yes
 		}
 		random_system_planet = {
-			limit = {
-				ass_valid_mining_planet = yes
-				OR = {
-					ass_has_valuable_energy = yes
-					ass_has_any_energy = yes
-				}
-			}
+			limit = { ass_check_energy_p1_planet = yes }
 			ass_stage1_set_energy = yes
 			log = "[Root.GetName]: Moving to orbit [this.GetName] (Energy P1)"
 			ass_relation_flag_planet = yes

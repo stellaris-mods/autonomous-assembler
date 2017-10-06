@@ -82,9 +82,9 @@ ASS_EXPANSION_SLOT_2: "The secondary expansion slot can contain an instruction m
 
 ASS_EXPANSION_WORMHOLE_1_DESC: "§WThis expansion card will scan colonized systems for Wormhole stations, and if it does not find one we control, it will direct the ship towards that solar system and construct a Wormhole station.§!\n\n$ASS_EXPANSION_SLOT_1$"
 ASS_EXPANSION_MILITARY_1_DESC: "§WLocates any §H$ass_military_complex_plural$§! constructed inside our borders, moves there to set up a network of military stations around it. Then, finds the closest colonized system without a military station, and builds one there.§!\n\n$ASS_EXPANSION_SLOT_1$"
-ASS_EXPANSION_RESEARCH_1_DESC: "§WScans all planetary objects inside our space for §YSpecial Resources§!, and then any colonized system for any orbital research deposits, and finally any high-yielding research deposits inside our borders - and constructs a Research Station at the location, if needed.§!\n\n$ASS_EXPANSION_SLOT_1$"
-ASS_EXPANSION_MINERALS_1_DESC: "§WFinds any orbital mineral deposit in colonized systems, any high-yielding deposit inside our borders, or any minable special resource, and creates a Mining Station there if needed.§!\n\n$ASS_EXPANSION_SLOT_1$"
-ASS_EXPANSION_ENERGY_1_DESC: "§WFinds any orbital energy deposit in colonized systems, any high-yielding deposit inside our borders, or any minable special resource, and creates a Mining Station there if needed.§!\n\n$ASS_EXPANSION_SLOT_1$"
+ASS_EXPANSION_RESEARCH_1_DESC: "§WScans all planetary objects inside our borders for §YSpecial Resources§!, or any high-yielding research deposits inside our borders, and constructs a Research Station at the location, if needed.§!\n\n$ASS_EXPANSION_SLOT_1$"
+ASS_EXPANSION_MINERALS_1_DESC: "§WFinds any high-yielding Mineral deposit inside our borders, or any minable special resource, and creates a Mining Station there if needed.§!\n\n$ASS_EXPANSION_SLOT_1$"
+ASS_EXPANSION_ENERGY_1_DESC: "§WFinds any high-yielding Energy deposit inside our borders, or any minable special resource, and creates a Mining Station there if needed.§!\n\n$ASS_EXPANSION_SLOT_1$"
 
 ASS_EXPANSION_WORMHOLE_2_DESC: "§WCalculates distances between solar systems and attempts to find any that are on the edge of our jump range, and moves there to construct Wormhole Stations.§!\n\n$ASS_EXPANSION_SLOT_2$"
 ASS_EXPANSION_MILITARY_2_DESC: "§WAttempts to construct a military station in§! §Revery star system within our borders§!§W.§!\n\n$ASS_EXPANSION_SLOT_2$"

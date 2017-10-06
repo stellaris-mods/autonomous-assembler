@@ -51,33 +51,34 @@ ass_has_strategic_mining = {
 	}
 }
 
+ass_check_minerals_p1_planet = {
+	ass_valid_mining_planet = yes
+	OR = {
+		ass_has_strategic_mining = yes
+		ass_has_valuable_minerals = yes
+	}
+}
+
 ass_check_minerals_priority_1 = {
 	OR = {
+		# Priority 1 = any sr_
+		any_planet = {
+			ass_valid_mining_planet = yes
+			ass_has_strategic_mining = yes
+		}
+		# Priority 2 = high-yield
 		any_planet = {
 			ass_valid_mining_planet = yes
 			ass_has_valuable_minerals = yes
-		}
-		AND = {
-			any_planet = {
-				ass_valid_mining_planet = yes
-				ass_has_any_minerals = yes
-			}
-			any_planet = {
-				ass_planet_valid = yes
-				ass_is_owners_planet = yes
-			}
 		}
 	}
 }
 
 ass_has_valuable_minerals = {
 	orbital_deposit_tile = {
-		OR = {
-			has_resource = {
-				type = minerals
-				amount > 1
-			}
-			ass_has_strategic_mining = yes
+		has_resource = {
+			type = minerals
+			amount > 1
 		}
 	}
 }

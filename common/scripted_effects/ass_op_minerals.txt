@@ -37,13 +37,7 @@ ass_stage1_minerals_p1 = {
 			ass_check_minerals_priority_1 = yes
 		}
 		random_system_planet = {
-			limit = {
-				ass_valid_mining_planet = yes
-				OR = {
-					ass_has_valuable_minerals = yes
-					ass_has_any_minerals = yes
-				}
-			}
+			limit = { ass_check_minerals_p1_planet = yes }
 			ass_stage1_set_minerals = yes
 			log = "[Root.GetName]: Moving to orbit [this.GetName] (Minerals P1)"
 			ass_relation_flag_planet = yes
