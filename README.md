@@ -94,21 +94,21 @@ The ship has 2x slots for expansion cards\. It's **very important** that you exa
 
 **Research Expansion Card**
 
-* Expansion Slot 1: Scans all planetary objects inside our space for Special Resources, and then any colonized system for any orbital research deposits, and finally any high\-yielding (2\+) research deposits inside our borders \- and constructs a Research Station at the location, if needed\.
+* Expansion Slot 1: Scans all planetary objects inside our borders for Special Resources, or any high\-yielding (2\+) research deposits inside our borders \- and constructs a Research Station at the location, if needed\.
 * Expansion Slot 2: Constructs a Research Station at any orbital deposit that can benefit us\.
 
 
 
 **Mineral Expansion Card**
 
-* Expansion Slot 1: Finds any orbital mineral deposit in colonized systems, any high\-yielding deposit inside our borders, or any minable special resource, and creates a Mining Station there if needed\.
+* Expansion Slot 1: Finds any high\-yielding Mineral deposit inside our borders, or any minable special resource, and creates a Mining Station there if needed\.
 * Expansion Slot 2: Constructs a Mining Station at any orbital mineral deposit that can benefit us\.
 
 
 
 **Energy Expansion Card**
 
-* Expansion Slot 1: Finds any orbital energy deposit in colonized systems, any high\-yielding deposit inside our borders, or any minable special resource, and creates a Mining Station there if needed\.
+* Expansion Slot 1: Finds any high\-yielding Energy deposit inside our borders, or any minable special resource, and creates a Mining Station there if needed\.
 * Expansion Slot 2: Constructs a Mining Station at any orbital energy deposit that can benefit us\.
 
 
@@ -136,12 +136,12 @@ In your empires special projects screen, you will find a new section dedicated t
 All the projects are free, they just take time\. Also, they all reset every time you build or lose an assembler, and any time you complete a project\. Nothing I can do about this, unfortunately\.
 
 ## Known problems
-The ships do not try to escape if a hostile fleet enters a system while they are locked during construction\.
+There are no known problems\.
 
 ## Compatibility
 Compatible with existing save games, but you need to research the technology to get access to the ships\. The menu only shows in new games\.
 
-This mod is, as far as I know, compatible with all other addons\.
+This mod is, as far as I know, compatible with all other addons\. Including Autobuild\.
 
 ## Replaced files
 This mod does not replace any vanilla files\.
