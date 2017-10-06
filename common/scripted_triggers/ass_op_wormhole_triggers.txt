@@ -36,7 +36,8 @@ ass_can_build_wormhole = {
 			NOT = { is_same_value = ROOT.owner }
 			is_hostile = ROOT.owner
 		}
-		# XXX I can't find a way to check whether or not we have an active treaty.
+		# I can't find a way to check whether or not we have an active treaty.
+		# I don't think there is one.
 		# space_owner = { treaty_thing }
 	}
 }
