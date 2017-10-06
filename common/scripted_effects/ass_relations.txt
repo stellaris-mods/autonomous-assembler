@@ -310,7 +310,7 @@ ass_relation_internal_get_fleet = {
 		}
 		while = {
 			limit = {
-				NOT = { has_ship_flag = "ass_found_relation_target" }
+				NOT = { PREV = { has_ship_flag = "ass_found_relation_target" } }
 				any_owned_fleet = {
 					has_fleet_flag = "ass_checked"
 				}
