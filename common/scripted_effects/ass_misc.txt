@@ -131,6 +131,36 @@ ass_military_spawn_placeholders_80 = {
 	}
 }
 
+# THIS is the country
+# PREV is the ship
+# event_target:ass_target is the planet
+ass_on_building_mining_station = {
+	# mandate.110
+	ass_update_miner_mandate = yes
+	# pirate.3
+	ass_pirate3 = yes
+	# guardian.3200
+	ass_guardian3200 = yes
+}
+
+# THIS is the country
+# PREV is the ship
+# event_target:ass_target is the planet
+ass_on_building_research_station = {
+	# mandate.120
+	ass_update_research_mandate = yes
+	# guardian.1070
+	ass_guardian1070 = yes
+}
+
+# Frontier Outpost
+ass_on_building_outpost_station = {
+	# mandate.110
+	# mandate.120
+	# guardian.1070
+	# factions.220
+}
+
 # While the description text for the mandate says "minerals", in the vanilla
 # code they do actually count energy nodes as well.
 # It seems they actually only count nodes that have both minerals AND energy,
@@ -154,6 +184,82 @@ ass_update_miner_mandate = {
 				}
 			}
 			country_event = { id = mandate.111 }
+		}
+	}
+}
+
+ass_update_research_mandate = {
+	if = {
+		limit = {
+			has_event_chain = mandate_orbresearch_chain
+		}
+		add_event_chain_counter = {
+			event_chain = mandate_orbresearch_chain
+			counter = orbresearch_built
+			amount = 1
+		}
+		if = {
+			limit = {
+				has_completed_event_chain_counter = {
+					event_chain = mandate_orbresearch_chain
+					counter = orbresearch_built
+				}
+			}
+			country_event = { id = mandate.121 }
+		}
+	}
+}
+
+ass_guardian3200 = {
+	if = {
+		limit = { event_target:ass_target = { is_planet_class = pc_crystal_asteroid} }
+		set_country_flag = "built_hiver_mine"
+	}
+}
+
+ass_pirate3 = {
+	if = {
+		limit = {
+			NOT = { has_global_flag = "privateers_destroyed" }
+			is_country_type = "default"
+			NOT = {
+				has_country_flag = "outer_system_mining_stations_constructed"
+				has_country_flag = "birth_of_piracy"
+			}
+			event_target:ass_target = {
+				solar_system = {
+					NOT = { any_planet = { is_homeworld = yes } }
+				}
+			}
+		}
+		change_variable = {
+			which = "outer_system_mining_stations"
+			value = 1
+		}
+		if = {
+			limit = {
+				check_variable = {
+					which = "outer_system_mining_stations"
+					value > 4
+				}
+			}
+			set_country_flag = "outer_system_mining_stations_constructed"
+		}
+	}
+}
+
+ass_guardian1070 = {
+	if = {
+		limit = {
+			NOT = { has_modifier = black_hole_pantagruel_research }
+			event_target:ass_target = {
+				is_planet_class = pc_black_hole
+				has_modifier = black_hole_pantagruel
+			}
+		}
+		add_modifier = {
+			modifier = black_hole_pantagruel_research
+			days = -1
 		}
 	}
 }

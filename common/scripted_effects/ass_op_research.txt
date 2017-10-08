@@ -86,6 +86,8 @@ ass_stage4_complete_research = {
 		remove_ship_flag = "ass_relation_planet"
 
 		fleet = { orbit = { create_research_station = { owner = ROOT.owner } } }
+		fleet = { orbit = { save_event_target_as = ass_target } }
+		owner = { ass_on_building_research_station = yes }
 
 		# Ready for new adventures!
 		ass_stage4_operation_complete = yes
