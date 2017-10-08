@@ -75,6 +75,7 @@ ass_has_strategic_research = {
 	}
 }
 
+# XXX Check for any construction ship in orbit
 ass_valid_research_planet = {
 	ass_planet_valid = yes
 	NOT = { has_planet_flag = "autobuild_planet_block" }

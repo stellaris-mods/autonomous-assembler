@@ -21,6 +21,7 @@
 # Simply tests if we can mine the planet at all,
 # for either energy, minerals, or mined SRs.
 # This trigger is used by both mineral and energy operations.
+# XXX Check for any construction ship in orbit
 ass_valid_mining_planet = {
 	ass_planet_valid = yes
 	NOT = { has_planet_flag = "autobuild_planet_block" }
