@@ -58,6 +58,36 @@ ass_is_owners_planet = {
 	owner = { is_same_value = ROOT.owner }
 }
 
+# ZZZ Note that this does not check for ass_target, or other relation flags
+# ZZZ Which means we can use this at any stage during an operation
+ass_is_planet_valid_orbital_target = {
+	ass_planet_valid = yes
+	NOT = { has_planet_flag = "autobuild_planet_block" }
+	NOT = { exists = owner }
+	exists = orbital_deposit_tile
+	is_surveyed = { who = ROOT.owner status = yes }
+	has_anomaly = no
+	has_orbital_station = no
+	has_any_megastructure = no
+	has_mining_station = no
+	has_research_station = no # might not work
+	has_spaceport = no
+	is_colony = no
+	has_observation_outpost = no # might not work
+	has_frontier_station = no
+	solar_system = {
+		NOT = {
+			# Is there another constructor class ship in orbit?
+			any_ship_in_system = {
+				exists = orbit
+				is_ship_class = shipclass_constructor
+				NOT = { is_ship_size = autonomous_assembler }
+				orbit = { is_same_value = PREVPREVPREV }
+			}
+		}
+	}
+}
+
 # FLEET contains these variables:
 # AssOperationCost, the total mineral cost of the current target operation
 # AssReserve, how many minerals the country wants to reserve

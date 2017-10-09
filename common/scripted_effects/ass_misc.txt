@@ -212,7 +212,7 @@ ass_update_research_mandate = {
 
 ass_guardian3200 = {
 	if = {
-		limit = { event_target:ass_target = { is_planet_class = pc_crystal_asteroid} }
+		limit = { event_target:ass_target = { is_planet_class = pc_crystal_asteroid } }
 		set_country_flag = "built_hiver_mine"
 	}
 }

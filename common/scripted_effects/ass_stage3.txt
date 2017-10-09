@@ -84,18 +84,12 @@ ass_stage3_verify_orbit = {
 	if = {
 		limit = {
 			event_target:ass_target = {
-				has_orbital_station = no
-				has_any_megastructure = no
-				has_mining_station = no
-				has_research_station = no
-				has_spaceport = no
-				has_observation_outpost = no
-				has_frontier_station = no
+				ass_is_planet_valid_orbital_target = yes
 			}
 		}
 		ass_stage3_lock_and_accounts = yes
 		else = {
-			log = "[this.GetName]: ERROR: There's already some sort of station around [ass_target.GetName]."
+			log = "[this.GetName]: ERROR: Planet [ass_target.GetName] is no longer considered a valid orbital construction target."
 			ass_stage4_abort_operation = yes
 		}
 	}
