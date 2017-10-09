@@ -28,7 +28,7 @@ assdbg_relation_set = {
 
 assdbg_relation_manual_remove = {
 	if = { limit = { has_global_flag = "debug" }
-	log = "[Prev.GetName]: Uncoupled from system [this.GetName]."
+	log = "[Prev.GetName]: Uncoupled from target [this.GetName]."
 }}
 
 assdbg_relation_removed = {
