@@ -69,8 +69,6 @@ on_entering_system_fleet = { events = { assHostile.600 } }
 # 7. We entered a war
 on_entering_war = { events = { assHostile.700 } }
 
-# XXX can we add custom notifications now?
-
 # Abort mission if we are disbanded, so that our ass_target is released
 on_fleet_disbanded = { events = { assCountry.200 } }
 

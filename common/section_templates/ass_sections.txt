@@ -25,9 +25,27 @@ ship_section_template = {
 	icon = "GFX_ship_part_core_mid"
 
 	cost = 120
+	ai_weight = { factor = 1 } # Factor of what?!
 
 	medium_utility_slots = 2
 	small_utility_slots = 3
+	aux_utility_slots = 1
+}
+
+ship_section_template = {
+	key = "ADVANCED_AUTONOMOUS_ASSEMBLER_SECTION"
+	ship_size = autonomous_assembler
+	fits_on_slot = mid
+	entity = "construction_ship_entity"
+	icon = "GFX_ship_part_core_mid"
+
+	prerequisites = { tech_advanced_autonomous_assembler }
+
+	cost = 240
+	ai_weight = { factor = 2 } # Factor of what?!
+
+	large_utility_slots = 2
+	medium_utility_slots = 3
 	aux_utility_slots = 1
 }
 

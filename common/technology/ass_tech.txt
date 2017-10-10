@@ -22,7 +22,7 @@ tech_autonomous_assembler = {
 	cost = 360
 	area = engineering
 	tier = 1
-	category = { voidcraft }
+	category = { industry }
 	prerequisites = { tech_space_construction }
 	weight = 100
 
@@ -69,7 +69,7 @@ tech_autonomous_assembler = {
 			factor = 1.25
 			research_leader = {
 				area = engineering
-				has_trait = "leader_trait_expertise_voidcraft"
+				has_trait = "leader_trait_expertise_industry"
 			}
 		}
 	}
@@ -79,6 +79,33 @@ tech_autonomous_assembler = {
 			years_passed < 10
 		}
 	}
+}
+
+tech_advanced_autonomous_assembler = {
+	cost = 3000
+	area = engineering
+	tier = 3
+	category = { industry }
+	prerequisites = { tech_autonomous_assembler }
+	weight = 50
+
+	prereqfor_desc = {
+		custom = {
+			title = "tech_advanced_autonomous_assembler_unlock_title"
+			desc = "tech_advanced_autonomous_assembler_unlock_desc"
+		}
+	}
+
+	weight_modifier = {
+		modifier = {
+			factor = 1.25
+			research_leader = {
+				area = engineering
+				has_trait = "leader_trait_expertise_industry"
+			}
+		}
+	}
+	ai_weight = { factor = 0 }
 }
 
 tech_ass_hexagon = {

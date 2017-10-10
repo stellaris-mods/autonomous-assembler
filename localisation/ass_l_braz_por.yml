@@ -42,13 +42,16 @@ ASS_STATION_SECTION: "Station Marker"
 ass_components: "Autonomous CPUs"
 ass_components_DESC: "Central processing units for our Autonomous Assemblers."
 ass_military_station_type: "Station Type"
-ass_military_station_type_DESC: "Unlocks new station type for $ass_plural_colored$ to construct around a $ass_marker_colored$."
 
 tech_autonomous_assembler: "Autonomous Assembler"
 tech_autonomous_assembler_desc: "Construction in space comes with all sorts of dangers, so if we would somehow send off autonomous construction ships instead of our manned ones, that would be much preferred."
-
 tech_autonomous_assembler_unlock_title: "§HUnlocks Ship Type:§! Autonomous Assembler"
 tech_autonomous_assembler_unlock_desc: "§HAutonomous Assembler§!\nAn automated construction ship with Corvette-like maneuverability, agility, speed, and evasion."
+
+tech_advanced_autonomous_assembler: "Advanced Autonomous Assembly"
+tech_advanced_autonomous_assembler_desc: "Recent discoveries in space construction techniques and computing will most likely allow us to construct a more capable hull for our $ass_plural_colored$. This warrants further study, until we can produce a functional prototype."
+tech_advanced_autonomous_assembler_unlock_title: "§HUnlocks Section:§! AA-Tm69h-UDS7"
+tech_advanced_autonomous_assembler_unlock_desc: "Enables a new motherboard section for $ass_plural_colored$ featuring a new bridge that muxes the available communication lanes between utility components and the onboard processing unit, thus allowing for an increased number of components to plug into the system without a noticable loss of quality."
 
 ASS_CPU_1: "TM3200"
 ASS_CPU_1_DESC: "The TM3200 is certainly notable for its revolutionary morphing software abstraction layer, rendering it capable of translating machine code instruction sets for any architecture into native instructions for its own pipeline."
