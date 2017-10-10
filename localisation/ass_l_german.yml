@@ -176,3 +176,6 @@ ass_blueprint_target_desc: "The governor on this planet has been issued an encry
 
 sm_ass_spaceport_module: "Autonomous Assembler Construction"
 sm_ass_spaceport_module_desc: "This Spaceport module section is currently reserved or being used by an Autonomous Assembler."
+
+ass_spaceport_module.explain.title: "Autonomous Assembler Spaceport Module Card"
+ass_spaceport_module.explain.desc: "Congratulations on your first $ass_plural_colored$ outfitted with a §M$ASS_EXPANSION_SPACEPORT_MODULES$§!. In order for this card to have any effect, you will need to bestow upon one of your planet governors the ability to broadcast a cryptographically signed message through subspace.\n\nIn order to give someone access to the signing key, please enable the §Y$edict_autonomous_assembler_blueprint$§! edict on a planet."

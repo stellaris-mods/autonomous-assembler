@@ -17,6 +17,7 @@
 # Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301  USA
 ###
 
+
 ass_military_complex = {
 	max_speed = 0
 	acceleration = 0

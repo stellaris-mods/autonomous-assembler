@@ -17,6 +17,7 @@
 # Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301  USA
 ###
 
+
 on_game_start = {
 	events = {
 		assInit.1
@@ -77,3 +78,7 @@ on_fleet_disbanded = { events = { assCountry.200 } }
 # at game start.
 # But we probably need to abort the mission then as well.
 on_fleet_destroyed_maintenance = { events = { assCountry.300 } }
+
+# Spaceport Module events
+on_ship_built = { events = { assSpaceportModules.1 } }
+on_ship_upgraded = { events = { assSpaceportModules.1 } }

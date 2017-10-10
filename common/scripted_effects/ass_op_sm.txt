@@ -24,6 +24,7 @@
 # THIS in all ass_stage1_sm_ effects is the blueprint planet
 # ROOT is always the assembler
 #
+# gf_alphamodplus
 #
 
 # Remove any data associated exclusively with the spaceport module operation
@@ -587,7 +588,7 @@ ass_stage3_spaceport_modules = {
 		ass_set_fleet_name = yes
 
 		log = "[this.GetName]: Constructing spaceport module..."
-		ship_event = { id = assShip.1001 days = 10 }
+		ship_event = { id = assSpaceportModules.1000 days = 10 }
 		else = {
 			assdbg_resource_wait = yes
 			set_ship_flag = "ass_waiting_for_cash"
@@ -599,7 +600,7 @@ ass_stage3_spaceport_modules = {
 # Root and this = ship
 # And we are in orbit, or the mission failed.
 ass_stage4_complete_spaceport_module = {
-	# assShip.1001 checks for fleet and solar_system, but not orbit.
+	# assSpaceportModules.1000 checks for fleet and solar_system, but not orbit.
 	if = {
 		limit = { fleet = { exists = orbit } }
 		# Reset relation_flag

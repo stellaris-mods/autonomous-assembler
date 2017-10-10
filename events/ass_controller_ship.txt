@@ -175,41 +175,6 @@ ship_event = {
 	}
 }
 
-# Spaceport Module operation
-ship_event = {
-	id = assShip.1001
-	hide_window = yes
-	is_triggered_only = yes
-
-	immediate = {
-		if = {
-			limit = {
-				exists = fleet
-				fleet = { exists = solar_system }
-			}
-			if = {
-				limit = { fleet = { check_variable = { which = "AssConstructionTime" value = 0 } } }
-
-				# We are done with building, spawn it
-				remove_ship_flag = "ass_constructing_station"
-				ass_stage4_complete_spaceport_module = yes
-
-				else = {
-					# Nope, wait some more.
-					fleet = {
-						subtract_variable = { which = "AssConstructionTime" value = 10 }
-					}
-					ship_event = { id = assShip.1001 days = 10 }
-				}
-			}
-			else = {
-				# No fleet/solar system, so abort!
-				ass_stage4_abort_operation = yes
-			}
-		}
-	}
-}
-
 # on monthly pulse
 event = {
 	id = assShip.2000

@@ -17,6 +17,7 @@
 # Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301  USA
 ###
 
+
 utility_component_template = {
 	key = "ASS_CPU_1"
 	size = medium

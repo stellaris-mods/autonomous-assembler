@@ -1,0 +1,72 @@
+###
+# This file is part of a project hosted at https://github.com/stellaris-mods
+# Copyright (c) 2017 folk@folk.wtf
+#
+# This program is free software; you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation; either version 3 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software Foundation,
+# Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301  USA
+###
+
+
+namespace = assSpaceportModules
+
+# on_ship_built & on_ship_upgraded
+# Root = Ship
+ship_event = {
+	id = assSpaceportModules.1
+	title = "ass_spaceport_module.explain.title"
+	desc = "ass_spaceport_module.explain.desc"
+	picture = GFX_evt_autonomous_assembler
+	is_triggered_only = yes
+	trigger = {
+		is_ship_size = autonomous_assembler
+		has_component = ASS_EXPANSION_SPACEPORT_MODULES
+		NOT = { owner = { any_owned_planet = { ass_is_blueprint_planet = yes } } }
+	}
+	option = { name = OK }
+}
+
+# Spaceport Module operation
+ship_event = {
+	id = assSpaceportModules.1000
+	hide_window = yes
+	is_triggered_only = yes
+
+	immediate = {
+		if = {
+			limit = {
+				exists = fleet
+				fleet = { exists = solar_system }
+			}
+			if = {
+				limit = { fleet = { check_variable = { which = "AssConstructionTime" value = 0 } } }
+
+				# We are done with building, spawn it
+				remove_ship_flag = "ass_constructing_station"
+				ass_stage4_complete_spaceport_module = yes
+
+				else = {
+					# Nope, wait some more.
+					fleet = {
+						subtract_variable = { which = "AssConstructionTime" value = 10 }
+					}
+					ship_event = { id = assSpaceportModules.1000 days = 10 }
+				}
+			}
+			else = {
+				# No fleet/solar system, so abort!
+				ass_stage4_abort_operation = yes
+			}
+		}
+	}
+}
