@@ -35,9 +35,25 @@ ass_3rd_op_abort = {}
 ass_set_fleet_name_3rd = {}
 
 # Spaceport Module operation
-ass_stage1_sm_3rd_pre = {}
-ass_stage1_sm_3rd_post = {}
-ass_stage4_sm_3rd_remove_data = {}
+ass_stage1_sm_3rd_pre = {
+	am_spaceports_ass_stage1_sm_pre = yes
+}
+ass_stage1_sm_3rd_post = {
+	am_spaceports_ass_stage1_sm_post = yes
+}
+ass_stage4_sm_3rd_remove_data = {
+	am_spaceports_ass_stage4_sm_remove_data = yes
+}
 
 # THIS is the ship, event_target:ass_target is the planet
-ass_stage4_sm_3rd_complete = {}
+ass_stage4_sm_3rd_complete = {
+	am_spaceports_ass_stage4_sm_complete = yes
+}
+
+
+
+# AlphaMods Spaceports addon
+am_spaceports_ass_stage1_sm_pre = {}
+am_spaceports_ass_stage1_sm_post = {}
+am_spaceports_ass_stage4_sm_remove_data = {}
+am_spaceports_ass_stage4_sm_complete = {}
