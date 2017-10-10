@@ -20,6 +20,7 @@
 
 @power = -35
 @cost = 15
+@expensive = 150
 
 utility_component_template = {
 	key = "ASS_EXPANSION_EMPTY"
@@ -117,4 +118,18 @@ utility_component_template = {
 			NOT = { has_technology = "tech_wormhole_generation_1" }
 		}
 	}
+}
+
+# Slot 2 exclusives
+
+utility_component_template = {
+	key = "ASS_EXPANSION_SPACEPORT_MODULES"
+	component_set = "ass_expansion_slot_2"
+	size = medium
+	icon = "assgfx_exp_spaceport_modules"
+	prerequisites = { "tech_spaceport_3" }
+	icon_frame = 1
+	power = @power
+	cost = @expensive
+	ai_weight = { weight = 0 }
 }

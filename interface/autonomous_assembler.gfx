@@ -5,6 +5,12 @@ spriteTypes = {
 		masking_texture = "gfx/interface/situation_log/event_mask.dds"
 		alwaystransparent = yes
 	}
+
+	spriteType = {
+		name = "assgfx_spaceport_module"
+		texturefile = "gfx/ass_spaceport_module.dds"
+	}
+
 	spriteType = {
 		name = "assgfx_tech_space_defense_station_1"
 		texturefile = "gfx/type_small.dds"
@@ -46,6 +52,11 @@ spriteTypes = {
 		name = "assgfx_exp_wormhole"
 		texturefile = "gfx/exp_wormhole.dds"
 	}
+	spriteType = {
+		name = "assgfx_exp_spaceport_modules"
+		texturefile = "gfx/exp_spaceport_modules.dds"
+	}
+
 	spriteType = {
 		name = "assgfx_cpu_1"
 		texturefile = "gfx/cpu_1.dds"

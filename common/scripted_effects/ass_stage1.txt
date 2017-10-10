@@ -62,6 +62,7 @@ ass_init_stage1 = {
 					ASS_EXPANSION_ENERGY_2 = { ass_stage1_energy_p2 = yes }
 					ASS_EXPANSION_RESEARCH_2 = { ass_stage1_research_p2 = yes }
 					ASS_EXPANSION_WORMHOLE_2 = { ass_stage1_wormhole_p2 = yes }
+					ASS_EXPANSION_SPACEPORT_MODULES = { ass_stage1_sm_p2 = yes }
 				}
 				# Allow 3rd-parties to override the above
 				ass_init_stage1_3rd_p2 = yes

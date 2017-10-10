@@ -1,0 +1,70 @@
+###
+# This file is part of a project hosted at https://github.com/stellaris-mods
+# Copyright (c) 2017 folk@folk.wtf
+#
+# This program is free software; you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation; either version 3 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software Foundation,
+# Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301  USA
+###
+
+
+planet_edict = {
+	name = "autonomous_assembler_blueprint"
+	influence_cost = 0
+	length = 0
+
+	prerequisites = {
+		"tech_autonomous_assembler"
+		"tech_spaceport_3"
+	}
+	potential = {
+		has_spaceport = yes
+		owner = { is_ai = no }
+		NOT = { has_modifier = ass_blueprint_target }
+	}
+	allow = {
+		NOT = {
+			owner = {
+				any_owned_planet = {
+					has_modifier = ass_blueprint_target
+				}
+			}
+		}
+	}
+	effect = {
+		custom_tooltip = "edict_autonomous_assembler_blueprint_tooltip"
+		hidden_effect = {
+			add_modifier = {
+				modifier = ass_blueprint_target
+				days = -1
+			}
+		}
+	}
+	ai_weight = { weight = 0 }
+}
+
+planet_edict = {
+	name = "autonomous_assembler_blueprint_remove"
+	influence_cost = 0
+	length = 0
+	potential = {
+		has_modifier = ass_blueprint_target
+	}
+	allow = {}
+	effect = {
+		hidden_effect = {
+			remove_modifier = ass_blueprint_target
+		}
+	}
+	ai_weight = { weight = 0 }
+}

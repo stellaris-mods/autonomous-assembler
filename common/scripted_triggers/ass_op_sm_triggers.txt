@@ -18,26 +18,24 @@
 ###
 
 
-# If you add your own components for the ass ship, you need
-# to overwrite these to hook into the operation.
+# Spaceport Module triggers
 
-# In all stage1 effects, ROOT must be the ship.
+# Only used with any/random_owned_planet, so dont check owner etc
+ass_is_blueprint_planet = {
+	has_spaceport = yes
+	has_modifier = ass_blueprint_target
+	is_occupied_flag = no
+	has_ground_combat = no
+	controller = { is_same_value = ROOT.owner }
+}
 
-ass_init_stage1_3rd_p1 = {}
-ass_init_stage1_3rd_p2 = {}
-
-# Stage 1 should flow directly to stage2 and set the
-# autonomous_operation fleet flag if the mission was accepted.
-
-ass_3rd_op_complete = {}
-ass_3rd_op_abort = {}
-
-ass_set_fleet_name_3rd = {}
-
-# Spaceport Module operation
-ass_stage1_sm_3rd_pre = {}
-ass_stage1_sm_3rd_post = {}
-ass_stage4_sm_3rd_remove_data = {}
-
-# THIS is the ship, event_target:ass_target is the planet
-ass_stage4_sm_3rd_complete = {}
+ass_valid_spaceport_module_planet = {
+	NOT = { has_planet_flag = "ass_target" }
+	has_spaceport = yes
+	has_spaceport_construction = no
+	has_free_spaceport_module_slot = yes
+	is_occupied_flag = no
+	has_ground_combat = no
+	controller = { is_same_value = ROOT.owner }
+	# XXX verify friendly system
+}

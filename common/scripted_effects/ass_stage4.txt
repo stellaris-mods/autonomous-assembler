@@ -40,6 +40,7 @@ ass_stage4_operation_complete = {
 	remove_ship_flag = "ass_op_military"
 	remove_ship_flag = "ass_op_marker"
 	remove_ship_flag = "ass_op_wormhole"
+	remove_ship_flag = "ass_op_spaceport_modules"
 
 	# Other flags that _require_ removal, and why
 	remove_ship_flag = "ass_constructing_station" # Fleet name
@@ -54,6 +55,10 @@ ass_stage4_operation_complete = {
 	remove_ship_flag = "ass_station_medium"
 	remove_ship_flag = "ass_station_small"
 
+	# Mission-specific tooltip de-clutter effects
+	ass_stage4_remove_spaceport_module_data = yes
+
+	# Make sure we're not eventlocked
 	ass_stage4_unlock_ship = yes
 
 	fleet = {

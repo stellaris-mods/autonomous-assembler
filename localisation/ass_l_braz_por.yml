@@ -159,3 +159,19 @@ ass_increase_reserve_DESC: "Send out a new value to all $ass_plural_colored$ tha
 
 ass_decrease_reserve: "Decrease reserve"
 ass_decrease_reserve_DESC: "Decrease the mandated reserve, and send out an encrypted subspace message to all $ass_plural_colored$ that they may begin an operation provided the empires mineral reserves amount to §G[root.AssReserve] - 500§! £minerals, plus the cost of any operation they have pending."
+
+# Spaceport Module
+
+ASS_EXPANSION_SPACEPORT_MODULES: "$ass_card_2$: Spaceport Modules"
+ASS_EXPANSION_SPACEPORT_MODULES_DESC: "§WListens for the §!§M$edict_autonomous_assembler_blueprint$§!§W subspace signal and reacts to any §SSpaceport Module§! blueprints that are broadcast. If any colonized planets deviate from the blueprint, goes there and assembles as appropriate.§!\n\n$ASS_EXPANSION_SLOT_2$"
+
+edict_autonomous_assembler_blueprint: "Assembly Blueprint"
+edict_autonomous_assembler_blueprint_desc: "Designate this planet as the blueprint for $ass_plural_colored$ that needs a blueprint to copy from.\n"
+edict_autonomous_assembler_blueprint_tooltip: "\nDuring autonomous operations, $ass_plural_colored$ sometimes need to make decisions on which construction project to start next.\n\nThis edict allows the governor of this planet access to the encryption key that allows him to periodically broadcast a verifiable digital blueprint on a broadspectrum subspace wavelength that the $ass_plural_colored$ can decrypt."
+edict_autonomous_assembler_blueprint_remove: "Disable Blueprinting"
+edict_autonomous_assembler_blueprint_remove_desc: "Demand that the planet governor return the encryption key and stop broadcasting blueprint information."
+ass_blueprint_target: "Assembly Blueprint Broadcast"
+ass_blueprint_target_desc: "The governor on this planet has been issued an encryption key that allows him to properly sign broadcast messages for our $ass_plural_colored$."
+
+sm_ass_spaceport_module: "Autonomous Assembler Construction"
+sm_ass_spaceport_module_desc: "This Spaceport module section is currently reserved or being used by an Autonomous Assembler."
