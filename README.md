@@ -138,7 +138,9 @@ There are no known problems\.
 ## Compatibility
 Compatible with existing save games, but you need to research the technology to get access to the ships\. The menu only shows in new games\.
 
-This mod is, as far as I know, compatible with all other addons\. Including Autobuild\.
+This mod is, as far as I know, compatible with all other addons\. Including Autobuild\. That's not a promise, but if the author of the other mod is not an idiot, they should not conflict\.
+
+Anything labelled a "Total Conversion" is not in the category of a "mod" or "addon", in case that has to be explicitly mentioned\. Obviously some TCs could be compatible, or they already are \- I don't know, and I don't care\. Any other mod that wants to add explicit compatibility with Autonomous Assembler is free to do so\.
 
 ## Replaced files
 This mod does not replace any vanilla files\.
