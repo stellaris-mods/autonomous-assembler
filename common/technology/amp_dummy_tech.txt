@@ -1,0 +1,26 @@
+
+# Please copy this file and put it in your mod with the same filename.
+# If you want, also make an icon to prevent the error log entry.
+# Use this tech to "hide" things from the player that you otherwise
+# can't hide easily, like spaceport modules.
+# This tech will never show up, and the AI wont research it. That said,
+# countries with the all_technology_module do probably get it. Maybe.
+
+tech_spaceport_dummy = {
+	cost = 0
+	area = engineering
+	start_tech = no
+	category = { voidcraft }
+	tier = 0
+	weight = 0
+
+	weight_modifier = {
+		modifier = {
+			factor = 0
+		}
+	}
+
+	ai_weight = {
+		factor = 0
+	}
+}

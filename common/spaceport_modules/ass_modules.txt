@@ -20,12 +20,8 @@
 
 ass_spaceport_module = {
 	icon = "assgfx_spaceport_module"
-	section = "ASSEMBLYYARD_SPACEPORT_SECTION" #XXX should probably use an empty entity
-	construction_days = 0
-	spaceport_level = 1
-	initial_only = yes
+	section = "ASSEMBLYYARD_SPACEPORT_SECTION"
+	prerequisites = { "tech_spaceport_dummy" }
 	replaceable = no
-	potential = { always = no }
-	cost = { minerals = 0 }
-	ai_weight = { factor = 0 }
+	ai_weight = { weight = 0 }
 }
