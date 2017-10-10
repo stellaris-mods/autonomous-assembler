@@ -897,3 +897,22 @@ ass_stage4_sm_build_battleship_assembly_yards = {
 		ass_op_sm_slot_16 = { event_target:ass_target = { set_spaceport_module = { module = "battleship_assembly_yards" slot = 16 } } }
 	}
 }
+
+# Operation has been forcefully aborted while we were constructing,
+# so we need to remove the ass_spaceport_module from our target.
+# THIS = ship
+ass_stage4_abort_spaceport_module = {
+	# The problem is, we don't know what our target is at this point,
+	# because our ship could be dead, our planet could be lost, or whatever.
+	# So we need to just find any owned planet that has the module,
+	# and does NOT have an ass_target flag, and nuke it.
+	owner = {
+		every_owned_planet = {
+			limit = {
+				NOT = { has_planet_flag = "ass_target" }
+				has_spaceport_module = ass_spaceport_module
+			}
+			remove_spaceport_module = ass_spaceport_module
+		}
+	}
+}

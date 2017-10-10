@@ -92,6 +92,9 @@ ass_stage4_abort_operation = {
 			days = 5
 		}
 
+		# Mission-specific abort effects
+		ass_stage4_abort_spaceport_module = yes
+
 		ass_stage4_operation_complete = yes
 		else = {
 			# This can happen if there's any reason an assembler would cancel an operation in progress
