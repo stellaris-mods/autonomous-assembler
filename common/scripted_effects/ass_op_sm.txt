@@ -510,6 +510,11 @@ ass_stage1_sm_p2 = {
 			# ZZZ ass_target is always set here
 			log = "[ass_target.GetName] needs spaceport module."
 
+			# Yay for debugging!
+			if = { limit = { has_global_flag = "debug" }
+				fleet = { set_variable = { which = "AssConstructionTime" value = 20 } }
+			}
+
 			# Find the slot we can use
 			# This "cant" fail, because all ass_stage1_sm_ effects check
 			# has_free_spaceport_module_slot = yes.
