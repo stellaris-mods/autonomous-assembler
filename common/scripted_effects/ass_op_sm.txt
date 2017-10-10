@@ -24,7 +24,7 @@
 # THIS in all ass_stage1_sm_ effects is the blueprint planet
 # ROOT is always the assembler
 #
-# gf_alphamodplus
+#
 #
 
 # Remove any data associated exclusively with the spaceport module operation
@@ -55,12 +55,15 @@ ass_stage4_remove_spaceport_module_data = {
 	remove_ship_flag = "ass_op_sm_slot_8"
 	remove_ship_flag = "ass_op_sm_slot_9"
 	remove_ship_flag = "ass_op_sm_slot_10"
-	remove_ship_flag = "ass_op_sm_slot_11"
+	remove_ship_flag = "ass_op_sm_slot_11" # AlphaMod
 	remove_ship_flag = "ass_op_sm_slot_12"
 	remove_ship_flag = "ass_op_sm_slot_13"
 	remove_ship_flag = "ass_op_sm_slot_14"
 	remove_ship_flag = "ass_op_sm_slot_15"
 	remove_ship_flag = "ass_op_sm_slot_16"
+	remove_ship_flag = "ass_op_sm_slot_17"
+	remove_ship_flag = "ass_op_sm_slot_18"
+	remove_ship_flag = "ass_op_sm_slot_19" # TheRenegade Spaceports Extended
 
 	ass_stage4_sm_3rd_remove_data = yes
 }
@@ -510,7 +513,13 @@ ass_stage1_sm_p2 = {
 			# Find the slot we can use
 			# This "cant" fail, because all ass_stage1_sm_ effects check
 			# has_free_spaceport_module_slot = yes.
-			ass_stage1_sm_set_slot = yes
+			if = { limit = { has_global_flag = "has_renegade_spaceports" }
+				renegade_ass_stage1_sm_set_slot = yes
+			else = { if = { limit = { has_global_flag = "gf_alphamodplus" }
+				amp_ass_stage1_sm_set_slot = yes
+			else = {
+				ass_stage1_sm_set_slot = yes
+			} } } }
 
 			event_target:ass_target = {
 				# Set relation target
@@ -544,37 +553,7 @@ ass_stage1_sm_set_slot = {
 		else = { if = { limit = { is_spaceport_module_slot_free = 6 }
 			PREV = { set_ship_flag = "ass_op_sm_slot_6" }
 			set_spaceport_module = { module = "ass_spaceport_module" slot = 6 }
-		else = { if = { limit = { is_spaceport_module_slot_free = 7 }
-			PREV = { set_ship_flag = "ass_op_sm_slot_7" }
-			set_spaceport_module = { module = "ass_spaceport_module" slot = 7 }
-		else = { if = { limit = { is_spaceport_module_slot_free = 8 }
-			PREV = { set_ship_flag = "ass_op_sm_slot_8" }
-			set_spaceport_module = { module = "ass_spaceport_module" slot = 8 }
-		else = { if = { limit = { is_spaceport_module_slot_free = 9 }
-			PREV = { set_ship_flag = "ass_op_sm_slot_9" }
-			set_spaceport_module = { module = "ass_spaceport_module" slot = 9 }
-		else = { if = { limit = { is_spaceport_module_slot_free = 10 }
-			PREV = { set_ship_flag = "ass_op_sm_slot_10" }
-			set_spaceport_module = { module = "ass_spaceport_module" slot = 10 }
-		else = { if = { limit = { is_spaceport_module_slot_free = 11 }
-			PREV = { set_ship_flag = "ass_op_sm_slot_11" }
-			set_spaceport_module = { module = "ass_spaceport_module" slot = 11 }
-		else = { if = { limit = { is_spaceport_module_slot_free = 12 }
-			PREV = { set_ship_flag = "ass_op_sm_slot_12" }
-			set_spaceport_module = { module = "ass_spaceport_module" slot = 12 }
-		else = { if = { limit = { is_spaceport_module_slot_free = 13 }
-			PREV = { set_ship_flag = "ass_op_sm_slot_13" }
-			set_spaceport_module = { module = "ass_spaceport_module" slot = 13 }
-		else = { if = { limit = { is_spaceport_module_slot_free = 14 }
-			PREV = { set_ship_flag = "ass_op_sm_slot_14" }
-			set_spaceport_module = { module = "ass_spaceport_module" slot = 14 }
-		else = { if = { limit = { is_spaceport_module_slot_free = 15 }
-			PREV = { set_ship_flag = "ass_op_sm_slot_15" }
-			set_spaceport_module = { module = "ass_spaceport_module" slot = 15 }
-		else = { if = { limit = { is_spaceport_module_slot_free = 16 }
-			PREV = { set_ship_flag = "ass_op_sm_slot_16" }
-			set_spaceport_module = { module = "ass_spaceport_module" slot = 16 }
-		}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}
+		}}}}}}}}}}}
 	}
 }
 
@@ -619,21 +598,15 @@ ass_stage4_complete_spaceport_module = {
 				save_event_target_as = ass_target
 			}
 		}
-		switch = {
-			trigger = has_ship_flag
-			ass_op_sm_battleship_assembly_yards  = { ass_stage4_sm_build_battleship_assembly_yards = yes }
-			ass_op_sm_cruiser_assembly_yards     = { ass_stage4_sm_build_cruiser_assembly_yards = yes }
-			ass_op_sm_orbital_mind_control_laser = { ass_stage4_sm_build_orbital_mind_control_laser = yes }
-			ass_op_sm_fleet_academy              = { ass_stage4_sm_build_fleet_academy = yes }
-			ass_op_sm_destroyer_assembly_yards   = { ass_stage4_sm_build_destroyer_assembly_yards = yes }
-			ass_op_sm_corvette_assembly_yards    = { ass_stage4_sm_build_corvette_assembly_yards = yes }
-			ass_op_sm_synchronized_defenses      = { ass_stage4_sm_build_synchronized_defenses = yes }
-			ass_op_sm_hydroponic_farms           = { ass_stage4_sm_build_hydroponic_farms = yes }
-			ass_op_sm_engineering_bay            = { ass_stage4_sm_build_engineering_bay = yes }
-			ass_op_sm_observatory                = { ass_stage4_sm_build_observatory = yes }
-			ass_op_sm_crew_quarters              = { ass_stage4_sm_build_crew_quarters = yes }
-			ass_op_sm_solar_panel                = { ass_stage4_sm_build_solar_panel = yes }
-		}
+		if = { limit = { has_global_flag = "has_renegade_spaceports" }
+			ass_stage4_complete_build_renegade = yes
+		else = { if = { limit = { has_global_flag = "gf_alphamodplus" }
+			ass_stage4_complete_build_alphamod = yes
+		else = {
+			ass_stage4_complete_build_vanilla = yes
+		} } } }
+
+
 		ass_stage4_sm_3rd_complete = yes
 
 		# Ready for new adventures!
@@ -642,6 +615,60 @@ ass_stage4_complete_spaceport_module = {
 			log = "[this.GetName]: Wanted to create a spaceport module, but we are not in orbit of anything."
 			ass_stage4_abort_operation = yes
 		}
+	}
+}
+
+ass_stage4_complete_build_renegade = {
+	switch = {
+		trigger = has_ship_flag
+		ass_op_sm_battleship_assembly_yards  = { renegade_ass_stage4_sm_build_battleship_assembly_yards = yes }
+		ass_op_sm_cruiser_assembly_yards     = { renegade_ass_stage4_sm_build_cruiser_assembly_yards = yes }
+		ass_op_sm_orbital_mind_control_laser = { renegade_ass_stage4_sm_build_orbital_mind_control_laser = yes }
+		ass_op_sm_fleet_academy              = { renegade_ass_stage4_sm_build_fleet_academy = yes }
+		ass_op_sm_destroyer_assembly_yards   = { renegade_ass_stage4_sm_build_destroyer_assembly_yards = yes }
+		ass_op_sm_corvette_assembly_yards    = { renegade_ass_stage4_sm_build_corvette_assembly_yards = yes }
+		ass_op_sm_synchronized_defenses      = { renegade_ass_stage4_sm_build_synchronized_defenses = yes }
+		ass_op_sm_hydroponic_farms           = { renegade_ass_stage4_sm_build_hydroponic_farms = yes }
+		ass_op_sm_engineering_bay            = { renegade_ass_stage4_sm_build_engineering_bay = yes }
+		ass_op_sm_observatory                = { renegade_ass_stage4_sm_build_observatory = yes }
+		ass_op_sm_crew_quarters              = { renegade_ass_stage4_sm_build_crew_quarters = yes }
+		ass_op_sm_solar_panel                = { renegade_ass_stage4_sm_build_solar_panel = yes }
+	}
+}
+
+ass_stage4_complete_build_alphamod = {
+	switch = {
+		trigger = has_ship_flag
+		ass_op_sm_battleship_assembly_yards  = { amp_ass_stage4_sm_build_battleship_assembly_yards = yes }
+		ass_op_sm_cruiser_assembly_yards     = { amp_ass_stage4_sm_build_cruiser_assembly_yards = yes }
+		ass_op_sm_orbital_mind_control_laser = { amp_ass_stage4_sm_build_orbital_mind_control_laser = yes }
+		ass_op_sm_fleet_academy              = { amp_ass_stage4_sm_build_fleet_academy = yes }
+		ass_op_sm_destroyer_assembly_yards   = { amp_ass_stage4_sm_build_destroyer_assembly_yards = yes }
+		ass_op_sm_corvette_assembly_yards    = { amp_ass_stage4_sm_build_corvette_assembly_yards = yes }
+		ass_op_sm_synchronized_defenses      = { amp_ass_stage4_sm_build_synchronized_defenses = yes }
+		ass_op_sm_hydroponic_farms           = { amp_ass_stage4_sm_build_hydroponic_farms = yes }
+		ass_op_sm_engineering_bay            = { amp_ass_stage4_sm_build_engineering_bay = yes }
+		ass_op_sm_observatory                = { amp_ass_stage4_sm_build_observatory = yes }
+		ass_op_sm_crew_quarters              = { amp_ass_stage4_sm_build_crew_quarters = yes }
+		ass_op_sm_solar_panel                = { amp_ass_stage4_sm_build_solar_panel = yes }
+	}
+}
+
+ass_stage4_complete_build_vanilla = {
+	switch = {
+		trigger = has_ship_flag
+		ass_op_sm_battleship_assembly_yards  = { ass_stage4_sm_build_battleship_assembly_yards = yes }
+		ass_op_sm_cruiser_assembly_yards     = { ass_stage4_sm_build_cruiser_assembly_yards = yes }
+		ass_op_sm_orbital_mind_control_laser = { ass_stage4_sm_build_orbital_mind_control_laser = yes }
+		ass_op_sm_fleet_academy              = { ass_stage4_sm_build_fleet_academy = yes }
+		ass_op_sm_destroyer_assembly_yards   = { ass_stage4_sm_build_destroyer_assembly_yards = yes }
+		ass_op_sm_corvette_assembly_yards    = { ass_stage4_sm_build_corvette_assembly_yards = yes }
+		ass_op_sm_synchronized_defenses      = { ass_stage4_sm_build_synchronized_defenses = yes }
+		ass_op_sm_hydroponic_farms           = { ass_stage4_sm_build_hydroponic_farms = yes }
+		ass_op_sm_engineering_bay            = { ass_stage4_sm_build_engineering_bay = yes }
+		ass_op_sm_observatory                = { ass_stage4_sm_build_observatory = yes }
+		ass_op_sm_crew_quarters              = { ass_stage4_sm_build_crew_quarters = yes }
+		ass_op_sm_solar_panel                = { ass_stage4_sm_build_solar_panel = yes }
 	}
 }
 
@@ -654,16 +681,6 @@ ass_stage4_sm_build_solar_panel = {
 		ass_op_sm_slot_4 = { event_target:ass_target = { set_spaceport_module = { module = "solar_panel_network" slot = 4 } } }
 		ass_op_sm_slot_5 = { event_target:ass_target = { set_spaceport_module = { module = "solar_panel_network" slot = 5 } } }
 		ass_op_sm_slot_6 = { event_target:ass_target = { set_spaceport_module = { module = "solar_panel_network" slot = 6 } } }
-		ass_op_sm_slot_7 = { event_target:ass_target = { set_spaceport_module = { module = "solar_panel_network" slot = 7 } } }
-		ass_op_sm_slot_8 = { event_target:ass_target = { set_spaceport_module = { module = "solar_panel_network" slot = 8 } } }
-		ass_op_sm_slot_9 = { event_target:ass_target = { set_spaceport_module = { module = "solar_panel_network" slot = 9 } } }
-		ass_op_sm_slot_10 = { event_target:ass_target = { set_spaceport_module = { module = "solar_panel_network" slot = 10 } } }
-		ass_op_sm_slot_11 = { event_target:ass_target = { set_spaceport_module = { module = "solar_panel_network" slot = 11 } } }
-		ass_op_sm_slot_12 = { event_target:ass_target = { set_spaceport_module = { module = "solar_panel_network" slot = 12 } } }
-		ass_op_sm_slot_13 = { event_target:ass_target = { set_spaceport_module = { module = "solar_panel_network" slot = 13 } } }
-		ass_op_sm_slot_14 = { event_target:ass_target = { set_spaceport_module = { module = "solar_panel_network" slot = 14 } } }
-		ass_op_sm_slot_15 = { event_target:ass_target = { set_spaceport_module = { module = "solar_panel_network" slot = 15 } } }
-		ass_op_sm_slot_16 = { event_target:ass_target = { set_spaceport_module = { module = "solar_panel_network" slot = 16 } } }
 	}
 }
 ass_stage4_sm_build_crew_quarters = {
@@ -675,16 +692,6 @@ ass_stage4_sm_build_crew_quarters = {
 		ass_op_sm_slot_4 = { event_target:ass_target = { set_spaceport_module = { module = "crew_quarters" slot = 4 } } }
 		ass_op_sm_slot_5 = { event_target:ass_target = { set_spaceport_module = { module = "crew_quarters" slot = 5 } } }
 		ass_op_sm_slot_6 = { event_target:ass_target = { set_spaceport_module = { module = "crew_quarters" slot = 6 } } }
-		ass_op_sm_slot_7 = { event_target:ass_target = { set_spaceport_module = { module = "crew_quarters" slot = 7 } } }
-		ass_op_sm_slot_8 = { event_target:ass_target = { set_spaceport_module = { module = "crew_quarters" slot = 8 } } }
-		ass_op_sm_slot_9 = { event_target:ass_target = { set_spaceport_module = { module = "crew_quarters" slot = 9 } } }
-		ass_op_sm_slot_10 = { event_target:ass_target = { set_spaceport_module = { module = "crew_quarters" slot = 10 } } }
-		ass_op_sm_slot_11 = { event_target:ass_target = { set_spaceport_module = { module = "crew_quarters" slot = 11 } } }
-		ass_op_sm_slot_12 = { event_target:ass_target = { set_spaceport_module = { module = "crew_quarters" slot = 12 } } }
-		ass_op_sm_slot_13 = { event_target:ass_target = { set_spaceport_module = { module = "crew_quarters" slot = 13 } } }
-		ass_op_sm_slot_14 = { event_target:ass_target = { set_spaceport_module = { module = "crew_quarters" slot = 14 } } }
-		ass_op_sm_slot_15 = { event_target:ass_target = { set_spaceport_module = { module = "crew_quarters" slot = 15 } } }
-		ass_op_sm_slot_16 = { event_target:ass_target = { set_spaceport_module = { module = "crew_quarters" slot = 16 } } }
 	}
 }
 ass_stage4_sm_build_observatory = {
@@ -696,16 +703,6 @@ ass_stage4_sm_build_observatory = {
 		ass_op_sm_slot_4 = { event_target:ass_target = { set_spaceport_module = { module = "observatory" slot = 4 } } }
 		ass_op_sm_slot_5 = { event_target:ass_target = { set_spaceport_module = { module = "observatory" slot = 5 } } }
 		ass_op_sm_slot_6 = { event_target:ass_target = { set_spaceport_module = { module = "observatory" slot = 6 } } }
-		ass_op_sm_slot_7 = { event_target:ass_target = { set_spaceport_module = { module = "observatory" slot = 7 } } }
-		ass_op_sm_slot_8 = { event_target:ass_target = { set_spaceport_module = { module = "observatory" slot = 8 } } }
-		ass_op_sm_slot_9 = { event_target:ass_target = { set_spaceport_module = { module = "observatory" slot = 9 } } }
-		ass_op_sm_slot_10 = { event_target:ass_target = { set_spaceport_module = { module = "observatory" slot = 10 } } }
-		ass_op_sm_slot_11 = { event_target:ass_target = { set_spaceport_module = { module = "observatory" slot = 11 } } }
-		ass_op_sm_slot_12 = { event_target:ass_target = { set_spaceport_module = { module = "observatory" slot = 12 } } }
-		ass_op_sm_slot_13 = { event_target:ass_target = { set_spaceport_module = { module = "observatory" slot = 13 } } }
-		ass_op_sm_slot_14 = { event_target:ass_target = { set_spaceport_module = { module = "observatory" slot = 14 } } }
-		ass_op_sm_slot_15 = { event_target:ass_target = { set_spaceport_module = { module = "observatory" slot = 15 } } }
-		ass_op_sm_slot_16 = { event_target:ass_target = { set_spaceport_module = { module = "observatory" slot = 16 } } }
 	}
 }
 ass_stage4_sm_build_engineering_bay = {
@@ -717,16 +714,6 @@ ass_stage4_sm_build_engineering_bay = {
 		ass_op_sm_slot_4 = { event_target:ass_target = { set_spaceport_module = { module = "engineering_bay" slot = 4 } } }
 		ass_op_sm_slot_5 = { event_target:ass_target = { set_spaceport_module = { module = "engineering_bay" slot = 5 } } }
 		ass_op_sm_slot_6 = { event_target:ass_target = { set_spaceport_module = { module = "engineering_bay" slot = 6 } } }
-		ass_op_sm_slot_7 = { event_target:ass_target = { set_spaceport_module = { module = "engineering_bay" slot = 7 } } }
-		ass_op_sm_slot_8 = { event_target:ass_target = { set_spaceport_module = { module = "engineering_bay" slot = 8 } } }
-		ass_op_sm_slot_9 = { event_target:ass_target = { set_spaceport_module = { module = "engineering_bay" slot = 9 } } }
-		ass_op_sm_slot_10 = { event_target:ass_target = { set_spaceport_module = { module = "engineering_bay" slot = 10 } } }
-		ass_op_sm_slot_11 = { event_target:ass_target = { set_spaceport_module = { module = "engineering_bay" slot = 11 } } }
-		ass_op_sm_slot_12 = { event_target:ass_target = { set_spaceport_module = { module = "engineering_bay" slot = 12 } } }
-		ass_op_sm_slot_13 = { event_target:ass_target = { set_spaceport_module = { module = "engineering_bay" slot = 13 } } }
-		ass_op_sm_slot_14 = { event_target:ass_target = { set_spaceport_module = { module = "engineering_bay" slot = 14 } } }
-		ass_op_sm_slot_15 = { event_target:ass_target = { set_spaceport_module = { module = "engineering_bay" slot = 15 } } }
-		ass_op_sm_slot_16 = { event_target:ass_target = { set_spaceport_module = { module = "engineering_bay" slot = 16 } } }
 	}
 }
 ass_stage4_sm_build_hydroponic_farms = {
@@ -738,16 +725,6 @@ ass_stage4_sm_build_hydroponic_farms = {
 		ass_op_sm_slot_4 = { event_target:ass_target = { set_spaceport_module = { module = "hydroponic_farms" slot = 4 } } }
 		ass_op_sm_slot_5 = { event_target:ass_target = { set_spaceport_module = { module = "hydroponic_farms" slot = 5 } } }
 		ass_op_sm_slot_6 = { event_target:ass_target = { set_spaceport_module = { module = "hydroponic_farms" slot = 6 } } }
-		ass_op_sm_slot_7 = { event_target:ass_target = { set_spaceport_module = { module = "hydroponic_farms" slot = 7 } } }
-		ass_op_sm_slot_8 = { event_target:ass_target = { set_spaceport_module = { module = "hydroponic_farms" slot = 8 } } }
-		ass_op_sm_slot_9 = { event_target:ass_target = { set_spaceport_module = { module = "hydroponic_farms" slot = 9 } } }
-		ass_op_sm_slot_10 = { event_target:ass_target = { set_spaceport_module = { module = "hydroponic_farms" slot = 10 } } }
-		ass_op_sm_slot_11 = { event_target:ass_target = { set_spaceport_module = { module = "hydroponic_farms" slot = 11 } } }
-		ass_op_sm_slot_12 = { event_target:ass_target = { set_spaceport_module = { module = "hydroponic_farms" slot = 12 } } }
-		ass_op_sm_slot_13 = { event_target:ass_target = { set_spaceport_module = { module = "hydroponic_farms" slot = 13 } } }
-		ass_op_sm_slot_14 = { event_target:ass_target = { set_spaceport_module = { module = "hydroponic_farms" slot = 14 } } }
-		ass_op_sm_slot_15 = { event_target:ass_target = { set_spaceport_module = { module = "hydroponic_farms" slot = 15 } } }
-		ass_op_sm_slot_16 = { event_target:ass_target = { set_spaceport_module = { module = "hydroponic_farms" slot = 16 } } }
 	}
 }
 ass_stage4_sm_build_synchronized_defenses = {
@@ -759,16 +736,6 @@ ass_stage4_sm_build_synchronized_defenses = {
 		ass_op_sm_slot_4 = { event_target:ass_target = { set_spaceport_module = { module = "synchronized_defenses" slot = 4 } } }
 		ass_op_sm_slot_5 = { event_target:ass_target = { set_spaceport_module = { module = "synchronized_defenses" slot = 5 } } }
 		ass_op_sm_slot_6 = { event_target:ass_target = { set_spaceport_module = { module = "synchronized_defenses" slot = 6 } } }
-		ass_op_sm_slot_7 = { event_target:ass_target = { set_spaceport_module = { module = "synchronized_defenses" slot = 7 } } }
-		ass_op_sm_slot_8 = { event_target:ass_target = { set_spaceport_module = { module = "synchronized_defenses" slot = 8 } } }
-		ass_op_sm_slot_9 = { event_target:ass_target = { set_spaceport_module = { module = "synchronized_defenses" slot = 9 } } }
-		ass_op_sm_slot_10 = { event_target:ass_target = { set_spaceport_module = { module = "synchronized_defenses" slot = 10 } } }
-		ass_op_sm_slot_11 = { event_target:ass_target = { set_spaceport_module = { module = "synchronized_defenses" slot = 11 } } }
-		ass_op_sm_slot_12 = { event_target:ass_target = { set_spaceport_module = { module = "synchronized_defenses" slot = 12 } } }
-		ass_op_sm_slot_13 = { event_target:ass_target = { set_spaceport_module = { module = "synchronized_defenses" slot = 13 } } }
-		ass_op_sm_slot_14 = { event_target:ass_target = { set_spaceport_module = { module = "synchronized_defenses" slot = 14 } } }
-		ass_op_sm_slot_15 = { event_target:ass_target = { set_spaceport_module = { module = "synchronized_defenses" slot = 15 } } }
-		ass_op_sm_slot_16 = { event_target:ass_target = { set_spaceport_module = { module = "synchronized_defenses" slot = 16 } } }
 	}
 }
 ass_stage4_sm_build_corvette_assembly_yards = {
@@ -780,16 +747,6 @@ ass_stage4_sm_build_corvette_assembly_yards = {
 		ass_op_sm_slot_4 = { event_target:ass_target = { set_spaceport_module = { module = "corvette_assembly_yards" slot = 4 } } }
 		ass_op_sm_slot_5 = { event_target:ass_target = { set_spaceport_module = { module = "corvette_assembly_yards" slot = 5 } } }
 		ass_op_sm_slot_6 = { event_target:ass_target = { set_spaceport_module = { module = "corvette_assembly_yards" slot = 6 } } }
-		ass_op_sm_slot_7 = { event_target:ass_target = { set_spaceport_module = { module = "corvette_assembly_yards" slot = 7 } } }
-		ass_op_sm_slot_8 = { event_target:ass_target = { set_spaceport_module = { module = "corvette_assembly_yards" slot = 8 } } }
-		ass_op_sm_slot_9 = { event_target:ass_target = { set_spaceport_module = { module = "corvette_assembly_yards" slot = 9 } } }
-		ass_op_sm_slot_10 = { event_target:ass_target = { set_spaceport_module = { module = "corvette_assembly_yards" slot = 10 } } }
-		ass_op_sm_slot_11 = { event_target:ass_target = { set_spaceport_module = { module = "corvette_assembly_yards" slot = 11 } } }
-		ass_op_sm_slot_12 = { event_target:ass_target = { set_spaceport_module = { module = "corvette_assembly_yards" slot = 12 } } }
-		ass_op_sm_slot_13 = { event_target:ass_target = { set_spaceport_module = { module = "corvette_assembly_yards" slot = 13 } } }
-		ass_op_sm_slot_14 = { event_target:ass_target = { set_spaceport_module = { module = "corvette_assembly_yards" slot = 14 } } }
-		ass_op_sm_slot_15 = { event_target:ass_target = { set_spaceport_module = { module = "corvette_assembly_yards" slot = 15 } } }
-		ass_op_sm_slot_16 = { event_target:ass_target = { set_spaceport_module = { module = "corvette_assembly_yards" slot = 16 } } }
 	}
 }
 ass_stage4_sm_build_destroyer_assembly_yards = {
@@ -801,16 +758,6 @@ ass_stage4_sm_build_destroyer_assembly_yards = {
 		ass_op_sm_slot_4 = { event_target:ass_target = { set_spaceport_module = { module = "destroyer_assembly_yards" slot = 4 } } }
 		ass_op_sm_slot_5 = { event_target:ass_target = { set_spaceport_module = { module = "destroyer_assembly_yards" slot = 5 } } }
 		ass_op_sm_slot_6 = { event_target:ass_target = { set_spaceport_module = { module = "destroyer_assembly_yards" slot = 6 } } }
-		ass_op_sm_slot_7 = { event_target:ass_target = { set_spaceport_module = { module = "destroyer_assembly_yards" slot = 7 } } }
-		ass_op_sm_slot_8 = { event_target:ass_target = { set_spaceport_module = { module = "destroyer_assembly_yards" slot = 8 } } }
-		ass_op_sm_slot_9 = { event_target:ass_target = { set_spaceport_module = { module = "destroyer_assembly_yards" slot = 9 } } }
-		ass_op_sm_slot_10 = { event_target:ass_target = { set_spaceport_module = { module = "destroyer_assembly_yards" slot = 10 } } }
-		ass_op_sm_slot_11 = { event_target:ass_target = { set_spaceport_module = { module = "destroyer_assembly_yards" slot = 11 } } }
-		ass_op_sm_slot_12 = { event_target:ass_target = { set_spaceport_module = { module = "destroyer_assembly_yards" slot = 12 } } }
-		ass_op_sm_slot_13 = { event_target:ass_target = { set_spaceport_module = { module = "destroyer_assembly_yards" slot = 13 } } }
-		ass_op_sm_slot_14 = { event_target:ass_target = { set_spaceport_module = { module = "destroyer_assembly_yards" slot = 14 } } }
-		ass_op_sm_slot_15 = { event_target:ass_target = { set_spaceport_module = { module = "destroyer_assembly_yards" slot = 15 } } }
-		ass_op_sm_slot_16 = { event_target:ass_target = { set_spaceport_module = { module = "destroyer_assembly_yards" slot = 16 } } }
 	}
 }
 ass_stage4_sm_build_fleet_academy = {
@@ -822,16 +769,6 @@ ass_stage4_sm_build_fleet_academy = {
 		ass_op_sm_slot_4 = { event_target:ass_target = { set_spaceport_module = { module = "fleet_academy" slot = 4 } } }
 		ass_op_sm_slot_5 = { event_target:ass_target = { set_spaceport_module = { module = "fleet_academy" slot = 5 } } }
 		ass_op_sm_slot_6 = { event_target:ass_target = { set_spaceport_module = { module = "fleet_academy" slot = 6 } } }
-		ass_op_sm_slot_7 = { event_target:ass_target = { set_spaceport_module = { module = "fleet_academy" slot = 7 } } }
-		ass_op_sm_slot_8 = { event_target:ass_target = { set_spaceport_module = { module = "fleet_academy" slot = 8 } } }
-		ass_op_sm_slot_9 = { event_target:ass_target = { set_spaceport_module = { module = "fleet_academy" slot = 9 } } }
-		ass_op_sm_slot_10 = { event_target:ass_target = { set_spaceport_module = { module = "fleet_academy" slot = 10 } } }
-		ass_op_sm_slot_11 = { event_target:ass_target = { set_spaceport_module = { module = "fleet_academy" slot = 11 } } }
-		ass_op_sm_slot_12 = { event_target:ass_target = { set_spaceport_module = { module = "fleet_academy" slot = 12 } } }
-		ass_op_sm_slot_13 = { event_target:ass_target = { set_spaceport_module = { module = "fleet_academy" slot = 13 } } }
-		ass_op_sm_slot_14 = { event_target:ass_target = { set_spaceport_module = { module = "fleet_academy" slot = 14 } } }
-		ass_op_sm_slot_15 = { event_target:ass_target = { set_spaceport_module = { module = "fleet_academy" slot = 15 } } }
-		ass_op_sm_slot_16 = { event_target:ass_target = { set_spaceport_module = { module = "fleet_academy" slot = 16 } } }
 	}
 }
 ass_stage4_sm_build_orbital_mind_control_laser = {
@@ -843,16 +780,6 @@ ass_stage4_sm_build_orbital_mind_control_laser = {
 		ass_op_sm_slot_4 = { event_target:ass_target = { set_spaceport_module = { module = "orbital_mind_control_laser" slot = 4 } } }
 		ass_op_sm_slot_5 = { event_target:ass_target = { set_spaceport_module = { module = "orbital_mind_control_laser" slot = 5 } } }
 		ass_op_sm_slot_6 = { event_target:ass_target = { set_spaceport_module = { module = "orbital_mind_control_laser" slot = 6 } } }
-		ass_op_sm_slot_7 = { event_target:ass_target = { set_spaceport_module = { module = "orbital_mind_control_laser" slot = 7 } } }
-		ass_op_sm_slot_8 = { event_target:ass_target = { set_spaceport_module = { module = "orbital_mind_control_laser" slot = 8 } } }
-		ass_op_sm_slot_9 = { event_target:ass_target = { set_spaceport_module = { module = "orbital_mind_control_laser" slot = 9 } } }
-		ass_op_sm_slot_10 = { event_target:ass_target = { set_spaceport_module = { module = "orbital_mind_control_laser" slot = 10 } } }
-		ass_op_sm_slot_11 = { event_target:ass_target = { set_spaceport_module = { module = "orbital_mind_control_laser" slot = 11 } } }
-		ass_op_sm_slot_12 = { event_target:ass_target = { set_spaceport_module = { module = "orbital_mind_control_laser" slot = 12 } } }
-		ass_op_sm_slot_13 = { event_target:ass_target = { set_spaceport_module = { module = "orbital_mind_control_laser" slot = 13 } } }
-		ass_op_sm_slot_14 = { event_target:ass_target = { set_spaceport_module = { module = "orbital_mind_control_laser" slot = 14 } } }
-		ass_op_sm_slot_15 = { event_target:ass_target = { set_spaceport_module = { module = "orbital_mind_control_laser" slot = 15 } } }
-		ass_op_sm_slot_16 = { event_target:ass_target = { set_spaceport_module = { module = "orbital_mind_control_laser" slot = 16 } } }
 	}
 }
 ass_stage4_sm_build_cruiser_assembly_yards = {
@@ -864,16 +791,6 @@ ass_stage4_sm_build_cruiser_assembly_yards = {
 		ass_op_sm_slot_4 = { event_target:ass_target = { set_spaceport_module = { module = "cruiser_assembly_yards" slot = 4 } } }
 		ass_op_sm_slot_5 = { event_target:ass_target = { set_spaceport_module = { module = "cruiser_assembly_yards" slot = 5 } } }
 		ass_op_sm_slot_6 = { event_target:ass_target = { set_spaceport_module = { module = "cruiser_assembly_yards" slot = 6 } } }
-		ass_op_sm_slot_7 = { event_target:ass_target = { set_spaceport_module = { module = "cruiser_assembly_yards" slot = 7 } } }
-		ass_op_sm_slot_8 = { event_target:ass_target = { set_spaceport_module = { module = "cruiser_assembly_yards" slot = 8 } } }
-		ass_op_sm_slot_9 = { event_target:ass_target = { set_spaceport_module = { module = "cruiser_assembly_yards" slot = 9 } } }
-		ass_op_sm_slot_10 = { event_target:ass_target = { set_spaceport_module = { module = "cruiser_assembly_yards" slot = 10 } } }
-		ass_op_sm_slot_11 = { event_target:ass_target = { set_spaceport_module = { module = "cruiser_assembly_yards" slot = 11 } } }
-		ass_op_sm_slot_12 = { event_target:ass_target = { set_spaceport_module = { module = "cruiser_assembly_yards" slot = 12 } } }
-		ass_op_sm_slot_13 = { event_target:ass_target = { set_spaceport_module = { module = "cruiser_assembly_yards" slot = 13 } } }
-		ass_op_sm_slot_14 = { event_target:ass_target = { set_spaceport_module = { module = "cruiser_assembly_yards" slot = 14 } } }
-		ass_op_sm_slot_15 = { event_target:ass_target = { set_spaceport_module = { module = "cruiser_assembly_yards" slot = 15 } } }
-		ass_op_sm_slot_16 = { event_target:ass_target = { set_spaceport_module = { module = "cruiser_assembly_yards" slot = 16 } } }
 	}
 }
 ass_stage4_sm_build_battleship_assembly_yards = {
@@ -885,16 +802,6 @@ ass_stage4_sm_build_battleship_assembly_yards = {
 		ass_op_sm_slot_4 = { event_target:ass_target = { set_spaceport_module = { module = "battleship_assembly_yards" slot = 4 } } }
 		ass_op_sm_slot_5 = { event_target:ass_target = { set_spaceport_module = { module = "battleship_assembly_yards" slot = 5 } } }
 		ass_op_sm_slot_6 = { event_target:ass_target = { set_spaceport_module = { module = "battleship_assembly_yards" slot = 6 } } }
-		ass_op_sm_slot_7 = { event_target:ass_target = { set_spaceport_module = { module = "battleship_assembly_yards" slot = 7 } } }
-		ass_op_sm_slot_8 = { event_target:ass_target = { set_spaceport_module = { module = "battleship_assembly_yards" slot = 8 } } }
-		ass_op_sm_slot_9 = { event_target:ass_target = { set_spaceport_module = { module = "battleship_assembly_yards" slot = 9 } } }
-		ass_op_sm_slot_10 = { event_target:ass_target = { set_spaceport_module = { module = "battleship_assembly_yards" slot = 10 } } }
-		ass_op_sm_slot_11 = { event_target:ass_target = { set_spaceport_module = { module = "battleship_assembly_yards" slot = 11 } } }
-		ass_op_sm_slot_12 = { event_target:ass_target = { set_spaceport_module = { module = "battleship_assembly_yards" slot = 12 } } }
-		ass_op_sm_slot_13 = { event_target:ass_target = { set_spaceport_module = { module = "battleship_assembly_yards" slot = 13 } } }
-		ass_op_sm_slot_14 = { event_target:ass_target = { set_spaceport_module = { module = "battleship_assembly_yards" slot = 14 } } }
-		ass_op_sm_slot_15 = { event_target:ass_target = { set_spaceport_module = { module = "battleship_assembly_yards" slot = 15 } } }
-		ass_op_sm_slot_16 = { event_target:ass_target = { set_spaceport_module = { module = "battleship_assembly_yards" slot = 16 } } }
 	}
 }
 

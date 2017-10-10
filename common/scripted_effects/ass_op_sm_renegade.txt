@@ -1,0 +1,19 @@
+
+# The Renegades Spaceports Extended
+# Remember that in mods that load _after_, if you want to overwrite, you must
+# put the effects in a file with a _different_ name than this.
+
+renegade_ass_stage1_sm_set_slot = {}
+
+renegade_ass_stage4_sm_build_battleship_assembly_yards = {}
+renegade_ass_stage4_sm_build_cruiser_assembly_yards = {}
+renegade_ass_stage4_sm_build_orbital_mind_control_laser = {}
+renegade_ass_stage4_sm_build_fleet_academy = {}
+renegade_ass_stage4_sm_build_destroyer_assembly_yards = {}
+renegade_ass_stage4_sm_build_corvette_assembly_yards = {}
+renegade_ass_stage4_sm_build_synchronized_defenses = {}
+renegade_ass_stage4_sm_build_hydroponic_farms = {}
+renegade_ass_stage4_sm_build_engineering_bay = {}
+renegade_ass_stage4_sm_build_observatory = {}
+renegade_ass_stage4_sm_build_crew_quarters = {}
+renegade_ass_stage4_sm_build_solar_panel = {}
