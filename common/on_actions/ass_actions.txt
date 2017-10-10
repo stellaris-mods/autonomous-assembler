@@ -66,6 +66,8 @@ on_entering_system_fleet = { events = { assHostile.400 } }
 on_enforce_borders = { events = { assHostile.500 } }
 # 6. A hostile fleet has entered a system we are in
 on_entering_system_fleet = { events = { assHostile.600 } }
+# 7. We entered a war
+on_entering_war = { events = { assHostile.700 } }
 
 # XXX can we add custom notifications now?
 

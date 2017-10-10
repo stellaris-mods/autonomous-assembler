@@ -42,9 +42,6 @@ If you're the author of a 3rd party graphical culture/shipset, the `autonomous_a
 **Planned Cards**
 I want to make expansion cards for Frontier Outposts and Observation Stations\. The mod does easily support 3rd party addons adding in extra expansion cards, please read the code if you want to do that\. Or talk to me (but not on Steam)\.
 
-**Wormhole Card**
-Support autonomous construction inside the borders of countries we have the Wormhole treaty with\.
-
 **Random failures**
 I want to add some random failures (rarely, of course) to the onboard computer equipment\. The way I'd implement this, if I do, is probably either to disable the ship somewhere and require a science/construction vessel to "repair" it in space, or physically drain a percentage of its hitpoints\.
 
