@@ -1,0 +1,131 @@
+
+# Since we load after NSC, this file does not get loaded at all
+# if NSC is active.
+#
+# If you also "depend" on NSC techs from this specific file, and want to
+# get rid of error log output, all you need is this file + any icon.
+
+tech_battleship_1 = {
+	cost = 0
+	area = engineering
+	tier = 0
+	category = { voidcraft }
+	weight = 0
+	icon = "tech_spaceport_dummy"
+}
+
+tech_carrier_1 = {
+	cost = 0
+	area = engineering
+	tier = 0
+	category = { voidcraft }
+	weight = 0
+	icon = "tech_spaceport_dummy"
+}
+
+tech_dreadnought_1 = {
+	cost = 0
+	area = engineering
+	tier = 0
+	category = { voidcraft }
+	weight = 0
+	icon = "tech_spaceport_dummy"
+}
+
+tech_superdreadnought_1 = {
+	cost = 0
+	area = engineering
+	tier = 0
+	category = { voidcraft }
+	weight = 0
+	icon = "tech_spaceport_dummy"
+}
+
+tech_flagship_1 = {
+	cost = 0
+	area = engineering
+	tier = 0
+	category = { voidcraft }
+	weight = 0
+	icon = "tech_spaceport_dummy"
+}
+
+tech_sensorstation_1 = {
+	cost = 0
+	area = engineering
+	tier = 0
+	category = { voidcraft }
+	weight = 0
+	icon = "tech_spaceport_dummy"
+}
+
+tech_miningbase_1 = {
+	cost = 0
+	area = engineering
+	tier = 0
+	category = { voidcraft }
+	weight = 0
+	icon = "tech_spaceport_dummy"
+}
+
+tech_powerstation_1 = {
+	cost = 0
+	area = engineering
+	tier = 0
+	category = { voidcraft }
+	weight = 0
+	icon = "tech_spaceport_dummy"
+}
+
+tech_spaceport_dummy = {
+	cost = 0
+	area = engineering
+	tier = 0
+	category = { voidcraft }
+	weight = 0
+	icon = "tech_spaceport_dummy"
+}
+
+tech_headquarters_1 = {
+	cost = 0
+	area = engineering
+	tier = 0
+	category = { voidcraft }
+	weight = 0
+	icon = "tech_spaceport_dummy"
+}
+
+tech_frontier_outpost_1 = {
+	cost = 0
+	area = engineering
+	tier = 0
+	category = { voidcraft }
+	weight = 0
+	icon = "tech_spaceport_dummy"
+}
+tech_frontier_outpost_2 = {
+	cost = 0
+	area = engineering
+	tier = 0
+	category = { voidcraft }
+	weight = 0
+	icon = "tech_spaceport_dummy"
+}
+tech_frontier_outpost_3 = {
+	cost = 0
+	area = engineering
+	tier = 0
+	category = { voidcraft }
+	weight = 0
+	icon = "tech_spaceport_dummy"
+}
+
+
+
+
+
+
+
+
+
+
