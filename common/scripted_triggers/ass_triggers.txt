@@ -66,22 +66,32 @@ ass_is_planet_valid_orbital_target = {
 	exists = orbital_deposit_tile
 	is_surveyed = { who = ROOT.owner status = yes }
 	has_anomaly = no
+	is_terraforming = no
 	has_orbital_station = no
 	has_any_megastructure = no
 	has_mining_station = no
 	has_research_station = no # might not work
 	has_spaceport = no
 	is_colony = no
+	is_under_colonization = no
 	has_observation_outpost = no # might not work
 	has_frontier_station = no
 	NOT = {
 		solar_system = {
 			# Is there another constructor class ship in orbit?
 			any_ship_in_system = {
-				exists = orbit
 				is_ship_class = shipclass_constructor
 				NOT = { is_ship_size = autonomous_assembler }
-				orbit = { is_same_value = PREVPREVPREV }
+				OR = {
+					AND = {
+						exists = orbit
+						orbit = { is_same_value = PREVPREVPREV }
+					}
+					distance = {
+						source = PREVPREV
+						max_distance = 24
+					}
+				}
 			}
 		}
 	}
