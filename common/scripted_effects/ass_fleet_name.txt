@@ -25,6 +25,7 @@ ass_set_fleet_name = {
 		trigger = has_ship_flag
 		ass_waiting_for_cash = { fleet = { set_name = "Waiting" } }
 		ass_constructing_station = { fleet = { set_name = "Building" } }
+		ass_op_spaceport_modules = { fleet = { set_name = "Module" } }
 		ass_op_dock = { fleet = { set_name = "Docking" } }
 		ass_op_energy = { fleet = { set_name = "Energy" } }
 		ass_op_marker = { fleet = { set_name = "Marker" } }

@@ -39,3 +39,27 @@ ass_valid_spaceport_module_planet = {
 	controller = { is_same_value = ROOT.owner }
 	# XXX verify friendly system
 }
+
+ass_sm_found_any_slot = {
+	OR = {
+		has_ship_flag = "ass_op_sm_slot_1"
+		has_ship_flag = "ass_op_sm_slot_2"
+		has_ship_flag = "ass_op_sm_slot_3"
+		has_ship_flag = "ass_op_sm_slot_4"
+		has_ship_flag = "ass_op_sm_slot_5"
+		has_ship_flag = "ass_op_sm_slot_6"
+		has_ship_flag = "ass_op_sm_slot_7"
+		has_ship_flag = "ass_op_sm_slot_8"
+		has_ship_flag = "ass_op_sm_slot_9"
+		has_ship_flag = "ass_op_sm_slot_10"
+		has_ship_flag = "ass_op_sm_slot_11" # AlphaMod
+		has_ship_flag = "ass_op_sm_slot_12"
+		has_ship_flag = "ass_op_sm_slot_13"
+		has_ship_flag = "ass_op_sm_slot_14"
+		has_ship_flag = "ass_op_sm_slot_15"
+		has_ship_flag = "ass_op_sm_slot_16"
+		has_ship_flag = "ass_op_sm_slot_17"
+		has_ship_flag = "ass_op_sm_slot_18"
+		has_ship_flag = "ass_op_sm_slot_19" # TheRenegade Spaceports Extended
+	}
+}
