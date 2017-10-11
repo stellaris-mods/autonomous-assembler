@@ -23,6 +23,8 @@ planet_edict = {
 	influence_cost = 0
 	length = 0
 
+	show_tech_unlock_if = { always = no }
+
 	prerequisites = {
 		"tech_autonomous_assembler"
 		"tech_spaceport_3"
