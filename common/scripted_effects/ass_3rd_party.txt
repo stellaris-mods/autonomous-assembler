@@ -37,17 +37,21 @@ ass_set_fleet_name_3rd = {}
 # Spaceport Module operation
 ass_stage1_sm_3rd_pre = {
 	am_spaceports_ass_stage1_sm_pre = yes
+	sda_ass_module_pre = yes
 }
 ass_stage1_sm_3rd_post = {
 	am_spaceports_ass_stage1_sm_post = yes
+	sda_ass_module_post = yes
 }
 ass_stage4_sm_3rd_remove_data = {
 	am_spaceports_ass_stage4_sm_remove_data = yes
+	sda_ass_module_remove_data = yes
 }
 
 # THIS is the ship, event_target:ass_target is the planet
 ass_stage4_sm_3rd_complete = {
 	am_spaceports_ass_stage4_sm_complete = yes
+	sda_ass_module_complete = yes
 }
 
 
@@ -57,3 +61,9 @@ am_spaceports_ass_stage1_sm_pre = {}
 am_spaceports_ass_stage1_sm_post = {}
 am_spaceports_ass_stage4_sm_remove_data = {}
 am_spaceports_ass_stage4_sm_complete = {}
+
+# Space Defense Agency
+sda_ass_module_pre = {}
+sda_ass_module_post = {}
+sda_ass_module_remove_data = {}
+sda_ass_module_complete = {}
