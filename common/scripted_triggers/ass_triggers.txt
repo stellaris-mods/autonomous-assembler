@@ -113,3 +113,16 @@ ass_can_afford = {
 		check_variable = { which = "AssMinerals" value > "AssMinimum" }
 	}
 }
+
+
+###############################################################################
+# NSC Fake Triggers
+# They are not fake until the next NSC release
+#
+
+nsc_is_battle_fortress = { is_ship_size = military_station_xlarge }
+# nsc_is_headquarters = { is_ship_size = Headquarters }
+# nsc_is_drydock = { is_ship_size = Drydock }
+# nsc_is_power_station = { is_ship_size = PowerStation }
+# nsc_is_mining_base = { is_ship_size = MiningBase }
+# nsc_is_sensor_station = { is_ship_size = SensorStation }
