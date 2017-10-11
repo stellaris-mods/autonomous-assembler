@@ -77,7 +77,7 @@ tech_powerstation_1 = {
 	icon = "tech_spaceport_dummy"
 }
 
-tech_spaceport_dummy = {
+tech_battle_fortress_1 = {
 	cost = 0
 	area = engineering
 	tier = 0
