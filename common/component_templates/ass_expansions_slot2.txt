@@ -95,7 +95,6 @@ utility_component_template = {
 	component_set = "ass_expansion_slot_2"
 	size = medium
 	icon = "assgfx_exp_military"
-	prerequisites = { "tech_space_defense_station_1" }
 	icon_frame = 1
 	power = @power
 	cost = @cost

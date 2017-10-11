@@ -33,7 +33,6 @@ utility_component_template = {
 	component_set = "ass_military_station_type"
 	size = medium
 	icon = "assgfx_tech_space_defense_station_1"
-	prerequisites = { "tech_space_defense_station_1" }
 	icon_frame = 1
 	power = 0
 	cost = 1500
