@@ -501,8 +501,9 @@ ass_stage1_sm_p2 = {
 				if = { limit = { ROOT = { NOT = { has_ship_flag = "ass_op_spaceport_modules" } } }
 					ass_stage1_sm_battleship_assembly_yards = yes
 				}
-
-				ass_stage1_sm_3rd_post = yes
+				if = { limit = { ROOT = { NOT = { has_ship_flag = "ass_op_spaceport_modules" } } }
+					ass_stage1_sm_3rd_post = yes
+				}
 			}
 		}
 
