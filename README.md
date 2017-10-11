@@ -70,40 +70,43 @@ Autonomous Assemblers is a new ship type that unlocks after a tier 1 technology\
 The Autonomous Assemblers can be used and commanded as regular construction ships any time you want, including while enroute during an autonomous operation \- except during the actual construction of a station, while locked\. If you want to take control during construction (they will have the red "lock" icon in the Outliner), you need to go to Special Projects and either send them to a colony, or halt operations\.
 You can build as many as you want, and outfit them with different expansion cards\.
 
-## Autonomous Assembler Expansion Cards
+## Expansion Cards
 The ship can be equipped with two expansion cards that determine its behavior\. There is no artificial intelligence on the ship, as such \- it's more like an automated lawn mower than\. Each expansion card must be outfitted on the ship before it's launched, but they can be recalled and updated to a new layout later\.
 
 The ship has 2x slots for expansion cards\. It's **very important** that you examine the card descriptions in detail, and understand that they behave differently depending on which slot you insert them into\. And make note of wording; some cards may for example say "any system", and that would include any system even outside your borders\.
 
-**Wormhole Expansion Card**
+**Spaceport Modules Card**
+Expansion Slot 2 exclusively: Listens for the Assembly Blueprint subspace signal and reacts to any Spaceport Module blueprints that are broadcast\. If any colonized planets deviate from the blueprint, goes there and assembles as appropriate\.
+
+**Wormhole Card**
 
 * Expansion Slot 1: This expansion card will scan colonized systems for Wormhole stations, and if it does not find one we control, it will direct the ship towards that solar system and construct a Wormhole station\.
 * Expansion Slot 2: Calculates distances between solar systems and attempts to find any that are on the edge of our jump range, and moves there to construct Wormhole Stations\.
 
 
 
-**Military Expansion Card**
+**Military Card**
 
 * Expansion Slot 1: Locates any Station Markers constructed inside our borders, moves there to set up a network of military stations around it\. Then, finds the closest colonized system without a military station, and builds one there\.
 * Expansion Slot 2: Attempts to construct a military station in _every star system within our borders_\.
 
 
 
-**Research Expansion Card**
+**Research Card**
 
 * Expansion Slot 1: Scans all planetary objects inside our borders for Special Resources, or any high\-yielding (2\+) research deposits inside our borders \- and constructs a Research Station at the location, if needed\.
 * Expansion Slot 2: Constructs a Research Station at any orbital deposit that can benefit us\.
 
 
 
-**Mineral Expansion Card**
+**Mineral Card**
 
 * Expansion Slot 1: Finds any high\-yielding Mineral deposit inside our borders, or any minable special resource, and creates a Mining Station there if needed\.
 * Expansion Slot 2: Constructs a Mining Station at any orbital mineral deposit that can benefit us\.
 
 
 
-**Energy Expansion Card**
+**Energy Card**
 
 * Expansion Slot 1: Finds any high\-yielding Energy deposit inside our borders, or any minable special resource, and creates a Mining Station there if needed\.
 * Expansion Slot 2: Constructs a Mining Station at any orbital energy deposit that can benefit us\.
