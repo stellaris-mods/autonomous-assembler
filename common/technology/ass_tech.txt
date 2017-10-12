@@ -163,5 +163,7 @@ tech_ass_hexagon = {
 		}
 	}
 
-	ai_weight = { factor = 0.5 }
+	ai_weight = {
+		factor = 0
+	}
 }
