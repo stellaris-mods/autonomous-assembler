@@ -33,11 +33,17 @@ ass_plural_colored: "§H$autonomous_assembler_plural$§!"
 # TODO make up an actual naming scheme for motherboards
 # TODO for ref: https://superuser.com/questions/91435/gigabyte-motherboards-name-deciphering
 DEFAULT_AUTONOMOUS_ASSEMBLER_SECTION: "AA-Tm39h-UDS4"
+ADVANCED_AUTONOMOUS_ASSEMBLER_SECTION: "AA-Tm69h-UDS7"
 
 ass_military_complex: "Station Marker"
 ass_military_complex_plural: "Station Markers"
 ass_marker_colored: "§H$ass_military_complex$§!"
 ASS_STATION_SECTION: "Station Marker"
+
+ass_expansion_slot_1: "Expansion Cards"
+ass_expansion_slot_1_DESC: "Equip these expansion cards on an $autonomous_assembler$ to enable a new autonomous mode of operation."
+ass_expansion_slot_2: "$ass_expansion_slot_1$"
+ass_expansion_slot_2_DESC: "$ass_expansion_slot_1_DESC$"
 
 ass_components: "Autonomous CPUs"
 ass_components_DESC: "Central processing units for our Autonomous Assemblers."

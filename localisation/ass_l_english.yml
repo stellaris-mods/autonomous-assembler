@@ -39,6 +39,11 @@ ass_military_complex_plural: "Station Markers"
 ass_marker_colored: "§H$ass_military_complex$§!"
 ASS_STATION_SECTION: "Station Marker"
 
+ass_expansion_slot_1: "Expansion Cards"
+ass_expansion_slot_1_DESC: "Equip these expansion cards on an $autonomous_assembler$ to enable a new autonomous mode of operation."
+ass_expansion_slot_2: "$ass_expansion_slot_1$"
+ass_expansion_slot_2_DESC: "$ass_expansion_slot_1_DESC$"
+
 ass_components: "Autonomous CPUs"
 ass_components_DESC: "Central processing units for our Autonomous Assemblers."
 ass_military_station_type: "Station Type"
