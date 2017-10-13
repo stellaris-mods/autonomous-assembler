@@ -32,10 +32,22 @@ ass_valid_mining_planet = {
 # This trigger is used by both mineral and energy operations.
 ass_has_strategic_mining = {
 	OR = {
-		has_resource = sr_terraform_gases
-		has_resource = sr_terraform_liquids
-		has_resource = sr_garanthium
-		has_resource = sr_satramene
+		AND = {
+			has_resource = sr_terraform_gases
+			ROOT.owner = { has_technology = "tech_terrestrial_sculpting" }
+		}
+		AND = {
+			has_resource = sr_terraform_liquids
+			ROOT.owner = { has_technology = "tech_terrestrial_sculpting" }
+		}
+		AND = {
+			has_resource = sr_garanthium
+			ROOT.owner = { has_technology = "tech_mine_garanthium" }
+		}
+		AND = {
+			has_resource = sr_satramene
+			ROOT.owner = { has_technology = "tech_mine_satramene" }
+		}
 	}
 }
 

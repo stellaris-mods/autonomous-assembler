@@ -62,16 +62,46 @@ ass_has_valuable_research = {
 # sr_s that need a research station
 ass_has_strategic_research = {
 	OR = {
-		has_resource = sr_lythuric
-		has_resource = sr_engos
-		has_resource = sr_teldar
-		has_resource = sr_yuranic
-		has_resource = sr_orillium
-		has_resource = sr_pitharan
-		has_resource = sr_neutronium
-		has_resource = sr_living_metal
-		has_resource = sr_dark_matter
-		has_resource = sr_zro
+		AND = {
+			has_resource = sr_lythuric
+			ROOT.owner = { has_technology = "tech_lythuric_gas" }
+		}
+		AND = {
+			has_resource = sr_engos
+			ROOT.owner = { has_technology = "tech_engos_vapor" }
+		}
+		AND = {
+			has_resource = sr_teldar
+			ROOT.owner = { has_technology = "tech_mine_teldar" }
+		}
+		AND = {
+			has_resource = sr_yuranic
+			ROOT.owner = { has_technology = "tech_mine_yuranic" }
+		}
+		AND = {
+			has_resource = sr_orillium
+			ROOT.owner = { has_technology = "tech_mine_orillium" }
+		}
+		AND = {
+			has_resource = sr_pitharan
+			ROOT.owner = { has_technology = "tech_pitharan_dust" }
+		}
+		AND = {
+			has_resource = sr_neutronium
+			ROOT.owner = { has_technology = "tech_mine_neutronium" }
+		}
+		AND = {
+			has_resource = sr_living_metal
+			ROOT.owner = { has_technology = "tech_mine_living_metal" }
+		}
+		AND = {
+			has_resource = sr_dark_matter
+			ROOT.owner = { has_technology = "tech_mine_dark_matter" }
+		}
+		AND = {
+			has_resource = sr_zro
+			ROOT.owner = { has_technology = "tech_mine_zro" }
+		}
 	}
 }
 
