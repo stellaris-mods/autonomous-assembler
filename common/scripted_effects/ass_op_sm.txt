@@ -461,7 +461,6 @@ ass_stage1_sm_p2 = {
 		owner = { # Ship owner
 			random_owned_planet = {
 				limit = { ass_is_blueprint_planet = yes }
-				log = "[this.GetName] is the blueprint planet"
 				# We found the blueprint, now find any planet missing the modules
 				ass_stage1_sm_3rd_pre = yes
 
@@ -507,26 +506,16 @@ ass_stage1_sm_p2 = {
 			}
 		}
 
-		if = { limit = { has_ship_flag = "ass_op_spaceport_modules" }
-
-			# ZZZ ass_target is always set here, but since we plug into so
-			# ZZZ many 3rd party addons, lets check
-			if = { limit = { NOT = { exists = event_target:ass_target } }
-				log = "[this.GetName]: ERROR: Should build a spaceport module, but our target planet doesn't exist."
-				# XXX abort
-			}
-			# ZZZ Also check for our standard "is planet valid" trigger
-			# ZZZ for the same reason as above
-			if = {
-				limit = {
-					event_target:ass_target = {
-						ass_valid_spaceport_module_planet = no
-					}
+		if = {
+			limit = {
+				has_ship_flag = "ass_op_spaceport_modules"
+				# ZZZ Validate all data that a 3rd party addon might fuck up
+				# ZZZ before we actually go ahead with the mission.
+				exists = event_target:ass_target
+				event_target:ass_target = {
+					ass_valid_spaceport_module_planet = no
 				}
-				log = "[this.GetName]: ERROR: Our selected planet [ass_target.GetName] is not valid."
-				# XXX abort
 			}
-
 			# Yay for debugging!
 			if = { limit = { has_global_flag = "debug" }
 				fleet = { set_variable = { which = "AssConstructionTime" value = 20 } }
@@ -545,21 +534,31 @@ ass_stage1_sm_p2 = {
 				limit = { has_global_flag = "gf_alphamodplus" }
 				amp_ass_stage1_sm_set_slot = yes
 			}
-
 			# And finally, check vanilla, if necessary
 			if = {
 				limit = { ass_sm_found_any_slot = no }
 				ass_stage1_sm_set_slot = yes
 			}
 
-			log = "[ass_target.GetName] needs spaceport module."
-
 			event_target:ass_target = {
 				# Set relation target
 				ass_relation_flag_planet = yes
-
 				# And lets go
 				ass_stage2_planet_move = yes
+			}
+
+			else = {
+				# We are not going on a spaceport module mission
+				# This might be because a 3rd party addon didnt set the
+				# required ass_target stuff properly.
+				# We can't use ass_stage4_abort_operation, just clean up
+				# whatever we might have set thus far.
+				if = {
+					limit = { has_ship_flag = "ass_op_spaceport_modules" }
+					log = "[this.GetName]: ERROR: Should build a spaceport module, but our target isn't valid for some reason, so abort."
+					ass_stage4_remove_spaceport_module_data = yes
+					remove_ship_flag = "ass_op_spaceport_modules"
+				}
 			}
 		}
 	}
