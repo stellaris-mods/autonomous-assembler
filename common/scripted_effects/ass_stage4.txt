@@ -31,6 +31,13 @@ ass_stage4_operation_complete = {
 
 	ass_3rd_op_complete = yes
 
+	# Reset operation costs
+	fleet = {
+		set_variable = { which = "AssOperationCost" value = 0 }
+		set_variable = { which = "AssOperationCostInfluence" value = 0 }
+		set_variable = { which = "AssOperationCostEnergy" value = 0 }
+	}
+
 	# Operation types
 	remove_ship_flag = "ass_op_dock"
 	remove_ship_flag = "ass_op_minerals"
