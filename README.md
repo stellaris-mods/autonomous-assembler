@@ -98,27 +98,27 @@ Many of my addons log a lot of output to `game.log` if the global flag `debug` i
 For Autonomous Assembler, specifically, most of its operations are sped up from 100 days to 10 if this flag is active. Spaceport Module construction, more specifically, is fixed at 20 days regardless of the `AssConstructionTime` variable.
 
 ### Adding a new Expansion Card
-- TODO
+- TODO (that is to say, it is entirely possible for you to do it right now, I just haven't written this documentation)
 
 ### Adding support for your own Spaceport Module
-You can do it without talking to me, but then you will need to override the whole `ass_3rd_party.txt` file, and handle it whenever I update the mod. Alternatively, talk to me and we will make the mods cooperate. Regardless, read the rest.
+You can do it without talking to me, but then you will need to override the whole `ass_3rd_party.txt` file, and handle it whenever I update the mod. Alternatively, talk to me and we will make the mods cooperate. Regardless, read the rest. And also, please read this whole readme.
 
-1. For each of your modules, copy 1x of the `ass_stage1_sm_*` effects from `ass_op_sm_vanilla.txt` and change things accordingly.
-1. Set `AssOperationCost`, `AssOperationCostEnergy`, `AssOperationCostInfluence`, and `AssConstructionTime` according to your modules properties.
+1. For each of your modules, copy 1x of the `ass_stage1_sm_*` effects from `common/scripted_effects/ass_op_sm_vanilla.txt` and change things like the module reference and costs accordingly.
+1. The cost variables available are `AssOperationCost` (minerals), `AssOperationCostEnergy`, and `AssOperationCostInfluence`. Also, `AssConstructionTime` should be the build time of your module.
 1. The module-specific flag (i.e. `ass_op_sm_battleship_assembly_yards`), can be named anything you want that doesn't conflict with other addons. You will need to remove this flag yourself later, when the operation completes or aborts.
-1. Optionally, if you don't want to use `random_owned_planet` to find the "best" target planet, you can use any code you want to select the planet to build on, based on any conditions you want. Most other operations in the mod use `closest_system`, for example.
-1. Make sure your `ass_stage1_sm_*` effects are invoked from `ass_stage1_sm_3rd_pre` or `ass_stage1_sm_3rd_post`, somehow. Either override the file or talk to me.
+1. Optionally, if you don't want to use `random_owned_planet` to find the "best" target planet, you can use any code you want to select the planet to build on, based on any conditions you want. Most other operations/expansion cards in the mod use `closest_system`, for example.
+1. Make sure your `ass_stage1_sm_*` effects are invoked from `ass_stage1_sm_3rd_pre` or `ass_stage1_sm_3rd_post`, somehow. Either override `ass_3rd_party.txt` or talk to me.
 1. If your addon adds new spaceport slots _and_ modules, make sure you hook into `ass_stage4_sm_3rd_build_pre`. If your addon _only_ adds modules, make sure you hook into `ass_stage4_sm_3rd_build_post`.
-1. In your `ass_stage4_sm_3rd_build_*` effect, you should have a `switch` that triggers on the ships slot flag, and place your module manually like this, per slot:
+1. In your `ass_stage4_sm_3rd_build_*` effect, you should have a `switch` that triggers on the ships slot flag (just as a small aside, the reason we use a flag and not a 1-19 number variable is because you can't `switch` on a variable, which means that we would have to use a huge if-else-if statement instead, which looks horrible), and place your module manually like this, per slot:
    ```
-   ass_op_sm_slot_1 = {
+   ass_op_sm_slot_1 = { # This number should ...
       remove_ship_flag = "ass_op_sm_build"
-      event_target:ass_target = { set_spaceport_module = { module = "my_module" slot = 1 } }
+      event_target:ass_target = { set_spaceport_module = { module = "my_module" slot = 1 } } # ... match this one (duh).
    }
    ```
-1. It's important that you remove the `ass_op_sm_build` flag _only_ if you actually handle the construction. Your build effect can handle `ass_op_sm_slot_1-19`, or even more, if you want. It will produce an error.log entry for any slot that doesn't exist.
-1. Autonomous Assembler supports slots 1-19 if the correct 3rd party spaceport extending addons are installed. If you prefer not to get the /(actually harmless, but annoying) errors for those extra slots in your addon, there are three alternatives: (1) disable your autonomous assembler integration when the global flags `gf_alphamodplus` or `has_renegade_spaceports` exist (this only prevents the errors during play, not at startup), or (2) put support for building your spaceport modules in slots 7-19 in a 3rd party compatibility addon ("My Addon: AUTOASS+Extended Spaceport Compatibility Mod"), or finally (3) successfully beg the authors of the spaceport extension addons to add AUTOASS support for your module (I don't recommend this last option).
-1. Make sure you hook into `ass_stage4_sm_3rd_remove_data` somehow to remove any module-specific ship/fleet-flags or nonstandard variables you set on the assembler ship/fleet/target. This is mostly to de-clutter the `debugtooltip`.
+1. It's important that you remove the `ass_op_sm_build` flag _only_ if you actually handle the construction. Your build effect can handle `ass_op_sm_slot_1-19`, or even more, if you want. It will produce a (harmless, though annoying) error.log entry for any slot that doesn't exist.
+1. Autonomous Assembler supports slots 1-19 if the correct 3rd party spaceport extending addons are installed. If you prefer not to get the (again harmless, but annoying) errors for those extra slots in your addon, there are three alternatives: (1) disable your autonomous assembler integration when the global flags `gf_alphamodplus` or `has_renegade_spaceports` exist (this only prevents the errors during play, not at startup), or (2) put support for building your spaceport modules in slots 7-19 in a 3rd party compatibility addon ("My Addon: AUTOASS+Extended Spaceport Compatibility Mod"), or finally (3) successfully beg the authors of the spaceport extension addons to add AUTOASS support for your module (I don't recommend this last option).
+1. Make sure you hook into `ass_stage4_sm_3rd_remove_data` somehow to remove any module-specific ship/fleet-flags or nonstandard variables you set on the assembler ship/fleet/target. Except for the per-module build flag, which is important that you remove, this is mostly to de-clutter the `debugtooltip`.
 
 Remember that for your per-module `ass_stage1_sm_*` effects, you need to copy the `ass_valid_spaceport_module_planet` trigger out of this mod and into yours with a **different name**. You should _not_ use `ass_valid_spaceport_module_planet = yes` anywhere in your addon. Well, you can, technically, just remember that it will produce (harmless) error log output if AUTOASS is not installed/enabled.
 
