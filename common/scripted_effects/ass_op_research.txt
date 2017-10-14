@@ -22,7 +22,7 @@ ass_stage1_set_research = {
 	set_timed_planet_flag = { flag = "autobuild_planet_block" days = 100 }
 	ROOT = {
 		set_ship_flag = "ass_op_research"
-		ass_accounting_set_research_station_cost = yes
+		ass_discounts_set_research_station_cost = yes
 	}
 }
 

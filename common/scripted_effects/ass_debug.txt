@@ -41,14 +41,30 @@ assdbg_reserves_updated = {
 	log = "[this.GetName]: Updated AssReserve to [this.AssReserve]."
 }}
 
-assdbg_grabbing_cost = {
+assdbg_grabbing_minerals = {
 	if = { limit = { has_global_flag = "debug" }
-	log = "[Prev.GetName]: Grabbing operation cost [this.AssOperationCost]."
+	log = "[Prev.GetName]: Grabbing minerals [this.AssOperationCost]."
+}}
+assdbg_grabbing_energy = {
+	if = { limit = { has_global_flag = "debug" }
+	log = "[Prev.GetName]: Grabbing energy [this.AssOperationCostEnergy]."
+}}
+assdbg_grabbing_influence = {
+	if = { limit = { has_global_flag = "debug" }
+	log = "[Prev.GetName]: Grabbing influence [this.AssOperationCostInfluence]."
 }}
 
-assdbg_refunding_cost = {
+assdbg_refunding_minerals = {
 	if = { limit = { has_global_flag = "debug" }
-	log = "[Prev.GetName]: Refunding [this.AssOperationCost]."
+	log = "[Prev.GetName]: Refunding minerals [this.AssOperationCost]."
+}}
+assdbg_refunding_energy = {
+	if = { limit = { has_global_flag = "debug" }
+	log = "[Prev.GetName]: Refunding energy [this.AssOperationCostEnergy]."
+}}
+assdbg_refunding_influence = {
+	if = { limit = { has_global_flag = "debug" }
+	log = "[Prev.GetName]: Refunding influence [this.AssOperationCostInfluence]."
 }}
 
 assdbg_marker_arrived = {

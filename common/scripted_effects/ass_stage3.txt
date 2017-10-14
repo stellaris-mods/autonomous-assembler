@@ -17,18 +17,8 @@
 # Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301  USA
 ###
 
-
-
-# This updates AssMinimum before we use the ass_can_afford trigger.
-ass_update_total_cost = {
-	fleet = {
-		set_variable = { which = "AssMinimum" value = "AssOperationCost" }
-		change_variable = { which = "AssMinimum" value = "AssReserve" }
-	}
-}
-
 ass_stage3_build = {
-	ass_accounting_update_fleet = yes
+	ass_account_update_ship = yes
 	switch = {
 		trigger = has_ship_flag
 		ass_op_energy   = { ass_stage3_single_station = yes }
@@ -41,10 +31,10 @@ ass_stage3_build = {
 }
 
 ass_stage3_single_station = {
-	ass_update_total_cost = yes
+	ass_account_update_operation_totals = yes
 	if = {
 		limit = { ass_can_afford = yes }
-		ass_accounting_grabdatcash = yes
+		ass_account_grabdatcash = yes
 		remove_ship_flag = "ass_waiting_for_cash"
 		set_ship_flag = "ass_constructing_station"
 		ass_set_fleet_name = yes
@@ -76,7 +66,7 @@ ass_stage3_lock_and_accounts = {
 	# ZZZ Now we either wait for cash or build, so lock now.
 	ass_stage3_lock_ship = yes
 
-	owner = { ass_accounting_count_minerals = yes }
+	owner = { ass_account_update_empire = yes }
 
 	ass_stage3_build = yes
 }

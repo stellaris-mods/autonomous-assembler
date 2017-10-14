@@ -30,7 +30,7 @@ ass_stage2_military_move = {
 
 ass_stage1_set_military_xl = {
 	ROOT = {
-		ass_accounting_set_military_xlarge_cost = yes
+		ass_discounts_set_military_xlarge_cost = yes
 		set_ship_flag = "ass_station_xlarge"
 		remove_ship_flag = "ass_station_large"
 		remove_ship_flag = "ass_station_medium"
@@ -39,7 +39,7 @@ ass_stage1_set_military_xl = {
 }
 ass_stage1_set_military_l = {
 	ROOT = {
-		ass_accounting_set_military_large_cost = yes
+		ass_discounts_set_military_large_cost = yes
 		remove_ship_flag = "ass_station_xlarge"
 		set_ship_flag = "ass_station_large"
 		remove_ship_flag = "ass_station_medium"
@@ -48,7 +48,7 @@ ass_stage1_set_military_l = {
 }
 ass_stage1_set_military_m = {
 	ROOT = {
-		ass_accounting_set_military_medium_cost = yes
+		ass_discounts_set_military_medium_cost = yes
 		remove_ship_flag = "ass_station_xlarge"
 		remove_ship_flag = "ass_station_large"
 		set_ship_flag = "ass_station_medium"
@@ -57,7 +57,7 @@ ass_stage1_set_military_m = {
 }
 ass_stage1_set_military_s = {
 	ROOT = {
-		ass_accounting_set_military_small_cost = yes
+		ass_discounts_set_military_small_cost = yes
 		remove_ship_flag = "ass_station_xlarge"
 		remove_ship_flag = "ass_station_large"
 		remove_ship_flag = "ass_station_medium"

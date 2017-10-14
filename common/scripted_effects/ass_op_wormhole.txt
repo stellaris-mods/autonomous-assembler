@@ -21,7 +21,7 @@
 ass_stage1_set_wormhole = {
 	ROOT = {
 		set_ship_flag = "ass_op_wormhole"
-		ass_accounting_set_wormhole_station_cost = yes
+		ass_discounts_set_wormhole_station_cost = yes
 	}
 }
 

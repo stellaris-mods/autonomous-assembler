@@ -1,0 +1,79 @@
+###
+# This file is part of a project hosted at https://github.com/stellaris-mods
+# Copyright (c) 2017 folk@folk.wtf
+#
+# This program is free software; you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation; either version 3 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software Foundation,
+# Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301  USA
+###
+
+
+@baseMilitaryXLarge = 2250
+@baseMilitaryLarge = 1400
+@baseMilitaryMedium = 700
+@baseMilitarySmall = 250
+@baseMining = 90
+@baseResearch = 90
+@baseWormhole = 75
+
+# We don't have any operation for making frontier outposts yet.
+# trait_ruler_expansionist: shipsize_outpost_station_build_cost_mult -0.15
+
+# I can't immediately see any API to check which agenda is set
+# agenda_defensive_focus: shipclass_military_station_build_cost_mult = -0.15
+ass_discounts_deduct_military_cost = {
+	if = { # -20%
+		limit = { owner = { ruler = { has_trait = trait_ruler_fortifier } } }
+		fleet = { multiply_variable = { which = "AssOperationCost" value = 0.8 } }
+	}
+	if = { # -15%
+		limit = { owner = { has_technology = "tech_space_defense_station_improvement" } }
+		fleet = { multiply_variable = { which = "AssOperationCost" value = 0.85 } }
+	}
+}
+
+ass_discounts_set_military_xlarge_cost = {
+	fleet = { set_variable = { which = "AssOperationCost" value = @baseMilitaryXLarge } }
+	ass_discounts_deduct_military_cost = yes
+}
+
+ass_discounts_set_military_large_cost = {
+	fleet = { set_variable = { which = "AssOperationCost" value = @baseMilitaryLarge } }
+	ass_discounts_deduct_military_cost = yes
+}
+
+ass_discounts_set_military_medium_cost = {
+	fleet = { set_variable = { which = "AssOperationCost" value = @baseMilitaryMedium } }
+	ass_discounts_deduct_military_cost = yes
+}
+
+ass_discounts_set_military_small_cost = {
+	fleet = { set_variable = { which = "AssOperationCost" value = @baseMilitarySmall } }
+	ass_discounts_deduct_military_cost = yes
+}
+
+ass_discounts_set_mining_station_cost = {
+	fleet = { set_variable = { which = "AssOperationCost" value = @baseMining } }
+	if = { # trait_ruler_space_miner: shipsize_mining_station_build_cost_mult -0.25
+		limit = { owner = { ruler = { has_trait = trait_ruler_space_miner } } }
+		fleet = { multiply_variable = { which = "AssOperationCost" value = 0.75 } }
+	}
+}
+
+ass_discounts_set_research_station_cost = {
+	fleet = { set_variable = { which = "AssOperationCost" value = @baseResearch } }
+}
+
+ass_discounts_set_wormhole_station_cost = {
+	fleet = { set_variable = { which = "AssOperationCost" value = @baseWormhole } }
+}

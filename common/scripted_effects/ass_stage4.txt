@@ -79,7 +79,7 @@ ass_stage4_abort_operation = {
 
 		if = {
 			limit = { has_ship_flag = "ass_refund_if_aborted" }
-			ass_accounting_refund = yes
+			ass_account_refund = yes
 			remove_ship_flag = "ass_refund_if_aborted"
 		}
 

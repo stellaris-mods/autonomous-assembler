@@ -135,7 +135,7 @@ country_event = {
 				}
 			}
 			# Set the AssReserve variable on all fleets
-			ass_accounting_update_reserves = yes
+			ass_account_update_reserve = yes
 
 			# The AI simply researches all projects all the time,
 			# so lets not create them for the AI.

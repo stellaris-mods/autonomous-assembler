@@ -17,59 +17,125 @@
 # Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301  USA
 ###
 
+###############################################################################
+#
+# API METHODS
+#
+# The API only updates the variables that are needed at the time.
+#
+# ass_account_update_empire (THIS = country)
+#   Updates the empire totals based on *Cost variables on any_owned_ship.
+#
+# ass_account_update_ship (THIS = ship)
+#   Copies needed variables from empire to an assembler ships fleet scope.
+#
+# ass_account_update_operation_totals (THIS = ship)
+#   Updates the AssMin* variables depending on cost/reserves.
+#
+# ass_account_grabdatcash (THIS = ship)
+#   Grabs all operation costs from the owner, depending on *Cost variables.
+#
+# ass_account_refund (THIS = ship)
+#   Refunds all operation costs to the owner, depending on *Cost variables.
+#
+# ass_account_update_reserve (THIS = country)
+#   Copies the AssReserve empire variable to all owned assembler fleets.
+#
+# The usual sequence of events:
+# 1. An operation is selected, it sets 1-3 of the *Cost variables.
+# 2. The ship arrives at its target.
+# 3. ass_account_update_empire
+# 4. ass_account_update_ship
+# 5. ass_account_update_operation_totals
+# 6. ass_can_afford
+# 7. Either ass_account_grabdatcash, or recheck from #3 on_monthly_pulse
+#
+###############################################################################
+#
+# API VARIABLES
+#
+# Note that most of the variables are only updated when they need to be.
+# If you run with 'debugtooltip', they will not be accurate except on the day
+# that they are used.
+#
+# EMPIRE VARIABLES
+#
+# AssReserve                       Empires configured AssReserve.
+#
+# AssMinerals                      Empires total minerals.
+# AssInfluence                     Empires total influence.
+# AssEnergy                        Empires total energy.
+#
+# ASSEMBLER FLEET VARIABLES
+#
+# AssOperationCost                 Operation cost in minerals, or zero.
+# AssOperationCostInfluence        Operation cost in influence, or zero.
+# AssOperationCostEnergy           Operation cost in energy, or zero.
+#
+# AssReserve                       Empires configured AssReserve.
+# AssMinMinerals                   AssOperationCost          + AssReserve
+# AssMinInfluence                  AssOperationCostInfluence + 100 (!)
+# AssMinEnergy                     AssOperationCostEnergy    + AssReserve
+#
+# AssMinerals                      Empires total minerals.
+# AssInfluence                     Empires total influence.
+# AssEnergy                        Empires total energy.
+#
+###############################################################################
 
-# ass_accounting_update_fleet = yes
-#
-# Copies AssMinerals from country to fleet.
-#
-# The main reason we have ass_accounting_update_fleet and
-# ass_accounting_count_minerals split is because in the monthly pulse
-# event that checks for cash for waiting ships, we only really need
-# to do ass_accounting_count_minerals once, and then
-# ass_accounting_update_fleet once per fleet.
-#
-# When a ship arrives at a target, we do ass_accounting_count_minerals
-# first, and then ass_accounting_update_fleet immediately.
-#
-# THIS = ship
-# owner.AssMinerals must be set and updated
-ass_accounting_update_fleet = {
+# THIS = country
+ass_account_update_empire = {
+	ass_account_internal_update_empire_minerals = yes
+	ass_account_internal_update_empire_energy = yes
+	ass_account_internal_update_empire_influence = yes
+}
+
+ass_account_update_ship = {
 	fleet = {
 		set_variable = { which = "AssMinerals" value = 0 }
-		owner = {
-			# Make a copy we can mangle
-			set_variable = { which = "AssTmp" value = "AssMinerals" }
-			# Copy to fleet
-			while = {
-				limit = { check_variable = { which = "AssTmp" value > 1000 } }
-				PREV = { change_variable = { which = "AssMinerals" value = 1000 } }
-				subtract_variable = { which = "AssTmp" value = 1000 }
-			}
-			while = {
-				limit = { check_variable = { which = "AssTmp" value > 100 } }
-				PREV = { change_variable = { which = "AssMinerals" value = 100 } }
-				subtract_variable = { which = "AssTmp" value = 100 }
-			}
-			while = {
-				limit = { check_variable = { which = "AssTmp" value > 10 } }
-				PREV = { change_variable = { which = "AssMinerals" value = 10 } }
-				subtract_variable = { which = "AssTmp" value = 10 }
-			}
-			while = {
-				limit = { check_variable = { which = "AssTmp" value > 0 } }
-				PREV = { change_variable = { which = "AssMinerals" value = 1 } }
-				subtract_variable = { which = "AssTmp" value = 1 }
-			}
-		}
-		# AssMinerals in the fleet scope is updated
+		set_variable = { which = "AssEnergy" value = 0 }
+		set_variable = { which = "AssInfluence" value = 0 }
+
+		ass_account_internal_update_fleet_minerals = yes
+		ass_account_internal_update_fleet_energy = yes
+		ass_account_internal_update_fleet_influence = yes
 	}
 }
 
-# This copies AssReserve from country to all assembler fleets
-# Automatically invoked every time we update reserves from a special
-# project, or we create a new assembler.
-# THIS = country
-ass_accounting_update_reserves = {
+# Please see ass_accounting.txt for variable documentation
+ass_account_update_operation_totals = {
+	fleet = {
+		set_variable = { which = "AssMinMinerals"  value = "AssOperationCost" }
+		set_variable = { which = "AssMinEnergy"    value = "AssOperationCostEnergy" }
+		set_variable = { which = "AssMinInfluence" value = "AssOperationCostInfluence" }
+
+		if = { limit = { check_variable = { which = "AssMinMinerals" value > 0 } }
+			change_variable = { which = "AssMinMinerals" value = "AssReserve" }
+		}
+		if = { limit = { check_variable = { which = "AssMinEnergy" value > 0 } }
+			change_variable = { which = "AssMinEnergy" value = "AssReserve" }
+		}
+		if = { limit = { check_variable = { which = "AssMinInfluence" value > 0 } }
+			change_variable = { which = "AssMinInfluence" value = 100 }
+		}
+	}
+}
+
+ass_account_grabdatcash = {
+	# Makes sure we refund the country AssOperationCost if we abort.
+	set_ship_flag = "ass_refund_if_aborted"
+	ass_account_internal_grab_minerals = yes
+	ass_account_internal_grab_energy = yes
+	ass_account_internal_grab_influence = yes
+}
+
+ass_account_refund = {
+	ass_account_internal_refund_minerals = yes
+	ass_account_internal_refund_energy = yes
+	ass_account_internal_refund_influence = yes
+}
+
+ass_account_update_reserve = {
 	every_owned_fleet = {
 		limit = { is_ship_size = autonomous_assembler }
 		set_variable = { which = "AssReserve" value = 0 }
@@ -102,192 +168,486 @@ ass_accounting_update_reserves = {
 	}
 }
 
-# Counts the available minerals
-# THIS = country
-ass_accounting_count_minerals = {
-	# Hard Reset
-	set_variable = { which = "AssMinerals" value = 0 }
-	# First, set AssMinerals2 to as many minerals as the country has
-	while = {
-		limit = { minerals > 10000 }
-		add_minerals = -10000
-		change_variable = { which = "AssMinerals" value = 10000 }
-	}
-	while = {
-		limit = { minerals > 1000 }
-		add_minerals = -1000
-		change_variable = { which = "AssMinerals" value = 1000 }
-	}
-	while = {
-		limit = { minerals > 100 }
-		add_minerals = -100
-		change_variable = { which = "AssMinerals" value = 100 }
-	}
-	while = {
-		limit = { minerals > 10 }
-		add_minerals = -10
-		change_variable = { which = "AssMinerals" value = 10 }
-	}
-	while = {
-		limit = { minerals > 0 }
-		add_minerals = -1
-		change_variable = { which = "AssMinerals" value = 1 }
-	}
-	# Make a copy we can mangle
-	set_variable = { which = "AssTmp" value = "AssMinerals" }
-	# And give the country its minerals back
-	while = {
-		limit = { check_variable = { which = "AssTmp" value > 1000 } }
-		add_minerals = 1000
-		subtract_variable = { which = "AssTmp" value = 1000 }
-	}
-	while = {
-		limit = { check_variable = { which = "AssTmp" value > 100 } }
-		add_minerals = 100
-		subtract_variable = { which = "AssTmp" value = 100 }
-	}
-	while = {
-		limit = { check_variable = { which = "AssTmp" value > 10 } }
-		add_minerals = 10
-		subtract_variable = { which = "AssTmp" value = 10 }
-	}
-	while = {
-		limit = { check_variable = { which = "AssTmp" value > 0 } }
-		add_minerals = 1
-		subtract_variable = { which = "AssTmp" value = 1 }
-	}
-}
+###############################################################################
+#
+# Rest of the file contains internal implementation details that you should
+# be able to ignore safely and never use outside this file.
+#
 
-# THIS = ship
-ass_accounting_grabdatcash = {
-	# Makes sure we refund the country AssOperationCost if we abort.
-	set_ship_flag = "ass_refund_if_aborted"
-	fleet = {
-		assdbg_grabbing_cost = yes
+ass_account_internal_update_empire_minerals = {
+	if = {
+		limit = {
+			any_owned_ship = {
+				is_ship_size = autonomous_assembler
+				fleet = { check_variable = { which = "AssOperationCost" value > 0 } }
+			}
+		}
+		set_variable = { which = "AssMinerals" value = 0 }
+		while = {
+			limit = { minerals > 10000 }
+			add_minerals = -10000
+			change_variable = { which = "AssMinerals" value = 10000 }
+		}
+		while = {
+			limit = { minerals > 1000 }
+			add_minerals = -1000
+			change_variable = { which = "AssMinerals" value = 1000 }
+		}
+		while = {
+			limit = { minerals > 100 }
+			add_minerals = -100
+			change_variable = { which = "AssMinerals" value = 100 }
+		}
+		while = {
+			limit = { minerals > 10 }
+			add_minerals = -10
+			change_variable = { which = "AssMinerals" value = 10 }
+		}
+		while = {
+			limit = { minerals > 0 }
+			add_minerals = -1
+			change_variable = { which = "AssMinerals" value = 1 }
+		}
 		# Make a copy we can mangle
-		set_variable = { which = "AssTmp" value = "AssOperationCost" }
+		set_variable = { which = "AssTmp" value = "AssMinerals" }
+		# And give the country its minerals back
 		while = {
-			limit = {
-				check_variable = { which = "AssTmp" value > 1000 }
-				owner = { minerals > 1000 }
-			}
-			owner = { add_minerals = -1000 }
-			change_variable = { which = "AssTmp" value = -1000 }
+			limit = { check_variable = { which = "AssTmp" value > 10000 } }
+			add_minerals = 10000
+			subtract_variable = { which = "AssTmp" value = 10000 }
 		}
-		while = {
-			limit = {
-				check_variable = { which = "AssTmp" value > 100 }
-				owner = { minerals > 100 }
-			}
-			owner = { add_minerals = -100 }
-			change_variable = { which = "AssTmp" value = -100 }
-		}
-		while = {
-			limit = {
-				check_variable = { which = "AssTmp" value > 10 }
-				owner = { minerals > 10 }
-			}
-			owner = { add_minerals = -10 }
-			change_variable = { which = "AssTmp" value = -10 }
-		}
-		while = {
-			limit = {
-				check_variable = { which = "AssTmp" value > 0 }
-				owner = { minerals > 0 }
-			}
-			owner = { add_minerals = -1 }
-			change_variable = { which = "AssTmp" value = -1 }
-		}
-	}
-}
-
-# THIS = ship
-ass_accounting_refund = {
-	fleet = {
-		assdbg_refunding_cost = yes
-		# Make a copy we can mangle. Could "probably" mangle
-		# the main variable now, since we're probably aborting operation.
-		# No need to take any risks with future behaviors.
-		set_variable = { which = "AssTmp" value = "AssOperationCost" }
 		while = {
 			limit = { check_variable = { which = "AssTmp" value > 1000 } }
-			owner = { add_minerals = 1000 }
-			change_variable = { which = "AssTmp" value = -1000 }
+			add_minerals = 1000
+			subtract_variable = { which = "AssTmp" value = 1000 }
 		}
 		while = {
 			limit = { check_variable = { which = "AssTmp" value > 100 } }
-			owner = { add_minerals = 100 }
-			change_variable = { which = "AssTmp" value = -100 }
+			add_minerals = 100
+			subtract_variable = { which = "AssTmp" value = 100 }
 		}
 		while = {
 			limit = { check_variable = { which = "AssTmp" value > 10 } }
-			owner = { add_minerals = 10 }
-			change_variable = { which = "AssTmp" value = -10 }
+			add_minerals = 10
+			subtract_variable = { which = "AssTmp" value = 10 }
 		}
 		while = {
 			limit = { check_variable = { which = "AssTmp" value > 0 } }
-			owner = { add_minerals = 1 }
-			change_variable = { which = "AssTmp" value = -1 }
+			add_minerals = 1
+			subtract_variable = { which = "AssTmp" value = 1 }
+		}
+	}
+}
+# Counts the available energy
+ass_account_internal_update_empire_energy = {
+	if = {
+		limit = {
+			any_owned_ship = {
+				is_ship_size = autonomous_assembler
+				fleet = { check_variable = { which = "AssOperationCostEnergy" value > 0 } }
+			}
+		}
+		set_variable = { which = "AssEnergy" value = 0 }
+		while = {
+			limit = { energy > 10000 }
+			add_energy = -10000
+			change_variable = { which = "AssEnergy" value = 10000 }
+		}
+		while = {
+			limit = { energy > 1000 }
+			add_energy = -1000
+			change_variable = { which = "AssEnergy" value = 1000 }
+		}
+		while = {
+			limit = { energy > 100 }
+			add_energy = -100
+			change_variable = { which = "AssEnergy" value = 100 }
+		}
+		while = {
+			limit = { energy > 10 }
+			add_energy = -10
+			change_variable = { which = "AssEnergy" value = 10 }
+		}
+		while = {
+			limit = { energy > 0 }
+			add_energy = -1
+			change_variable = { which = "AssEnergy" value = 1 }
+		}
+		# Make a copy we can mangle
+		set_variable = { which = "AssTmp" value = "AssEnergy" }
+		# And give the country its energy back
+		while = {
+			limit = { check_variable = { which = "AssTmp" value > 10000 } }
+			add_energy = 10000
+			subtract_variable = { which = "AssTmp" value = 10000 }
+		}
+		while = {
+			limit = { check_variable = { which = "AssTmp" value > 1000 } }
+			add_energy = 1000
+			subtract_variable = { which = "AssTmp" value = 1000 }
+		}
+		while = {
+			limit = { check_variable = { which = "AssTmp" value > 100 } }
+			add_energy = 100
+			subtract_variable = { which = "AssTmp" value = 100 }
+		}
+		while = {
+			limit = { check_variable = { which = "AssTmp" value > 10 } }
+			add_energy = 10
+			subtract_variable = { which = "AssTmp" value = 10 }
+		}
+		while = {
+			limit = { check_variable = { which = "AssTmp" value > 0 } }
+			add_energy = 1
+			subtract_variable = { which = "AssTmp" value = 1 }
 		}
 	}
 }
 
-@baseMilitaryXLarge = 2250
-@baseMilitaryLarge = 1400
-@baseMilitaryMedium = 700
-@baseMilitarySmall = 250
-@baseMining = 90
-@baseResearch = 90
-@baseWormhole = 75
-
-# We don't have any operation for making frontier outposts yet.
-# trait_ruler_expansionist: shipsize_outpost_station_build_cost_mult -0.15
-
-# I can't immediately see any API to check which agenda is set
-# agenda_defensive_focus: shipclass_military_station_build_cost_mult = -0.15
-ass_accounting_deduct_military_cost = {
-	if = { # -20%
-		limit = { owner = { ruler = { has_trait = trait_ruler_fortifier } } }
-		fleet = { multiply_variable = { which = "AssOperationCost" value = 0.8 } }
-	}
-	if = { # -15%
-		limit = { owner = { has_technology = "tech_space_defense_station_improvement" } }
-		fleet = { multiply_variable = { which = "AssOperationCost" value = 0.85 } }
-	}
-}
-
-ass_accounting_set_military_xlarge_cost = {
-	fleet = { set_variable = { which = "AssOperationCost" value = @baseMilitaryXLarge } }
-	ass_accounting_deduct_military_cost = yes
-}
-
-ass_accounting_set_military_large_cost = {
-	fleet = { set_variable = { which = "AssOperationCost" value = @baseMilitaryLarge } }
-	ass_accounting_deduct_military_cost = yes
-}
-
-ass_accounting_set_military_medium_cost = {
-	fleet = { set_variable = { which = "AssOperationCost" value = @baseMilitaryMedium } }
-	ass_accounting_deduct_military_cost = yes
-}
-
-ass_accounting_set_military_small_cost = {
-	fleet = { set_variable = { which = "AssOperationCost" value = @baseMilitarySmall } }
-	ass_accounting_deduct_military_cost = yes
-}
-
-ass_accounting_set_mining_station_cost = {
-	fleet = { set_variable = { which = "AssOperationCost" value = @baseMining } }
-	if = { # trait_ruler_space_miner: shipsize_mining_station_build_cost_mult -0.25
-		limit = { owner = { ruler = { has_trait = trait_ruler_space_miner } } }
-		fleet = { multiply_variable = { which = "AssOperationCost" value = 0.75 } }
+ass_account_internal_update_empire_influence = {
+	if = {
+		limit = {
+			any_owned_ship = {
+				is_ship_size = autonomous_assembler
+				fleet = { check_variable = { which = "AssOperationCostInfluence" value > 0 } }
+			}
+		}
+		set_variable = { which = "AssInfluence" value = 0 }
+		while = {
+			limit = { influence > 100 }
+			add_influence = -100
+			change_variable = { which = "AssInfluence" value = 100 }
+		}
+		while = {
+			limit = { influence > 10 }
+			add_influence = -10
+			change_variable = { which = "AssInfluence" value = 10 }
+		}
+		while = {
+			limit = { influence > 0 }
+			add_influence = -1
+			change_variable = { which = "AssInfluence" value = 1 }
+		}
+		# Make a copy we can mangle
+		set_variable = { which = "AssTmp" value = "AssInfluence" }
+		# And give the country its influence back
+		while = {
+			limit = { check_variable = { which = "AssTmp" value > 100 } }
+			add_influence = 100
+			subtract_variable = { which = "AssTmp" value = 100 }
+		}
+		while = {
+			limit = { check_variable = { which = "AssTmp" value > 10 } }
+			add_influence = 10
+			subtract_variable = { which = "AssTmp" value = 10 }
+		}
+		while = {
+			limit = { check_variable = { which = "AssTmp" value > 0 } }
+			add_influence = 1
+			subtract_variable = { which = "AssTmp" value = 1 }
+		}
 	}
 }
 
-ass_accounting_set_research_station_cost = {
-	fleet = { set_variable = { which = "AssOperationCost" value = @baseResearch } }
+ass_account_internal_update_fleet_minerals = {
+	if = { limit = { check_variable = { which = "AssOperationCost" value > 0 } }
+		owner = {
+			# Make a copy we can mangle
+			set_variable = { which = "AssTmp" value = "AssMinerals" }
+			# Copy to fleet
+			while = {
+				limit = { check_variable = { which = "AssTmp" value > 10000 } }
+				PREV = { change_variable = { which = "AssMinerals" value = 10000 } }
+				subtract_variable = { which = "AssTmp" value = 10000 }
+			}
+			while = {
+				limit = { check_variable = { which = "AssTmp" value > 1000 } }
+				PREV = { change_variable = { which = "AssMinerals" value = 1000 } }
+				subtract_variable = { which = "AssTmp" value = 1000 }
+			}
+			while = {
+				limit = { check_variable = { which = "AssTmp" value > 100 } }
+				PREV = { change_variable = { which = "AssMinerals" value = 100 } }
+				subtract_variable = { which = "AssTmp" value = 100 }
+			}
+			while = {
+				limit = { check_variable = { which = "AssTmp" value > 10 } }
+				PREV = { change_variable = { which = "AssMinerals" value = 10 } }
+				subtract_variable = { which = "AssTmp" value = 10 }
+			}
+			while = {
+				limit = { check_variable = { which = "AssTmp" value > 0 } }
+				PREV = { change_variable = { which = "AssMinerals" value = 1 } }
+				subtract_variable = { which = "AssTmp" value = 1 }
+			}
+		}
+	}
 }
 
-ass_accounting_set_wormhole_station_cost = {
-	fleet = { set_variable = { which = "AssOperationCost" value = @baseWormhole } }
+ass_account_internal_update_fleet_energy = {
+	if = { limit = { check_variable = { which = "AssOperationCostEnergy" value > 0 } }
+		owner = {
+			# Make a copy we can mangle
+			set_variable = { which = "AssTmp" value = "AssEnergy" }
+			# Copy to fleet
+			while = {
+				limit = { check_variable = { which = "AssTmp" value > 10000 } }
+				PREV = { change_variable = { which = "AssEnergy" value = 10000 } }
+				subtract_variable = { which = "AssTmp" value = 10000 }
+			}
+			while = {
+				limit = { check_variable = { which = "AssTmp" value > 1000 } }
+				PREV = { change_variable = { which = "AssEnergy" value = 1000 } }
+				subtract_variable = { which = "AssTmp" value = 1000 }
+			}
+			while = {
+				limit = { check_variable = { which = "AssTmp" value > 100 } }
+				PREV = { change_variable = { which = "AssEnergy" value = 100 } }
+				subtract_variable = { which = "AssTmp" value = 100 }
+			}
+			while = {
+				limit = { check_variable = { which = "AssTmp" value > 10 } }
+				PREV = { change_variable = { which = "AssEnergy" value = 10 } }
+				subtract_variable = { which = "AssTmp" value = 10 }
+			}
+			while = {
+				limit = { check_variable = { which = "AssTmp" value > 0 } }
+				PREV = { change_variable = { which = "AssEnergy" value = 1 } }
+				subtract_variable = { which = "AssTmp" value = 1 }
+			}
+		}
+	}
+}
+
+ass_account_internal_update_fleet_influence = {
+	if = { limit = { check_variable = { which = "AssOperationCostInfluence" value > 0 } }
+		owner = {
+			# Make a copy we can mangle
+			set_variable = { which = "AssTmp" value = "AssInfluence" }
+			# Copy to fleet
+			while = {
+				limit = { check_variable = { which = "AssTmp" value > 100 } }
+				PREV = { change_variable = { which = "AssInfluence" value = 100 } }
+				subtract_variable = { which = "AssTmp" value = 100 }
+			}
+			while = {
+				limit = { check_variable = { which = "AssTmp" value > 10 } }
+				PREV = { change_variable = { which = "AssInfluence" value = 10 } }
+				subtract_variable = { which = "AssTmp" value = 10 }
+			}
+			while = {
+				limit = { check_variable = { which = "AssTmp" value > 0 } }
+				PREV = { change_variable = { which = "AssInfluence" value = 1 } }
+				subtract_variable = { which = "AssTmp" value = 1 }
+			}
+		}
+	}
+}
+
+ass_account_internal_grab_minerals = {
+	fleet = {
+		if = { limit = { check_variable = { which = "AssOperationCost" value > 0 } }
+			assdbg_grabbing_minerals = yes
+			# Make a copy we can mangle
+			set_variable = { which = "AssTmp" value = "AssOperationCost" }
+			while = {
+				limit = {
+					check_variable = { which = "AssTmp" value > 1000 }
+					owner = { minerals > 1000 }
+				}
+				owner = { add_minerals = -1000 }
+				subtract_variable = { which = "AssTmp" value = 1000 }
+			}
+			while = {
+				limit = {
+					check_variable = { which = "AssTmp" value > 100 }
+					owner = { minerals > 100 }
+				}
+				owner = { add_minerals = -100 }
+				subtract_variable = { which = "AssTmp" value = 100 }
+			}
+			while = {
+				limit = {
+					check_variable = { which = "AssTmp" value > 10 }
+					owner = { minerals > 10 }
+				}
+				owner = { add_minerals = -10 }
+				subtract_variable = { which = "AssTmp" value = 10 }
+			}
+			while = {
+				limit = {
+					check_variable = { which = "AssTmp" value > 0 }
+					owner = { minerals > 0 }
+				}
+				owner = { add_minerals = -1 }
+				subtract_variable = { which = "AssTmp" value = 1 }
+			}
+		}
+	}
+}
+
+ass_account_internal_grab_energy = {
+	fleet = {
+		if = { limit = { check_variable = { which = "AssOperationCostEnergy" value > 0 } }
+			assdbg_grabbing_energy = yes
+			# Make a copy we can mangle
+			set_variable = { which = "AssTmp" value = "AssOperationCostEnergy" }
+			while = {
+				limit = {
+					check_variable = { which = "AssTmp" value > 1000 }
+					owner = { energy > 1000 }
+				}
+				owner = { add_energy = -1000 }
+				subtract_variable = { which = "AssTmp" value = 1000 }
+			}
+			while = {
+				limit = {
+					check_variable = { which = "AssTmp" value > 100 }
+					owner = { energy > 100 }
+				}
+				owner = { add_energy = -100 }
+				subtract_variable = { which = "AssTmp" value = 100 }
+			}
+			while = {
+				limit = {
+					check_variable = { which = "AssTmp" value > 10 }
+					owner = { energy > 10 }
+				}
+				owner = { add_energy = -10 }
+				subtract_variable = { which = "AssTmp" value = 10 }
+			}
+			while = {
+				limit = {
+					check_variable = { which = "AssTmp" value > 0 }
+					owner = { energy > 0 }
+				}
+				owner = { add_energy = -1 }
+				subtract_variable = { which = "AssTmp" value = 1 }
+			}
+		}
+	}
+}
+
+ass_account_internal_grab_influence = {
+	fleet = {
+		if = { limit = { check_variable = { which = "AssOperationCostInfluence" value > 0 } }
+			assdbg_grabbing_influence = yes
+			# Make a copy we can mangle
+			set_variable = { which = "AssTmp" value = "AssOperationCostInfluence" }
+			while = {
+				limit = {
+					check_variable = { which = "AssTmp" value > 100 }
+					owner = { influence > 100 }
+				}
+				owner = { add_influence = -100 }
+				subtract_variable = { which = "AssTmp" value = 100 }
+			}
+			while = {
+				limit = {
+					check_variable = { which = "AssTmp" value > 10 }
+					owner = { influence > 10 }
+				}
+				owner = { add_influence = -10 }
+				subtract_variable = { which = "AssTmp" value = 10 }
+			}
+			while = {
+				limit = {
+					check_variable = { which = "AssTmp" value > 0 }
+					owner = { influence > 0 }
+				}
+				owner = { add_influence = -1 }
+				subtract_variable = { which = "AssTmp" value = 1 }
+			}
+		}
+	}
+}
+
+ass_account_internal_refund_minerals = {
+	fleet = {
+		if = { limit = { check_variable = { which = "AssOperationCost" value > 0 } }
+			assdbg_refunding_minerals = yes
+			# Make a copy we can mangle. Could "probably" mangle
+			# the main variable now, since we're probably aborting operation.
+			# No need to take any risks with future behaviors.
+			set_variable = { which = "AssTmp" value = "AssOperationCost" }
+			while = {
+				limit = { check_variable = { which = "AssTmp" value > 1000 } }
+				owner = { add_minerals = 1000 }
+				subtract_variable = { which = "AssTmp" value = 1000 }
+			}
+			while = {
+				limit = { check_variable = { which = "AssTmp" value > 100 } }
+				owner = { add_minerals = 100 }
+				subtract_variable = { which = "AssTmp" value = 100 }
+			}
+			while = {
+				limit = { check_variable = { which = "AssTmp" value > 10 } }
+				owner = { add_minerals = 10 }
+				subtract_variable = { which = "AssTmp" value = 10 }
+			}
+			while = {
+				limit = { check_variable = { which = "AssTmp" value > 0 } }
+				owner = { add_minerals = 1 }
+				subtract_variable = { which = "AssTmp" value = 1 }
+			}
+		}
+	}
+}
+
+ass_account_internal_refund_energy = {
+	fleet = {
+		if = { limit = { check_variable = { which = "AssOperationCostEnergy" value > 0 } }
+			assdbg_refunding_energy = yes
+			set_variable = { which = "AssTmp" value = "AssOperationCostEnergy" }
+			while = {
+				limit = { check_variable = { which = "AssTmp" value > 1000 } }
+				owner = { add_energy = 1000 }
+				subtract_variable = { which = "AssTmp" value = 1000 }
+			}
+			while = {
+				limit = { check_variable = { which = "AssTmp" value > 100 } }
+				owner = { add_energy = 100 }
+				subtract_variable = { which = "AssTmp" value = 100 }
+			}
+			while = {
+				limit = { check_variable = { which = "AssTmp" value > 10 } }
+				owner = { add_energy = 10 }
+				subtract_variable = { which = "AssTmp" value = 10 }
+			}
+			while = {
+				limit = { check_variable = { which = "AssTmp" value > 0 } }
+				owner = { add_energy = 1 }
+				subtract_variable = { which = "AssTmp" value = 1 }
+			}
+		}
+	}
+}
+
+ass_account_internal_refund_influence = {
+	fleet = {
+		if = { limit = { check_variable = { which = "AssOperationCostInfluence" value > 0 } }
+			assdbg_refunding_influence = yes
+			set_variable = { which = "AssTmp" value = "AssOperationCostInfluence" }
+			while = {
+				limit = { check_variable = { which = "AssTmp" value > 1000 } }
+				owner = { add_influence = 1000 }
+				subtract_variable = { which = "AssTmp" value = 1000 }
+			}
+			while = {
+				limit = { check_variable = { which = "AssTmp" value > 100 } }
+				owner = { add_influence = 100 }
+				subtract_variable = { which = "AssTmp" value = 100 }
+			}
+			while = {
+				limit = { check_variable = { which = "AssTmp" value > 10 } }
+				owner = { add_influence = 10 }
+				subtract_variable = { which = "AssTmp" value = 10 }
+			}
+			while = {
+				limit = { check_variable = { which = "AssTmp" value > 0 } }
+				owner = { add_influence = 1 }
+				subtract_variable = { which = "AssTmp" value = 1 }
+			}
+		}
+	}
 }

@@ -189,7 +189,7 @@ event = {
 				check_variable = { which = "AssReserve" value > 0 }
 				any_owned_ship = { has_ship_flag = "ass_waiting_for_cash" }
 			}
-			ass_accounting_count_minerals = yes
+			ass_account_update_empire = yes
 
 			every_owned_ship = {
 				limit = {
