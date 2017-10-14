@@ -54,19 +54,26 @@ ass_stage1_sm_p2 = {
 
 			# Check 3rd party mods first
 			ass_stage1_sm_3rd_set_slot = yes
-
-			# And finally, check vanilla, if necessary
+			# And check vanilla slots, if necessary
 			if = { limit = { ass_sm_found_any_slot = no }
 				ass_stage1_sm_set_slot = yes
 			}
 
-			event_target:ass_target = {
-				# Set relation target
-				ass_relation_flag_planet = yes
-				# And lets go
-				ass_stage2_planet_move = yes
+			if = { limit = { ass_sm_found_any_slot = yes }
+				event_target:ass_target = {
+					# Set relation target
+					ass_relation_flag_planet = yes
+					# And lets go
+					ass_stage2_planet_move = yes
+				}
+				else = {
+					# This shouldn't happen unless some 3rd party mod forgot
+					# can_build_spaceport_module / has_free_spaceport_module_slot
+					log = "[this.GetName]: ERROR: Should build a spaceport module, but found no valid slot in the target planet."
+					ass_stage4_remove_spaceport_module_data = yes
+					remove_ship_flag = "ass_op_spaceport_modules"
+				}
 			}
-
 			else = {
 				# We are not going on a spaceport module mission
 				# This might be because a 3rd party addon didnt set the
