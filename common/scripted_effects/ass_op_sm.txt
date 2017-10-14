@@ -192,13 +192,20 @@ ass_stage4_complete_spaceport_module = {
 		if = { limit = { has_ship_flag = "ass_op_sm_build" }
 			log = "ERROR: Instructed to build a spaceport module, but there was no effect that produced any."
 			remove_ship_flag = "ass_op_sm_build"
+			# XXX We need to refund the player
+			event_target:ass_target = {
+				set_timed_planet_flag = {
+					flag = "ass_error"
+					days = 720 # Use a longer error flag than normal
+				}
+			}
 		}
 
 		# Ready for new adventures!
 		ass_stage4_operation_complete = yes
 		else = {
 			log = "[this.GetName]: Wanted to create a spaceport module, but we are not in orbit of anything."
-			ass_stage4_abort_operation = yes
+			ass_stage4_abort_operation = yes # Abort refunds
 		}
 	}
 }

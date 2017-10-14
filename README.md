@@ -82,9 +82,13 @@ There are two really simple rules for this:
 In both cases, your objects need to have the same name as the ones you are overriding, obviously.
 
 ### A note about global flags
-I use the `gf_alphamodplus` and `has_renegade_spaceports` flags to check for whether or not these addons are present. You should know, if you're adding support for a new spaceport module for example, that if a user ever had one of these addons present in their game, the flags remain until manually removed.
+The `gf_alphamodplus` and `has_renegade_spaceports` flags can be used to check for whether or not these addons are present. You should know, if you're adding support for a new spaceport module for example, that if a user ever had one of these addons present in their game, the flags remain until manually removed.
 
-It's rarely going to cause a problem, but you should be aware of it.
+You should also know that, as of right now, neither of these addons will set the flags if enabled _after_ the `on_game_start` action has triggered. Which means that if a player installs one of those addons _after_ initial game start, the flags will **not** be set.
+
+This is rarely going to cause a problem, but you should be aware of it.
+
+Autonomous Assembler doesn't actually check these flags currently, but rather invokes scripted effects that they override when enabled. This means that AA works regardless of the global flag state.
 
 Flags can be removed from the ingame console with for example `effect remove_global_flag = gf_alphamodplus`.
 
@@ -113,12 +117,12 @@ You can do it without talking to me, but then you will need to override the whol
    }
    ```
 1. It's important that you remove the `ass_op_sm_build` flag _only_ if you actually handle the construction. Your build effect can handle `ass_op_sm_slot_1-19`, or even more, if you want. It will produce an error.log entry for any slot that doesn't exist.
-1. Autonomous Assembler supports slots 1-19 if the correct 3rd party spaceport extending addons are installed. If you prefer not to get the errors for those extra slots in your addon, there are three alternatives: (1) disable your autonomous assembler integration when the global flags `gf_alphamodplus` or `has_renegade_spaceports` exist, or (2) put support for building your spaceport modules in slots 7-19 in a 3rd party compatibility addon ("My Addon: AUTOASS+Extended Spaceport Compatibility Mod"), or finally (3) successfully beg the authors of the spaceport extension addons to add AUTOASS support for your module (I don't recommend this last option).
+1. Autonomous Assembler supports slots 1-19 if the correct 3rd party spaceport extending addons are installed. If you prefer not to get the /(actually harmless, but annoying) errors for those extra slots in your addon, there are three alternatives: (1) disable your autonomous assembler integration when the global flags `gf_alphamodplus` or `has_renegade_spaceports` exist (this only prevents the errors during play, not at startup), or (2) put support for building your spaceport modules in slots 7-19 in a 3rd party compatibility addon ("My Addon: AUTOASS+Extended Spaceport Compatibility Mod"), or finally (3) successfully beg the authors of the spaceport extension addons to add AUTOASS support for your module (I don't recommend this last option).
 1. Make sure you hook into `ass_stage4_sm_3rd_remove_data` somehow to remove any module-specific ship/fleet-flags or nonstandard variables you set on the assembler ship/fleet/target. This is mostly to de-clutter the `debugtooltip`.
 
-Remember that for your per-module `ass_stage1_sm_*` effects, you need to copy the `ass_valid_spaceport_module_planet` trigger out of this mod and into yours with a **different name**. You should _not_ use `ass_valid_spaceport_module_planet = yes` anywhere in your addon.
+Remember that for your per-module `ass_stage1_sm_*` effects, you need to copy the `ass_valid_spaceport_module_planet` trigger out of this mod and into yours with a **different name**. You should _not_ use `ass_valid_spaceport_module_planet = yes` anywhere in your addon. Well, you can, technically, just remember that it will produce (harmless) error log output if AUTOASS is not installed/enabled.
 
-And finally, here's a complete example of an addon that adds support for a new spaceport module to Autonomous Assembler. This is all placed in a new file in `common/scripted_effects`.
+Here's a complete example of an addon that adds support for a new spaceport module to Autonomous Assembler. This is all placed in a new file in `common/scripted_effects`. All the effects in the code below can be named anything you want - you don't have to use the convoluted `am_spaceports_ass_stage1_sm_pre` name, for example. You can call it `mymod_prebuild_module` or `myAddonSpModPre` or whatever you want that doesn't conflict easily with other addons.
 ```
 #######################
 # OUR OWN EFFECTS
@@ -129,6 +133,7 @@ And finally, here's a complete example of an addon that adds support for a new s
 ass_maybe_build_alpha_orbital_labs = {
 	if = {
 		limit = {
+			# All these "maybe-build" effects are invoked in a row
 			ROOT = { NOT = { has_ship_flag = "ass_op_spaceport_modules" } }
 			has_spaceport_module = alpha_orbital_labs
 			owner = {
@@ -189,7 +194,23 @@ ass_maybe_build_alpha_orbital_labs = {
 ass_build_alpha_orbital_labs = {
 	switch = {
 		trigger = has_ship_flag
-		ass_op_sm_slot_1 = { remove_ship_flag = "ass_op_sm_build" event_target:ass_target = { set_spaceport_module = { module = "alpha_orbital_labs" slot = 1 } } }
+		ass_op_sm_slot_1 = {
+			# Always remove this flag if you "handle" the build, and never remove it if you don't handle it
+			# If this stage of the operation is reached and no effects remove this flag, the planet
+			# gets marked with planet flag ass_error for 2 years, which should prevent any other operation.
+			# The operation costs will also be refunded to the player.
+			# Also, the "fake" spaceport placeholder module is also removed, so the only "damage" to the
+			# player is the time lost on constructing something that didn't work.
+			# Anyway, if all mods add their support for AUTOASS correctly, this problem "should never happen" :-P
+			remove_ship_flag = "ass_op_sm_build"
+			event_target:ass_target = {
+				# It puts our modules in the slots!
+				set_spaceport_module = {
+					module = "alpha_orbital_labs"
+					slot = 1
+				}
+			}
+		}
 		ass_op_sm_slot_2 = { remove_ship_flag = "ass_op_sm_build" event_target:ass_target = { set_spaceport_module = { module = "alpha_orbital_labs" slot = 2 } } }
 		ass_op_sm_slot_3 = { remove_ship_flag = "ass_op_sm_build" event_target:ass_target = { set_spaceport_module = { module = "alpha_orbital_labs" slot = 3 } } }
 		ass_op_sm_slot_4 = { remove_ship_flag = "ass_op_sm_build" event_target:ass_target = { set_spaceport_module = { module = "alpha_orbital_labs" slot = 4 } } }
@@ -197,11 +218,16 @@ ass_build_alpha_orbital_labs = {
 		ass_op_sm_slot_6 = { remove_ship_flag = "ass_op_sm_build" event_target:ass_target = { set_spaceport_module = { module = "alpha_orbital_labs" slot = 6 } } }
 		# You can add as many flags down as you want, but if no addon adds any more levels,
 		# you get error.log output (that is otherwise harmless) per slot.
+		ass_op_sm_slot_7 = { remove_ship_flag = "ass_op_sm_build" event_target:ass_target = { set_spaceport_module = { module = "alpha_orbital_labs" slot = 7 } } }
+		...
+		ass_op_sm_slot_19 = { remove_ship_flag = "ass_op_sm_build" event_target:ass_target = { set_spaceport_module = { module = "alpha_orbital_labs" slot = 19 } } }
 	}
 }
 
 #######################
 # TALK TO FOLK ABOUT AUTOASS INVOKING THESE FOR ME
+# Alternatively, override his effects in common/scripted_effects/ass_3rd_party.txt
+# that would invoke them, and make sure you update your addon whenever needed.
 #
 
 # This effect is invoked before vanilla modules are checked
