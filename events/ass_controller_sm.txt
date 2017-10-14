@@ -36,7 +36,9 @@ ship_event = {
 	option = { name = OK }
 }
 
-# Spaceport Module operation
+# Spaceport Module construction.
+# This event repeats every 10 days until AssConstructionTime is zero, and
+# then invokes ass_stage4_complete_spaceport_module.
 ship_event = {
 	id = assSpaceportModules.1000
 	hide_window = yes
@@ -60,6 +62,9 @@ ship_event = {
 					fleet = {
 						subtract_variable = { which = "AssConstructionTime" value = 10 }
 					}
+					# XXX We should really stop using these days=X events, because if the ship
+					# XXX is killed, it will error on the next hit, even if for example we set
+					# XXX trigger = { is_scope_valid = yes }.
 					ship_event = { id = assSpaceportModules.1000 days = 10 }
 				}
 			}

@@ -39,6 +39,9 @@ ass_stage3_single_station = {
 		ass_set_fleet_name = yes
 
 		log = "[this.GetName]: Constructing station..."
+		# XXX We should really stop using these days=X events, because if the ship
+		# XXX is killed, it will error on the next hit, even if for example we set
+		# XXX trigger = { is_scope_valid = yes }.
 		if = { limit = { has_global_flag = "debug" }
 			ship_event = { id = assShip.1000 days = 10 }
 		else = {

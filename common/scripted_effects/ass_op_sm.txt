@@ -143,6 +143,9 @@ ass_stage3_spaceport_modules = {
 		ass_set_fleet_name = yes
 
 		log = "[this.GetName]: Constructing spaceport module..."
+		# XXX We should really stop using these days=X events, because if the ship
+		# XXX is killed, it will error on the next hit, even if for example we set
+		# XXX trigger = { is_scope_valid = yes }.
 		ship_event = { id = assSpaceportModules.1000 days = 10 }
 		else = {
 			assdbg_resource_wait = yes
@@ -157,17 +160,10 @@ ass_stage3_spaceport_modules = {
 ass_stage4_complete_spaceport_module = {
 	# assSpaceportModules.1000 checks for fleet and solar_system, but not orbit.
 	if = {
+		# XXX We should probably check distance-to-planet as well, because
+		# XXX stellaris only supports like 4-8 fleets (I don't remember the
+		# XXX specific number, but it includes the spaceport) in "orbit"
 		limit = { fleet = { exists = orbit } }
-		# Reset relation_flag
-		fleet = {
-			orbit = {
-				assdbg_relation_removed = yes
-				set_variable = { which = "AssUUID" value = 0 }
-				remove_planet_flag = "ass_target"
-			}
-		}
-		remove_ship_flag = "ass_relation_planet"
-
 		fleet = {
 			orbit = {
 				remove_spaceport_module = ass_spaceport_module
@@ -188,21 +184,27 @@ ass_stage4_complete_spaceport_module = {
 			ass_stage4_sm_3rd_build_post = yes
 		}
 
-		# Warn if noone built the module
+		# Did any effects build the module?
 		if = { limit = { has_ship_flag = "ass_op_sm_build" }
 			log = "ERROR: Instructed to build a spaceport module, but there was no effect that produced any."
 			remove_ship_flag = "ass_op_sm_build"
-			# XXX We need to refund the player
-			event_target:ass_target = {
-				set_timed_planet_flag = {
-					flag = "ass_error"
-					days = 720 # Use a longer error flag than normal
+			# Module was not built, we need to abort so that we
+			# refund the player and mark the planet ass_error.
+			ass_stage4_abort_operation = yes
+
+			else = {
+				# Module was built successfully, so complete mission.
+				# Reset relation_flag
+				event_target:ass_target = {
+					assdbg_relation_removed = yes
+					set_variable = { which = "AssUUID" value = 0 }
+					remove_planet_flag = "ass_target"
 				}
+				remove_ship_flag = "ass_relation_planet"
+				# Ready for new adventures!
+				ass_stage4_operation_complete = yes
 			}
 		}
-
-		# Ready for new adventures!
-		ass_stage4_operation_complete = yes
 		else = {
 			log = "[this.GetName]: Wanted to create a spaceport module, but we are not in orbit of anything."
 			ass_stage4_abort_operation = yes # Abort refunds

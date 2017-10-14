@@ -84,5 +84,8 @@ ass_stage3_marker_arrived = {
 	ass_set_fleet_name = yes
 
 	# Build first station
+	# XXX We should really stop using these days=X events, because if the ship
+	# XXX is killed, it will error on the next hit, even if for example we set
+	# XXX trigger = { is_scope_valid = yes }.
 	ship_event = { id = assMarker.100 days = 85 }
 }
