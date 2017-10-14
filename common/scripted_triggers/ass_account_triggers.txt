@@ -19,6 +19,8 @@
 
 
 # Please see scripted_effects/ass_accounting.txt for documentation
+# Remember you need to invoke ass_account_update_empire and
+# ass_account_update_ship before you use ass_can_afford.
 ass_can_afford = {
 	fleet = {
 		# Either the operation cost per resource is zero

@@ -160,9 +160,14 @@ ass_stage4_complete_spaceport_module = {
 		set_ship_flag = "ass_op_sm_build"
 
 		# Check 3rd party implementors first
-		ass_stage4_sm_3rd_build = yes
+		ass_stage4_sm_3rd_build_pre = yes
+
 		if = { limit = { has_ship_flag = "ass_op_sm_build" }
 			ass_stage4_complete_build_vanilla = yes
+		}
+
+		if = { limit = { has_ship_flag = "ass_op_sm_build" }
+			ass_stage4_sm_3rd_build_post = yes
 		}
 
 		# Warn if noone built the module
@@ -170,8 +175,6 @@ ass_stage4_complete_spaceport_module = {
 			log = "ERROR: Instructed to build a spaceport module, but there was no effect that produced any."
 			remove_ship_flag = "ass_op_sm_build"
 		}
-
-		ass_stage4_sm_3rd_complete = yes
 
 		# Ready for new adventures!
 		ass_stage4_operation_complete = yes
