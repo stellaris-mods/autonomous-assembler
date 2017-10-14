@@ -38,6 +38,7 @@ ass_stage1_sm_p2 = {
 				has_ship_flag = "ass_op_spaceport_modules"
 				# ZZZ Validate all data that a 3rd party addon might fuck up
 				# ZZZ before we actually go ahead with the mission.
+				fleet = { check_variable = { which = "AssConstructionTime" value > 0 } }
 				exists = event_target:ass_target
 				event_target:ass_target = {
 					ass_valid_spaceport_module_planet = yes
@@ -67,6 +68,13 @@ ass_stage1_sm_p2 = {
 					ass_stage2_planet_move = yes
 				}
 				else = {
+					# We can't use ass_relation_invalidate because we're not actually related yet.
+					event_target:ass_target = {
+						set_timed_planet_flag = {
+							flag = "ass_error"
+							days = 720 # Use a longer error flag than normal
+						}
+					}
 					# This shouldn't happen unless some 3rd party mod forgot
 					# can_build_spaceport_module / has_free_spaceport_module_slot
 					log = "[this.GetName]: ERROR: Should build a spaceport module, but found no valid slot in the target planet."
@@ -80,6 +88,16 @@ ass_stage1_sm_p2 = {
 				# required ass_target stuff properly.
 				# We can't use ass_stage4_abort_operation, just clean up
 				# whatever we might have set thus far.
+				if = {
+					limit = { exists = event_target:ass_target }
+					# We can't use ass_relation_invalidate because we're not actually related yet.
+					event_target:ass_target = {
+						set_timed_planet_flag = {
+							flag = "ass_error"
+							days = 720 # Use a longer error flag than normal
+						}
+					}
+				}
 				if = {
 					limit = { has_ship_flag = "ass_op_spaceport_modules" }
 					log = "[this.GetName]: ERROR: Should build a spaceport module, but our target isn't valid for some reason, so abort."
