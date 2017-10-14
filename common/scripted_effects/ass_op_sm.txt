@@ -18,48 +18,7 @@
 ###
 
 
-# Remove any data associated exclusively with the spaceport module operation
-ass_stage4_remove_spaceport_module_data = {
-	fleet = { set_variable = { which = "AssConstructionTime" value = 0 } }
-
-	remove_ship_flag = "ass_op_sm_battleship_assembly_yards"
-	remove_ship_flag = "ass_op_sm_cruiser_assembly_yards"
-	remove_ship_flag = "ass_op_sm_orbital_mind_control_laser"
-	remove_ship_flag = "ass_op_sm_fleet_academy"
-	remove_ship_flag = "ass_op_sm_destroyer_assembly_yards"
-	remove_ship_flag = "ass_op_sm_corvette_assembly_yards"
-	remove_ship_flag = "ass_op_sm_synchronized_defenses"
-	remove_ship_flag = "ass_op_sm_hydroponic_farms"
-	remove_ship_flag = "ass_op_sm_engineering_bay"
-	remove_ship_flag = "ass_op_sm_observatory"
-	remove_ship_flag = "ass_op_sm_crew_quarters"
-	remove_ship_flag = "ass_op_sm_solar_panel"
-
-	# It's easier to switch on a flag than a variable
-	remove_ship_flag = "ass_op_sm_slot_1"
-	remove_ship_flag = "ass_op_sm_slot_2"
-	remove_ship_flag = "ass_op_sm_slot_3"
-	remove_ship_flag = "ass_op_sm_slot_4"
-	remove_ship_flag = "ass_op_sm_slot_5"
-	remove_ship_flag = "ass_op_sm_slot_6"
-	remove_ship_flag = "ass_op_sm_slot_7"
-	remove_ship_flag = "ass_op_sm_slot_8"
-	remove_ship_flag = "ass_op_sm_slot_9"
-	remove_ship_flag = "ass_op_sm_slot_10"
-	remove_ship_flag = "ass_op_sm_slot_11" # AlphaMod
-	remove_ship_flag = "ass_op_sm_slot_12"
-	remove_ship_flag = "ass_op_sm_slot_13"
-	remove_ship_flag = "ass_op_sm_slot_14"
-	remove_ship_flag = "ass_op_sm_slot_15"
-	remove_ship_flag = "ass_op_sm_slot_16"
-	remove_ship_flag = "ass_op_sm_slot_17"
-	remove_ship_flag = "ass_op_sm_slot_18"
-	remove_ship_flag = "ass_op_sm_slot_19" # TheRenegade Spaceports Extended
-
-	ass_stage4_sm_3rd_remove_data = yes
-}
-
-# remember in stage 1, ROOT is always the ship
+# During stage 1, ROOT is always the assembler ship
 ass_stage1_sm_p2 = {
 	# Find the planet
 	if = {
@@ -67,48 +26,10 @@ ass_stage1_sm_p2 = {
 		owner = { # Ship owner
 			random_owned_planet = {
 				limit = { ass_is_blueprint_planet = yes }
-				# We found the blueprint, now find any planet missing the modules
+				# We found the blueprint, now find any planet missing a module
 				ass_stage1_sm_3rd_pre = yes
-
-				if = { limit = { ROOT = { NOT = { has_ship_flag = "ass_op_spaceport_modules" } } }
-					ass_stage1_sm_solar_panel = yes
-				}
-				if = { limit = { ROOT = { NOT = { has_ship_flag = "ass_op_spaceport_modules" } } }
-					ass_stage1_sm_crew_quarters = yes
-				}
-				if = { limit = { ROOT = { NOT = { has_ship_flag = "ass_op_spaceport_modules" } } }
-					ass_stage1_sm_engineering_bay = yes
-				}
-				if = { limit = { ROOT = { NOT = { has_ship_flag = "ass_op_spaceport_modules" } } }
-					ass_stage1_sm_hydroponic_farms = yes
-				}
-				if = { limit = { ROOT = { NOT = { has_ship_flag = "ass_op_spaceport_modules" } } }
-					ass_stage1_sm_observatory = yes
-				}
-				if = { limit = { ROOT = { NOT = { has_ship_flag = "ass_op_spaceport_modules" } } }
-					ass_stage1_sm_orbital_mind_control_laser = yes
-				}
-				if = { limit = { ROOT = { NOT = { has_ship_flag = "ass_op_spaceport_modules" } } }
-					ass_stage1_sm_fleet_academy = yes
-				}
-				if = { limit = { ROOT = { NOT = { has_ship_flag = "ass_op_spaceport_modules" } } }
-					ass_stage1_sm_synchronized_defenses = yes
-				}
-				if = { limit = { ROOT = { NOT = { has_ship_flag = "ass_op_spaceport_modules" } } }
-					ass_stage1_sm_corvette_assembly_yards = yes
-				}
-				if = { limit = { ROOT = { NOT = { has_ship_flag = "ass_op_spaceport_modules" } } }
-					ass_stage1_sm_destroyer_assembly_yards = yes
-				}
-				if = { limit = { ROOT = { NOT = { has_ship_flag = "ass_op_spaceport_modules" } } }
-					ass_stage1_sm_cruiser_assembly_yards = yes
-				}
-				if = { limit = { ROOT = { NOT = { has_ship_flag = "ass_op_spaceport_modules" } } }
-					ass_stage1_sm_battleship_assembly_yards = yes
-				}
-				if = { limit = { ROOT = { NOT = { has_ship_flag = "ass_op_spaceport_modules" } } }
-					ass_stage1_sm_3rd_post = yes
-				}
+				ass_stage1_sm_vanilla = yes
+				ass_stage1_sm_3rd_post = yes
 			}
 		}
 
@@ -131,18 +52,11 @@ ass_stage1_sm_p2 = {
 			# This "cant" fail, because all ass_stage1_sm_ effects check
 			# has_free_spaceport_module_slot = yes.
 
-			# Check Spaceports Extended by TheRenegade first
-			if = { limit = { has_global_flag = "has_renegade_spaceports" }
-				renegade_ass_stage1_sm_set_slot = yes
-			}
-			# Then check AlphaModPlus
-			if = {
-				limit = { has_global_flag = "gf_alphamodplus" }
-				amp_ass_stage1_sm_set_slot = yes
-			}
+			# Check 3rd party mods first
+			ass_stage1_sm_3rd_set_slot = yes
+
 			# And finally, check vanilla, if necessary
-			if = {
-				limit = { ass_sm_found_any_slot = no }
+			if = { limit = { ass_sm_found_any_slot = no }
 				ass_stage1_sm_set_slot = yes
 			}
 
@@ -235,14 +149,20 @@ ass_stage4_complete_spaceport_module = {
 				save_event_target_as = ass_target
 			}
 		}
-		if = { limit = { has_global_flag = "has_renegade_spaceports" }
-			ass_stage4_complete_build_renegade = yes
-		else = { if = { limit = { has_global_flag = "gf_alphamodplus" }
-			ass_stage4_complete_build_alphamod = yes
-		else = {
-			ass_stage4_complete_build_vanilla = yes
-		} } } }
 
+		set_ship_flag = "ass_op_sm_build"
+
+		# Check 3rd party implementors first
+		ass_stage4_sm_3rd_build = yes
+		if = { limit = { has_ship_flag = "ass_op_sm_build" }
+			ass_stage4_complete_build_vanilla = yes
+		}
+
+		# Warn if noone built the module
+		if = { limit = { has_ship_flag = "ass_op_sm_build" }
+			log = "ERROR: Instructed to build a spaceport module, but there was no effect that produced any."
+			remove_ship_flag = "ass_op_sm_build"
+		}
 
 		ass_stage4_sm_3rd_complete = yes
 
@@ -252,42 +172,6 @@ ass_stage4_complete_spaceport_module = {
 			log = "[this.GetName]: Wanted to create a spaceport module, but we are not in orbit of anything."
 			ass_stage4_abort_operation = yes
 		}
-	}
-}
-
-ass_stage4_complete_build_renegade = {
-	switch = {
-		trigger = has_ship_flag
-		ass_op_sm_battleship_assembly_yards  = { renegade_ass_stage4_sm_build_battleship_assembly_yards = yes }
-		ass_op_sm_cruiser_assembly_yards     = { renegade_ass_stage4_sm_build_cruiser_assembly_yards = yes }
-		ass_op_sm_orbital_mind_control_laser = { renegade_ass_stage4_sm_build_orbital_mind_control_laser = yes }
-		ass_op_sm_fleet_academy              = { renegade_ass_stage4_sm_build_fleet_academy = yes }
-		ass_op_sm_destroyer_assembly_yards   = { renegade_ass_stage4_sm_build_destroyer_assembly_yards = yes }
-		ass_op_sm_corvette_assembly_yards    = { renegade_ass_stage4_sm_build_corvette_assembly_yards = yes }
-		ass_op_sm_synchronized_defenses      = { renegade_ass_stage4_sm_build_synchronized_defenses = yes }
-		ass_op_sm_hydroponic_farms           = { renegade_ass_stage4_sm_build_hydroponic_farms = yes }
-		ass_op_sm_engineering_bay            = { renegade_ass_stage4_sm_build_engineering_bay = yes }
-		ass_op_sm_observatory                = { renegade_ass_stage4_sm_build_observatory = yes }
-		ass_op_sm_crew_quarters              = { renegade_ass_stage4_sm_build_crew_quarters = yes }
-		ass_op_sm_solar_panel                = { renegade_ass_stage4_sm_build_solar_panel = yes }
-	}
-}
-
-ass_stage4_complete_build_alphamod = {
-	switch = {
-		trigger = has_ship_flag
-		ass_op_sm_battleship_assembly_yards  = { amp_ass_stage4_sm_build_battleship_assembly_yards = yes }
-		ass_op_sm_cruiser_assembly_yards     = { amp_ass_stage4_sm_build_cruiser_assembly_yards = yes }
-		ass_op_sm_orbital_mind_control_laser = { amp_ass_stage4_sm_build_orbital_mind_control_laser = yes }
-		ass_op_sm_fleet_academy              = { amp_ass_stage4_sm_build_fleet_academy = yes }
-		ass_op_sm_destroyer_assembly_yards   = { amp_ass_stage4_sm_build_destroyer_assembly_yards = yes }
-		ass_op_sm_corvette_assembly_yards    = { amp_ass_stage4_sm_build_corvette_assembly_yards = yes }
-		ass_op_sm_synchronized_defenses      = { amp_ass_stage4_sm_build_synchronized_defenses = yes }
-		ass_op_sm_hydroponic_farms           = { amp_ass_stage4_sm_build_hydroponic_farms = yes }
-		ass_op_sm_engineering_bay            = { amp_ass_stage4_sm_build_engineering_bay = yes }
-		ass_op_sm_observatory                = { amp_ass_stage4_sm_build_observatory = yes }
-		ass_op_sm_crew_quarters              = { amp_ass_stage4_sm_build_crew_quarters = yes }
-		ass_op_sm_solar_panel                = { amp_ass_stage4_sm_build_solar_panel = yes }
 	}
 }
 
@@ -307,6 +191,49 @@ ass_stage4_complete_build_vanilla = {
 		ass_op_sm_crew_quarters              = { ass_stage4_sm_build_crew_quarters = yes }
 		ass_op_sm_solar_panel                = { ass_stage4_sm_build_solar_panel = yes }
 	}
+}
+
+# Remove any data associated exclusively with the spaceport module operation
+ass_stage4_remove_spaceport_module_data = {
+	fleet = { set_variable = { which = "AssConstructionTime" value = 0 } }
+
+	remove_ship_flag = "ass_op_sm_battleship_assembly_yards"
+	remove_ship_flag = "ass_op_sm_cruiser_assembly_yards"
+	remove_ship_flag = "ass_op_sm_orbital_mind_control_laser"
+	remove_ship_flag = "ass_op_sm_fleet_academy"
+	remove_ship_flag = "ass_op_sm_destroyer_assembly_yards"
+	remove_ship_flag = "ass_op_sm_corvette_assembly_yards"
+	remove_ship_flag = "ass_op_sm_synchronized_defenses"
+	remove_ship_flag = "ass_op_sm_hydroponic_farms"
+	remove_ship_flag = "ass_op_sm_engineering_bay"
+	remove_ship_flag = "ass_op_sm_observatory"
+	remove_ship_flag = "ass_op_sm_crew_quarters"
+	remove_ship_flag = "ass_op_sm_solar_panel"
+
+	# It's easier to switch on a flag than a variable
+	remove_ship_flag = "ass_op_sm_slot_1"
+	remove_ship_flag = "ass_op_sm_slot_2"
+	remove_ship_flag = "ass_op_sm_slot_3"
+	remove_ship_flag = "ass_op_sm_slot_4"
+	remove_ship_flag = "ass_op_sm_slot_5"
+	remove_ship_flag = "ass_op_sm_slot_6"
+	remove_ship_flag = "ass_op_sm_slot_7"
+	remove_ship_flag = "ass_op_sm_slot_8"
+	remove_ship_flag = "ass_op_sm_slot_9"
+	remove_ship_flag = "ass_op_sm_slot_10"
+	remove_ship_flag = "ass_op_sm_slot_11" # AlphaMod
+	remove_ship_flag = "ass_op_sm_slot_12"
+	remove_ship_flag = "ass_op_sm_slot_13"
+	remove_ship_flag = "ass_op_sm_slot_14"
+	remove_ship_flag = "ass_op_sm_slot_15"
+	remove_ship_flag = "ass_op_sm_slot_16"
+	remove_ship_flag = "ass_op_sm_slot_17"
+	remove_ship_flag = "ass_op_sm_slot_18"
+	remove_ship_flag = "ass_op_sm_slot_19" # TheRenegade Spaceports Extended
+
+	remove_ship_flag = "ass_op_sm_build"
+
+	ass_stage4_sm_3rd_remove_data = yes
 }
 
 # Operation has been forcefully aborted while we were constructing,

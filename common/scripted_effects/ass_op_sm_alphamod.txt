@@ -5,15 +5,4 @@
 # _same_ file name as this.
 
 amp_ass_stage1_sm_set_slot = {}
-amp_ass_stage4_sm_build_battleship_assembly_yards = {}
-amp_ass_stage4_sm_build_cruiser_assembly_yards = {}
-amp_ass_stage4_sm_build_orbital_mind_control_laser = {}
-amp_ass_stage4_sm_build_fleet_academy = {}
-amp_ass_stage4_sm_build_destroyer_assembly_yards = {}
-amp_ass_stage4_sm_build_corvette_assembly_yards = {}
-amp_ass_stage4_sm_build_synchronized_defenses = {}
-amp_ass_stage4_sm_build_hydroponic_farms = {}
-amp_ass_stage4_sm_build_engineering_bay = {}
-amp_ass_stage4_sm_build_observatory = {}
-amp_ass_stage4_sm_build_crew_quarters = {}
-amp_ass_stage4_sm_build_solar_panel = {}
+ass_stage4_complete_build_alphamod = {}
