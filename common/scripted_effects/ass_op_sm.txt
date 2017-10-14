@@ -153,7 +153,7 @@ ass_stage1_sm_orbital_mind_control_laser = {
 				}
 				ROOT = {
 					fleet = { set_variable = { which = "AssOperationCost" value = 400 } }
-					fleet = { set_variable = { which = "AssOperationCostInfluence" value = 10 }
+					fleet = { set_variable = { which = "AssOperationCostInfluence" value = 10 } }
 					fleet = { set_variable = { which = "AssConstructionTime" value = 360 } }
 					set_ship_flag = "ass_op_sm_orbital_mind_control_laser"
 					set_ship_flag = "ass_op_spaceport_modules"
