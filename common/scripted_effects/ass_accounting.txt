@@ -27,10 +27,8 @@
 #   Updates the empire totals based on *Cost variables on any_owned_ship.
 #
 # ass_account_update_ship (THIS = ship)
-#   Copies needed variables from empire to an assembler ships fleet scope.
-#
-# ass_account_update_operation_totals (THIS = ship)
-#   Updates the AssMin* variables depending on cost/reserves.
+#   1. Copies needed variables from empire to an assembler ships fleet scope.
+#   2. Updates the AssMin* variables depending on cost/reserves.
 #
 # ass_account_grabdatcash (THIS = ship)
 #   Grabs all operation costs from the owner, depending on *Cost variables.
@@ -46,9 +44,8 @@
 # 2. The ship arrives at its target.
 # 3. ass_account_update_empire
 # 4. ass_account_update_ship
-# 5. ass_account_update_operation_totals
-# 6. ass_can_afford
-# 7. Either ass_account_grabdatcash, or recheck from #3 on_monthly_pulse
+# 5. ass_can_afford
+# 6. Either ass_account_grabdatcash, or recheck from #3 on_monthly_pulse
 #
 ###############################################################################
 #
@@ -99,25 +96,8 @@ ass_account_update_ship = {
 		ass_account_internal_update_fleet_minerals = yes
 		ass_account_internal_update_fleet_energy = yes
 		ass_account_internal_update_fleet_influence = yes
-	}
-}
 
-# Please see ass_accounting.txt for variable documentation
-ass_account_update_operation_totals = {
-	fleet = {
-		set_variable = { which = "AssMinMinerals"  value = "AssOperationCost" }
-		set_variable = { which = "AssMinEnergy"    value = "AssOperationCostEnergy" }
-		set_variable = { which = "AssMinInfluence" value = "AssOperationCostInfluence" }
-
-		if = { limit = { check_variable = { which = "AssMinMinerals" value > 0 } }
-			change_variable = { which = "AssMinMinerals" value = "AssReserve" }
-		}
-		if = { limit = { check_variable = { which = "AssMinEnergy" value > 0 } }
-			change_variable = { which = "AssMinEnergy" value = "AssReserve" }
-		}
-		if = { limit = { check_variable = { which = "AssMinInfluence" value > 0 } }
-			change_variable = { which = "AssMinInfluence" value = 100 }
-		}
+		ass_account_internal_update_fleet_totals = yes
 	}
 }
 
@@ -441,6 +421,22 @@ ass_account_internal_update_fleet_influence = {
 				subtract_variable = { which = "AssTmp" value = 1 }
 			}
 		}
+	}
+}
+
+ass_account_internal_update_fleet_totals = {
+	set_variable = { which = "AssMinMinerals"  value = "AssOperationCost" }
+	set_variable = { which = "AssMinEnergy"    value = "AssOperationCostEnergy" }
+	set_variable = { which = "AssMinInfluence" value = "AssOperationCostInfluence" }
+
+	if = { limit = { check_variable = { which = "AssMinMinerals" value > 0 } }
+		change_variable = { which = "AssMinMinerals" value = "AssReserve" }
+	}
+	if = { limit = { check_variable = { which = "AssMinEnergy" value > 0 } }
+		change_variable = { which = "AssMinEnergy" value = "AssReserve" }
+	}
+	if = { limit = { check_variable = { which = "AssMinInfluence" value > 0 } }
+		change_variable = { which = "AssMinInfluence" value = 100 }
 	}
 }
 

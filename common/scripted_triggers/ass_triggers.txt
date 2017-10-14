@@ -97,14 +97,6 @@ ass_is_planet_valid_orbital_target = {
 	}
 }
 
-# Please see ass_accounting.txt for variable documentation
-ass_can_afford = {
-	fleet = {
-		check_variable = { which = "AssMinerals" value > "AssMinMinerals" }
-	}
-}
-
-
 ###############################################################################
 # NSC Fake Triggers
 # They are not fake until the next NSC release

@@ -31,7 +31,6 @@ ass_stage3_build = {
 }
 
 ass_stage3_single_station = {
-	ass_account_update_operation_totals = yes
 	if = {
 		limit = { ass_can_afford = yes }
 		ass_account_grabdatcash = yes
