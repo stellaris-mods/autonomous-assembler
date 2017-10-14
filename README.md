@@ -61,13 +61,16 @@ Most of them are to remain compatible with New Ship Classes & More, and the rest
 
 ## How to add 3rd party spaceport modules/expansion cards/etc
 
-Sections:
-1. Generic info about overriding scripted_effects/triggers
-2. Adding a new Expansion Card
-3. Adding your Spaceport Module to the SM operation
-4. Adding support for your spaceport extension mod (if you add more slots to the spaceport)
+Regardless of what you're doing, please read all these sections.
 
-### SECTION 1: Overriding scripted_effects/triggers (objects)
+1. Generic info about overriding scripted_effects/triggers
+2. A note about global flags
+3. "Debugging"
+4. Adding a new Expansion Card
+5. Adding your Spaceport Module to the SM operation
+6. Adding support for your spaceport extension mod (if you add more slots to the spaceport)
+
+### Overriding scripted_effects/triggers (objects)
 (overwrite, override, overload, whatever)
 
 There are two really simple rules for this:
@@ -76,11 +79,22 @@ There are two really simple rules for this:
 
 In both cases, your objects need to have the same name as the ones you are overriding, obviously.
 
+### A note about global flags
+I use the `gf_alphamodplus` and `has_renegade_spaceports` flags to check for whether or not these addons are present. You should know, if you're adding support for a new spaceport module for example, that if a user ever had one of these addons present in their game, the flags remain until manually removed.
 
-### SECTION 2: Adding a new Expansion Card
+It's rarely going to cause a problem, but you should be aware of it.
+
+Flags can be removed from the ingame console with for example `effect remove_global_flag = gf_alphamodplus`.
+
+### "Debugging"
+Many of my addons log a lot of output to `game.log` if the global flag `debug` is set. You can set this from the ingame console like `effect set_global_flag = debug`.
+
+For Autonomous Assembler, specifically, most of its operations are sped up from 100 days to 10 if this flag is active. Spaceport Module construction, more specifically, is fixed at 20 days regardless of the `AssConstructionTime` variable.
+
+### Adding a new Expansion Card
 - TODO
 
-### SECTION 3: Adding support for your own Spaceport Module
+### Adding support for your own Spaceport Module
 You can do it without talking to me, but then you will need to override the whole `ass_3rd_party.txt` file, and handle it whenever I update the mod. Alternatively, talk to me and we will make the mods cooperate. Regardless, read the rest.
 
 1. For each of your modules, copy 1x of the `ass_stage1_sm_*` effects from `ass_op_sm_vanilla.txt` and change things accordingly.
@@ -217,7 +231,7 @@ am_spaceports_ass_stage4_sm_complete = {
 }
 ```
 
-### SECTION 4: Adding support for your spaceport extension mod
+### Adding support for your spaceport extension mod
 
 If you add more slots to the vanilla spaceport, and you want to add support for those slots, you need a few things:
 1. You need to add an `ass_stage1_sm_set_slot` scripted effect that looks like the one in this addon, only extended to as many slots as you add
