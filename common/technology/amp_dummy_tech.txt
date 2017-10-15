@@ -13,14 +13,4 @@ tech_spaceport_dummy = {
 	category = { voidcraft }
 	tier = 0
 	weight = 0
-
-	weight_modifier = {
-		modifier = {
-			factor = 0
-		}
-	}
-
-	ai_weight = {
-		factor = 0
-	}
 }

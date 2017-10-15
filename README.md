@@ -70,7 +70,7 @@ Regardless of what you're doing, please read the whole README, and not just the 
 
 There are two really simple rules for this:
 *  If your mod loads _before_ the mod that contains the object you want to override: Your objects need to be in a file with the **same** name as the file that contains the objects you want to override. In this case, all objects present in the original file need to be present in your copy, or you will most likely cause some problems
-*  Alternativey, if your mod loads _after_ the mod that contains the objects you want to override: Your objects need to be in a file with a **different** name. In this case your file should only contain the objects you actually want to override
+*  Alternativey, if your mod loads _after_ the mod that contains the objects you want to override: Your objects need to be in a file with a **different** name, _and_ the filename must be something that will load **after** the original filename, in natural sort order. In this case your file should only contain the objects you actually want to override
 
 In both cases, your objects need to have the same name as the ones you are overriding, obviously.
 
@@ -142,25 +142,11 @@ ass_maybe_build_alpha_orbital_labs = {
 			# All these "maybe-build" effects are invoked in a row
 			ROOT = { NOT = { has_ship_flag = "ass_op_spaceport_modules" } }
 			has_spaceport_module = alpha_orbital_labs
-			owner = {
-				any_owned_planet = {
-					# --- Snip this into a scripted trigger for ease
-					NOT = { has_planet_flag = "ass_target" }
-					has_spaceport = yes
-					has_spaceport_construction = no
-					has_free_spaceport_module_slot = yes
-					is_occupied_flag = no
-					has_ground_combat = no
-					controller = { is_same_value = ROOT.owner }
-					# ---
-					NOT = { has_spaceport_module = alpha_orbital_labs }
-					can_build_spaceport_module = alpha_orbital_labs
-				}
-			}
 		}
 		owner = {
 			# Or you could use closest_system to find the nearest planet that needs the module
 			# or whatever other effects/system/conditions you want
+			# Note that if no planet exists that match these conditions, we do nothing.
 			random_owned_planet = {
 				limit = {
 					# --- Snip this into a scripted trigger for ease

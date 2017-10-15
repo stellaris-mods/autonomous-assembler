@@ -1,0 +1,18 @@
+###############################################################################
+# Alphas Spaceport addon ("Spaceport (1.x)")
+#
+# These effects have _nothing_ to do with AlphaModPlus, which simply extends
+# the number of slots on the spaceport.
+#
+# These are for his mod that add new module types.
+# The reason we add empty effects here is to prevent error.log output if the
+# Spaceport addon is NOT loaded. The reason we CAN do it, is because Spaceport
+# loads _after_ Autonomous Assembler, which means that Spaceport
+# overrides these effect in a file with a _different_ name than this one.
+#
+# And also the file must load after this filename in natural sort order.
+#
+am_spaceports_ass_stage1_sm_pre = {}
+am_spaceports_ass_stage1_sm_post = {}
+am_spaceports_ass_stage4_sm_remove_data = {}
+am_spaceports_ass_stage4_sm_complete = {}

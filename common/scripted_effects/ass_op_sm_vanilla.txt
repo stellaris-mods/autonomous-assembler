@@ -46,13 +46,6 @@ ass_stage1_sm_battleship_assembly_yards = {
 		limit = {
 			ROOT = { NOT = { has_ship_flag = "ass_op_spaceport_modules" } }
 			has_spaceport_module = battleship_assembly_yards
-			owner = {
-				any_owned_planet = {
-					ass_valid_spaceport_module_planet = yes
-					NOT = { has_spaceport_module = battleship_assembly_yards }
-					can_build_spaceport_module = battleship_assembly_yards
-				}
-			}
 		}
 		owner = {
 			random_owned_planet = {
@@ -79,13 +72,6 @@ ass_stage1_sm_cruiser_assembly_yards = {
 		limit = {
 			ROOT = { NOT = { has_ship_flag = "ass_op_spaceport_modules" } }
 			has_spaceport_module = cruiser_assembly_yards
-			owner = {
-				any_owned_planet = {
-					ass_valid_spaceport_module_planet = yes
-					NOT = { has_spaceport_module = cruiser_assembly_yards }
-					can_build_spaceport_module = cruiser_assembly_yards
-				}
-			}
 		}
 		owner = {
 			random_owned_planet = {
@@ -112,13 +98,6 @@ ass_stage1_sm_orbital_mind_control_laser = {
 		limit = {
 			ROOT = { NOT = { has_ship_flag = "ass_op_spaceport_modules" } }
 			has_spaceport_module = orbital_mind_control_laser
-			owner = {
-				any_owned_planet = {
-					ass_valid_spaceport_module_planet = yes
-					NOT = { has_spaceport_module = orbital_mind_control_laser }
-					can_build_spaceport_module = orbital_mind_control_laser
-				}
-			}
 		}
 		owner = {
 			random_owned_planet = {
@@ -146,13 +125,6 @@ ass_stage1_sm_fleet_academy = {
 		limit = {
 			ROOT = { NOT = { has_ship_flag = "ass_op_spaceport_modules" } }
 			has_spaceport_module = fleet_academy
-			owner = {
-				any_owned_planet = {
-					ass_valid_spaceport_module_planet = yes
-					NOT = { has_spaceport_module = fleet_academy }
-					can_build_spaceport_module = fleet_academy
-				}
-			}
 		}
 		owner = {
 			random_owned_planet = {
@@ -179,13 +151,6 @@ ass_stage1_sm_destroyer_assembly_yards = {
 		limit = {
 			ROOT = { NOT = { has_ship_flag = "ass_op_spaceport_modules" } }
 			has_spaceport_module = destroyer_assembly_yards
-			owner = {
-				any_owned_planet = {
-					ass_valid_spaceport_module_planet = yes
-					NOT = { has_spaceport_module = destroyer_assembly_yards }
-					can_build_spaceport_module = destroyer_assembly_yards
-				}
-			}
 		}
 		owner = {
 			random_owned_planet = {
@@ -212,13 +177,6 @@ ass_stage1_sm_corvette_assembly_yards = {
 		limit = {
 			ROOT = { NOT = { has_ship_flag = "ass_op_spaceport_modules" } }
 			has_spaceport_module = corvette_assembly_yards
-			owner = {
-				any_owned_planet = {
-					ass_valid_spaceport_module_planet = yes
-					NOT = { has_spaceport_module = corvette_assembly_yards }
-					can_build_spaceport_module = corvette_assembly_yards
-				}
-			}
 		}
 		owner = {
 			random_owned_planet = {
@@ -245,13 +203,6 @@ ass_stage1_sm_synchronized_defenses = {
 		limit = {
 			ROOT = { NOT = { has_ship_flag = "ass_op_spaceport_modules" } }
 			has_spaceport_module = synchronized_defenses
-			owner = {
-				any_owned_planet = {
-					ass_valid_spaceport_module_planet = yes
-					NOT = { has_spaceport_module = synchronized_defenses }
-					can_build_spaceport_module = synchronized_defenses
-				}
-			}
 		}
 		owner = {
 			random_owned_planet = {
@@ -278,13 +229,6 @@ ass_stage1_sm_hydroponic_farms = {
 		limit = {
 			ROOT = { NOT = { has_ship_flag = "ass_op_spaceport_modules" } }
 			has_spaceport_module = hydroponic_farms
-			owner = {
-				any_owned_planet = {
-					ass_valid_spaceport_module_planet = yes
-					NOT = { has_spaceport_module = hydroponic_farms }
-					can_build_spaceport_module = hydroponic_farms
-				}
-			}
 		}
 		owner = {
 			random_owned_planet = {
@@ -311,13 +255,6 @@ ass_stage1_sm_engineering_bay = {
 		limit = {
 			ROOT = { NOT = { has_ship_flag = "ass_op_spaceport_modules" } }
 			has_spaceport_module = engineering_bay
-			owner = {
-				any_owned_planet = {
-					ass_valid_spaceport_module_planet = yes
-					NOT = { has_spaceport_module = engineering_bay }
-					can_build_spaceport_module = engineering_bay
-				}
-			}
 		}
 		owner = {
 			random_owned_planet = {
@@ -344,13 +281,6 @@ ass_stage1_sm_observatory = {
 		limit = {
 			ROOT = { NOT = { has_ship_flag = "ass_op_spaceport_modules" } }
 			has_spaceport_module = observatory
-			owner = {
-				any_owned_planet = {
-					ass_valid_spaceport_module_planet = yes
-					NOT = { has_spaceport_module = observatory }
-					can_build_spaceport_module = observatory
-				}
-			}
 		}
 		owner = {
 			random_owned_planet = {
@@ -377,13 +307,6 @@ ass_stage1_sm_crew_quarters = {
 		limit = {
 			ROOT = { NOT = { has_ship_flag = "ass_op_spaceport_modules" } }
 			has_spaceport_module = crew_quarters
-			owner = {
-				any_owned_planet = {
-					ass_valid_spaceport_module_planet = yes
-					NOT = { has_spaceport_module = crew_quarters }
-					can_build_spaceport_module = crew_quarters
-				}
-			}
 		}
 		owner = {
 			random_owned_planet = {
@@ -410,13 +333,6 @@ ass_stage1_sm_solar_panel = {
 		limit = {
 			ROOT = { NOT = { has_ship_flag = "ass_op_spaceport_modules" } }
 			has_spaceport_module = solar_panel_network
-			owner = {
-				any_owned_planet = {
-					ass_valid_spaceport_module_planet = yes
-					NOT = { has_spaceport_module = solar_panel_network }
-					can_build_spaceport_module = solar_panel_network
-				}
-			}
 		}
 		owner = {
 			random_owned_planet = {
