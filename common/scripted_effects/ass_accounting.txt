@@ -71,6 +71,7 @@
 #
 # AssReserve                       Empires configured AssReserve.
 # AssMinMinerals                   AssOperationCost          + AssReserve
+# XXX Should probably derive a value from AssReserve for influence
 # AssMinInfluence                  AssOperationCostInfluence + 100 (!)
 # AssMinEnergy                     AssOperationCostEnergy    + AssReserve
 #
@@ -436,6 +437,7 @@ ass_account_internal_update_fleet_totals = {
 		change_variable = { which = "AssMinEnergy" value = "AssReserve" }
 	}
 	if = { limit = { check_variable = { which = "AssMinInfluence" value > 0 } }
+		# XXX Should probably derive a value from AssReserve
 		change_variable = { which = "AssMinInfluence" value = 100 }
 	}
 }
@@ -451,7 +453,10 @@ ass_account_internal_grab_minerals = {
 					check_variable = { which = "AssTmp" value > 1000 }
 					owner = { minerals > 1000 }
 				}
-				owner = { add_minerals = -1000 }
+				owner = {
+					add_minerals = -1000
+					subtract_variable = { which = "AssMinerals" value = 1000 }
+				}
 				subtract_variable = { which = "AssTmp" value = 1000 }
 			}
 			while = {
@@ -459,7 +464,10 @@ ass_account_internal_grab_minerals = {
 					check_variable = { which = "AssTmp" value > 100 }
 					owner = { minerals > 100 }
 				}
-				owner = { add_minerals = -100 }
+				owner = {
+					add_minerals = -100
+					subtract_variable = { which = "AssMinerals" value = 100 }
+				}
 				subtract_variable = { which = "AssTmp" value = 100 }
 			}
 			while = {
@@ -467,7 +475,10 @@ ass_account_internal_grab_minerals = {
 					check_variable = { which = "AssTmp" value > 10 }
 					owner = { minerals > 10 }
 				}
-				owner = { add_minerals = -10 }
+				owner = {
+					add_minerals = -10
+					subtract_variable = { which = "AssMinerals" value = 10 }
+				}
 				subtract_variable = { which = "AssTmp" value = 10 }
 			}
 			while = {
@@ -475,7 +486,10 @@ ass_account_internal_grab_minerals = {
 					check_variable = { which = "AssTmp" value > 0 }
 					owner = { minerals > 0 }
 				}
-				owner = { add_minerals = -1 }
+				owner = {
+					add_minerals = -1
+					subtract_variable = { which = "AssMinerals" value = 1 }
+				}
 				subtract_variable = { which = "AssTmp" value = 1 }
 			}
 		}
@@ -493,7 +507,10 @@ ass_account_internal_grab_energy = {
 					check_variable = { which = "AssTmp" value > 1000 }
 					owner = { energy > 1000 }
 				}
-				owner = { add_energy = -1000 }
+				owner = {
+					add_energy = -1000
+					subtract_variable = { which = "AssEnergy" value = 1000 }
+				}
 				subtract_variable = { which = "AssTmp" value = 1000 }
 			}
 			while = {
@@ -501,7 +518,10 @@ ass_account_internal_grab_energy = {
 					check_variable = { which = "AssTmp" value > 100 }
 					owner = { energy > 100 }
 				}
-				owner = { add_energy = -100 }
+				owner = {
+					add_energy = -100
+					subtract_variable = { which = "AssEnergy" value = 100 }
+				}
 				subtract_variable = { which = "AssTmp" value = 100 }
 			}
 			while = {
@@ -509,7 +529,10 @@ ass_account_internal_grab_energy = {
 					check_variable = { which = "AssTmp" value > 10 }
 					owner = { energy > 10 }
 				}
-				owner = { add_energy = -10 }
+				owner = {
+					add_energy = -10
+					subtract_variable = { which = "AssEnergy" value = 10 }
+				}
 				subtract_variable = { which = "AssTmp" value = 10 }
 			}
 			while = {
@@ -517,7 +540,10 @@ ass_account_internal_grab_energy = {
 					check_variable = { which = "AssTmp" value > 0 }
 					owner = { energy > 0 }
 				}
-				owner = { add_energy = -1 }
+				owner = {
+					add_energy = -1
+					subtract_variable = { which = "AssEnergy" value = 1 }
+				}
 				subtract_variable = { which = "AssTmp" value = 1 }
 			}
 		}
@@ -535,7 +561,10 @@ ass_account_internal_grab_influence = {
 					check_variable = { which = "AssTmp" value > 100 }
 					owner = { influence > 100 }
 				}
-				owner = { add_influence = -100 }
+				owner = {
+					add_influence = -100
+					subtract_variable = { which = "AssInfluence" value = 100 }
+				}
 				subtract_variable = { which = "AssTmp" value = 100 }
 			}
 			while = {
@@ -543,7 +572,10 @@ ass_account_internal_grab_influence = {
 					check_variable = { which = "AssTmp" value > 10 }
 					owner = { influence > 10 }
 				}
-				owner = { add_influence = -10 }
+				owner = {
+					add_influence = -10
+					subtract_variable = { which = "AssInfluence" value = 10 }
+				}
 				subtract_variable = { which = "AssTmp" value = 10 }
 			}
 			while = {
@@ -551,7 +583,10 @@ ass_account_internal_grab_influence = {
 					check_variable = { which = "AssTmp" value > 0 }
 					owner = { influence > 0 }
 				}
-				owner = { add_influence = -1 }
+				owner = {
+					add_influence = -1
+					subtract_variable = { which = "AssInfluence" value = 1 }
+				}
 				subtract_variable = { which = "AssTmp" value = 1 }
 			}
 		}
