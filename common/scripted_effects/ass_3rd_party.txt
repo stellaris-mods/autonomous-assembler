@@ -28,6 +28,18 @@
 ass_init_stage1_3rd_p1 = {}
 ass_init_stage1_3rd_p2 = {}
 
+# THIS = ship
+# ass_target = fleet/system/planet
+# Already verified that we are in fact close enough to target.
+# Already verified ass_has_operation.
+ass_init_stage3_3rd = {}
+
+# THIS = ship
+ass_stage3_build_3rd = {}
+
+# THIS = ship
+ass_stage4_complete_3rd = {}
+
 # Stage 1 should flow directly to stage2 and set the
 # autonomous_operation fleet flag if the mission was accepted.
 ass_3rd_op_complete = {}

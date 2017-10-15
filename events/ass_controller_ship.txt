@@ -168,6 +168,7 @@ ship_event = {
 				ass_op_military = { ass_stage4_complete_military = yes }
 				ass_op_wormhole = { ass_stage4_complete_wormhole = yes }
 			}
+			ass_stage4_complete_3rd = yes
 			else = {
 				ass_stage4_abort_operation = yes
 			}

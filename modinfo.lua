@@ -8,6 +8,7 @@ return {
 	remote_file_id = 1155987128,
 	readme = "README.md",
 	steambb = "steam.bbcode",
+	bbheadinglevel = 3,
 	-- Files and folders added in exclude will not be copied over to the Paradox Interactive
 	-- local mod folder when you run `stlrel --steam`.
 	exclude = {

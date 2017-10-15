@@ -1,3 +1,5 @@
+# Autonomous Assembler
+
 <!-- TOC -->
 
 - [Found a problem?](#found-a-problem)
@@ -12,20 +14,18 @@
 - [3rd Party Ship Sets](#3rd-party-ship-sets)
 - [Future plans](#future-plans)
 - [Steam description](#steam-description)
-- [**Fully autonomous construction ship for players**](#fully-autonomous-construction-ship-for-players)
-- [Expansion Cards](#expansion-cards)
-- [Station Marker](#station-marker)
-- [Ship Combat Statistics](#ship-combat-statistics)
-- [Special Projects](#special-projects)
-- [Known problems](#known-problems)
-- [Compatibility](#compatibility)
-- [Replaced files](#replaced-files)
-- [Changelog](#changelog)
-- [Communicating with me](#communicating-with-me)
+	- [**Fully autonomous construction ship for players**](#fully-autonomous-construction-ship-for-players)
+	- [Expansion Cards](#expansion-cards)
+	- [Station Marker](#station-marker)
+	- [Ship Combat Statistics](#ship-combat-statistics)
+	- [Special Projects](#special-projects)
+	- [Known problems](#known-problems)
+	- [Compatibility](#compatibility)
+	- [Replaced files](#replaced-files)
+	- [Changelog](#changelog)
+	- [Communicating with me](#communicating-with-me)
 
 <!-- /TOC -->
-
-# Autonomous Assembler
 
 ## Found a problem?
 
@@ -63,14 +63,7 @@ Most of them are to remain compatible with New Ship Classes & More, and the rest
 
 ## How to add 3rd party spaceport modules/expansion cards/etc
 
-Regardless of what you're doing, please read all these sections.
-
-1. Generic info about overriding scripted_effects/triggers
-2. A note about global flags
-3. "Debugging"
-4. Adding a new Expansion Card
-5. Adding your Spaceport Module to the SM operation
-6. Adding support for your spaceport extension mod (if you add more slots to the spaceport)
+Regardless of what you're doing, please read the whole README, and not just the one you're specifically interested in.
 
 ### Overriding scripted_effects/triggers (objects)
 (overwrite, override, overload, whatever)
@@ -82,7 +75,7 @@ There are two really simple rules for this:
 In both cases, your objects need to have the same name as the ones you are overriding, obviously.
 
 ### A note about global flags
-The `gf_alphamodplus` and `has_renegade_spaceports` flags can be used to check for whether or not these addons are present. You should know, if you're adding support for a new spaceport module for example, that if a user ever had one of these addons present in their game, the flags remain until manually removed.
+The `gf_alphamodplus` and `has_renegade_spaceports` global flags can be used to check for whether or not these addons are were active `on_game_start`. You should know, if you're adding support for a new spaceport module for example, that if a user ever had one of these addons present in their game, the flags remain until manually removed.
 
 You should also know that, as of right now, neither of these addons will set the flags if enabled _after_ the `on_game_start` action has triggered. Which means that if a player installs one of those addons _after_ initial game start, the flags will **not** be set.
 
@@ -98,7 +91,20 @@ Many of my addons log a lot of output to `game.log` if the global flag `debug` i
 For Autonomous Assembler, specifically, most of its operations are sped up from 100 days to 10 if this flag is active. Spaceport Module construction, more specifically, is fixed at 20 days regardless of the `AssConstructionTime` variable.
 
 ### Adding a new Expansion Card
-- TODO (that is to say, it is entirely possible for you to do it right now, I just haven't written this documentation)
+1. Add a new `utility_component_template` that uses `component_set = "ass_expansion_slot_1/2"`.
+1. Override, or talk to me about invoking your effect from, `ass_init_stage1_3rd_p1` or `ass_init_stage1_3rd_p2` depending on the slot. In all stage1 effects, ROOT is always the ship. This effect will be invoked `on_monthly_pulse` if an assembler is idle.
+1. In your stage1 mission effect, see if there's a valid operation the ship can perform for your card, and if there is not, then simply do nothing. The rest of the steps below assume you found a valid mission target.
+1. Invoke `ass_relation_flag_planet/fleet/system = yes` so that the Assembler knows where it wants to go. These effects need to be invoked in the scope of the target relation (and ROOT still needs to be the ship). This also sets the `ass_target` flag on the target, which prevents other assemblers from picking it.
+1. Invoke either `ass_stage2_planet_move`, `ass_stage2_fleet_move`, `ass_stage2_system_move`, in the scope of the target - or implement your own movement method (you will probably never need to do that). All these effects set the fleet flag `autonomous_operation`.
+1. When the assembler reaches the target, `ass_init_stage3_3rd` will be invoked - so either override it or talk to me about invoking your effect. In this effect, depending on the mission, you probably want to verify that you are in orbit/close to the target, and that the trigger conditions you used to set up the mission are still valid, and if not, you want to `ass_stage4_abort_operation`.
+1. You probably want to `ass_stage3_lock_ship`, and if your operation has any costs, you want to `owner = { ass_account_update_empire = yes }`. And finally, you need to invoke `ass_stage3_build = yes`. Alternatively, `ass_stage3_lock_and_accounts = yes` will do all three for you.
+1. In your override of `ass_stage3_build_3rd`, you need to either wait for empire resources, or instantly start building, depending on the `ass_can_afford` trigger. This trigger only works if you follow these steps and invoke things in the order I've written.
+1. If you want to build immediately, simply do so. If you need to wait for resources, simply `set_ship_flag = "ass_waiting_for_cash"` instead, and invoke `ass_set_fleet_name = yes`, and the ship will check `ass_can_afford` every 10 days until it can, and then invoke your `ass_stage3_build_3rd` effect again.
+1. When `ass_can_afford` is true, if your operation costs resources, remember to invoke `ass_account_grabdatcash = yes`, and do `remove_ship_flag = "ass_waiting_for_cash"`
+1. If your mission takes time to complete, you can either plugin into my `assShip.1000` event, or implement your own. This event invokes `ass_stage4_complete_3rd`.
+1. In your mission complete effect, ROOT and THIS is the ship. You need to do the following: (1) remove the relation flag, either directly on the target by removing the planet/star/fleet ass_target flag and zeroing the AssUUID variable, and then removing the `ass_relation_fleet/planet/star` flag from the assembler, or you can simply invoke `ass_relation_remove_any = yes` which is a bit more costly. And (2) actually instantly perform whatever operation the card you're adding performs, and then (3) invoke `ass_stage4_operation_complete = yes`, which in turn invokes `ass_3rd_op_complete` that you can override.
+
+The way you set the operation cost for a mission is to set the variables `AssOperationCost` (minerals), `AssOperationCostEnergy`, and/or `AssOperationCostInfluence` in stage 1. These obviously have to be set on the assemblers fleet scope.
 
 ### Adding support for your own Spaceport Module
 You can do it without talking to me, but then you will need to override the whole `ass_3rd_party.txt` file, and handle it whenever I update the mod. Alternatively, talk to me and we will make the mods cooperate. Regardless, read the rest. And also, please read this whole readme.
@@ -285,7 +291,7 @@ I want to make a new autonomous behavior where it flies back and repairs itself,
 [//]: # (start)
 Steam description transliterated from `steam.bbcode` by [our release script](https://raw.githubusercontent.com/stellaris-mods/scripts/master/stlrel).
 
-## **Fully autonomous construction ship for players**
+### **Fully autonomous construction ship for players**
 It never made much sense to me that you could build robots, but not autonomous construction ships\.
 With this mod, you can\.
 
@@ -302,7 +308,7 @@ Autonomous Assemblers is a new ship type that unlocks after a tier 1 technology\
 The Autonomous Assemblers can be used and commanded as regular construction ships any time you want, including while enroute during an autonomous operation \- except during the actual construction of a station, while locked\. If you want to take control during construction (they will have the red "lock" icon in the Outliner), you need to go to Special Projects and either send them to a colony, or halt operations\.
 You can build as many as you want, and outfit them with different expansion cards\.
 
-## Expansion Cards
+### Expansion Cards
 The ship can be equipped with two expansion cards that determine its behavior\. There is no artificial intelligence on the ship, as such \- it's more like an automated lawn mower than\. Each expansion card must be outfitted on the ship before it's launched, but they can be recalled and updated to a new layout later\.
 
 The ship has 2x slots for expansion cards\. It's **very important** that you examine the card descriptions in detail, and understand that they behave differently depending on which slot you insert them into\. And make note of wording; some cards may for example say "any system", and that would include any system even outside your borders\.
@@ -345,7 +351,7 @@ Expansion Slot 2 exclusively: Listens for the Assembly Blueprint subspace signal
 
 
 
-## Station Marker
+### Station Marker
 The Station Marker is a new kind of military station gated behind a new rare technology that is **disabled by default**\. Constructing this marker allows your Autonomous Assemblers outfitted with a Military Expansion Card in slot 1 to build a hexagon\-shaped defense cluster of military stations, just like in the old days of Stellaris\. If you play with NSC, you should enable this option, because NSC has not adjusted the build block radius for vanilla military stations to match vanilla levels\.
 
 Currently, once used, a marker will never be used again\. I plan on making it such that the Autonomous Assemblers attempt to maintain the 6 stations spawned around the marker (given the budget, of course)\.
@@ -354,10 +360,10 @@ When you design a station marker, you select a special component to equip it wit
 
 If a Station Marker is destroyed before an Autonomous Assembler can complete construction of the 6 military stations around it, the resources are lost\.
 
-## Ship Combat Statistics
+### Ship Combat Statistics
 The Autonomous Assembler more closely resembles a Corvette than a Construction Ship in terms of combat statistics\. It has exceptional evasion, combat speed, and sublight speed right off the bat, and can be further upgraded with new and improved central processing units\.
 
-## Special Projects
+### Special Projects
 In your empires special projects screen, you will find a new section dedicated to controlling your Autonomous Assemblers, where you can:
 
 * Increase/decrease the reserved resources, which limits how low the assemblers can drain your empires mineral reserves (default: 100, increments of \+/\- 500)
@@ -367,23 +373,23 @@ In your empires special projects screen, you will find a new section dedicated t
 
 All the projects are free, they just take time\. Also, they all reset every time you build or lose an assembler, and any time you complete a project\. Nothing I can do about this, unfortunately\.
 
-## Known problems
+### Known problems
 There are no known problems\.
 
-## Compatibility
+### Compatibility
 Compatible with existing save games, but you need to research the technology to get access to the ships\. The menu only shows in new games\.
 
 This mod is, as far as I know, compatible with all other addons\. Including Autobuild\. That's not a promise, but if the author of the other mod is not an idiot, they should not conflict\.
 
 Anything labelled a "Total Conversion" is not in the category of a "mod" or "addon", in case that has to be explicitly mentioned\. Obviously some TCs could be compatible, or they already are \- I don't know, and I don't care\. Any other mod that wants to add explicit compatibility with Autonomous Assembler is free to do so\.
 
-## Replaced files
+### Replaced files
 This mod does not replace any vanilla files\.
 
-## Changelog
+### Changelog
 Though Steam provides a way to list changes between uploads, there is no way I can automate this, so now you need to find the release notes on Github\.
 
-## Communicating with me
+### Communicating with me
 You may file bug reports on Github\. All my Stellaris mods are listed there\.
 
 

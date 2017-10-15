@@ -28,6 +28,8 @@ ass_stage3_build = {
 		ass_op_wormhole = { ass_stage3_single_station = yes }
 		ass_op_spaceport_modules = { ass_stage3_spaceport_modules = yes }
 	}
+
+	ass_stage3_build_3rd = yes
 }
 
 ass_stage3_single_station = {
@@ -107,4 +109,6 @@ ass_init_stage3 = {
 		ass_op_dock     = { ass_stage3_reached_dock = yes }
 		ass_op_spaceport_modules = { ass_stage3_lock_and_accounts = yes }
 	}
+
+	ass_init_stage3_3rd = yes
 }
