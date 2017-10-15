@@ -36,6 +36,19 @@ ass_3rd_op_abort = {}
 ass_set_fleet_name_3rd = {}
 
 ###############################################################################
+# STATION MARKER COMPONENT TYPES
+# Adds support for 3rd party ship sizes (except the builtin NSC XL)
+# to station marker spawning
+
+# THIS is the assembler
+# event_target:ass_target is the station marker SHIP scope, not fleet
+ass_stage3_marker_arrived_3rd = {}
+
+# THIS is the station marker SHIP
+# ROOT is the assembler
+ass_stage3_marker_build_3rd = {}
+
+###############################################################################
 # SPACEPORT MODULE CARD
 # These effects are exclusively used by the spaceport module card.
 #

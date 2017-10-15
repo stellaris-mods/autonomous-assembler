@@ -79,6 +79,8 @@ ass_stage3_marker_arrived = {
 		}
 	}
 
+	ass_stage3_marker_arrived_3rd = yes
+
 	# Removed by ass_stage4_operation_complete eventually.
 	set_ship_flag = "ass_constructing_station"
 	ass_set_fleet_name = yes
