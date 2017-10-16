@@ -1,0 +1,11 @@
+###############################################################################
+# NSC's Customs Office Spaceport Module
+#
+# NSC overwrites this file using the _same_ filename, because
+# it loads before we do.
+#
+
+nsc_ass_stage1_sm_pre = {}
+nsc_ass_stage1_sm_post = {}
+nsc_ass_stage4_sm_remove_data = {}
+nsc_ass_stage4_sm_complete = {}
