@@ -29,8 +29,6 @@ ass_stage4_unlock_ship = {
 ass_stage4_operation_complete = {
 	log = "[this.GetName]: Operation complete."
 
-	ass_3rd_op_complete = yes
-
 	# Reset operation costs
 	fleet = {
 		set_variable = { which = "AssOperationCost" value = 0 }
@@ -75,6 +73,7 @@ ass_stage4_operation_complete = {
 	}
 
 	ass_set_fleet_name = yes
+	ass_3rd_op_complete = yes
 }
 
 # THIS needs to be the ship

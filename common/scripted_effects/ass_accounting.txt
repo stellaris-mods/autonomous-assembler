@@ -118,7 +118,7 @@ ass_account_refund = {
 
 ass_account_update_reserve = {
 	every_owned_fleet = {
-		limit = { is_ship_size = autonomous_assembler }
+		limit = { any_owned_ship = { has_ship_flag = "ass_id" } }
 		set_variable = { which = "AssReserve" value = 0 }
 		owner = {
 			# Make a copy we can mangle
@@ -159,7 +159,7 @@ ass_account_internal_update_empire_minerals = {
 	if = {
 		limit = {
 			any_owned_ship = {
-				is_ship_size = autonomous_assembler
+				has_ship_flag = "ass_id"
 				fleet = { check_variable = { which = "AssOperationCost" value > 0 } }
 			}
 		}
@@ -224,7 +224,7 @@ ass_account_internal_update_empire_energy = {
 	if = {
 		limit = {
 			any_owned_ship = {
-				is_ship_size = autonomous_assembler
+				has_ship_flag = "ass_id"
 				fleet = { check_variable = { which = "AssOperationCostEnergy" value > 0 } }
 			}
 		}
@@ -289,7 +289,7 @@ ass_account_internal_update_empire_influence = {
 	if = {
 		limit = {
 			any_owned_ship = {
-				is_ship_size = autonomous_assembler
+				has_ship_flag = "ass_id"
 				fleet = { check_variable = { which = "AssOperationCostInfluence" value > 0 } }
 			}
 		}
