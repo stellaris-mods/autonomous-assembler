@@ -95,10 +95,14 @@ special_project = {
 			# We also set a timed flag on each ship when it reaches home
 			# This country flag also makes ass_init_stage1 set the operation
 			# to ass_op_dock.
-			set_timed_country_flag = {
-				flag = "ass_halt_operations"
-				days = 90
+			if = { # Make sure we don't accidentally overwrite a permanent flag
+				limit = { NOT = { has_country_flag = "ass_halt_operations" } }
+				set_timed_country_flag = {
+					flag = "ass_halt_operations"
+					days = 90
+				}
 			}
+
 			country_event = { id = assCountry.500 days = 91 }
 
 			# Make any owned ship head for home
