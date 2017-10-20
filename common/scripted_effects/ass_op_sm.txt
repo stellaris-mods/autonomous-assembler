@@ -242,6 +242,7 @@ ass_stage4_abort_spaceport_module = {
 	owner = {
 		every_owned_planet = {
 			limit = {
+				has_spaceport = yes
 				NOT = { has_planet_flag = "ass_target" }
 				has_spaceport_module = ass_spaceport_module
 			}
