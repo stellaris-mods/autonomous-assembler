@@ -117,7 +117,7 @@ ass_account_refund = {
 
 ass_account_update_reserve = {
 	every_owned_fleet = {
-		limit = { any_owned_fleet = { has_fleet_flag = "autonomous_assembler" } }
+		limit = { has_fleet_flag = "autonomous_assembler" }
 		set_variable = { which = "AssReserve" value = 0 }
 		owner = {
 			# Make a copy we can mangle
