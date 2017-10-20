@@ -75,11 +75,22 @@ ass_stage4_operation_complete = {
 	# Other flags we want to remove, simply
 	# because we dont want to clutter up the debugtooltip.
 	# Dont add any here that _require_ removal.
+	remove_ship_flag = "ass_found_relation_target"
 	remove_ship_flag = "ass_refund_if_aborted"
 	remove_ship_flag = "ass_station_xlarge"
 	remove_ship_flag = "ass_station_large"
 	remove_ship_flag = "ass_station_medium"
 	remove_ship_flag = "ass_station_small"
+	fleet = {
+		# Remember to never reset AssReserve, it's only updated when needed.
+		# These variables are set again for every operation.
+		set_variable = { which = "AssMinerals" value = 0 }
+		set_variable = { which = "AssMinMinerals" value = 0 }
+		set_variable = { which = "AssEnergy" value = 0 }
+		set_variable = { which = "AssMinEnergy" value = 0 }
+		set_variable = { which = "AssInfluence" value = 0 }
+		set_variable = { which = "AssMinInfluence" value = 0 }
+	}
 
 	# Mission-specific tooltip de-clutter effects
 	ass_stage4_remove_spaceport_module_data = yes
