@@ -40,6 +40,14 @@ ass_valid_spaceport_module_planet = {
 	ass_is_friendly_system = yes
 }
 
+# Checks if the planet is still valid once we arrive. If not, we abort and
+# remove the fake module, if any.
+ass_is_still_sm_valid = {
+	has_spaceport = yes
+	has_spaceport_module = ass_spaceport_module
+	controller = { is_same_value = ROOT.owner }
+}
+
 ass_sm_found_any_slot = {
 	OR = {
 		has_ship_flag = "ass_op_sm_slot_1"

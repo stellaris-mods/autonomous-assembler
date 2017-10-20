@@ -66,25 +66,39 @@ ass_init_stage3 = {
 	}
 }
 
-# In this effect, ass_can_afford is always true, or the operation is free
-ass_stage3_build = {
-	if = { limit = { ass_is_operation_free = no }
-		ass_account_grabdatcash = yes
-	}
-
+ass_stage3_verify_operation_conditions = {
 	switch = {
 		trigger = has_ship_flag
-		ass_op_spaceport_modules = { ass_stage3_start_construction = yes }
-		ass_op_energy   = { ass_stage3_start_construction = yes }
-		ass_op_minerals = { ass_stage3_start_construction = yes }
-		ass_op_research = { ass_stage3_start_construction = yes }
-		ass_op_military = { ass_stage3_start_construction = yes }
-		ass_op_wormhole = { ass_stage3_start_construction = yes }
-		ass_op_marker   = { ass_stage3_marker_arrived = yes }
-		ass_op_dock     = { ass_stage3_reached_dock = yes }
+		ass_op_spaceport_modules = { ass_verify_pre_spaceport_module = yes }
+		ass_op_energy   = { ass_verify_pre_civilian_station = yes }
+		ass_op_minerals = { ass_verify_pre_civilian_station = yes }
+		ass_op_research = { ass_verify_pre_civilian_station = yes }
 	}
+	ass_stage3_verify_operation_conditions_3rd = yes
+}
 
-	ass_stage3_build_3rd = yes
+# In this effect, ass_can_afford is always true, or the operation is free
+ass_stage3_build = {
+	ass_stage3_verify_operation_conditions = yes
+
+	if = { limit = { NOT = { has_ship_flag = "ass_aborted" } }
+		if = { limit = { ass_is_operation_free = no }
+			ass_account_grabdatcash = yes
+		}
+		switch = {
+			trigger = has_ship_flag
+			ass_op_spaceport_modules = { ass_stage3_start_construction = yes }
+			ass_op_energy   = { ass_stage3_start_construction = yes }
+			ass_op_minerals = { ass_stage3_start_construction = yes }
+			ass_op_research = { ass_stage3_start_construction = yes }
+			ass_op_military = { ass_stage3_start_construction = yes }
+			ass_op_wormhole = { ass_stage3_start_construction = yes }
+			ass_op_marker   = { ass_stage3_marker_arrived = yes }
+			ass_op_dock     = { ass_stage3_reached_dock = yes }
+		}
+
+		ass_stage3_build_3rd = yes
+	}
 }
 
 # Invoked every 10 days for active assemblers during an operation.
@@ -104,6 +118,7 @@ ass_stage3_constructing = {
 	}
 }
 
+# Remember to verify all failure conditions before you start construction
 ass_stage3_start_construction = {
 	if = { limit = { fleet = { check_variable = { which = "AssConstructionTime" value = 0 } } }
 		log = "[this.GetName]: No construction time set, using default 100."

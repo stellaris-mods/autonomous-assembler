@@ -37,9 +37,15 @@ ass_init_stage3_3rd = {
 }
 
 # THIS = ship
+# Invoked immediately once you should start construction (if it takes time)
 ass_stage3_build_3rd = {}
 
 # THIS = ship
+# Invoked immediately before construction timer starts
+ass_stage3_verify_operation_conditions_3rd = {}
+
+# THIS = ship
+# Invoked when you should actually produce whatever your module does
 ass_stage4_complete_3rd = {}
 
 # Note that this effect is invoked _after_ ass_set_fleet_name, which means

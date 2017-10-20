@@ -18,6 +18,16 @@
 ###
 
 
+# This is used to verify orbital targets for standard civilian construction
+# like research and mining stations once we arrive at the target.
+ass_verify_pre_civilian_station = {
+	if = { limit = { event_target:ass_target = { ass_is_planet_valid_orbital_target = no } }
+		log = "[this.GetName]: ERROR: Our target already is no longer a valid construction target."
+		ass_stage4_abort_operation = yes
+		break = yes
+	}
+}
+
 ass_verify_failure_conditions = {
 	if = { limit = { NOT = { exists = fleet } }
 		# I'm not sure this can ever happen
