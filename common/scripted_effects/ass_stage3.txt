@@ -107,7 +107,7 @@ ass_stage3_constructing = {
 ass_stage3_start_construction = {
 	if = { limit = { has_global_flag = "debug" }
 		fleet = { divide_variable = { which = "AssConstructionTime" value = 10 } }
-	} }
+	}
 	remove_ship_flag = "ass_waiting_for_cash"
 	set_ship_flag = "ass_constructing_station"
 	log = "[this.GetName]: Assembling ([fleet.AssConstructionTime] days) ..."
