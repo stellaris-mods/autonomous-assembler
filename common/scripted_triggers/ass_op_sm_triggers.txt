@@ -37,7 +37,7 @@ ass_valid_spaceport_module_planet = {
 	is_occupied_flag = no
 	has_ground_combat = no
 	controller = { is_same_value = ROOT.owner }
-	# XXX verify friendly system
+	ass_is_friendly_system = yes
 }
 
 ass_sm_found_any_slot = {
