@@ -105,6 +105,10 @@ ass_stage3_constructing = {
 }
 
 ass_stage3_start_construction = {
+	if = { limit = { fleet = { check_variable = { which = "AssConstructionTime" value = 0 } } }
+		log = "[this.GetName]: No construction time set, using default 100."
+		fleet = { set_variable = { which = "AssConstructionTime" value = 100 } }
+	}
 	if = { limit = { has_global_flag = "debug" }
 		fleet = { divide_variable = { which = "AssConstructionTime" value = 10 } }
 	}
