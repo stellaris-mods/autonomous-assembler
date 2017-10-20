@@ -65,6 +65,8 @@ Most of them are to remain compatible with New Ship Classes & More, and the rest
 
 Regardless of what you're doing, please read the whole README, and not just the one you're specifically interested in.
 
+All the instructions here should be mostly valid for the git version of the addon. For the live version, you will have to find README.mds git history and read it there.
+
 ### Overriding scripted_effects/triggers (objects)
 (overwrite, override, overload, whatever)
 
@@ -88,20 +90,19 @@ Flags can be removed from the ingame console with for example `effect remove_glo
 ### "Debugging"
 Many of my addons log a lot of output to `game.log` if the global flag `debug` is set. You can set this from the ingame console like `effect set_global_flag = debug`.
 
-For Autonomous Assembler, specifically, most of its operations are sped up from 100 days to 10 if this flag is active. Spaceport Module construction, more specifically, is fixed at 20 days regardless of the `AssConstructionTime` variable.
+For Autonomous Assembler, specifically, most of its operations have their construction time divided by 10 if this flag is set.
 
 ### Adding a new Expansion Card
 1. Add a new `utility_component_template` that uses `component_set = "ass_expansion_slot_1/2"`.
 1. Override, or talk to me about invoking your effect from, `ass_init_stage1_3rd_p1` or `ass_init_stage1_3rd_p2` depending on the slot. In all stage1 effects, ROOT is always the ship. This effect will be invoked `on_monthly_pulse` if an assembler is idle.
 1. In your stage1 mission effect, see if there's a valid operation the ship can perform for your card, and if there is not, then simply do nothing. The rest of the steps below assume you found a valid mission target.
+1. Set `AssConstructionTime` on the fleet to however long it takes to perform the operation once the ship arrives at its target - or don't, if you handle this yourself.
+1. Set `AssOperationCost*` depending on what it costs to build whatever you're building.
 1. Invoke `ass_relation_flag_planet/fleet/system = yes` so that the Assembler knows where it wants to go. These effects need to be invoked in the scope of the target relation (and ROOT still needs to be the ship). This also sets the `ass_target` flag on the target, which prevents other assemblers from picking it.
 1. Invoke either `ass_stage2_planet_move`, `ass_stage2_fleet_move`, `ass_stage2_system_move`, in the scope of the target - or implement your own movement method (you will probably never need to do that). All these effects set the fleet flag `autonomous_operation`.
-1. When the assembler reaches the target, `ass_init_stage3_3rd` will be invoked - so either override it or talk to me about invoking your effect. In this effect, depending on the mission, you probably want to verify that you are in orbit/close to the target, and that the trigger conditions you used to set up the mission are still valid, and if not, you want to `ass_stage4_abort_operation`.
-1. You probably want to `ass_stage3_lock_ship`, and if your operation has any costs, you want to `owner = { ass_account_update_empire = yes }`. And finally, you need to invoke `ass_stage3_build = yes`. Alternatively, `ass_stage3_lock_and_accounts = yes` will do all three for you.
-1. In your override of `ass_stage3_build_3rd`, you need to either wait for empire resources, or instantly start building, depending on the `ass_can_afford` trigger. This trigger only works if you follow these steps and invoke things in the order I've written.
-1. If you want to build immediately, simply do so. If you need to wait for resources, simply `set_ship_flag = "ass_waiting_for_cash"` instead, and invoke `ass_set_fleet_name = yes`, and the ship will check `ass_can_afford` every 10 days until it can, and then invoke your `ass_stage3_build_3rd` effect again.
-1. When `ass_can_afford` is true, if your operation costs resources, remember to invoke `ass_account_grabdatcash = yes`, and do `remove_ship_flag = "ass_waiting_for_cash"`
-1. If your mission takes time to complete, you can either plugin into my `ass_10_day_pulse` effect, or implement your own. This effect uses the `ass_constructing_station` flag and `AssConstructionTime` variable. Once the variable is depleted, it invokes `ass_construction_complete_3rd = yes`.
+1. When the assembler reaches the target, `ass_init_stage3_3rd` will be invoked. Verify that the trigger conditions you used to set up the mission are still valid, and if not, you want to `ass_stage4_abort_operation`. You don't need to overwrite `ass_init_stage3_3rd` unless your operation is very untraditional. All the operations included in the addon use this effect. It chains to `ass_stage3_build` if the operation can be afforded by the country, or aborts if standard conditions are not valid, or sets the "wait for cash" flag and waits.
+1. In your override of `ass_stage3_build_3rd`, you should start building. Typically, this is done by simply invoking `ass_stage3_start_construction`.
+1. If you want to build immediately, simply do so. Alternatively, if you set `AssConstructionTime`, the ship counts it down and then invokes `ass_stage4_complete_3rd`.
 1. In your mission complete effect, ROOT and THIS is the ship. You need to do the following: (1) remove the relation flag, either directly on the target by removing the planet/star/fleet ass_target flag and zeroing the AssUUID variable, and then removing the `ass_relation_fleet/planet/star` flag from the assembler, or you can simply invoke `ass_relation_remove_any = yes` which is a bit more costly. And (2) actually instantly perform whatever operation the card you're adding performs, and then (3) invoke `ass_stage4_operation_complete = yes`, which in turn invokes `ass_3rd_op_complete` that you can override.
 
 The way you set the operation cost for a mission is to set the variables `AssOperationCost` (minerals), `AssOperationCostEnergy`, and/or `AssOperationCostInfluence` in stage 1. These obviously have to be set on the assemblers fleet scope.
