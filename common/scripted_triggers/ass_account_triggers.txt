@@ -41,7 +41,9 @@ ass_can_afford = {
 }
 
 ass_is_operation_free = {
-	check_variable = { which = "AssOperationCost" value = 0 }
-	check_variable = { which = "AssOperationCostEnergy" value = 0 }
-	check_variable = { which = "AssOperationCostInfluence" value = 0 }
+	fleet = {
+		check_variable = { which = "AssOperationCost" value = 0 }
+		check_variable = { which = "AssOperationCostEnergy" value = 0 }
+		check_variable = { which = "AssOperationCostInfluence" value = 0 }
+	}
 }
