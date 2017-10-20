@@ -26,6 +26,8 @@ ass_stage3_reached_dock = {
 	ass_stage4_operation_complete = yes
 }
 
+# This operation does not set up a relation flag
+# It gets ass_target set properly in ass_stage2_planet_move
 ass_stage1_dock_p1 = {
 	closest_system = {
 		limit = {
@@ -35,16 +37,28 @@ ass_stage1_dock_p1 = {
 			any_planet = {
 				ass_planet_valid = yes
 				ass_is_owners_planet = yes
+				has_spaceport = yes
 			}
 		}
 		random_system_planet = {
-			limit = { ass_is_owners_planet = yes }
-			log = "[Root.GetName]: Moving to [this.GetName] (Docking)"
-			# This operation does not set up a relation flag
-			PREVPREV = {
-				set_ship_flag = "ass_op_dock"
+			limit = {
+				ass_is_owners_planet = yes
+				has_spaceport = yes
 			}
+			log = "[Root.GetName]: Moving to [this.GetName] (Docking P1)"
+			PREVPREV = { set_ship_flag = "ass_op_dock" }
 			ass_stage2_planet_move = yes
+		}
+	}
+
+	# Make sure we try harder
+	if = { limit = { NOT = { has_ship_flag = "ass_op_dock" } }
+		owner = {
+			random_owned_planet = {
+				log = "[Root.GetName]: Moving to [this.GetName] (Docking P2)"
+				PREVPREV = { set_ship_flag = "ass_op_dock" }
+				ass_stage2_planet_move = yes
+			}
 		}
 	}
 }
