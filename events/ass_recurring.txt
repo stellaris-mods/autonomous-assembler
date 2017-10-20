@@ -67,7 +67,7 @@ ship_event = {
 	trigger = { NOT = { owner = { has_country_flag = "ass_recurring" } } }
 	immediate = {
 		owner = {
-			log = "[this.GetName]: STARTING RECURRING LOOP"
+			assdbg_start_loop = yes
 			set_country_flag = "ass_recurring"
 			country_event = { id = assRecurring.99 days = 10 }
 		}
@@ -92,7 +92,7 @@ country_event = {
 			remove_country_flag = "ass_recurring_any"
 			country_event = { id = assRecurring.99 days = 10 }
 			else = {
-				log = "[this.GetName]: ENDING RECURRING LOOP"
+				assdbg_end_loop = yes
 				remove_country_flag = "ass_recurring"
 			}
 		}
@@ -203,7 +203,7 @@ event = {
 				}
 			}
 			set_country_flag = "ass_recurring"
-			log = "[this.GetName]: STARTING RECURRING LOOP (compatibility)"
+			assdbg_start_loop_old = yes
 			country_event = { id = assRecurring.99 }
 		}
 	}

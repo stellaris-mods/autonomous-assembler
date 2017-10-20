@@ -107,3 +107,18 @@ assdbg_entered_unsure_wormhole_system = {
 		log = "[this.GetName] entered [from.GetName], where we cant actually build."
 	}
 }
+
+assdbg_start_loop = {
+	if = { limit = { has_global_flag = "debug" }
+	log = "[this.GetName]: STARTING RECURRING LOOP"
+}}
+
+assdbg_start_loop_old = {
+	if = { limit = { has_global_flag = "debug" }
+	log = "[this.GetName]: STARTING RECURRING LOOP (compatibility)"
+}}
+
+assdbg_end_loop = {
+	if = { limit = { has_global_flag = "debug" }
+	log = "[this.GetName]: ENDING RECURRING LOOP"
+}}
