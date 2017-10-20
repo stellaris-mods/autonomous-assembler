@@ -184,3 +184,8 @@ sm_ass_spaceport_module_desc: "This Spaceport module section is currently reserv
 
 ass_spaceport_module.explain.title: "Autonomous Assembler Spaceport Module Card"
 ass_spaceport_module.explain.desc: "Congratulations on your first $ass_plural_colored$ outfitted with a §M$ASS_EXPANSION_SPACEPORT_MODULES$§!. In order for this card to have any effect, you will need to bestow upon one of your planet governors the ability to broadcast a cryptographically signed message through subspace.\n\nIn order to give someone access to the signing key, please enable the §Y$edict_autonomous_assembler_blueprint$§! edict on a planet."
+
+# Station Marker
+
+ass_station_marker_custom_refund_fail: "This $ass_marker_colored$ uses a 3rd party station size that is not supported by the core addon directly, and the 3rd party author has not given his station a proper refund value."
+ass_station_marker_custom_refund_success: "This $ass_marker_colored$ uses a 3rd party station size that is not supported by the core addon directly, and the 3rd party author has configured this station type to refund you a cost of £minerals [ass_delete.Fleet.AssRefund]."

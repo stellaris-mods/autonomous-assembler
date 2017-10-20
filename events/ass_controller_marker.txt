@@ -22,7 +22,7 @@
 
 namespace = assMarker
 
-# on_built_station_marker
+# on_building_ass_military_complex
 # Wait one day, then check the system if there is more than one.
 # If there is, refund the player roughly what one of them costs,
 # based on has_component.
@@ -97,10 +97,15 @@ fleet_event = {
 		owner = { add_minerals = 15000 }
 		event_target:ass_delete = { fleet = { destroy_fleet = THIS } }
 	}
-	# This option only shows if the marker has none of the "standard" types, to
-	# hopefully make it easier for 3rd party station types to plug in.
+	# This option only shows if the marker has none of the "standard" types,
+	# AND there is no custom refund variable set.
+	# To support this properly, you will need to register for the on_action
+	# on_building_ass_military_complex and immediately set your custom
+	# AssRefund value on the fleet.
+	# This event is delayed by 2 days, so it will be set before this.
 	option = {
 		name = UNFORTUNATE
+		custom_tooltip = "ass_station_marker_custom_refund_fail"
 		trigger = {
 			event_target:ass_delete = {
 				NOT = {
@@ -109,9 +114,38 @@ fleet_event = {
 					has_component = ASS_TYPE_LARGE
 					has_component = ASS_TYPE_XLARGE
 				}
+				fleet = { check_variable = { which = "AssRefund" value = 0 } }
 			}
 		}
-		owner = { add_minerals = 10000 } # TODO Allow 3rd party to set variable
+		event_target:ass_delete = { fleet = { destroy_fleet = THIS } }
+	}
+	# This option only shows if the marker has none of the "standard" types,
+	# and there IS a custom refund variable set.
+	option = {
+		name = UNFORTUNATE
+		custom_tooltip = "ass_station_marker_custom_refund_success"
+		trigger = {
+			event_target:ass_delete = {
+				NOT = {
+					has_component = ASS_TYPE_SMALL
+					has_component = ASS_TYPE_MEDIUM
+					has_component = ASS_TYPE_LARGE
+					has_component = ASS_TYPE_XLARGE
+				}
+				fleet = { check_variable = { which = "AssRefund" value > 0 } }
+			}
+		}
+		hidden_effect = {
+			event_target:ass_delete = {
+				fleet = {
+					while = { # While loops only loop 100 times, so the max refund is 100*100
+						limit = { check_variable = { which = "AssRefund" value > 100 } }
+						owner = { add_minerals = 100 }
+						subtract_variable = { which = "AssRefund" value = 100 }
+					}
+				}
+			}
+		}
 		event_target:ass_delete = { fleet = { destroy_fleet = THIS } }
 	}
 }
