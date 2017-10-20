@@ -81,24 +81,14 @@ fleet_event = {
 			}
 		}
 		event_target:ass_delete = {
-			if = {
-				limit = {
-					OR = {
-						has_component = ASS_TYPE_SMALL
-						has_component = ASS_TYPE_MEDIUM
-						has_component = ASS_TYPE_LARGE
-						has_component = ASS_TYPE_XLARGE
-					}
-				}
-				# Remember the values here should be same as in
-				# common/component_templates/ass_military_station_types.txt
-				switch = {
-					trigger = has_component
-					ASS_TYPE_SMALL  = { fleet = { set_variable = { which = "AssRefund" value = 1500 } } }
-					ASS_TYPE_MEDIUM = { fleet = { set_variable = { which = "AssRefund" value = 5000 } } }
-					ASS_TYPE_LARGE  = { fleet = { set_variable = { which = "AssRefund" value = 9000 } } }
-					ASS_TYPE_XLARGE = { fleet = { set_variable = { which = "AssRefund" value = 15000 } } }
-				}
+			# Remember the values here should be same as in
+			# common/component_templates/ass_military_station_types.txt
+			switch = {
+				trigger = has_component
+				ASS_TYPE_SMALL  = { fleet = { set_variable = { which = "AssRefund" value = 1500 } } }
+				ASS_TYPE_MEDIUM = { fleet = { set_variable = { which = "AssRefund" value = 5000 } } }
+				ASS_TYPE_LARGE  = { fleet = { set_variable = { which = "AssRefund" value = 9000 } } }
+				ASS_TYPE_XLARGE = { fleet = { set_variable = { which = "AssRefund" value = 15000 } } }
 			}
 			fleet = {
 				if = { limit = { check_variable = { which = "AssRefund" value > 0 } }
@@ -110,8 +100,8 @@ fleet_event = {
 						limit = { owner = { has_technology = "tech_space_defense_station_improvement" } }
 						multiply_variable = { which = "AssRefund" value = 0.85 }
 					}
-					# And another -15% for good measure
-					multiply_variable = { which = "AssRefund" value = 0.85 }
+					# And another -20% for good measure, because you cant get it all back
+					multiply_variable = { which = "AssRefund" value = 0.80 }
 				}
 			}
 		}
