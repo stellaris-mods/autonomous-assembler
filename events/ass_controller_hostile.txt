@@ -147,7 +147,6 @@ fleet_event = {
 				ass_relation_get_any = yes
 				if = {
 					limit = { has_ship_flag = "ass_found_relation_target" }
-					# ZZZ we remove the flag at the bottom of immediate
 
 					# Check if either this was our target, or our target
 					# is in this system.
@@ -211,7 +210,6 @@ fleet_event = {
 
 				if = {
 					limit = { has_ship_flag = "ass_found_relation_target" }
-					# ZZZ we remove the flag at the bottom of immediate
 					if = {
 						limit = { event_target:ass_target = { is_same_value = FROM } }
 						ass_stage4_abort_operation = yes
@@ -227,9 +225,6 @@ fleet_event = {
 					}
 				}
 			}
-
-			# Still in random_owned_ship.
-			remove_ship_flag = "ass_found_relation_target"
 		}
 	}
 }

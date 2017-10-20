@@ -84,7 +84,6 @@ ass_stage3_marker_arrived = {
 	ass_stage3_start_construction = yes
 }
 
-# ZZZ
 # The following log lines demonstrate why we can't rely on event targets
 # in delayed event chains. So that's why we use the relation flag to
 # locate the military marker again in immediate.

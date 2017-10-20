@@ -71,8 +71,7 @@
 #
 # AssReserve                       Empires configured AssReserve.
 # AssMinMinerals                   AssOperationCost          + AssReserve
-# XXX Should probably derive a value from AssReserve for influence
-# AssMinInfluence                  AssOperationCostInfluence + 100 (!)
+# AssMinInfluence                  AssOperationCostInfluence + 100 (FIXME?)
 # AssMinEnergy                     AssOperationCostEnergy    + AssReserve
 #
 # AssMinerals                      Empires total minerals.
@@ -437,7 +436,6 @@ ass_account_internal_update_fleet_totals = {
 		change_variable = { which = "AssMinEnergy" value = "AssReserve" }
 	}
 	if = { limit = { check_variable = { which = "AssMinInfluence" value > 0 } }
-		# XXX Should probably derive a value from AssReserve
 		change_variable = { which = "AssMinInfluence" value = 100 }
 	}
 }
