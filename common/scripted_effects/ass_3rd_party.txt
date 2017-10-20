@@ -32,7 +32,9 @@ ass_init_stage1_3rd_p2 = {}
 # ass_target = fleet/system/planet
 # Already verified that we are in fact close enough to target.
 # Already verified ass_has_operation.
-ass_init_stage3_3rd = {}
+ass_init_stage3_3rd = {
+	cytmStage2PlanetReached = yes
+}
 
 # THIS = ship
 ass_stage3_build_3rd = {}
@@ -40,12 +42,19 @@ ass_stage3_build_3rd = {}
 # THIS = ship
 ass_stage4_complete_3rd = {}
 
-# Stage 1 should flow directly to stage2 and set the
-# autonomous_operation fleet flag if the mission was accepted.
-ass_3rd_op_complete = {}
-ass_3rd_op_abort = {}
+# Note that this effect is invoked _after_ ass_set_fleet_name, which means
+# you probably need to invoke that yourself.
+ass_3rd_op_complete = {
+	cytmStage4Complete = yes
+}
+ass_3rd_op_abort = {
+	cytmStage4Abort = yes
+}
 
-ass_set_fleet_name_3rd = {}
+ass_set_fleet_name_3rd_pre = {
+	cytmSetFleetName = yes
+}
+ass_set_fleet_name_3rd_post = {}
 
 ###############################################################################
 # STATION MARKER COMPONENT TYPES

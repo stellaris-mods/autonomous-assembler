@@ -21,6 +21,7 @@
 # THIS = ship
 ass_set_fleet_name = {
 	# Dont use names longer than 8 characters, looks best in Tiny Outliner
+	ass_set_fleet_name_3rd_pre = yes
 	switch = {
 		trigger = has_ship_flag
 		ass_waiting_for_cash = { fleet = { set_name = "Waiting" } }
@@ -47,7 +48,5 @@ ass_set_fleet_name = {
 			}
 		}
 	}
-	# XXX add special project to disable this effect per country
-
-	ass_set_fleet_name_3rd = yes
+	ass_set_fleet_name_3rd_post = yes
 }
