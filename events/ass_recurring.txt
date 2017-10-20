@@ -168,7 +168,11 @@ event = {
 				random_owned_ship = {
 					limit = { has_ship_flag = "ass_check_cash" }
 					remove_ship_flag = "ass_check_cash"
-					ass_stage3_build = yes
+
+					ass_account_update_ship = yes
+					if = { limit = { ass_can_afford = yes }
+						ass_stage3_build = yes
+					}
 				}
 			}
 		}
