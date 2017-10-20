@@ -101,9 +101,8 @@ special_project = {
 					flag = "ass_halt_operations"
 					days = 90
 				}
+				country_event = { id = assCountry.500 days = 91 }
 			}
-
-			country_event = { id = assCountry.500 days = 91 }
 
 			# Make any owned ship head for home
 			every_owned_ship = {
