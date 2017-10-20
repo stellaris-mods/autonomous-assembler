@@ -117,7 +117,7 @@ ass_account_refund = {
 
 ass_account_update_reserve = {
 	every_owned_fleet = {
-		limit = { any_owned_ship = { has_ship_flag = "ass_id" } }
+		limit = { any_owned_fleet = { has_fleet_flag = "autonomous_assembler" } }
 		set_variable = { which = "AssReserve" value = 0 }
 		owner = {
 			# Make a copy we can mangle
@@ -157,9 +157,8 @@ ass_account_update_reserve = {
 ass_account_internal_update_empire_minerals = {
 	if = {
 		limit = {
-			any_owned_ship = {
-				has_ship_flag = "ass_id"
-				fleet = { check_variable = { which = "AssOperationCost" value > 0 } }
+			any_owned_fleet = {
+				check_variable = { which = "AssOperationCost" value > 0 }
 			}
 		}
 		set_variable = { which = "AssMinerals" value = 0 }
@@ -222,9 +221,8 @@ ass_account_internal_update_empire_minerals = {
 ass_account_internal_update_empire_energy = {
 	if = {
 		limit = {
-			any_owned_ship = {
-				has_ship_flag = "ass_id"
-				fleet = { check_variable = { which = "AssOperationCostEnergy" value > 0 } }
+			any_owned_fleet = {
+				check_variable = { which = "AssOperationCostEnergy" value > 0 }
 			}
 		}
 		set_variable = { which = "AssEnergy" value = 0 }
@@ -287,9 +285,8 @@ ass_account_internal_update_empire_energy = {
 ass_account_internal_update_empire_influence = {
 	if = {
 		limit = {
-			any_owned_ship = {
-				has_ship_flag = "ass_id"
-				fleet = { check_variable = { which = "AssOperationCostInfluence" value > 0 } }
+			any_owned_fleet = {
+				check_variable = { which = "AssOperationCostInfluence" value > 0 }
 			}
 		}
 		set_variable = { which = "AssInfluence" value = 0 }
