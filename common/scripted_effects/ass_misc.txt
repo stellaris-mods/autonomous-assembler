@@ -34,14 +34,14 @@ ass_verify_failure_conditions = {
 	}
 
 	if = { limit = { ass_has_operation = no }
-		log = "[this.GetName]: ERROR: Reached end of stage 2 or 3 without an operation. That's weird."
+		log = "[this.GetName]: ERROR: That's weird; apparently we're not on an active operation."
 		ass_stage4_abort_operation = yes
 		break = yes
 	}
 
 	if = { limit = { NOT = { exists = event_target:ass_target } }
 		# Relation target NOT found, so abort mission
-		log = "[this.GetName]: ERROR: Could not find our relation target when construction was complete."
+		log = "[this.GetName]: ERROR: Relation event target is not set."
 		ass_stage4_abort_operation = yes
 		break = yes
 	}
@@ -57,13 +57,14 @@ ass_verify_failure_conditions = {
 		limit = {
 			# If we are in orbit of something, assume everything is fine
 			NOT = { fleet = { exists = orbit } }
-			distance = {
-				source = event_target:ass_target
-				min_distance = 20
+			NOT = { # Much easier to wrap max_distance in my head, and I know it works
+				distance = {
+					source = event_target:ass_target
+					max_distance = 20
+				}
 			}
 		}
-		# Check that we are closer to our target than 20 units. This is checked
-		# in stage 2 as well, but time has probably passed since then.
+		# Check that we are closer to our target than 20 units.
 		log = "[this.GetName]: ERROR: We are more than 20 distance units from [ass_target.GetName]."
 		ass_stage4_abort_operation = yes
 		break = yes
