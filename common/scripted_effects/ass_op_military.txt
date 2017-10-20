@@ -74,7 +74,7 @@ ass_stage1_military_p1 = {
 		if = {
 			limit = {
 				has_global_flag = "has_nsc_active"
-				owner = { has_technology = "tech_space_defense_station_3" }
+				owner = { has_technology = "tech_battle_fortress_1" }
 			}
 			closest_system = {
 				limit = {
@@ -243,7 +243,11 @@ ass_stage4_complete_military = {
 		create_fleet = {
 			effect = {
 				set_owner = ROOT.owner
-				set_location = PREV
+				set_location = {
+					target = PREVPREV
+					distance = 14
+					angle = random
+				}
 			}
 		}
 	}
