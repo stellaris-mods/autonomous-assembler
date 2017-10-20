@@ -17,45 +17,6 @@
 # Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301  USA
 ###
 
-ass_stage3_build = {
-	ass_account_update_ship = yes
-	switch = {
-		trigger = has_ship_flag
-		ass_op_energy   = { ass_stage3_single_station = yes }
-		ass_op_minerals = { ass_stage3_single_station = yes }
-		ass_op_research = { ass_stage3_single_station = yes }
-		ass_op_military = { ass_stage3_single_station = yes }
-		ass_op_wormhole = { ass_stage3_single_station = yes }
-		ass_op_spaceport_modules = { ass_stage3_spaceport_modules = yes }
-	}
-
-	ass_stage3_build_3rd = yes
-}
-
-ass_stage3_single_station = {
-	if = {
-		limit = { ass_can_afford = yes }
-		ass_account_grabdatcash = yes
-		remove_ship_flag = "ass_waiting_for_cash"
-		set_ship_flag = "ass_constructing_station"
-		ass_set_fleet_name = yes
-
-		log = "[this.GetName]: Constructing station..."
-		# XXX We should really stop using these days=X events, because if the ship
-		# XXX is killed, it will error on the next hit, even if for example we set
-		# XXX trigger = { is_scope_valid = yes }.
-		if = { limit = { has_global_flag = "debug" }
-			ship_event = { id = assShip.1000 days = 10 }
-		else = {
-			ship_event = { id = assShip.1000 days = 100 }
-		} }
-		else = {
-			assdbg_resource_wait = yes
-			set_ship_flag = "ass_waiting_for_cash"
-			ass_set_fleet_name = yes
-		}
-	}
-}
 
 # AI Assemblers are event locked when they are built, and
 # must remain event locked forever to prevent the AI ordering
@@ -66,49 +27,90 @@ ass_stage3_lock_ship = {
 	}
 }
 
-ass_stage3_lock_and_accounts = {
-	# ZZZ Now we either wait for cash or build, so lock now.
+# THIS = ship
+# ass_target = fleet/system/planet (you need to set this)
+ass_init_stage3 = {
+	ass_init_stage3_3rd = yes
+
+	# 1. Are we in orbit, or close enough to it?
+	ass_verify_failure_conditions = yes
+
+	# 2. Lock fleet
 	ass_stage3_lock_ship = yes
 
-	owner = { ass_account_update_empire = yes }
+	# 2. Does the operation cost anything
+	if = { limit = { ass_is_operation_free = no }
+		# Need to invoke this before ass_account_update_ship
+		owner = { ass_account_update_empire = yes }
+		# Need to invoke this before ass_can_afford
+		ass_account_update_ship = yes
+	}
 
-	ass_stage3_build = yes
-}
-
-ass_stage3_verify_orbit = {
+	# 3. Do we need to wait for more cash?
 	if = {
 		limit = {
-			event_target:ass_target = {
-				ass_is_planet_valid_orbital_target = yes
-			}
+			ass_is_operation_free = no
+			ass_can_afford = no
 		}
-		ass_stage3_lock_and_accounts = yes
+		# We can't afford to build, so fall back to on_monthly_pulse
+		# to check for ass_can_afford.
+		assdbg_resource_wait = yes
+		set_ship_flag = "ass_waiting_for_cash"
+		ass_set_fleet_name = yes
+
 		else = {
-			log = "[this.GetName]: ERROR: Planet [ass_target.GetName] is no longer considered a valid orbital construction target."
-			ass_stage4_abort_operation = yes
+			# We can afford to build (or the operation is free),
+			# so start operation immediately
+			ass_stage3_build = yes
 		}
 	}
 }
 
-# THIS = ship
-# ass_target = fleet/system/planet
-# Already verified that we are in fact close enough to target.
-# Already verified ass_has_operation.
-ass_init_stage3 = {
-	switch = {
-		trigger = has_ship_flag
-		ass_op_minerals = { ass_stage3_verify_orbit = yes }
-		ass_op_energy   = { ass_stage3_verify_orbit = yes }
-		ass_op_research = { ass_stage3_verify_orbit = yes }
-		ass_op_military = { ass_stage3_lock_and_accounts = yes }
-		ass_op_wormhole = { ass_stage3_lock_and_accounts = yes }
-		ass_op_marker   = {
-			ass_stage3_lock_ship = yes
-			ass_stage3_marker_arrived = yes
-		}
-		ass_op_dock     = { ass_stage3_reached_dock = yes }
-		ass_op_spaceport_modules = { ass_stage3_lock_and_accounts = yes }
+# In this effect, ass_can_afford is always true, or the operation is free
+ass_stage3_build = {
+	if = { limit = { ass_is_operation_free = no }
+		ass_account_grabdatcash = yes
 	}
 
-	ass_init_stage3_3rd = yes
+	switch = {
+		trigger = has_ship_flag
+		ass_op_spaceport_modules = { ass_stage3_start_construction = yes }
+		ass_op_energy   = { ass_stage3_start_construction = yes }
+		ass_op_minerals = { ass_stage3_start_construction = yes }
+		ass_op_research = { ass_stage3_start_construction = yes }
+		ass_op_military = { ass_stage3_start_construction = yes }
+		ass_op_wormhole = { ass_stage3_start_construction = yes }
+		ass_op_marker   = { ass_stage3_marker_arrived = yes }
+		ass_op_dock     = { ass_stage3_reached_dock = yes }
+	}
+
+	ass_stage3_build_3rd = yes
+}
+
+# Invoked every 10 days for active assemblers during an operation.
+# The first invocation might be slightly delayed, because it starts
+# recurring by an on_monthly_pulse that checks if the country has
+# any assemblers.
+# ROOT is the ship.
+ass_stage3_constructing = {
+	if = {
+		limit = { fleet = { check_variable = { which = "AssConstructionTime" value > 0 } } }
+		fleet = { subtract_variable = { which = "AssConstructionTime" value = 10.1 } }
+	}
+	if = {
+		limit = { fleet = { check_variable = { which = "AssConstructionTime" value < 1 } } }
+		remove_ship_flag = "ass_constructing_station"
+		ass_stage4_construction_complete = yes
+	}
+}
+
+ass_stage3_start_construction = {
+	if = { limit = { has_global_flag = "debug" }
+		fleet = { divide_variable = { which = "AssConstructionTime" value = 10 } }
+	} }
+	remove_ship_flag = "ass_waiting_for_cash"
+	set_ship_flag = "ass_constructing_station"
+	log = "[this.GetName]: Assembling ([fleet.AssConstructionTime] days) ..."
+	ass_set_fleet_name = yes
+	ship_event = { id = assRecurring.1 }
 }

@@ -22,6 +22,7 @@ ass_stage1_set_energy = {
 	ROOT = {
 		set_ship_flag = "ass_op_energy"
 		ass_discounts_set_mining_station_cost = yes
+		fleet = { set_variable = { which = "AssConstructionTime" value = 100 } }
 	}
 }
 

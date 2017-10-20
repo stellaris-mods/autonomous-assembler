@@ -18,11 +18,10 @@
 ###
 
 
-
-
 ass_stage2_military_move = {
 	ROOT = {
 		set_ship_flag = "ass_op_military"
+		fleet = { set_variable = { which = "AssConstructionTime" value = 100 } }
 	}
 	PREV = { ass_relation_flag_system = yes }
 	ass_stage2_planet_move = yes
@@ -32,35 +31,23 @@ ass_stage1_set_military_xl = {
 	ROOT = {
 		ass_discounts_set_military_xlarge_cost = yes
 		set_ship_flag = "ass_station_xlarge"
-		remove_ship_flag = "ass_station_large"
-		remove_ship_flag = "ass_station_medium"
-		remove_ship_flag = "ass_station_small"
 	}
 }
 ass_stage1_set_military_l = {
 	ROOT = {
 		ass_discounts_set_military_large_cost = yes
-		remove_ship_flag = "ass_station_xlarge"
 		set_ship_flag = "ass_station_large"
-		remove_ship_flag = "ass_station_medium"
-		remove_ship_flag = "ass_station_small"
 	}
 }
 ass_stage1_set_military_m = {
 	ROOT = {
 		ass_discounts_set_military_medium_cost = yes
-		remove_ship_flag = "ass_station_xlarge"
-		remove_ship_flag = "ass_station_large"
 		set_ship_flag = "ass_station_medium"
-		remove_ship_flag = "ass_station_small"
 	}
 }
 ass_stage1_set_military_s = {
 	ROOT = {
 		ass_discounts_set_military_small_cost = yes
-		remove_ship_flag = "ass_station_xlarge"
-		remove_ship_flag = "ass_station_large"
-		remove_ship_flag = "ass_station_medium"
 		set_ship_flag = "ass_station_small"
 	}
 }
@@ -248,29 +235,20 @@ ass_stage1_military_p2 = {
 # Root and this = ship
 # And we are in orbit, or the mission failed.
 ass_stage4_complete_military = {
-	# assShip.1000 checks both fleet and solar system
-	# XXX but it does not verify that we are still in the same system
-
 	# Reset relation_flag
-	fleet = {
-		solar_system = {
-			assdbg_relation_removed = yes
-			set_variable = { which = "AssUUID" value = 0 }
-			remove_star_flag = "ass_target"
+	event_target:ass_target = {
+		assdbg_relation_removed = yes
+		set_variable = { which = "AssUUID" value = 0 }
+		remove_star_flag = "ass_target"
+		create_fleet = {
+			effect = {
+				set_owner = ROOT.owner
+				set_location = PREV
+			}
 		}
 	}
 	remove_ship_flag = "ass_relation_system"
 
-	fleet = {
-		orbit = {
-			create_fleet = {
-				effect = {
-					set_owner = ROOT.owner
-					set_location = PREV
-				}
-			}
-		}
-	}
 	switch = {
 		trigger = has_ship_flag
 		ass_station_xlarge = { last_created_fleet = { nsc_create_battle_fortress = yes } }

@@ -173,9 +173,10 @@ fleet_event = {
 				}
 			}
 
-			# XXX Add case where we are constructing wormholes and the system
-			# XXX we are entering has no wormhole; that means we should make
-			# XXX one here.
+			# TODO
+			# Add case where we are constructing wormholes and the system
+			# we are entering has no wormhole; that means we should make
+			# one here.
 
 			# Special case if we are constructing wormholes and enter
 			# a system with lower than high intel, we need to check if we can

@@ -40,8 +40,7 @@ ass_stage1_marker_p1 = {
 	}
 }
 
-# This chains from assMarker.100, which uses ass_relation_get_any,
-# which means that ass_target will be a fleet, and not a ship.
+# ass_target is a fleet, and not a ship.
 ass_stage4_complete_marker = {
 	event_target:ass_target = {
 		remove_fleet_flag = "ass_target"
@@ -81,13 +80,74 @@ ass_stage3_marker_arrived = {
 
 	ass_stage3_marker_arrived_3rd = yes
 
-	# Removed by ass_stage4_operation_complete eventually.
-	set_ship_flag = "ass_constructing_station"
-	ass_set_fleet_name = yes
+	fleet = { set_variable = { which = "AssConstructionTime" value = 85 } }
+	ass_stage3_start_construction = yes
+}
 
-	# Build first station
-	# XXX We should really stop using these days=X events, because if the ship
-	# XXX is killed, it will error on the next hit, even if for example we set
-	# XXX trigger = { is_scope_valid = yes }.
-	ship_event = { id = assMarker.100 days = 85 }
+# ZZZ
+# The following log lines demonstrate why we can't rely on event targets
+# in delayed event chains. So that's why we use the relation flag to
+# locate the military marker again in immediate.
+
+# log = "[ass_target.GetName]: Spawning military station after 85 days."
+# 34. Big Bazoom: Spawning military station after 85 days.
+# 34. Big Bazoom: Spawning military station after 85 days.
+# 34. Big Bazoom: Spawning military station after 85 days.
+# 34. Big Bazoom: Spawning military station after 85 days.
+# 34. Big Bazoom: Spawning military station after 85 days.
+# 34. Big Bazoom: Spawning military station after 85 days.
+# 34. : Spawning military station after 85 days.
+#
+# Name is missing on the last one there, because the event target has
+# been reset for some weird reason. They're just not reliable over
+# chained days=X events.
+
+# Jeez has_ambient_object_flag can't be used inside any_ambient_object
+# or any_system_ambient_object. What the fuck is that about.
+ass_stage3_marker_build = {
+	log = "[this.GetName]: Spawning military station at marker [ass_target.GetName] after 85 days."
+	solar_system = {
+		random_system_ambient_object = {
+			limit = { has_ambient_object_flag = "ass_spawn_here" }
+			PREVPREV = { set_ship_flag = "ass_spawned_marker_station" }
+			create_fleet = {
+				effect = {
+					set_owner = PREVPREVPREV.owner
+					set_location = PREV
+					set_fleet_flag = "ass_spawned_from_marker"
+				}
+			}
+			destroy_ambient_object = THIS
+		}
+	}
+
+	# We need this ship flag because the any_*ambient_object triggers dont work,
+	# and I want to support any random number of ass_spawn_here objects.
+	if = {
+		limit = { has_ship_flag = "ass_spawned_marker_station" }
+		remove_ship_flag = "ass_spawned_marker_station"
+
+		event_target:ass_target = {
+			random_owned_ship = {
+				switch = {
+					trigger = has_component
+					ASS_TYPE_XLARGE = { last_created_fleet = { nsc_create_battle_fortress = yes } }
+					ASS_TYPE_LARGE  = { last_created_fleet = { create_ship = { name = random random_existing_design = military_station_large } } }
+					ASS_TYPE_MEDIUM = { last_created_fleet = { create_ship = { name = random random_existing_design = military_station_medium } } }
+					ASS_TYPE_SMALL  = { last_created_fleet = { create_ship = { name = random random_existing_design = military_station_small } } }
+				}
+				ass_stage3_marker_build_3rd = yes
+			}
+		}
+
+		# Yes, we chain it even if there are none left to build.
+		# That's why it's 85 days and not 100.
+		fleet = { set_variable = { which = "AssConstructionTime" value = 85 } }
+		ass_stage3_start_construction = yes
+
+		else = {
+			# We are done.
+			ass_stage4_complete_marker = yes
+		}
+	}
 }

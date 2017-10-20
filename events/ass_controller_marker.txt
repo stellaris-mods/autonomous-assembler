@@ -18,122 +18,9 @@
 ###
 
 
-# ZZZ
-# The following log lines demonstrate why we can't rely on event targets
-# in delayed event chains. So that's why we use the relation flag to
-# locate the military marker again in immediate.
-
-# log = "[ass_target.GetName]: Spawning military station after 85 days."
-# 34. Big Bazoom: Spawning military station after 85 days.
-# 34. Big Bazoom: Spawning military station after 85 days.
-# 34. Big Bazoom: Spawning military station after 85 days.
-# 34. Big Bazoom: Spawning military station after 85 days.
-# 34. Big Bazoom: Spawning military station after 85 days.
-# 34. Big Bazoom: Spawning military station after 85 days.
-# 34. : Spawning military station after 85 days.
-#
-# Name is missing on the last one there, because the event target has
-# been reset for some weird reason. They're just not reliable over
-# chained days=X events.
-#
-
-
 # Controller events for the military Station Marker operation.
 
 namespace = assMarker
-
-ship_event = {
-	id = assMarker.100
-	hide_window = yes
-	is_triggered_only = yes
-
-	# Jeez has_ambient_object_flag can't be used inside any_ambient_object
-	# or any_system_ambient_object. What the fuck is that about.
-
-	immediate = {
-		# ZZZ Remember this event might trigger after we've aborted operation,
-		# ZZZ been destroyed, or any other horrible thing has happened. So make
-		# ZZZ sure we don't build unless we're still "valid".
-		if = {
-			limit = {
-				exists = fleet
-				fleet = { exists = solar_system }
-			}
-			# Find our station marker using the relation flag.
-			ass_relation_get_any = yes
-
-			# Check if we found the relation target
-			if = {
-				limit = { has_ship_flag = "ass_found_relation_target" }
-				remove_ship_flag = "ass_found_relation_target"
-				# Yes, we did, it's set in event_target:ass_target now.
-				# And it's a fleet, because ships dont support variables.
-				log = "[this.GetName]: Spawning military station at marker [ass_target.GetName] after 85 days."
-
-				# XXX we should check that the relation target is still in the
-				# XXX same solar system and such as we are, I guess.
-				solar_system = {
-					random_system_ambient_object = {
-						limit = { has_ambient_object_flag = "ass_spawn_here" }
-						ROOT = { set_ship_flag = "ass_spawned_marker_station" }
-						create_fleet = {
-							effect = {
-								set_owner = ROOT.owner
-								set_location = PREV
-								set_fleet_flag = "ass_spawned_from_marker"
-							}
-						}
-						destroy_ambient_object = THIS
-					}
-				}
-
-				# We need this ship flag because the any_*ambient_object triggers dont work,
-				# and I want to support any random number of ass_spawn_here objects.
-				if = {
-					limit = { has_ship_flag = "ass_spawned_marker_station" }
-					remove_ship_flag = "ass_spawned_marker_station"
-
-					event_target:ass_target = {
-						random_owned_ship = {
-							switch = {
-								trigger = has_component
-								ASS_TYPE_XLARGE = { last_created_fleet = { nsc_create_battle_fortress = yes } }
-								ASS_TYPE_LARGE  = { last_created_fleet = { create_ship = { name = random random_existing_design = military_station_large } } }
-								ASS_TYPE_MEDIUM = { last_created_fleet = { create_ship = { name = random random_existing_design = military_station_medium } } }
-								ASS_TYPE_SMALL  = { last_created_fleet = { create_ship = { name = random random_existing_design = military_station_small } } }
-							}
-
-							ass_stage3_marker_build_3rd = yes
-						}
-					}
-
-					# Yes, we chain it even if there are none left to build.
-					# That's why it's 85 days and not 100.
-					# XXX We should really stop using these days=X events, because if the ship
-					# XXX is killed, it will error on the next hit, even if for example we set
-					# XXX trigger = { is_scope_valid = yes }.
-					ship_event = { id = assMarker.100 days = 85 }
-
-					else = {
-						# We are done.
-						ass_stage4_complete_marker = yes
-					}
-				}
-
-				else = {
-					# Relation target NOT found, so abort mission
-					log = "[this.GetName]: ERROR: Could not any Station Marker with the same UUID as us, aborting mission."
-					ass_stage4_abort_operation = yes
-				}
-			}
-			else = {
-				# Relation target NOT found, so abort mission
-				log = "[this.GetName]: ERROR: Suddenly without a solar system."
-				ass_stage4_abort_operation = yes
-			}
-		}
-	}
-}
 
 # on_built_station_marker
 # Wait one day, then check the system if there is more than one.
@@ -210,11 +97,27 @@ fleet_event = {
 		owner = { add_minerals = 15000 }
 		event_target:ass_delete = { fleet = { destroy_fleet = THIS } }
 	}
+	# This option only shows if the marker has none of the "standard" types, to
+	# hopefully make it easier for 3rd party station types to plug in.
+	option = {
+		name = UNFORTUNATE
+		trigger = {
+			event_target:ass_delete = {
+				NOT = {
+					has_component = ASS_TYPE_SMALL
+					has_component = ASS_TYPE_MEDIUM
+					has_component = ASS_TYPE_LARGE
+					has_component = ASS_TYPE_XLARGE
+				}
+			}
+		}
+		owner = { add_minerals = 10000 } # TODO Allow 3rd party to set variable
+		event_target:ass_delete = { fleet = { destroy_fleet = THIS } }
+	}
 }
 
 
-# on yearly pulse
-# find any ass_marker_used that are missing their stations
+# TODO: on yearly pulse: find any ass_marker_used that are missing stations
 # with no ass_target mark and replace missing stations
 # I'm not sure I can do this in a way that keeps the hexagon formation.
 # According to trigger_docs, distance does not support ambient objects.

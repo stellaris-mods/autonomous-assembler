@@ -20,28 +20,9 @@
 
 # THIS must be the ship
 ass_stage2_system_reached = {
-	# We dont need the event target, it's just much easier than prevprevprevprevprevprevprevprev
 	PREVPREVPREV = { save_event_target_as = ass_target }
-	if = {
-		limit = { ass_has_operation = yes }
-		if = {
-			limit = {
-				solar_system = {
-					is_same_value = event_target:ass_target
-				}
-			}
-			assdbg_system_arrived = yes
-			ass_init_stage3 = yes
-			else = {
-				log = "[this.GetName]: ERROR: We are not in system [ass_target.GetName]."
-				ass_stage4_abort_operation = yes
-			}
-		}
-		else = {
-			log = "[this.GetName]: ERROR: Reached end of queue_actions without an operation. That's weird."
-			ass_stage4_abort_operation = yes
-		}
-	}
+	assdbg_system_arrived = yes
+	ass_init_stage3 = yes
 }
 
 ass_stage2_system_move = {

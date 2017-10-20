@@ -20,32 +20,9 @@
 
 # THIS must be the ship
 ass_stage2_fleet_reached = {
-	# We dont need the event target, it's just much easier than prevprevprevprevprevprevprevprev
 	PREVPREVPREV = { save_event_target_as = ass_target }
-	if = {
-		limit = { ass_has_operation = yes }
-		if = {
-			limit = {
-				solar_system = {
-					is_same_value = event_target:ass_target.solar_system
-				}
-				distance = {
-					source = event_target:ass_target
-					max_distance = 20
-				}
-			}
-			assdbg_fleet_arrived = yes
-			ass_init_stage3 = yes
-			else = {
-				log = "[this.GetName]: ERROR: We are not close to fleet [ass_target.GetName]."
-				ass_stage4_abort_operation = yes
-			}
-		}
-		else = {
-			log = "[this.GetName]: ERROR: Reached end of stage2_fleet_move without an operation. That's weird."
-			ass_stage4_abort_operation = yes
-		}
-	}
+	assdbg_fleet_arrived = yes
+	ass_init_stage3 = yes
 }
 
 ass_stage2_fleet_move = {

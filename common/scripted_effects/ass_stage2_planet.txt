@@ -20,40 +20,9 @@
 
 # THIS must be the ship
 ass_stage2_planet_reached = {
-	# We dont need the event target, it's just much easier than prevprevprevprevprevprevprevprev
 	PREVPREVPREV = { save_event_target_as = ass_target }
-	if = {
-		limit = { ass_has_operation = yes }
-		if = {
-			limit = {
-				OR = {
-					AND = {
-						exists = orbit
-						orbit = { is_same_value = event_target:ass_target }
-					}
-					solar_system = {
-						is_same_value = event_target:ass_target.solar_system
-						event_target:ass_target = {
-							distance = {
-								source = PREVPREV
-								max_distance = 20
-							}
-						}
-					}
-				}
-			}
-			assdbg_planet_arrived = yes
-			ass_init_stage3 = yes
-			else = {
-				log = "[this.GetName]: ERROR: Either we are not in the same system, or not in orbit, or simply too far away from [ass_target.GetName]."
-				ass_stage4_abort_operation = yes
-			}
-		}
-		else = {
-			log = "[this.GetName]: ERROR: Reached end of queue_actions without an operation. That's weird."
-			ass_stage4_abort_operation = yes
-		}
-	}
+	assdbg_planet_arrived = yes
+	ass_init_stage3 = yes
 }
 
 # Always invoke from the scope of the planet you want to move to.

@@ -30,7 +30,9 @@ ass_fleet_valid = {
 
 # ZZZ If you change this trigger, then please check ass_check_wormhole_p2
 ass_is_friendly_system = {
-	has_access_fleet = ROOT.owner # XXX testing
+	# ZZZ I don't know exactly what has_access_fleet does, but it doesn't seem
+	# ZZZ to be hurting our operations.
+	has_access_fleet = ROOT.owner
 	NOT = {
 		any_ship_in_system = {
 			exists = owner

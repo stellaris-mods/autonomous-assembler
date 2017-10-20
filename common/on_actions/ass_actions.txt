@@ -40,10 +40,9 @@ on_tech_increased = {
 
 on_monthly_pulse = {
 	events = {
-		# check if any ships are waiting for resources
-		# we have assShip.101 though
-		assShip.102
-		assShip.2000
+		assRecurring.1000
+		assRecurring.2000
+		assRecurring.3000
 	}
 }
 

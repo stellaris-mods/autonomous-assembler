@@ -1,0 +1,206 @@
+###
+# This file is part of a project hosted at https://github.com/stellaris-mods
+# Copyright (c) 2017 folk@folk.wtf
+#
+# This program is free software; you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation; either version 3 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software Foundation,
+# Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301  USA
+###
+
+
+namespace = assRecurring
+
+# Previously we used ship_event = { id = foo days = bar } for any operation
+# that needed a delay.
+#
+# The problem with doing it this way is that if a ship is killed, or otherwise
+# an invalid scope (emergency ftl, whatever), the event doesn't happen, and we
+# don't chain properly to the next effect. Also, you get an error.log print
+# akin to "invalid scope for event".
+#
+# You get this error even if, in the events trigger, you use is_scope_valid,
+# which seems to me really should prevent the error (though I obviously
+# understand why it doesn't.)
+#
+# In place of the above, we have this file.
+#
+# We need to be able to determine how long it has been since the previous day
+# we counted days for an operation. There are essentially 3 ways of
+# accomplishing this (that I can think of):
+# 1. on_monthly_pulse
+# 2. mean_time_to_happen
+# 3. Chaining days=foo events
+#
+# (1) The problem with on_monthly_pulse:
+# The reason assRecurring.1 isn't an on_monthly_pulse, is because that
+# would be too infrequent to make ships appear to spend the correct number of
+# days per operation. We need a narrower frequency window.
+#
+# (2) The problem with mean_time_to_happen:
+# The problem with a MTTH event is that it is actually _mean_ time. Sometimes
+# it triggers at MTTH, sometimes before, sometimes after. So that's obviously
+# problematic as well.
+#
+# (3) The problem with chaining days=foo:
+# I already explained this above, but this is still the solution we use, just
+# that we chain the event on the country scope instead of a ship. Hopefully,
+# a country scope is much more stable.
+#
+# So, that's what we do.
+#
+
+
+ship_event = {
+	id = assRecurring.1
+	hide_window = yes
+	is_triggered_only = yes
+	trigger = { NOT = { owner = { has_country_flag = "ass_recurring" } } }
+	immediate = {
+		owner = {
+			log = "[this.GetName]: STARTING RECURRING LOOP"
+			set_country_flag = "ass_recurring"
+			country_event = { id = assRecurring.99 days = 10 }
+		}
+	}
+}
+
+country_event = {
+	id = assRecurring.99
+	hide_window = yes
+	is_triggered_only = yes
+
+	immediate = {
+		every_owned_ship = {
+			limit = {
+				is_ship_size = autonomous_assembler
+				has_ship_flag = "ass_constructing_station"
+			}
+			ship_event = { id = assRecurring.100 }
+			PREV = { set_country_flag = "ass_recurring_any" }
+		}
+		if = { limit = { has_country_flag = "ass_recurring_any" }
+			remove_country_flag = "ass_recurring_any"
+			country_event = { id = assRecurring.99 days = 10 }
+			else = {
+				log = "[this.GetName]: ENDING RECURRING LOOP"
+				remove_country_flag = "ass_recurring"
+			}
+		}
+	}
+}
+
+# This event just makes sure that ROOT is the ship in any chained effect.
+# Which is generally helpful.
+ship_event = {
+	id = assRecurring.100
+	hide_window = yes
+	is_triggered_only = yes
+	immediate = { ass_stage3_constructing = yes }
+}
+
+# Recurring event on_monthly_pulse that simply activates idle assemblers
+# ZZZ This + on_ship_built are the only two places that invoke assShip.1
+event = {
+	id = assRecurring.1000
+	hide_window = yes
+	is_triggered_only = yes
+
+	immediate = {
+		every_ship = {
+			limit = {
+				# Maybe prevent "Checking trigger against an unsupported
+				# scope!" when scope type=none for some reason.
+				exists = owner
+				exists = fleet
+				# And maybe not. I've only seen the error once.
+				is_ship_size = autonomous_assembler
+				owner = {
+					NOT = { has_country_flag = "ass_halt_operations" }
+				}
+				ass_has_operation = no
+				fleet = {
+					is_fleet_idle = yes
+				}
+			}
+			# ROOT needs to be the ship, so dont invoke the init effect directly
+			ship_event = { id = assShip.9001 }
+		}
+	}
+}
+
+# Recurring event that checks on monthly pulse if we have any assemblers
+# waiting for cash. If we do, we count up the empires totals and check again.
+event = {
+	id = assRecurring.2000
+	hide_window = yes
+	is_triggered_only = yes
+	immediate = {
+		# I don't trust every_country (or any every_ effect), so try to
+		# limit{} as much as possible.
+		every_country = {
+			limit = {
+				has_technology = tech_autonomous_assembler
+				check_variable = { which = "AssReserve" value > 0 }
+				any_owned_ship = { has_ship_flag = "ass_waiting_for_cash" }
+			}
+			ass_account_update_empire = yes
+
+			every_owned_ship = {
+				limit = {
+					is_ship_size = autonomous_assembler
+					has_ship_flag = "ass_waiting_for_cash"
+				}
+				set_ship_flag = "ass_check_cash"
+			}
+
+			while = {
+				limit = { any_owned_ship = { has_ship_flag = "ass_check_cash" } }
+				random_owned_ship = {
+					limit = { has_ship_flag = "ass_check_cash" }
+					remove_ship_flag = "ass_check_cash"
+					ass_stage3_build = yes
+				}
+			}
+		}
+	}
+}
+
+# ZZZ This event is for:
+# 1. Backwards compatibility with the addon before I added this file
+# 2. 3rd party assembler addons that don't trigger assRecurring.1 "properly"
+#
+# This event is triggered on_monthly_pulse, and gets the recurring counter
+# going if the country has any ships. We don't use on_game_start, because:
+# (a) That wouldn't be backwards compatible with existing savegames
+# (b) There's no reason to have the recurring event ticking unless the country
+#     has any assemblers.
+# Because of this, there might be some +/- on the day counters sometimes.
+event = {
+	id = assRecurring.3000
+	hide_window = yes
+	is_triggered_only = yes
+	immediate = {
+		every_country = {
+			limit = {
+				NOT = { has_country_flag = "ass_recurring" }
+				any_owned_ship = {
+					is_ship_size = autonomous_assembler
+					has_ship_flag = "ass_constructing_station"
+				}
+			}
+			set_country_flag = "ass_recurring"
+			log = "[this.GetName]: STARTING RECURRING LOOP (compatibility)"
+			country_event = { id = assRecurring.99 }
+		}
+	}
+}

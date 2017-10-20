@@ -17,6 +17,59 @@
 # Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301  USA
 ###
 
+
+ass_verify_failure_conditions = {
+	if = { limit = { NOT = { exists = fleet } }
+		# I'm not sure this can ever happen
+		log = "[this.GetName]: ERROR: Suddenly without a fleet scope."
+		ass_stage4_abort_operation = yes
+		break = yes
+	}
+
+	if = { limit = { NOT = { exists = solar_system } }
+		# This can happen if we're in FTL between solar systems
+		log = "[this.GetName]: ERROR: Suddenly without a solar system."
+		ass_stage4_abort_operation = yes
+		break = yes
+	}
+
+	if = { limit = { ass_has_operation = no }
+		log = "[this.GetName]: ERROR: Reached end of stage 2 or 3 without an operation. That's weird."
+		ass_stage4_abort_operation = yes
+		break = yes
+	}
+
+	if = { limit = { NOT = { exists = event_target:ass_target } }
+		# Relation target NOT found, so abort mission
+		log = "[this.GetName]: ERROR: Could not find our relation target when construction was complete."
+		ass_stage4_abort_operation = yes
+		break = yes
+	}
+
+	if = { limit = { NOT = { solar_system = { is_same_value = event_target:ass_target.solar_system } } }
+		# Check that we are in the same solar system as our related scope
+		log = "[this.GetName]: ERROR: We are not in the same solar system as [ass_target.GetName]."
+		ass_stage4_abort_operation = yes
+		break = yes
+	}
+
+	if = {
+		limit = {
+			# If we are in orbit of something, assume everything is fine
+			NOT = { fleet = { exists = orbit } }
+			distance = {
+				source = event_target:ass_target
+				min_distance = 20
+			}
+		}
+		# Check that we are closer to our target than 20 units. This is checked
+		# in stage 2 as well, but time has probably passed since then.
+		log = "[this.GetName]: ERROR: We are more than 20 distance units from [ass_target.GetName]."
+		ass_stage4_abort_operation = yes
+		break = yes
+	}
+}
+
 ass_military_spawn_placeholders_50 = {
 	create_ambient_object = { type = "ass_spawn_here" location = PREV }
 	last_created_ambient_object = {

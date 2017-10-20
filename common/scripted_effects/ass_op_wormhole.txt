@@ -22,6 +22,7 @@ ass_stage1_set_wormhole = {
 	ROOT = {
 		set_ship_flag = "ass_op_wormhole"
 		ass_discounts_set_wormhole_station_cost = yes
+		fleet = { set_variable = { which = "AssConstructionTime" value = 100 } }
 	}
 }
 
@@ -145,17 +146,12 @@ ass_stage1_wormhole_p2 = {
 # Root and this = ship
 # And we are in the target system, or the mission failed.
 ass_stage4_complete_wormhole = {
-	# assShip.1000 checks both fleet and solar system
-	# XXX but it does not verify that we are still in the same system
-
 	# Reset relation_flag
 	remove_ship_flag = "ass_relation_system"
-	fleet = {
-		solar_system = {
-			assdbg_relation_removed = yes
-			set_variable = { which = "AssUUID" value = 0 }
-			remove_star_flag = "ass_target"
-		}
+	event_target:ass_target = {
+		assdbg_relation_removed = yes
+		set_variable = { which = "AssUUID" value = 0 }
+		remove_star_flag = "ass_target"
 	}
 
 	# ZZZ Easier to position than create_wormhole_station

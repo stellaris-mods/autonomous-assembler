@@ -22,7 +22,7 @@
 namespace = assShip
 
 # Chained from:
-# 1. MTTH assShip.102
+# 1. MTTH assRecurring.1000
 # 2. on_ship_built assShip.1
 ship_event = {
 	id = assShip.9001
@@ -52,36 +52,6 @@ ship_event = {
 	hide_window = yes
 	is_triggered_only = yes
 	immediate = { ass_init_stage1 = yes }
-}
-
-# ZZZ This + on_ship_built are the only two places that invoke assShip.1
-# on_monthly_pulse
-event = {
-	id = assShip.102
-	hide_window = yes
-	is_triggered_only = yes
-
-	immediate = {
-		every_ship = {
-			limit = {
-				# Maybe prevent "Checking trigger against an unsupported
-				# scope!" when scope type=none for some reason.
-				exists = owner
-				exists = fleet
-				# And maybe not. I've only seen the error once.
-				is_ship_size = autonomous_assembler
-				owner = {
-					NOT = { has_country_flag = "ass_halt_operations" }
-				}
-				ass_has_operation = no
-				fleet = {
-					is_fleet_idle = yes
-				}
-			}
-			# ROOT needs to be the ship, so dont invoke the init effect directly
-			ship_event = { id = assShip.9001 }
-		}
-	}
 }
 
 # on_ship_built
@@ -128,7 +98,6 @@ ship_event = {
 		is_ship_size = autonomous_assembler
 	}
 	immediate = {
-		# XXX We probably set the name more times than we need to right now.
 		ass_set_fleet_name = yes
 		fleet = {
 			if = {
@@ -140,72 +109,6 @@ ship_event = {
 						assdbg_manual_order = yes
 						ROOT = { ass_stage4_abort_operation = yes }
 					}
-				}
-			}
-		}
-	}
-}
-
-# assShip.1000 and assShip.2000 are essentially stage 3 for the operations listed
-
-ship_event = {
-	id = assShip.1000
-	hide_window = yes
-	is_triggered_only = yes
-
-	immediate = {
-		if = {
-			limit = {
-				exists = fleet
-				fleet = { exists = solar_system }
-			}
-			remove_ship_flag = "ass_constructing_station"
-			switch = {
-				trigger = has_ship_flag
-				ass_op_minerals = { ass_stage4_complete_minerals = yes }
-				ass_op_energy   = { ass_stage4_complete_energy = yes }
-				ass_op_research = { ass_stage4_complete_research = yes }
-				ass_op_military = { ass_stage4_complete_military = yes }
-				ass_op_wormhole = { ass_stage4_complete_wormhole = yes }
-			}
-			ass_stage4_complete_3rd = yes
-			else = {
-				ass_stage4_abort_operation = yes
-			}
-		}
-	}
-}
-
-# on monthly pulse
-event = {
-	id = assShip.2000
-	hide_window = yes
-	is_triggered_only = yes
-	immediate = {
-		# I don't trust every_country (or any every_ effect), so try to
-		# limit{} as much as possible.
-		every_country = {
-			limit = {
-				has_technology = tech_autonomous_assembler
-				check_variable = { which = "AssReserve" value > 0 }
-				any_owned_ship = { has_ship_flag = "ass_waiting_for_cash" }
-			}
-			ass_account_update_empire = yes
-
-			every_owned_ship = {
-				limit = {
-					is_ship_size = autonomous_assembler
-					has_ship_flag = "ass_waiting_for_cash"
-				}
-				set_ship_flag = "ass_check_cash"
-			}
-
-			while = {
-				limit = { any_owned_ship = { has_ship_flag = "ass_check_cash" } }
-				random_owned_ship = {
-					limit = { has_ship_flag = "ass_check_cash" }
-					remove_ship_flag = "ass_check_cash"
-					ass_stage3_build = yes
 				}
 			}
 		}

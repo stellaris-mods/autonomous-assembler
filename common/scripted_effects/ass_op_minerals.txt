@@ -23,6 +23,7 @@ ass_stage1_set_minerals = {
 	ROOT = {
 		set_ship_flag = "ass_op_minerals"
 		ass_discounts_set_mining_station_cost = yes
+		fleet = { set_variable = { which = "AssConstructionTime" value = 100 } }
 	}
 }
 
@@ -74,28 +75,17 @@ ass_stage1_minerals_p2 = {
 # Root and this = ship
 # And we are in orbit, or the mission failed.
 ass_stage4_complete_minerals = {
-	# assShip.1000 checks for fleet and solar_system, but not orbit.
-	if = {
-		limit = { fleet = { exists = orbit } }
-		# Reset relation_flag
-		fleet = {
-			orbit = {
-				assdbg_relation_removed = yes
-				set_variable = { which = "AssUUID" value = 0 }
-				remove_planet_flag = "ass_target"
-			}
-		}
-		remove_ship_flag = "ass_relation_planet"
-
-		fleet = { orbit = { create_mining_station = { owner = ROOT.owner } } }
-		fleet = { orbit = { save_event_target_as = ass_target } }
-		owner = { ass_on_building_mining_station = yes }
-
-		# Ready for new adventures!
-		ass_stage4_operation_complete = yes
-		else = {
-			log = "[this.GetName]: Wanted to spawn mining station, but we are not in orbit of anything."
-			ass_stage4_abort_operation = yes
-		}
+	# Reset relation_flag
+	event_target:ass_target = {
+		assdbg_relation_removed = yes
+		set_variable = { which = "AssUUID" value = 0 }
+		remove_planet_flag = "ass_target"
+		create_mining_station = { owner = ROOT.owner }
 	}
+	remove_ship_flag = "ass_relation_planet"
+
+	owner = { ass_on_building_mining_station = yes }
+
+	# Ready for new adventures!
+	ass_stage4_operation_complete = yes
 }

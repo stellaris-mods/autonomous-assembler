@@ -44,10 +44,6 @@ ass_stage1_sm_p2 = {
 					ass_valid_spaceport_module_planet = yes
 				}
 			}
-			# Yay for debugging!
-			if = { limit = { has_global_flag = "debug" }
-				fleet = { set_variable = { which = "AssConstructionTime" value = 20 } }
-			}
 
 			# Find the slot we can use
 			# This "cant" fail, because all ass_stage1_sm_ effects check
@@ -134,80 +130,44 @@ ass_stage1_sm_set_slot = {
 	}
 }
 
-ass_stage3_spaceport_modules = {
-	if = {
-		limit = { ass_can_afford = yes }
-		ass_account_grabdatcash = yes
-		remove_ship_flag = "ass_waiting_for_cash"
-		set_ship_flag = "ass_constructing_station"
-		ass_set_fleet_name = yes
-
-		log = "[this.GetName]: Constructing spaceport module..."
-		# XXX We should really stop using these days=X events, because if the ship
-		# XXX is killed, it will error on the next hit, even if for example we set
-		# XXX trigger = { is_scope_valid = yes }.
-		ship_event = { id = assSpaceportModules.1000 days = 10 }
-		else = {
-			assdbg_resource_wait = yes
-			set_ship_flag = "ass_waiting_for_cash"
-			ass_set_fleet_name = yes
-		}
-	}
-}
-
 # Root and this = ship
 # And we are in orbit, or the mission failed.
 ass_stage4_complete_spaceport_module = {
-	# assSpaceportModules.1000 checks for fleet and solar_system, but not orbit.
-	if = {
-		# XXX We should probably check distance-to-planet as well, because
-		# XXX stellaris only supports like 4-8 fleets (I don't remember the
-		# XXX specific number, but it includes the spaceport) in "orbit"
-		limit = { fleet = { exists = orbit } }
-		fleet = {
-			orbit = {
-				remove_spaceport_module = ass_spaceport_module
-				save_event_target_as = ass_target
-			}
-		}
+	event_target:ass_target = {
+		remove_spaceport_module = ass_spaceport_module
+	}
+	set_ship_flag = "ass_op_sm_build"
 
-		set_ship_flag = "ass_op_sm_build"
+	# Check 3rd party implementors first
+	ass_stage4_sm_3rd_build_pre = yes
 
-		# Check 3rd party implementors first
-		ass_stage4_sm_3rd_build_pre = yes
+	if = { limit = { has_ship_flag = "ass_op_sm_build" }
+		ass_stage4_complete_build_vanilla = yes
+	}
 
-		if = { limit = { has_ship_flag = "ass_op_sm_build" }
-			ass_stage4_complete_build_vanilla = yes
-		}
+	if = { limit = { has_ship_flag = "ass_op_sm_build" }
+		ass_stage4_sm_3rd_build_post = yes
+	}
 
-		if = { limit = { has_ship_flag = "ass_op_sm_build" }
-			ass_stage4_sm_3rd_build_post = yes
-		}
+	# Did any effects build the module?
+	if = { limit = { has_ship_flag = "ass_op_sm_build" }
+		log = "ERROR: Instructed to build a spaceport module, but there was no effect that produced any."
+		remove_ship_flag = "ass_op_sm_build"
+		# Module was not built, we need to abort so that we
+		# refund the player and mark the planet ass_error.
+		ass_stage4_abort_operation = yes
 
-		# Did any effects build the module?
-		if = { limit = { has_ship_flag = "ass_op_sm_build" }
-			log = "ERROR: Instructed to build a spaceport module, but there was no effect that produced any."
-			remove_ship_flag = "ass_op_sm_build"
-			# Module was not built, we need to abort so that we
-			# refund the player and mark the planet ass_error.
-			ass_stage4_abort_operation = yes
-
-			else = {
-				# Module was built successfully, so complete mission.
-				# Reset relation_flag
-				event_target:ass_target = {
-					assdbg_relation_removed = yes
-					set_variable = { which = "AssUUID" value = 0 }
-					remove_planet_flag = "ass_target"
-				}
-				remove_ship_flag = "ass_relation_planet"
-				# Ready for new adventures!
-				ass_stage4_operation_complete = yes
-			}
-		}
 		else = {
-			log = "[this.GetName]: Wanted to create a spaceport module, but we are not in orbit of anything."
-			ass_stage4_abort_operation = yes # Abort refunds
+			# Module was built successfully, so complete mission.
+			# Reset relation_flag
+			event_target:ass_target = {
+				assdbg_relation_removed = yes
+				set_variable = { which = "AssUUID" value = 0 }
+				remove_planet_flag = "ass_target"
+			}
+			remove_ship_flag = "ass_relation_planet"
+			# Ready for new adventures!
+			ass_stage4_operation_complete = yes
 		}
 	}
 }
@@ -232,8 +192,6 @@ ass_stage4_complete_build_vanilla = {
 
 # Remove any data associated exclusively with the spaceport module operation
 ass_stage4_remove_spaceport_module_data = {
-	fleet = { set_variable = { which = "AssConstructionTime" value = 0 } }
-
 	remove_ship_flag = "ass_op_sm_battleship_assembly_yards"
 	remove_ship_flag = "ass_op_sm_cruiser_assembly_yards"
 	remove_ship_flag = "ass_op_sm_orbital_mind_control_laser"

@@ -17,6 +17,25 @@
 # Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301  USA
 ###
 
+ass_stage4_construction_complete = {
+	# Get event_target:ass_target
+	ass_relation_get_any = yes
+	# Check if we should fail for some reason.
+	ass_verify_failure_conditions = yes
+
+	switch = {
+		trigger = has_ship_flag
+		ass_op_spaceport_modules = { ass_stage4_complete_spaceport_module = yes }
+		ass_op_minerals = { ass_stage4_complete_minerals = yes }
+		ass_op_energy   = { ass_stage4_complete_energy = yes }
+		ass_op_research = { ass_stage4_complete_research = yes }
+		ass_op_military = { ass_stage4_complete_military = yes }
+		ass_op_wormhole = { ass_stage4_complete_wormhole = yes }
+		ass_op_marker   = { ass_stage3_marker_build = yes }
+	}
+	ass_stage4_complete_3rd = yes
+}
+
 
 # Hopefully, keeping AI assemblers locked prevents the AI from
 # ordering the ship around. I don't know if it does, but I hope so.
@@ -34,6 +53,7 @@ ass_stage4_operation_complete = {
 		set_variable = { which = "AssOperationCost" value = 0 }
 		set_variable = { which = "AssOperationCostInfluence" value = 0 }
 		set_variable = { which = "AssOperationCostEnergy" value = 0 }
+		set_variable = { which = "AssConstructionTime" value = 0 }
 	}
 
 	# Operation types
@@ -48,8 +68,9 @@ ass_stage4_operation_complete = {
 	remove_ship_flag = "ass_op_spaceport_modules"
 
 	# Other flags that _require_ removal, and why
-	remove_ship_flag = "ass_constructing_station" # Fleet name
 	remove_ship_flag = "ass_waiting_for_cash"     # Fleet name
+	# Fleet name + in case we were aborted while constructing
+	remove_ship_flag = "ass_constructing_station"
 
 	# Other flags we want to remove, simply
 	# because we dont want to clutter up the debugtooltip.
@@ -101,7 +122,6 @@ ass_stage4_abort_operation = {
 		# Mission-specific abort effects
 		ass_stage4_abort_spaceport_module = yes
 
-		ass_stage4_operation_complete = yes
 		else = {
 			# This can happen if there's any reason an assembler would cancel an operation in progress
 			# after we've triggered a days=X event. When that event occurs, hopefully we check if all
@@ -109,4 +129,11 @@ ass_stage4_abort_operation = {
 			log = "[this.GetName]: Wanted to forcefully abort an operation, but we are not doing anything."
 		}
 	}
+
+	# Regardless of whether we're on an active operation that needs aborting or
+	# not, invoke ass_stage4_operation_complete so that we clean up whatever
+	# conditions allowed us to trigger ass_stage4_abort_operation without an
+	# active operation. I've never seen this happen, but 3rd party addons might
+	# plug into the addon in mysterious ways :-P
+	ass_stage4_operation_complete = yes
 }
