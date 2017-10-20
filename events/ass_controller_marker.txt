@@ -31,7 +31,30 @@ ship_event = {
 	id = assMarker.200
 	hide_window = yes
 	is_triggered_only = yes
+	trigger = {
+		owner = {
+			count_owned_ships = {
+				count = 1
+				limit = {
+					is_ship_size = ass_military_complex
+					exists = solar_system
+					solar_system = { is_same_value = ROOT.solar_system }
+				}
+			}
+		}
+	}
 	immediate = {
+		owner = {
+			random_owned_ship = {
+				limit = {
+					is_ship_size = ass_military_complex
+					exists = solar_system
+					solar_system = { is_same_value = ROOT.solar_system }
+				}
+				# Make sure we dont delete the existing one.
+				set_ship_flag = "ass_keep"
+			}
+		}
 		fleet = { fleet_event = { id = assMarker.201 days = 2 } }
 	}
 }
@@ -43,24 +66,12 @@ fleet_event = {
 	picture = GFX_evt_autonomous_assembler
 	is_triggered_only = yes
 
-	trigger = {
-		owner = {
-			count_owned_ships = {
-				count > 1
-				limit = {
-					is_ship_size = ass_military_complex
-					exists = solar_system
-					solar_system = { is_same_value = ROOT.solar_system }
-				}
-			}
-		}
-	}
-
 	immediate = {
 		owner = {
 			random_owned_ship = {
 				limit = {
 					is_ship_size = ass_military_complex
+					NOT = { has_ship_flag = "ass_keep" }
 					fleet = {
 						exists = solar_system
 						solar_system = { is_same_value = ROOT.solar_system }
@@ -69,33 +80,79 @@ fleet_event = {
 				save_event_target_as = ass_delete
 			}
 		}
+		event_target:ass_delete = {
+			if = {
+				limit = {
+					OR = {
+						has_component = ASS_TYPE_SMALL
+						has_component = ASS_TYPE_MEDIUM
+						has_component = ASS_TYPE_LARGE
+						has_component = ASS_TYPE_XLARGE
+					}
+				}
+				# Remember the values here should be same as in
+				# common/component_templates/ass_military_station_types.txt
+				switch = {
+					trigger = has_component
+					ASS_TYPE_SMALL  = { fleet = { set_variable = { which = "AssRefund" value = 1500 } } }
+					ASS_TYPE_MEDIUM = { fleet = { set_variable = { which = "AssRefund" value = 5000 } } }
+					ASS_TYPE_LARGE  = { fleet = { set_variable = { which = "AssRefund" value = 9000 } } }
+					ASS_TYPE_XLARGE = { fleet = { set_variable = { which = "AssRefund" value = 15000 } } }
+				}
+			}
+			fleet = {
+				if = { limit = { check_variable = { which = "AssRefund" value > 0 } }
+					if = { # -20%
+						limit = { owner = { ruler = { has_trait = trait_ruler_fortifier } } }
+						multiply_variable = { which = "AssRefund" value = 0.8 }
+					}
+					if = { # -15%
+						limit = { owner = { has_technology = "tech_space_defense_station_improvement" } }
+						multiply_variable = { which = "AssRefund" value = 0.85 }
+					}
+					# And another -15% for good measure
+					multiply_variable = { which = "AssRefund" value = 0.85 }
+				}
+			}
+		}
 	}
 
-	# Remember the values here should be same as in
-	# common/component_templates/ass_military_station_types.txt
-	option = {
-		name = UNFORTUNATE
-		trigger = { event_target:ass_delete = { has_component = ASS_TYPE_SMALL } }
-		owner = { add_minerals = 1500 }
-		event_target:ass_delete = { fleet = { destroy_fleet = THIS } }
+	after = {
+		hidden_effect = {
+			event_target:ass_delete = {
+				fleet = {
+					if = { limit = { check_variable = { which = "AssRefund" value > 0 } }
+						while = { # While loops only loop 100 times, so the max refund is 100*100
+							limit = { check_variable = { which = "AssRefund" value > 100 } }
+							owner = { add_minerals = 100 }
+							subtract_variable = { which = "AssRefund" value = 100 }
+						}
+					}
+					destroy_fleet = THIS
+				}
+			}
+			owner = {
+				random_owned_ship = {
+					limit = { has_ship_flag = "ass_keep" }
+					remove_ship_flag = "ass_keep"
+				}
+			}
+		}
 	}
+
 	option = {
 		name = UNFORTUNATE
-		trigger = { event_target:ass_delete = { has_component = ASS_TYPE_MEDIUM } }
-		owner = { add_minerals = 5000 }
-		event_target:ass_delete = { fleet = { destroy_fleet = THIS } }
-	}
-	option = {
-		name = UNFORTUNATE
-		trigger = { event_target:ass_delete = { has_component = ASS_TYPE_LARGE } }
-		owner = { add_minerals = 9000 }
-		event_target:ass_delete = { fleet = { destroy_fleet = THIS } }
-	}
-	option = {
-		name = UNFORTUNATE
-		trigger = { event_target:ass_delete = { has_component = ASS_TYPE_XLARGE } }
-		owner = { add_minerals = 15000 }
-		event_target:ass_delete = { fleet = { destroy_fleet = THIS } }
+		custom_tooltip = "ass_station_marker_standard_refund"
+		trigger = {
+			event_target:ass_delete = {
+				OR = {
+					has_component = ASS_TYPE_SMALL
+					has_component = ASS_TYPE_MEDIUM
+					has_component = ASS_TYPE_LARGE
+					has_component = ASS_TYPE_XLARGE
+				}
+			}
+		}
 	}
 	# This option only shows if the marker has none of the "standard" types,
 	# AND there is no custom refund variable set.
@@ -117,7 +174,6 @@ fleet_event = {
 				fleet = { check_variable = { which = "AssRefund" value = 0 } }
 			}
 		}
-		event_target:ass_delete = { fleet = { destroy_fleet = THIS } }
 	}
 	# This option only shows if the marker has none of the "standard" types,
 	# and there IS a custom refund variable set.
@@ -135,18 +191,6 @@ fleet_event = {
 				fleet = { check_variable = { which = "AssRefund" value > 0 } }
 			}
 		}
-		hidden_effect = {
-			event_target:ass_delete = {
-				fleet = {
-					while = { # While loops only loop 100 times, so the max refund is 100*100
-						limit = { check_variable = { which = "AssRefund" value > 100 } }
-						owner = { add_minerals = 100 }
-						subtract_variable = { which = "AssRefund" value = 100 }
-					}
-				}
-			}
-		}
-		event_target:ass_delete = { fleet = { destroy_fleet = THIS } }
 	}
 }
 

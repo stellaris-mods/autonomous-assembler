@@ -123,9 +123,6 @@ tech_ass_hexagon_unlock_desc: "Constructing a $ass_marker_colored$ allows $ass_p
 ass_wormhole_warn.title: "Old technology equipped"
 ass_wormhole_warn.desc: "Our technicians inform us that you have $ass_plural_colored$ deployed that are outfitted with $ASS_EXPANSION_WORMHOLE_1$ or $ASS_EXPANSION_WORMHOLE_2$, and we are beyond that point in our technology at the moment. Unless you do a manual recall and retrofit the ships with new expansion cards, they will continue to construct $wormhole_station_plural$."
 
-assmarker_morethanone.title: "Station Marker Limit"
-assmarker_morethanone.desc: "We've detected that you built a new $ass_marker_colored$ in [root.solar_system.GetName], but there seems to be one there already. This could potentially send the $ass_plural_colored$ onboard computer into an endless loop, thus overheating the mainframe and - in the worst case scenario - melt a hole through the ships hull.\n\nWe want to avoid this, so we've already dispatched a local engineer corps to dismantle the new $ass_marker_colored$. You will of course get a partial refund from what we manage to salvage."
-
 # Mod menu
 autonomous_assembler_modmenu: "§YAutonomous Assembler ...§!"
 addonMenu.title: "Addon Features"
@@ -187,5 +184,10 @@ ass_spaceport_module.explain.desc: "Congratulations on your first $ass_plural_co
 
 # Station Marker
 
-ass_station_marker_custom_refund_fail: "This $ass_marker_colored$ uses a 3rd party station size that is not supported by the core addon directly, and the 3rd party author has not given his station a proper refund value."
-ass_station_marker_custom_refund_success: "This $ass_marker_colored$ uses a 3rd party station size that is not supported by the core addon directly, and the 3rd party author has configured this station type to refund you a cost of £minerals [ass_delete.Fleet.AssRefund]."
+assmarker_morethanone.title: "Station Marker Limit"
+assmarker_morethanone.desc: "We've detected that you built a new $ass_marker_colored$ in [root.solar_system.GetName], but there seems to be one there already. This could potentially send the $ass_plural_colored$ onboard computer into an endless loop, thus overheating the mainframe and - in the worst case scenario - melt a hole through the ships hull.\n\nWe want to avoid this, so we've already dispatched a local engineer corps to §Pdismantle the new $ass_marker_colored$§!. You will of course get a partial refund from what we manage to salvage."
+
+ass_station_marker_destroy: "§POne $ass_marker_colored$ in [root.Solar_System.GetName] will be dismantled immediately.§!"
+ass_station_marker_standard_refund: "$ass_station_marker_destroy$\n\nYour refund total comes to approximately £minerals [ass_delete.Fleet.AssRefund]."
+ass_station_marker_custom_refund_fail: "$ass_station_marker_destroy$\n\nThis $ass_marker_colored$ uses a 3rd party station size that is not supported by the core addon directly, and the 3rd party author has not given his station a proper refund value."
+ass_station_marker_custom_refund_success: "$ass_station_marker_destroy$\n\nThis $ass_marker_colored$ uses a 3rd party station size that is not supported by the core addon directly, and the 3rd party author has configured this station type to refund you a cost of £minerals [ass_delete.Fleet.AssRefund]."

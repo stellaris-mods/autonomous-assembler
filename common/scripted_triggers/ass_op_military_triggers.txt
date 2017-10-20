@@ -56,4 +56,14 @@ ass_is_station_marker = {
 	solar_system = {
 		ass_is_friendly_system = yes
 	}
+	owner = {
+		count_owned_ships = {
+			count = 1
+			limit = {
+				is_ship_size = ass_military_complex
+				exists = solar_system
+				solar_system = { is_same_value = PREVPREVPREV.solar_system }
+			}
+		}
+	}
 }

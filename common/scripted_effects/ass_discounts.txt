@@ -40,6 +40,7 @@ ass_discounts_deduct_military_cost = {
 		limit = { owner = { has_technology = "tech_space_defense_station_improvement" } }
 		fleet = { multiply_variable = { which = "AssOperationCost" value = 0.85 } }
 	}
+	# If you add any more, make sure to add them to events/ass_controller_marker.txt
 }
 
 ass_discounts_set_military_xlarge_cost = {
