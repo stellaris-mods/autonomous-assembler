@@ -160,7 +160,7 @@ ass_stage1_military_p2 = {
 	if = {
 		limit = {
 			has_global_flag = "has_nsc_active"
-			owner = { has_technology = "tech_space_defense_station_3" }
+			owner = { has_technology = "tech_battle_fortress_1" }
 		}
 		closest_system = {
 			limit = {
