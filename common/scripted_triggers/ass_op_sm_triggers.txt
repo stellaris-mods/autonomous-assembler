@@ -37,7 +37,10 @@ ass_valid_spaceport_module_planet = {
 	is_occupied_flag = no
 	has_ground_combat = no
 	controller = { is_same_value = ROOT.owner }
-	ass_is_friendly_system = yes
+	exists = solar_system
+	solar_system = {
+		ass_is_friendly_system = yes
+	}
 }
 
 # Checks if the planet is still valid once we arrive. If not, we abort and
