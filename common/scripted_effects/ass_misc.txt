@@ -81,6 +81,7 @@ ass_verify_failure_conditions = {
 	}
 }
 
+# XXX rewrite to use a variable for distance
 ass_military_spawn_placeholders_50 = {
 	create_ambient_object = { type = "ass_spawn_here" location = PREV }
 	last_created_ambient_object = {

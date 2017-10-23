@@ -18,6 +18,16 @@
 ###
 
 
+###############################################################################
+# Generally, all the effects in this file:
+# 1. Are invoked from the ship scope
+# 2. Are invoked _before_ the target is set, or any relation is set
+#
+# However, #2 might be problematic. If you want me to change that, please
+# let me know somehow.
+#
+
+
 @baseMilitaryXLarge = 2250
 @baseMilitaryLarge = 1400
 @baseMilitaryMedium = 700
@@ -77,4 +87,68 @@ ass_discounts_set_research_station_cost = {
 
 ass_discounts_set_wormhole_station_cost = {
 	fleet = { set_variable = { which = "AssOperationCost" value = @baseWormhole } }
+}
+
+
+# While other effects in this file are invoked _before_ the target is set,
+# that is not true for the spaceport module cost. This effect is invoked
+# _after_ the target planet is set, and event_target:ass_target is always
+# the planet. And PREV is the planet, too.
+# THIS / ROOT is the ship.
+ass_discounts_set_spaceport_module_cost = {
+	fleet = {
+		# Note how we don't reset the AssDiscount variable here.
+
+		# country modifier zero_gravity_revelation = { spaceport_module_cost_mult = -0.1
+		if = { limit = { owner = { has_modifier = zero_gravity_revelation } }
+			change_variable = { which = "AssDiscount" value = 0.1 }
+		}
+
+		# trait_ruler_home_in_the_sky spaceport_module_cost_mult = -0.2
+		if = { limit = { owner = { ruler = { has_trait = trait_ruler_home_in_the_sky } } }
+			change_variable = { which = "AssDiscount" value = 0.2 }
+		}
+
+		# planet edict arms_race spaceport_module_cost_mult = -0.25
+		if = { limit = { PREVPREV = { has_edict = arms_race } }
+			change_variable = { which = "AssDiscount" value = 0.25 }
+		}
+
+		if = {
+			limit = {
+				PREVPREV = {
+					exists = leader
+					leader = { leader_class = governor }
+				}
+			}
+			# governor leader_trait_retired_fleet_officer spaceport_module_cost_mult = -0.10
+			if = { limit = { PREVPREV = { leader = { has_trait = leader_trait_retired_fleet_officer } } }
+				change_variable = { which = "AssDiscount" value = 0.1 }
+			}
+			# governor leader_trait_ai_aided_design spaceport_module_cost_mult = -0.10
+			if = { limit = { PREVPREV = { leader = { has_trait = leader_trait_ai_aided_design } } }
+				change_variable = { which = "AssDiscount" value = 0.1 }
+			}
+		}
+
+		if = { limit = { check_variable = { which = "AssDiscount" value > 0 } }
+			# AssDiscount contains the cumulative discount, in percent decimal
+			# Which means that in order to easily simply multiply the costs by
+			# the discount, we need to convert for example 0.4 to 0.6, which
+			# gives a 40% discount.
+			subtract_variable = { which = "AssDiscount" value = 1 }
+			multiply_variable = { which = "AssDiscount" value = -1 }
+
+			if = { limit = { check_variable = { which = "AssOperationCost" value > 0 } }
+				multiply_variable = { which = "AssOperationCost" value = "AssDiscount" }
+			}
+			if = { limit = { check_variable = { which = "AssOperationCostEnergy" value > 0 } }
+				multiply_variable = { which = "AssOperationCostEnergy" value = "AssDiscount" }
+			}
+			if = { limit = { check_variable = { which = "AssOperationCostInfluence" value > 0 } }
+				multiply_variable = { which = "AssOperationCostInfluence" value = "AssDiscount" }
+			}
+		}
+		set_variable = { which = "AssDiscount" value = 0 } # Reset
+	}
 }
