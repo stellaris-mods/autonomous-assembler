@@ -1,0 +1,216 @@
+#!/usr/bin/lua
+
+-- LICENSE: The Unlicense
+-- Use this file however you want.
+-- Requires luafilesystem.
+--
+-- Generates autonomous-assembler code for all spaceport modules found in current folder.
+-- And yes, I know the script is terrible, but you only use it once per mod to
+-- get up and running, so I didn't spend any effort on it.
+--
+-- by folk@folk.wtf
+--
+-- Invoke it from your common/spaceport_modules/ folder, with the first
+-- argument being how many spaceport slots you want to support, like:
+--
+-- $ ./autoassgen 19
+--
+-- Make sure you delete the two generated files before you run it again.
+-- The script ignores any modules that have construction_days = 0, or who dont
+-- have construction_days set at all, or if it has no resource costs.
+--
+
+local num = select(1, ...)
+local spaceportSlots = tonumber(num) or 6
+print("Generating build effects for " .. tostring(spaceportSlots) " .. spaceport slots.")
+
+local lfs = require("lfs")
+-- Code by David Kastrup
+-- from http://lua-users.org/wiki/DirTreeIterator
+local function yieldtree(folder)
+	for entry in lfs.dir(folder) do
+		if entry ~= "." and entry ~= ".." then
+			entry = folder.."/"..entry
+			local attr = lfs.attributes(entry)
+			coroutine.yield(entry,attr)
+			if attr.mode == "directory" then
+				yieldtree(entry)
+			end
+		end
+	end
+end
+local function dirtree(dir)
+	if string.sub(dir, -1) == "/" then dir = string.sub(dir, 1, -2) end
+	return coroutine.wrap(function() yieldtree(dir) end)
+end
+
+local scan = {}
+for file, attr in dirtree(".") do
+	if attr.mode == "file" then
+		local ext = file:match(".-[^\\/]-%.?([^%.\\/]*)$")
+		if ext then ext = ext:lower() end
+		if ext == "txt" then scan[file] = true end
+	end
+end
+
+local data = {}
+
+local anyerrors = false
+
+-- yes yes, lpeg lpeg, but the stellaris language is so much like lua,
+-- this just is no effort compared to getting the lpeg base syntax up
+
+for source in pairs(scan) do
+	local f = io.open(source, "r")
+	local content = f:read("*a"); f:close()
+	content = "return {" .. content
+	content = content:gsub("%s*#[^\n]+", "") -- strip normal comments
+	content = content:gsub("#+\n", "") -- strip # - #^n comments
+	content = content:gsub("(%S)%s*\n", "%1\n") -- strip line ending spaces
+	content = content:gsub("=%s*(%a[%w_]+)", "= \"%1\"") -- quote values that start with an alphanum
+	content = content:gsub("([^%{\n])\n", "%1,\n") -- make sure we put a , behind all lines that dont end in { or \n
+	content = content:gsub("{%s*([%w_]+)%s*}", "{ \"%1\" }") -- quote tech req
+	content = content .. "}"
+	local res, err = loadstring(content)
+	if err then
+		anyerrors = true
+		print(source, err)
+	else
+		data[source] = res()
+	end
+end
+
+if anyerrors then return end
+
+local generate = {}
+for _, modules in pairs(data) do
+	for name, module in pairs(modules) do
+		if module.construction_days and module.construction_days ~= 0 then
+			if module.cost then
+				if module.cost.influence and module.cost.influence == 0 then module.cost.influence = nil end
+				if module.cost.energy and module.cost.energy == 0 then module.cost.energy = nil end
+				if module.cost.minerals and module.cost.minerals == 0 then module.cost.minerals = nil end
+			end
+			if module.cost and (module.cost.influence or module.cost.energy or module.cost.minerals) then
+				generate[name] = module
+			end
+		end
+	end
+end
+
+--print(s.block(generate))
+local minerals  = "\t\t\t\t\tfleet = { set_variable = { which = \"AssOperationCost\" value = %d } }\n"
+local energy    = "\t\t\t\t\tfleet = { set_variable = { which = \"AssOperationCostEnergy\" value = %d } }\n"
+local influence = "\t\t\t\t\tfleet = { set_variable = { which = \"AssOperationCostInfluence\" value = %d } }\n"
+local time      = "\t\t\t\t\tfleet = { set_variable = { which = \"AssConstructionTime\" value = %d } }\n"
+
+local checkTmpl = [[
+check_[key] = {
+	if = {
+		limit = {
+			ROOT = { NOT = { has_ship_flag = "ass_op_spaceport_modules" } }
+			has_spaceport_module = [key]
+		}
+		owner = {
+			random_owned_planet = {
+				limit = {
+					my_trigger_for_valid_spaceport_module_planet = yes
+					NOT = { has_spaceport_module = [key] }
+					can_build_spaceport_module = [key]
+				}
+				ROOT = {
+[minerals][energy][influence][time]
+					set_ship_flag = "ass_op_sm_[key]"
+					set_ship_flag = "ass_op_spaceport_modules"
+				}
+				log = "[root.GetName]: Constructing [key] at [this.GetName]."
+				save_event_target_as = ass_target
+			}
+		}
+	}
+}
+]]
+
+local completeFmt = "\t\t%s = { myModId_build_%s = yes }\n"
+local completeTmpl = [[
+myModsId_ass_stage4_sm_complete = {
+	switch = {
+		trigger = has_ship_flag
+[insert]
+	}
+}
+]]
+
+local cleandataFmt = "\tremove_ship_flag = \"%s\""
+local cleandataTmpl = [[
+myModsId_ass_stage4_sm_remove_data = {
+[insert]
+}
+]]
+
+local buildTmpl = [[
+myModsId_ass_stage1_sm_pre = {
+[insert]
+}
+]]
+
+
+local moduleBuildFmt = "\t\tass_op_sm_slot_%d = { remove_ship_flag = \"ass_op_sm_build\" event_target:ass_target = { set_spaceport_module = { module = %q slot = %d } } }"
+local moduleBuildTmpl = [[
+myModId_build_%s = {
+	switch = {
+		trigger = has_ship_flag
+[insert]
+	}
+}
+]]
+
+
+local checkeffects = io.open("check-effects.txt", "w+")
+local buildeffects = io.open("build-effects.txt", "w+")
+local buildlist = {}
+local completelist = {}
+local cleanlist = {}
+
+for name, module in pairs(generate) do
+	local inf, min, nrg = "", "", ""
+	if module.cost.minerals then min = minerals:format(module.cost.minerals) end
+	if module.cost.energy then nrg = energy:format(module.cost.energy) end
+	if module.cost.influence then inf = influence:format(module.cost.influence) end
+	local t = time:format(module.construction_days)
+	local tmpl = checkTmpl
+	tmpl = tmpl:gsub("%[key%]", name)
+	tmpl = tmpl:gsub("%[minerals%]", min)
+	tmpl = tmpl:gsub("%[energy%]", nrg)
+	tmpl = tmpl:gsub("%[influence%]", inf)
+	tmpl = tmpl:gsub("%[time%]", t)
+
+	checkeffects:write(tmpl)
+
+	local effect = "check_" .. name .. " = yes"
+	local flag = "ass_op_sm_" .. name
+
+	completelist[#completelist + 1] = completeFmt:format(flag, name)
+	cleanlist[#cleanlist + 1] = cleandataFmt:format(flag)
+	buildlist[#buildlist + 1] = "\t" .. effect
+
+	local modulebuild = moduleBuildTmpl:format(name)
+	local slots = {}
+	for i = 1, spaceportSlots do
+		slots[#slots+1] = moduleBuildFmt:format(i, name, i)
+	end
+	modulebuild = modulebuild:gsub("%[insert%]", (table.concat(slots, "\n")) )
+	buildeffects:write(modulebuild)
+end
+table.sort(completelist)
+table.sort(cleanlist)
+table.sort(buildlist)
+
+checkeffects:write(completeTmpl:gsub("%[insert%]", (table.concat(completelist)) ))
+checkeffects:write(cleandataTmpl:gsub("%[insert%]", (table.concat(cleanlist, "\n")) ))
+checkeffects:write(buildTmpl:gsub("%[insert%]", (table.concat(buildlist, "\n")) ))
+
+checkeffects:close()
+buildeffects:close()
+
+
