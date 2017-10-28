@@ -90,6 +90,9 @@ ass_stage1_sm_3rd_pre = {
 	if = { limit = { ROOT = { NOT = { has_ship_flag = "ass_op_spaceport_modules" } } }
 		sda_ass_module_pre = yes
 	}
+	if = { limit = { ROOT = { NOT = { has_ship_flag = "ass_op_spaceport_modules" } } }
+		renegade_spaceports_ass_stage1_sm_pre = yes
+	}
 }
 
 # This effect is invoked _after_ we check for missing vanilla modules.
@@ -100,6 +103,9 @@ ass_stage1_sm_3rd_post = {
 	}
 	if = { limit = { ROOT = { NOT = { has_ship_flag = "ass_op_spaceport_modules" } } }
 		sda_ass_module_post = yes
+	}
+	if = { limit = { ROOT = { NOT = { has_ship_flag = "ass_op_spaceport_modules" } } }
+		renegade_spaceports_ass_stage1_sm_post = yes
 	}
 }
 
@@ -136,6 +142,9 @@ ass_stage4_sm_3rd_build_pre = {
 # THIS is the ship, event_target:ass_target is the planet
 ass_stage4_sm_3rd_build_post = {
 	if = { limit = { has_ship_flag = "ass_op_sm_build" }
+		renegade_spaceports_ass_stage4_sm_complete = yes
+	}
+	if = { limit = { has_ship_flag = "ass_op_sm_build" }
 		am_spaceports_ass_stage4_sm_complete = yes
 	}
 	if = { limit = { has_ship_flag = "ass_op_sm_build" }
@@ -146,6 +155,7 @@ ass_stage4_sm_3rd_build_post = {
 # This effect is invoked when the operation is complete/aborted, just to remove
 # clutter from the debugtooltip mostly.
 ass_stage4_sm_3rd_remove_data = {
+	renegade_spaceports_ass_stage4_sm_remove_data = yes
 	am_spaceports_ass_stage4_sm_remove_data = yes
 	sda_ass_module_remove_data = yes
 }

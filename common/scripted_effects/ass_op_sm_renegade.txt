@@ -5,3 +5,9 @@
 
 renegade_ass_stage1_sm_set_slot = {}
 ass_stage4_complete_build_renegade = {}
+
+
+renegade_spaceports_ass_stage1_sm_pre = {}
+renegade_spaceports_ass_stage1_sm_post = {}
+renegade_spaceports_ass_stage4_sm_remove_data = {}
+renegade_spaceports_ass_stage4_sm_complete = {}
