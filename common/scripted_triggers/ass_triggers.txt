@@ -101,10 +101,10 @@ ass_is_planet_valid_orbital_target = {
 
 ###############################################################################
 # NSC Fake Triggers
-# They are not fake until the next NSC release
+# These effects are provided by NSC now, so I don't have to reference invalid ship sizes.
 #
 
-nsc_is_battle_fortress = { is_ship_size = military_station_xlarge }
+nsc_is_battle_fortress = { always = no }
 # nsc_is_headquarters = { is_ship_size = Headquarters }
 # nsc_is_drydock = { is_ship_size = Drydock }
 # nsc_is_power_station = { is_ship_size = PowerStation }

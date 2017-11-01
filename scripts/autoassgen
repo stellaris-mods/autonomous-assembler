@@ -1,5 +1,5 @@
 #!/usr/bin/lua
-
+--
 -- LICENSE: The Unlicense
 -- Use this file however you want.
 -- Requires luafilesystem.
@@ -212,5 +212,3 @@ checkeffects:write(buildTmpl:gsub("%[insert%]", (table.concat(buildlist, "\n")) 
 
 checkeffects:close()
 buildeffects:close()
-
-
