@@ -119,13 +119,3 @@ tech_frontier_outpost_3 = {
 	weight = 0
 	icon = "tech_spaceport_dummy"
 }
-
-
-
-
-
-
-
-
-
-
